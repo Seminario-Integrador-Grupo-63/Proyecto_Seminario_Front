@@ -5,7 +5,7 @@
 
 - Librería axios para enviar peticiones HTTP
 
-- Librería MUI (Material - UI) para el desarrollo de los componentes. Esta librería tienen componentes enlatados que simplifican aspectos de css y la organización de los elementos den al interfaz
+- Librería MUI (Material - UI) para el desarrollo de los componentes. Esta librería tienen componentes enlatados que simplifican aspectos de css y la organización de los elementos en al interfaz
 
 - Librería Storybook. Esta herramienta permite visualizar y probar los distintos componentes que vamos desarrollando de manera individual sin necesidad de ejecutar la interfaz completa
 
