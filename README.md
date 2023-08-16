@@ -1,1 +1,37 @@
 # Proyecto_Seminario_Front
+
+Este proyecto utiliza 
+- TypeScript como lenguaje de programación
+
+- Librería axios para enviar peticiones HTTP
+
+- Librería MUI (Material - UI) para el desarrollo de los componentes. Esta librería tienen componentes enlatados que simplifican aspectos de css y la organización de los elementos den al interfaz
+
+- Librería Storybook. Esta herramienta permite visualizar y probar los distintos componentes que vamos desarrollando de manera individual sin necesidad de ejecutar la interfaz completa
+
+- Todo esto corre sobre el framework Next.js
+
+Estructura de carpeta
+- Los componentes se desarrollan en el directorio src/components
+
+- Las historias para Storybook se desarrollan en el directorio src/stories
+
+- Pueden copiar el código de los archivos de la carpeta templates
+
+-- Instalación --
+npm i
+
+-- Correr aplicación --
+npm run build
+
+npm run start
+
+Se ejecuta en el navegador con la URL http://localhost:3000
+
+-- Correr Storybook --
+npm run storybook
+
+Se ejecuta en el navegador con la URL http://localhost:6006/
+
+
+
