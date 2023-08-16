@@ -18,6 +18,10 @@ Estructura de carpeta
 
 - Pueden copiar el código de los archivos de la carpeta templates
 
+- Al momento de ejecutar la aplicaciones se ejecutan los componentes de la carpeta pages, por tanto los componentes desarrollados deben ser llamados desde index.ts de pages
+
+- Las peticiones HTTP se colocan en la carpeta pages/api. Las peticiones HTTP no se pueden probar con Storybook
+
 -- Instalación --
 npm i
 
