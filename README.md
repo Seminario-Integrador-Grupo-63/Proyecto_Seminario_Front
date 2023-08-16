@@ -1,6 +1,6 @@
 # Proyecto_Seminario_Front
 
-Este proyecto utiliza 
+## Herramientas que utiliza el proyecto 
 - TypeScript como lenguaje de programación
 
 - Librería axios para enviar peticiones HTTP
@@ -11,7 +11,7 @@ Este proyecto utiliza
 
 - Todo esto corre sobre el framework Next.js
 
-Estructura de carpeta
+## Estructura de carpeta
 - Los componentes se desarrollan en el directorio src/components
 
 - Las historias para Storybook se desarrollan en el directorio src/stories
@@ -22,17 +22,17 @@ Estructura de carpeta
 
 - Las peticiones HTTP se colocan en la carpeta pages/api. Las peticiones HTTP no se pueden probar con Storybook
 
--- Instalación --
+## Instalación
 npm i
 
--- Correr aplicación --
+## Correr aplicación
 npm run build
 
 npm run start
 
 Se ejecuta en el navegador con la URL http://localhost:3000
 
--- Correr Storybook --
+## Correr Storybook
 npm run storybook
 
 Se ejecuta en el navegador con la URL http://localhost:6006/
