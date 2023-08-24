@@ -1,4 +1,4 @@
-import { sendGetRequest } from "@/pages/api/Component";
+import { sendGetRequest } from "@/pages/api/requests";
 
 describe("sendGetRequest", () => {
     it("should return response data on success", async () => {

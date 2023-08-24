@@ -11,6 +11,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.6",
+    "@mui/material": "^5.14.6",
     "@storybook/addon-actions": "^7.0.5",
     "@storybook/addon-essentials": "^7.0.5",
     "@storybook/addon-interactions": "^7.0.5",
@@ -26,6 +30,7 @@
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sass": "^1.66.1",
     "storybook": "^7.0.5",
     "typescript": "5.0.2"
   },
