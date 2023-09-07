@@ -1,4 +1,4 @@
-## Estructura del repositorio
+# Estructura del repositorio
 Está estructurado como un monorepo o repositorio monolítico
 
 Hay tres carpetas
@@ -7,13 +7,35 @@ Hay tres carpetas
 En este paquete se van a colocar todos los componentes que se van a utilizar en qresto-customer y qresto-restaurant. De esta manera podemos reutilizar componentes comunes a ambos si los hubiese como por ejemplo theme, CustomTextField, etc.
 
 Para importar los componentes desde qresto-components se utiliza:
-- `@/Customer/...`
+- `@/Customer/...` para los componentes usados en qresto-customer
+- `@/Restaurant/...` para los componentes usados en qresto-restaurant
+- `@/Common/...` para los componentes que se pueden reutilizar en ambas aplicaciones
+- `@/Stories/...` para componentes que se usan únicamente en las stories
 
-La idea es tener los componentes de customer y restaurant en un mismo paquete "qresto-componentes" para poder reutilizar componentes comunes a ambos si los hubiese
+Esta forma de importar se puede usar en los tres paquetes
 
+### qresto-customer y qresto-restaurant
+En estos paquetes solo se van a trabajar en las carpetas src/pages para armar lo que va a ver el usuario final y las peticiones http.
+La idea es no tener que desarrollar componentes ni stories en estas carpetas
 
+# Ejecutar aplicaciones
+- Se va a usar yarn que es una herramienta parecida a npm
+- Abrir la carpeta raíz o root "Proyecto_Seminario_Front" con VSCode o el editor de texto que se use
+- Probablemente va a ser necesario actualizar los paquetes instalados. Para esto ejecutar `yarn` o `yarn install`
+- Una vez que se actualizó todo en el apartado "scripts" del archivo package.json de la carpeta root están los comandos de ejecución.
 
-## Como crear componentes
+### Comandos de ejecución
+- `yarn components:storybook` ejecuta las stories
+- `yarn customer:build` compila las páginas de la carpeta qresto-customer/src/pages
+- `yarn customer:start` ejecuta la aplicación qresto-customer (la aplicación mobile)
+- `yarn restaurant:build` compila las páginas de la carpeta qresto-restaurant/src/pages
+- `yarn restaurant:start` ejecuta la aplicación qresto-restaurant (la aplicación del lado del restaurant)
+
+- Siempre que hagamos cambios es necesario ejecutar el build antes del start sino no se van a compilar los últimos cambios
+- Durante el desarrollo de los componentes siempre vamos a estar trabajando con las stories
+- Las pages se trabajan cuando se hace la integración de los componentes ya desarrollados y las peticiones http.
+
+# Como crear componentes
 ### Componente básico de React
 ```
 import styles from './Component1.module.scss';
@@ -121,7 +143,7 @@ Parent.propTypes =
 Los componentes se colocan en la carpeta qresto-components/components/...
 Los archivos se crean con la extensión .tsx (React + TypeScript)
 
-## Como escribir Stories con Storybook
+# Como escribir Stories con Storybook
 ### Story básica
 ```
 import { Meta, StoryObj } from "@storybook/react";
@@ -196,7 +218,7 @@ export const Aspecto2: Story = { // Cambiamos el nombre a "Aspecto2"
 Las stories se escriben en la carpeta qresto-components/src/stories
 Los archivos se crean con la extensión .stories.tsx (Storybook + React + TypeScript)
 
-## Como utilizar estilos 
+# Como utilizar estilos 
 
 ### CSS en Material UI
 Si hacemos uso de la librería Material UI casi todo el código css que necesitamos se puede poner en la propiedad de los componentes sx={{}}
