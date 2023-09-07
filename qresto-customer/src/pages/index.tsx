@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-// import { Component } from '@/components/Component/Component'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getQRRequest } from './api/requests'
 import {useState} from 'react'
+import { NameInput } from '@/Customer/NameInput/NameInput'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +21,7 @@ export default function Home() {
         </Head>
         <main className={styles.main}>
             <div className={styles.description}>
-                
+                <NameInput/>
             </div>
         </main>
     </>)

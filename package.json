@@ -1,0 +1,15 @@
+{
+    "private": true,
+    "workspaces": [
+        "qresto-customer", 
+        "qresto-restaurant", 
+        "qresto-components"
+    ],
+    "scripts": {
+        "customer:storybook": "yarn workspace qresto-customer storybook",
+        "customer:build": "yarn workspace qresto-customer build",
+        "customer:start": "yarn workspace qresto-customer start",
+        "restaurant:storybook": "yarn workspace qresto-restaurant storybook",
+        "components:storybook": "yarn workspace qresto-components storybook"
+    }
+}

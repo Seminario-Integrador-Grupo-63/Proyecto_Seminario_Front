@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { NameInput } from '../components/NameInput/NameInput';
+import { NameInput } from '@/Customer/NameInput/NameInput';
 
 export default {
     title: "components/NameInput",

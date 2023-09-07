@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from "@storybook/react";
 import {customViewports} from "./viewports";
 import {widths100} from "./viewports";
-import {MenuDishes} from '../components/MenuDishes/MenuDishes'
+import {MenuDishes} from '@/Customer/MenuDishes/MenuDishes'
 import {Container, Button} from "@mui/material"
-import { ButtonDish } from "../components//MenuDishes/ButtonDish";
+import { ButtonDish } from "@/Customer/MenuDishes/ButtonDish";
 import {Grid} from '@mui/material'
-import { dishes } from "../components/FakeData/DishesFakeData";
+import { dishes } from "@/Common/FakeData/DishesFakeData";
 
 export default {
     title: "components/MenuDishes",

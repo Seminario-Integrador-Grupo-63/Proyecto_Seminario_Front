@@ -2,7 +2,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import {customViewports} from "./viewports";
 import {widths100} from "./viewports";
-import { MenuCategories } from "../components/MenuCategories/MenuCategories";
+import { MenuCategories} from '@/Customer/MenuCategories/MenuCategories';
 
 export default {
     title: "components/MenuCategories",
@@ -29,7 +29,7 @@ export const Common: Story = {
             <MenuCategories
                 onClickCategory={onClickCategory}/>
         </>);
-    } 
+    }
 };
 
 /**
