@@ -32,7 +32,7 @@ La idea es no tener que desarrollar componentes ni stories en estas carpetas
 # Ejecutar aplicaciones
 - Se va a usar yarn que es una herramienta parecida a npm. Si no la tienen instalada en la computadora ejecutar `npm install --global yarn`
 - Abrir la carpeta raíz o root "Proyecto_Seminario_Front" con VSCode o el editor de texto que se use
-- Probablemente va a ser necesario actualizar los paquetes instalados. Para esto ejecutar `yarn` o `yarn install`
+- Se actualizó la versión de Next.js por lo tanto va a ser necesario actualizar los paquetes instalados. Para esto ejecutar `yarn` o `yarn install` (El mismo comando se usa para instalar el proyecto entero)
 - Una vez que se actualizó todo en el apartado "scripts" del archivo package.json de la carpeta root están los comandos de ejecución.
 
 ### Comandos de ejecución
