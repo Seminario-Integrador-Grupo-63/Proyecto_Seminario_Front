@@ -6,10 +6,10 @@
         "qresto-components"
     ],
     "scripts": {
-        "customer:storybook": "yarn workspace qresto-customer storybook",
+        "components:storybook": "yarn workspace qresto-components storybook",
         "customer:build": "yarn workspace qresto-customer build",
         "customer:start": "yarn workspace qresto-customer start",
-        "restaurant:storybook": "yarn workspace qresto-restaurant storybook",
-        "components:storybook": "yarn workspace qresto-components storybook"
+        "restaurant:build": "yarn workspace qresto-restaurant build",
+        "restaurant:start": "yarn workspace qresto-restaurant start"
     }
 }
