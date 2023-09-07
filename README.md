@@ -1,3 +1,18 @@
+## Estructura del repositorio
+Está estructurado como un monorepo o repositorio monolítico
+
+Hay tres carpetas
+
+### qresto-components
+En este paquete se van a colocar todos los componentes que se van a utilizar en qresto-customer y qresto-restaurant. De esta manera podemos reutilizar componentes comunes a ambos si los hubiese como por ejemplo theme, CustomTextField, etc.
+
+Para importar los componentes desde qresto-components se utiliza:
+- `@/Customer/...`
+
+La idea es tener los componentes de customer y restaurant en un mismo paquete "qresto-componentes" para poder reutilizar componentes comunes a ambos si los hubiese
+
+
+
 ## Como crear componentes
 ### Componente básico de React
 ```
@@ -103,7 +118,7 @@ Parent.propTypes =
 }
 ```
 
-Los componentes se colocan en la carpeta src/components
+Los componentes se colocan en la carpeta qresto-components/components/...
 Los archivos se crean con la extensión .tsx (React + TypeScript)
 
 ## Como escribir Stories con Storybook
@@ -178,7 +193,7 @@ export const Aspecto2: Story = { // Cambiamos el nombre a "Aspecto2"
 
 ```
 
-Las stories se escriben en la carpeta src/stories
+Las stories se escriben en la carpeta qresto-components/src/stories
 Los archivos se crean con la extensión .stories.tsx (Storybook + React + TypeScript)
 
 ## Como utilizar estilos 
