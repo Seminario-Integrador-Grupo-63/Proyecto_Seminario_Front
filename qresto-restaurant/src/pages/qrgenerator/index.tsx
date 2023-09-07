@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getQRRequest } from '../api/requests'
 import {useState, useEffect} from 'react'
-import { QRGenerator } from '@/components/QRGenerator/QRGenerator'
+import { QRGenerator } from '@/Restaurant/QRGenerator/QRGenerator'
 
 const inter = Inter({ subsets: ['latin'] })
 

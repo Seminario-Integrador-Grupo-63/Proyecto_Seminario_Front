@@ -1,0 +1,24 @@
+
+.container {
+    display: flex;
+    flex-direction: row;
+    border-radius: 15px;
+    height: 13vh;
+    width: 95%;
+    box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, 0.2);
+    transition: transform 0.08s ease-in-out;
+}
+
+.container:active {
+    transform: scale(1.03);
+}
+
+.imageDish{
+    display: block;
+    object-fit: cover;
+    width: 25%;
+    height: auto;
+    margin-right: 10px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}

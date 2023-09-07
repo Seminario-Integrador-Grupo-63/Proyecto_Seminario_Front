@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -17,9 +17,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@/Customer/*": ["../qresto-components/src/components/Customer/*"],
-      "@/Common/*": ["../qresto-components/src/components/Common/*"],
-      "@/Restaurant/*": ["../qresto-components/src/components/Restaurant/*"]
+      "@/components/*": ["./src/components/*"],
+      "@/Customer/*": ["./src/components/Customer/*"],
+      "@/Restaurant/*": ["./src/components/Restaurant/*"],
+      "@/Common/*": ["./src/components/Common/*"],
+      "@/Stories/*": ["./src/stories/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/blog/second.js"],
