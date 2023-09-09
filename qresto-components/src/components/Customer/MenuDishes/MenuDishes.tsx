@@ -2,7 +2,7 @@ import styles from './MenuDishes.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Container} from '@mui/material'
-import { CustomerAppBar } from '@/Customer/CustomerAppBar/CustomerAppBar';
+import { CustomerHeader } from '@/components/Customer/CustomerHeader/CustomerHeader';
 import {Grid} from '@mui/material'
 import {theme} from '@/Common/theme'
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
@@ -32,7 +32,7 @@ export const MenuDishes = (props: any) => {
 
     return (<>
         <CustomerContainer>
-            <CustomerAppBar 
+            <CustomerHeader 
                 title={props.title}
                 goBackEnabled={true}
                 searchEnabled={true}/>

@@ -11,7 +11,7 @@ import {IconButton} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid } from '@mui/material'
 
-export const CustomerAppBar = (props: any) => {
+export const CustomerHeader = (props: any) => {
 
     const enableGoBackButton = () => {
         return(
@@ -84,7 +84,6 @@ export const CustomerAppBar = (props: any) => {
                     <Grid 
                         xs={4}
                         item
-                        // md={4}
                         sx={{
                             display: 'flex',
                             flexDirection: 'row-reverse'
@@ -92,20 +91,19 @@ export const CustomerAppBar = (props: any) => {
                         {props.searchEnabled? enableSearch() : null}
                     </Grid>
                 </Grid>
-
             </Toolbar>
         </AppBar>
     </>);
 }
 
-CustomerAppBar.defaultProps =
+CustomerHeader.defaultProps =
 {
     goBackEnabled: false,
     searchEnabled: false,
     title: 'Title'
 }
 
-CustomerAppBar.propTypes = 
+CustomerHeader.propTypes = 
 {
     goBackEnabled: PropTypes.bool,
     searchEnabled: PropTypes.bool,

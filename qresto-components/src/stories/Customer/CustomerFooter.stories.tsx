@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Component } from "../Component";
+import { CustomerFooter } from "@/Customer/CustomerFooter/CustomerFooter";
 import {widths100} from "@/Stories/viewports";
 
 export default {
-    title: "components/Component",
-    component: Component ,
+    title: "components/Customer/CustomerFooter",
+    component: CustomerFooter ,
     argTypes: {},
     parameters: {
         viewport: {viewports: widths100},
@@ -12,11 +12,11 @@ export default {
     }
 
 
-} as Meta<typeof Component >;
+} as Meta<typeof CustomerFooter >;
 
-type Story = StoryObj<typeof Component>;
+type Story = StoryObj<typeof CustomerFooter>;
 
-export const ComponentMain: Story = {
+export const MainStory: Story = {
     render: () =>{
 
         const myFunction = () => {
@@ -24,7 +24,7 @@ export const ComponentMain: Story = {
         }
 
         return(<>
-            <Component/>
+            <CustomerFooter/>
         </>);
     } 
 };

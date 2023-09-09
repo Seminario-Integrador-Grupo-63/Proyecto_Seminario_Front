@@ -15,7 +15,10 @@ export const CustomerContainer = (props: any) => {
                 alignItems: 'center',
                 height: '100vh',
                 width: '100%',
-                overflow: 'hidden',
+                overflowY: 'scroll',
+                '&::-webkit-scrollbar':{
+                    width:0,
+                },
                 backgroundColor: theme.palette.primary.contrastText
             }}>
             {props.children}
