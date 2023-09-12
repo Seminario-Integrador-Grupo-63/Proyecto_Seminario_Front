@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Container} from '@mui/material'
 import { CustomerHeader } from '@/components/Customer/CustomerHeader/CustomerHeader';
 import {Grid} from '@mui/material'
-import {theme} from '@/Common/theme'
+import {theme} from '@/components/Common/Theme/themes'
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
 import { dishes } from '@/Common/FakeData/DishesFakeData';
 import { ButtonDish } from './ButtonDish';

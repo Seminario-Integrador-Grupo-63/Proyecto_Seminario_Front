@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from '@mui/material';
 import { Grid } from '@mui/material';
-import {theme} from '@/Common/theme'
+import {theme} from '@/components/Common/Theme/themes'
 import { ButtonCategory } from './ButtonCategory';
 import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';

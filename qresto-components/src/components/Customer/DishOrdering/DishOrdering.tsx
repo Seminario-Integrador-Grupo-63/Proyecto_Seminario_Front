@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
 import { CustomerHeader } from '@/components/Customer/CustomerHeader/CustomerHeader';
 import { Box, Typography } from '@mui/material';
-import { theme } from '@/Common/theme';
+import { theme } from '@/components/Common/Theme/themes';
 import { SideDishSelector } from './SideDishSelector';
 import {Grid} from '@mui/material'
 import { AdderFooter } from '../AdderFooter/AdderFooter';

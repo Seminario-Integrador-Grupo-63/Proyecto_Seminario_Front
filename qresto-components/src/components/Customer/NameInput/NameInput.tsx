@@ -7,7 +7,7 @@ import { Box } from '@mui/material'
 import { TextField } from '@mui/material'
 import { Typography } from '@mui/material'
 import { ThemeProvider } from '@mui/material'
-import { theme } from '@/Common/theme';
+import { theme } from '@/components/Common/Theme/themes';
 import { CustomTextField } from '@/Common/CustomTextField';
 import {Button} from '@mui/material'
 

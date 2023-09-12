@@ -1,11 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Adder } from "@/Common/Adder";
+import { OrderState } from "@/Customer/OrderState/OrderState";
 import {widths100} from "@/Stories/viewports";
-import { themeButton } from "@/components/Common/Theme/themes";
 
 export default {
-    title: "components/Common/Adder",
-    component: Adder ,
+    title: "components/Customer/OrderState",
+    component: OrderState ,
     argTypes: {},
     parameters: {
         viewport: {viewports: widths100},
@@ -13,11 +12,11 @@ export default {
     }
 
 
-} as Meta<typeof Adder >;
+} as Meta<typeof OrderState >;
 
-type Story = StoryObj<typeof Adder>;
+type Story = StoryObj<typeof OrderState>;
 
-export const AdderMain: Story = {
+export const OrderStateMain: Story = {
     render: () =>{
 
         const myFunction = () => {
@@ -25,8 +24,7 @@ export const AdderMain: Story = {
         }
 
         return(<>
-            <Adder 
-                color={themeButton.palette.primary}/>
+            <OrderState/>
         </>);
     } 
 };
@@ -34,7 +32,7 @@ export const AdderMain: Story = {
 // export const Aspect1: Story = {
 //     render: () =>{
 //         return(<>
-//             <AdderMobile mode={"portrait"}/>
+//             <OrderStateMobile mode={"portrait"}/>
 //         </>);
 //     } 
 // };

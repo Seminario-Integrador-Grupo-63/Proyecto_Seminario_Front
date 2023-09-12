@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { CustomButton } from "@/Common/CustomButton";
 import {widths100} from "@/Stories/viewports";
-import {themeButton} from '@/Common/theme'
+import {themeButton} from '@/components/Common/Theme/themes'
 import { Container } from "@mui/material";
 
 export default {

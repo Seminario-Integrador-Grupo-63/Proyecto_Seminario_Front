@@ -2,11 +2,8 @@ import styles from './CustomAppBar.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {AppBar} from '@mui/material'
-import { Toolbar, Typography } from '@mui/material';
-import {theme, themeButton} from '@/Common/theme'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {IconButton} from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
+import { Toolbar } from '@mui/material';
+import {theme, themeButton} from '@/components/Common/Theme/themes'
 import { Grid } from '@mui/material'
 import {AddButton} from './AddButton'
 import { Adder} from '@/Common/Adder'
@@ -17,14 +14,14 @@ export const AdderFooter = (props: any) => {
             position="sticky"
             sx={{
                 width: { sm: `100%` },
-                bottom:0,
+                marginTop: 'auto',
+                bottom: 0,
                 backgroundColor: theme.palette.primary.main
             }}>
             <Toolbar>
                 <Grid container>
                     <Grid 
                         xs={8}
-                        // md={8}
                         item
                         sx={{
                             display: 'flex',

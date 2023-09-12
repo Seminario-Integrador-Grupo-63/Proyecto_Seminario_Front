@@ -2,7 +2,7 @@ import styles from './ButtonCategory.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Typography } from '@mui/material';
-import {theme} from '@/Common/theme'
+import {theme} from '@/components/Common/Theme/themes'
 
 export const ButtonCategory = (props: any) => {
 

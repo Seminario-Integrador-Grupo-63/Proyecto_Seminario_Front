@@ -2,7 +2,7 @@ import styles from './CustomerContainer.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Container} from '@mui/material'
-import {theme} from '@/Common/theme'
+import {theme} from '@/components/Common/Theme/themes'
 
 export const CustomerContainer = (props: any) => {
     return (<>
@@ -13,6 +13,7 @@ export const CustomerContainer = (props: any) => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                // height: '100vh',
                 height: '100vh',
                 width: '100%',
                 overflowY: 'scroll',

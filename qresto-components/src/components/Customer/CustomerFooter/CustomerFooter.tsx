@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {AppBar} from '@mui/material'
 import { Toolbar, Typography } from '@mui/material';
-import {theme} from '@/Common/theme'
+import {theme} from '@/components/Common/Theme/themes'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {IconButton} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
