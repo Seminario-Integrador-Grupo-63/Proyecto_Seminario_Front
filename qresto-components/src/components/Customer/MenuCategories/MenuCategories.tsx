@@ -47,7 +47,7 @@ export const MenuCategories = (props: any) => {
                 }}>
                 {props.categories.map(category => createCategory(category))}
             </Grid>
-            <CustomerFooter/>
+            {/* <CustomerFooter/> */}
         </CustomerContainer>
     </>);
 }
