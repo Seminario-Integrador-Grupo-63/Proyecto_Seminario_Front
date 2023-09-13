@@ -10,14 +10,12 @@ export const Component = (props: any) => {
 
 Component.defaultProps =
 {
-    mode: "portrait",
-    title: 'Default value'
+
 }
 
 Component.propTypes = 
 {
-    mode: PropTypes.oneOf(["portrait", "landscape"]),
-    title: PropTypes.string
+
 }
 
 

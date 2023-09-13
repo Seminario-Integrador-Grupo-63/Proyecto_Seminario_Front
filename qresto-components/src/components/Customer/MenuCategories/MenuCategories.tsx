@@ -7,7 +7,7 @@ import {theme} from '@/components/Common/Theme/themes'
 import { ButtonCategory } from './ButtonCategory';
 import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
-import { categories } from '@/Common/FakeData/CategoriesFakeData';
+import { categories } from '@/components/Common/FakeData/CategoriesData';
 import { CustomerFooter } from '@/Customer/CustomerFooter/CustomerFooter';
 
 export const MenuCategories = (props: any) => {

@@ -6,7 +6,7 @@ import { CustomerHeader } from '@/components/Customer/CustomerHeader/CustomerHea
 import {Grid} from '@mui/material'
 import {theme} from '@/components/Common/Theme/themes'
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
-import { dishes } from '@/Common/FakeData/DishesFakeData';
+import { dishes } from '@/components/Common/FakeData/DishesData';
 import { ButtonDish } from './ButtonDish';
 
 export const MenuDishes = (props: any) => {

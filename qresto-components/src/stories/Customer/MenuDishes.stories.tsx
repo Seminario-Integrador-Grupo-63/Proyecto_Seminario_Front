@@ -5,7 +5,7 @@ import {MenuDishes} from '@/Customer/MenuDishes/MenuDishes'
 import {Container, Button} from "@mui/material"
 import { ButtonDish } from "@/Customer/MenuDishes/ButtonDish";
 import {Grid} from '@mui/material'
-import { dishes } from "@/Common/FakeData/DishesFakeData";
+import { dishes } from "@/Common/FakeData/DishesData";
 
 export default {
     title: "components/Customer/MenuDishes",
