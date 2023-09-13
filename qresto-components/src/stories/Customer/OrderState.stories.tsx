@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Component } from "../Component";
+import { OrderState } from "@/Customer/OrderState/OrderState";
 import {widths100} from "@/Stories/viewports";
 
 export default {
-    title: "components/Component",
-    component: Component ,
+    title: "components/Customer/OrderState",
+    component: OrderState ,
     argTypes: {},
     parameters: {
         viewport: {viewports: widths100},
@@ -12,11 +12,11 @@ export default {
     }
 
 
-} as Meta<typeof Component >;
+} as Meta<typeof OrderState >;
 
-type Story = StoryObj<typeof Component>;
+type Story = StoryObj<typeof OrderState>;
 
-export const ComponentMain: Story = {
+export const OrderStateMain: Story = {
     render: () =>{
 
         const myFunction = () => {
@@ -24,7 +24,7 @@ export const ComponentMain: Story = {
         }
 
         return(<>
-            <Component/>
+            <OrderState/>
         </>);
     } 
 };
@@ -32,7 +32,7 @@ export const ComponentMain: Story = {
 // export const Aspect1: Story = {
 //     render: () =>{
 //         return(<>
-//             <ComponentMobile mode={"portrait"}/>
+//             <OrderStateMobile mode={"portrait"}/>
 //         </>);
 //     } 
 // };

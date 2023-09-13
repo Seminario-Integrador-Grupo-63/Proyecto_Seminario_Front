@@ -1,0 +1,29 @@
+@import '@/Common/Theme/StateColors.module.scss';
+
+.circle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    width: 40px;
+    height: 40px;
+    z-index: 1;
+}
+
+.circleNumber{
+    font-size: 25px;
+}
+
+.container{
+    width: 80px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.text {
+    text-align: center;
+}

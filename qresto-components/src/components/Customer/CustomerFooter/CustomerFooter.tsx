@@ -3,15 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {AppBar} from '@mui/material'
 import { Toolbar, Typography } from '@mui/material';
-import {theme} from '@/Common/theme'
-import { LogoWitch } from '@/Common/Logos/LogoWitch/LogoWitch';
-import { LogoQResto } from '@/Common/Logos/LogoQResto/LogoQResto';
+import {theme} from '@/components/Common/Theme/themes'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {IconButton} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid } from '@mui/material'
 
-export const CustomerAppBar = (props: any) => {
+export const CustomerFooter = (props: any) => {
 
     const enableGoBackButton = () => {
         return(
@@ -50,17 +48,6 @@ export const CustomerAppBar = (props: any) => {
                 width: { sm: `100%` },
                 backgroundColor: theme.palette.primary.main
             }}>
-            <Toolbar 
-                sx={{
-                    backgroundColor: theme.palette.primary.contrastText,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}>
-                <LogoWitch/>
-                <LogoQResto/>
-            </Toolbar>
-
             <Toolbar>
                 <Grid container>
                     <Grid 
@@ -92,20 +79,19 @@ export const CustomerAppBar = (props: any) => {
                         {props.searchEnabled? enableSearch() : null}
                     </Grid>
                 </Grid>
-
             </Toolbar>
         </AppBar>
     </>);
 }
 
-CustomerAppBar.defaultProps =
+CustomerFooter.defaultProps =
 {
     goBackEnabled: false,
     searchEnabled: false,
     title: 'Title'
 }
 
-CustomerAppBar.propTypes = 
+CustomerFooter.propTypes = 
 {
     goBackEnabled: PropTypes.bool,
     searchEnabled: PropTypes.bool,

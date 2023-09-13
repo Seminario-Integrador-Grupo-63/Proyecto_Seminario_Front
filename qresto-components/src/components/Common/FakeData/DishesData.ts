@@ -1,16 +1,16 @@
 import { imageCategory1 } from "./DefaultImagesCategories/imageCategory1"
-import { imageCategory2 } from "./DefaultImagesCategories//imageCategory2"
-import { imageCategory3 } from "./DefaultImagesCategories//imageCategory3"
-import { imageCategory4 } from "./DefaultImagesCategories//imageCategory4"
-import { imageCategory5 } from "./DefaultImagesCategories//imageCategory5"
+import { imageCategory2 } from "./DefaultImagesCategories/imageCategory2"
+import { imageCategory3 } from "./DefaultImagesCategories/imageCategory3"
+import { imageCategory4 } from "./DefaultImagesCategories/imageCategory4"
+import { imageCategory5 } from "./DefaultImagesCategories/imageCategory5"
 
 import { imageDish1 } from "./DefaultImagesDishes/imageDish1"
 import { imageDish2 } from "./DefaultImagesDishes/imageDish2"
 import { imageDish3 } from "./DefaultImagesDishes/imageDish3"
 import { imageDish4 } from "./DefaultImagesDishes/imageDish4"
 import { imageDish5 } from "./DefaultImagesDishes/imageDish5"
-import { categories } from "./CategoriesFakeData"
-import { sideDishes } from "./SideDishesFakeData"
+import { categories } from "./CategoriesData"
+import { sideDishes } from "./SideDishesData"
 
 export const dishes = [
     {

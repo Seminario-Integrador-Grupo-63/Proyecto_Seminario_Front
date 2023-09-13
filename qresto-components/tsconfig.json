@@ -17,7 +17,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
       "@/Customer/*": ["./src/components/Customer/*"],
       "@/Restaurant/*": ["./src/components/Restaurant/*"],
       "@/Common/*": ["./src/components/Common/*"],

@@ -1,10 +1,11 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Component } from "../Component";
+import { Adder } from "@/Common/Adder";
 import {widths100} from "@/Stories/viewports";
+import { themeButton } from "@/components/Common/Theme/themes";
 
 export default {
-    title: "components/Component",
-    component: Component ,
+    title: "components/Common/Adder",
+    component: Adder ,
     argTypes: {},
     parameters: {
         viewport: {viewports: widths100},
@@ -12,11 +13,11 @@ export default {
     }
 
 
-} as Meta<typeof Component >;
+} as Meta<typeof Adder >;
 
-type Story = StoryObj<typeof Component>;
+type Story = StoryObj<typeof Adder>;
 
-export const ComponentMain: Story = {
+export const AdderMain: Story = {
     render: () =>{
 
         const myFunction = () => {
@@ -24,7 +25,8 @@ export const ComponentMain: Story = {
         }
 
         return(<>
-            <Component/>
+            <Adder 
+                color={themeButton.palette.primary}/>
         </>);
     } 
 };
@@ -32,7 +34,7 @@ export const ComponentMain: Story = {
 // export const Aspect1: Story = {
 //     render: () =>{
 //         return(<>
-//             <ComponentMobile mode={"portrait"}/>
+//             <AdderMobile mode={"portrait"}/>
 //         </>);
 //     } 
 // };

@@ -3,11 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from '@mui/material';
 import { Grid } from '@mui/material';
-import {theme} from '@/Common/theme'
+import {theme} from '@/components/Common/Theme/themes'
 import { ButtonCategory } from './ButtonCategory';
-import { CustomerAppBar } from '@/Customer/CustomerAppBar/CustomerAppBar';
+import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
-import { categories } from '@/Common/FakeData/CategoriesFakeData';
+import { categories } from '@/components/Common/FakeData/CategoriesData';
+import { CustomerFooter } from '@/Customer/CustomerFooter/CustomerFooter';
 
 export const MenuCategories = (props: any) => {
 
@@ -34,7 +35,7 @@ export const MenuCategories = (props: any) => {
 
     return (<>
         <CustomerContainer>
-            <CustomerAppBar title={'Categoría'}/>
+            <CustomerHeader title={'Categoría'}/>
 
             <Grid 
                 sx={{
@@ -46,6 +47,7 @@ export const MenuCategories = (props: any) => {
                 }}>
                 {props.categories.map(category => createCategory(category))}
             </Grid>
+            {/* <CustomerFooter/> */}
         </CustomerContainer>
     </>);
 }

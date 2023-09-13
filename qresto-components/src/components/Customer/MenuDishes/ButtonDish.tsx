@@ -1,7 +1,7 @@
 import styles from './ButtonDish.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {theme} from '@/Common/theme'
+import {theme} from '@/components/Common/Theme/themes'
 import {Typography } from '@mui/material';
 import {Box} from '@mui/material';
 

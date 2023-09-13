@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Component } from "../Component";
+import { AdderFooter } from "@/Customer/AdderFooter/AdderFooter";
 import {widths100} from "@/Stories/viewports";
 
 export default {
-    title: "components/Component",
-    component: Component ,
+    title: "components/Customer/AdderFooter",
+    component: AdderFooter ,
     argTypes: {},
     parameters: {
         viewport: {viewports: widths100},
@@ -12,11 +12,11 @@ export default {
     }
 
 
-} as Meta<typeof Component >;
+} as Meta<typeof AdderFooter >;
 
-type Story = StoryObj<typeof Component>;
+type Story = StoryObj<typeof AdderFooter>;
 
-export const ComponentMain: Story = {
+export const AdderFooterMain: Story = {
     render: () =>{
 
         const myFunction = () => {
@@ -24,7 +24,7 @@ export const ComponentMain: Story = {
         }
 
         return(<>
-            <Component/>
+            <AdderFooter/>
         </>);
     } 
 };
@@ -32,7 +32,7 @@ export const ComponentMain: Story = {
 // export const Aspect1: Story = {
 //     render: () =>{
 //         return(<>
-//             <ComponentMobile mode={"portrait"}/>
+//             <AdderFooterMobile mode={"portrait"}/>
 //         </>);
 //     } 
 // };
