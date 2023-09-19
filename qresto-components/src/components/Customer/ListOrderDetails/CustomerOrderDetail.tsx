@@ -3,24 +3,54 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid} from '@mui/material'
 import { Typography } from '@mui/material'
-import { ButtonDish } from '@/Customer/MenuDishes/ButtonDish';
+import { ButtonOrderDetails} from './ButtonOrderDetails'
 
 export const CustomerOrderDetail = (props: any) => {
-
-    const createDish = (dish, ) => {
+    const createDish = (dish) => {
         return(
-            <ButtonDish dish={dish}/>
+            <Grid 
+                key={dish.dish.id} 
+                item 
+                xs={12}
+                sx={{
+                    marginTop: '1vh',
+                    marginBottom: '1vh'
+                }}>
+                <ButtonOrderDetails 
+                    dish={dish.dish}
+                    sideDish={dish.sideDish}/>
+            </Grid>
         )
     }
 
-    if(props.orderDetail != null){
+    if(props.customer != null){
         return (<>
-            <Grid container>
-                <Typography>
-                    props.orderDetail.customer
-                </Typography>
-                {/* <ButtonDish dish={}/> */}
-
+            <Grid 
+                container
+                sx={{
+                    paddingTop: '2vh',
+                    paddingBottom: '2vh',
+                    paddingRight: '2vw',
+                    paddingLeft: '2vw'
+                }}>
+                <Grid 
+                    item 
+                    xs={12}
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between'
+                    }}>
+                    <Typography
+                        typography={{lg: 'h5', md: 'h5', xs:'h5'}}>
+                        {props.customer.name}
+                    </Typography>
+                    <Typography
+                        typography={{lg: 'h5', md: 'h5', xs:'h5'}}>
+                        {'$' + props.customer.total}
+                    </Typography>
+                </Grid>
+                {props.customer.dishes.map(dish => createDish(dish))}
             </Grid>
         </>);
     } else {
@@ -31,12 +61,12 @@ export const CustomerOrderDetail = (props: any) => {
 
 CustomerOrderDetail.defaultProps =
 {
-    orderDetail: null
+    customer: null
 }
 
 CustomerOrderDetail.propTypes = 
 {
-    orderDetail: PropTypes.object
+    customer: PropTypes.object
 }
 
 

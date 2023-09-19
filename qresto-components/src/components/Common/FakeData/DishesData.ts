@@ -15,7 +15,7 @@ import { sideDishes } from "./SideDishesData"
 export const dishes = [
     {
         id: 1,
-        name: 'Milanesa Napolitana',
+        name: 'Milanesa Napolitana ljasjlkdsal aljalksjds aljajlfkjdsglkjs kdflkñgfdlkgfd kñlfdkñlgfdñlkgfds',
         description: 'Esta es una descripción re larga de la milanesa napolitana que explica todos los ingredientes que tiene',
         preparationTime: 30,
         category: categories[0],

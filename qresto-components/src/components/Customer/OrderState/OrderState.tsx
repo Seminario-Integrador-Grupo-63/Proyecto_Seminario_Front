@@ -32,7 +32,6 @@ export const OrderState = (props: any) => {
                 <StateLine/>
                 <StateLine/>
             </div>
-            
         </div>
     </>);
 }
