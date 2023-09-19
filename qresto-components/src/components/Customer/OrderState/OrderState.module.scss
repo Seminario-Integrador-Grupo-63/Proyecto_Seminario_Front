@@ -1,10 +1,12 @@
 @import '@/Common/Theme/StateColors.module.scss';
 
 .container{
+    position: sticky;
     display: flex;
     flex-direction: row;
     padding-top: 20px;
-    padding: 20px;
+    padding: 2%;
+    width: 100%;
     justify-content: space-around;
     background-color: $state-primary-contrast-text;
 }
@@ -14,5 +16,5 @@
     flex-direction: row;
     position: absolute;
     width: 75%;
-    top: 42px;
+    top: 30px;
 }

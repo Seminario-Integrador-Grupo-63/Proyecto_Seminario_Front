@@ -19,9 +19,9 @@ export const orderDetails1 = [
     {
         id: 3,
         dish: dishes[2],
-        sideDish: sideDishes[2],
+        sideDish: null,
         customer: 'Pedro',
-        subtotal: dishes[2].price + sideDishes[2].extraPrice
+        subtotal: dishes[2].price
     }
     
 ]

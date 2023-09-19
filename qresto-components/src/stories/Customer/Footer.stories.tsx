@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { CustomerFooter } from "@/Customer/CustomerFooter/CustomerFooter";
+import { Footer } from "@/Customer/Footer/Footer";
 import {widths100} from "@/Stories/viewports";
 
 export default {
-    title: "components/Customer/CustomerFooter",
-    component: CustomerFooter ,
+    title: "components/Customer/Footer",
+    Footer: Footer ,
     argTypes: {},
     parameters: {
         viewport: {viewports: widths100},
@@ -12,11 +12,11 @@ export default {
     }
 
 
-} as Meta<typeof CustomerFooter >;
+} as Meta<typeof Footer >;
 
-type Story = StoryObj<typeof CustomerFooter>;
+type Story = StoryObj<typeof Footer>;
 
-export const MainStory: Story = {
+export const FooterMain: Story = {
     render: () =>{
 
         const myFunction = () => {
@@ -24,7 +24,7 @@ export const MainStory: Story = {
         }
 
         return(<>
-            <CustomerFooter/>
+            <Footer/>
         </>);
     } 
 };
@@ -32,7 +32,7 @@ export const MainStory: Story = {
 // export const Aspect1: Story = {
 //     render: () =>{
 //         return(<>
-//             <ComponentMobile mode={"portrait"}/>
+//             <FooterMobile mode={"portrait"}/>
 //         </>);
 //     } 
 // };

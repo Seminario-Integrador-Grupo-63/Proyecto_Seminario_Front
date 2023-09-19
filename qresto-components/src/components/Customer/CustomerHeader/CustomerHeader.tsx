@@ -92,6 +92,7 @@ export const CustomerHeader = (props: any) => {
                     </Grid>
                 </Grid>
             </Toolbar>
+            {props.children}
         </AppBar>
     </>);
 }
@@ -100,13 +101,15 @@ CustomerHeader.defaultProps =
 {
     goBackEnabled: false,
     searchEnabled: false,
-    title: 'Title'
+    title: 'Title',
+    children: null
 }
 
 CustomerHeader.propTypes = 
 {
     goBackEnabled: PropTypes.bool,
     searchEnabled: PropTypes.bool,
-    title: PropTypes.string
+    title: PropTypes.string,
+    children: PropTypes.node
 }
 

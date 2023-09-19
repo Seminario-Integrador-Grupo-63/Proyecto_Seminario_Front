@@ -3,7 +3,7 @@
     flex-direction: row;
     border-radius: 15px;
     height: fit-content;
-    width: 95%;
+    width: 100%;
     box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, 0.2);
     transition: transform 0.08s ease-in-out;
 }
@@ -17,6 +17,8 @@
     display: block;
     object-fit: cover;
     width: 25%;
+    max-width: 25%;
+    min-width: 25%;
     height: auto;
     margin-right: 10px;
     border-top-left-radius: 15px;

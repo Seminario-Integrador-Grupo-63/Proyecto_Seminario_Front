@@ -36,10 +36,10 @@ export const CustomButtonMain: Story = {
                     My title
                 </CustomButton>
             </Container>
-
         </>);
     } 
 };
+
 
 // export const Aspect1: Story = {
 //     render: () =>{

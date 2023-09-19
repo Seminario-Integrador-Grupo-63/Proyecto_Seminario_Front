@@ -1,54 +1,116 @@
 import styles from './ButtonDish.module.scss';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {theme} from '@/components/Common/Theme/themes'
 import {Typography } from '@mui/material';
 import {Box} from '@mui/material';
+import {Grid} from '@mui/material';
+import { TruncatedText } from '@/components/Common/TruncatedText/TruncatedText';
+import { useNumCharacters } from '@/Common/TruncatedText/utils';
 
 export const ButtonDish = (props: any) => {
+    const [isActive, setIsActive] = useState(false);
+    const [height, setHeight] = useState('10vh')
 
     const onClick = () => {
+        setIsActive(true)
         props.onClick(props.dish)
+        setTimeout(() => {
+            setIsActive(false);
+        }, 100); 
+    }
+
+    const truncatedTextClick = (isUnfolded) => {
+        if(isUnfolded) {
+            setHeight('fit-content')
+        } else {
+            setHeight('10vh')
+        }
+    }
+
+    const containerClasses = `${styles.container} ${isActive ? styles.active : ''}`;
+    
+    // Estos breakpoints son para establecer la cantidad 
+    // de caracteres a truncar dependiendo del ancho de pantalla
+    const truncatedTextBreakpoints = [
+        {screenWidth: 200, m: 0.045},
+        {screenWidth: 500, m: 0.07},
+        {screenWidth: 700, m: 0.08},
+        {screenWidth: 1300, m: 0.06},
+    ]
+    const truncatedNumCharacters = useNumCharacters(truncatedTextBreakpoints)
+    
+    const displayDish = () => {
+        return(<>
+            <Grid 
+                item 
+                xs={12}>
+                <TruncatedText 
+                    onClick={truncatedTextClick}
+                    text={props.dish.name}
+                    numCharacters={truncatedNumCharacters}
+                    color={theme.palette.secondary}/>
+            </Grid>
+        </>)
+    }
+
+    const displayTotalPrice = () => {
+        return(
+            <Grid item xs={12}>
+                <Typography
+                    sx={{
+                        color: theme.palette.secondary.main,
+                        typography: {lg: 'h5', md: 'h6', sm:'subtitle1', xs: 'subtitle1'},
+                        textAlign: props.totalPricePosition
+                    }}>
+                    {'$' + props.dish.price}
+                </Typography>
+            </Grid>
+        )
     }
 
     if(props.dish !== null) {
         return (<>
             <div
-                className={styles.container}
+                className={containerClasses}
                 style={{
-                    background: theme.palette.primary.main
+                    background: theme.palette.primary.main,
+                    height: height
                 }}
                 onClick={onClick}>
+
                 <img 
                     className={styles.imageDish}
                     src={props.dish.image}/>
-                <Box
+                <Grid
+                    container
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'flex-start',
                         justifyContent: 'space-between',
-                        paddingTop: '1vh',
-                        paddingBottom: '1vh'
+                        paddingTop: '0.5vh',
+                        paddingBottom: '0.5vh',
+                        paddingRight: '1vw',
+                        paddingleft: '1vw'
                     }}>
-                    <Typography
+                    <Grid
+                        container
                         sx={{
-                            color: theme.palette.secondary.main,
-                            typography: {lg: 'h5', xs: 'h6'},
-                            textAlign: 'center'
+                            display: 'flex',
+                            flexDirection: 'row',
                         }}>
-                        {props.dish.name}
-                    </Typography>
+                        {displayDish()}
+                    </Grid>
 
-                    <Typography
+                    <Grid
+                        container
                         sx={{
-                            color: theme.palette.secondary.main,
-                            typography: {lg: 'h6', xs: 'h6'},
-                            textAlign: 'center'
+                            display: 'flex',
+                            flexDirection: 'row'
                         }}>
-                        ${props.dish.price}
-                    </Typography>
-                </Box>
+                        {props.displayTotalPrice?displayTotalPrice():null}
+                    </Grid>
+                </Grid>
             </div>
         </>);
     } else {
@@ -59,13 +121,22 @@ export const ButtonDish = (props: any) => {
 ButtonDish.defaultProps =
 {
     dish: null,
-    onClick: function(){}
+    onClick: function(){},
+    displayTotalPrice: true,
+    totalPricePosition: 'left'
 }
 
 ButtonDish.propTypes = 
 {
     dish: PropTypes.object,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    displayTotalPrice: PropTypes.bool,
+    totalPricePosition: PropTypes.oneOf(['right', 'left'])
 }
 
+/**
+console.log(" ")
+console.log("ButtonDish")
+console.log(": ", )
+*/
 
