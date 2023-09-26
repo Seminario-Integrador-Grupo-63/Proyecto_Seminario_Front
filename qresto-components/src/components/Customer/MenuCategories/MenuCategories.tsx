@@ -9,6 +9,7 @@ import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
 import { categories } from '@/components/Common/FakeData/CategoriesData';
 import { CustomerFooter } from '@/Customer/CustomerFooter/CustomerFooter';
+// Falta el CustomerFooter, no desarrollado
 
 export const MenuCategories = (props: any) => {
 
