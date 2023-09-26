@@ -25,9 +25,19 @@ export const DishCardMain: Story = {
             
         }
 
-        return(<>
-             <DishCard dish={dishes[0]}/>
-        </>);
+        const contenedor = {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          };
+
+        return( 
+            <div style={contenedor}>
+            {dishes.map(dish => <DishCard dish={dish} />)}
+            </div>
+           
+        );
     } 
 };
 
