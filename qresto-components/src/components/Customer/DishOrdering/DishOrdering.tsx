@@ -2,7 +2,7 @@ import styles from './DishOrdering.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
-import { Header } from '@/Customer/Header/Header';
+import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { Box, Typography } from '@mui/material';
 import { theme } from '@/Common/Theme/themes';
 import { SideDishSelector } from './SideDishSelector';
@@ -13,7 +13,7 @@ export const DishOrdering = (props: any) => {
     if(props.dish != null){
         return (<>
             <CustomerContainer>
-                <Header 
+                <CustomerHeader
                     title={props.dish.name}
                     goBackEnabled={true}/>
                 <Box
