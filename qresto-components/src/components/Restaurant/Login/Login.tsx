@@ -8,9 +8,11 @@ import PropTypes from 'prop-types';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {theme} from "@/Common/Theme/themes";
+import {ThemeProvider, Toolbar} from "@mui/material";
+import {LogoWitch} from "@/Common/Logos/LogoWitch/LogoWitch";
+import {LogoQResto} from "@/Common/Logos/LogoQResto/LogoQResto";
 
-const theme = createTheme();
 
 export const Login = (props: any) => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -25,7 +27,9 @@ export const Login = (props: any) => {
 
     return (
         <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs"
+                   sx={{backgroundColor: theme.palette.primary.contrastText,
+                   }}>
             <CssBaseline />
             <Box
             sx={{
@@ -34,56 +38,62 @@ export const Login = (props: any) => {
                 flexDirection: 'column',
                 alignItems: 'center',
             }}>
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-                {props.title}
-            </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                {props.usernameInputType === "email"?
+                <Toolbar
+                    sx={{
+                        backgroundColor: theme.palette.primary.contrastText,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}>
+                    <LogoWitch/>
+                    <LogoQResto/>
+                </Toolbar>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    {props.usernameInputType === "email"?
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label={props.usernameText}
+                        name="username"
+                        autoComplete="email"
+                        autoFocus/>
+                    :null}
+
+                    {props.usernameInputType === "username"?
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label={props.usernameText}
+                        name="username"
+                        autoFocus/>
+                    :null}
+
                     <TextField
                     margin="normal"
                     required
                     fullWidth
-                    id="username"
-                    label={props.usernameText}
-                    name="username"
-                    autoComplete="email"
-                    autoFocus/>
-                :null}
-
-                {props.usernameInputType === "username"?
-                    <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="username"
-                    label={props.usernameText}
-                    name="username"
-                    autoFocus/>
-                :null}
-
-                <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"/>
-                {props.error && (
-                    <p style={{ color: 'red' }}>Error: Invalid username or password.</p>
-                )}
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}>
-                    Sign In
-                </Button>
-            </Box>
+                    name="password"
+                    label="Contraseña"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"/>
+                    {props.error && (
+                        <p style={{ color: 'red' }}>Error: Invalid username or password.</p>
+                    )}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{
+                            backgroundColor: theme.palette.primary.main,
+                            mt: 3, mb: 2 }}>
+                        Ingresar
+                    </Button>
+                </Box>
             </Box>
         </Container>
         </ThemeProvider>
@@ -92,8 +102,8 @@ export const Login = (props: any) => {
 Login.defaultProps =
 {
     onSignInSubmit: function(){},
-    title: "Sign in",
-    usernameText: "Username",
+    title: "Iniciar Sesión",
+    usernameText: "Usuario",
     usernameInputType: "email",
     error: false
 }
