@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {BillAll} from "@/Customer/BillCheckout/BillAll";
 
+// Recibir por endpoint el orderdetail de cada persona
 function createData(
     name: string,
 ) {
@@ -81,12 +82,12 @@ export const BillEach = (props: any) => {
     )
 }
 
-BillAll.defaultProps =
+BillEach.defaultProps =
     {
         bills: []
     }
 
-BillAll.propTypes =
+BillEach.propTypes =
     {
         bills: PropTypes.array
     }

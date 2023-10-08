@@ -3,6 +3,7 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import PropTypes from "prop-types";
 import {BillCheckout} from "@/Customer/BillCheckout/BillCheckout";
+import React from "react";
 
 function createData(
     name: string,
@@ -11,7 +12,8 @@ function createData(
 ) {
     return {name, product, cost };
 }
-const rows = [createData('Johny', 'Cupcake', 3.7),
+const rows = [
+    createData('Johny', 'Cupcake', 3.7),
     createData('V','Donut', 25.0),
     createData('Jude', 'Eclair', 16.0)]
 
@@ -22,6 +24,10 @@ export const BillAll = (props: any) => {
             <Table size="small" aria-label="a dense table">
 
                 <TableHead>
+                    <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+                        <TableCell component="th" scope="row">{props.tableTitle}</TableCell>
+                        <TableCell align="right">{props.tableTotal}</TableCell>
+                    </TableRow>
                     <TableRow>
                         <TableCell align="left">Product</TableCell>
                         <TableCell align="right">Cost</TableCell>
@@ -47,6 +53,8 @@ export const BillAll = (props: any) => {
 
 BillAll.defaultProps =
     {
+        tableTitle: "Evelyn",
+        tableTotal: "13",
         bills: [createData('Johny', 'Cupcake', 3.7),
                 createData('V','Donut', 25.0),
                 createData('Jude', 'Eclair', 16.0)]
@@ -54,5 +62,7 @@ BillAll.defaultProps =
 
 BillAll.propTypes =
     {
+        tableTitle: PropTypes.string,
+        tableTotal: PropTypes.string,
         bills: PropTypes.array
     }
