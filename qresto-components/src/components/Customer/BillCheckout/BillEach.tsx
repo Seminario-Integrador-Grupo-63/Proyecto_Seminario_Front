@@ -1,27 +1,15 @@
-import {Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Box, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow} from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
-import {BillAll} from "@/Customer/BillCheckout/BillAll";
 
-// Recibir por endpoint el orderdetail de cada persona
 function createData(
     name: string,
+    list: Array<{product: string, cost: number}>,
+    total: number,
 ) {
-    return {name, list: [
-            {
-                product: "Onigiri",
-                cost: 3.6},
-            {
-                product: "Dango",
-                cost: 3.9}
-        ], total: 7.5
-    };
+    return {name, list, total};
 }
 
-const rows = [
-    createData('Hanako'),
-    createData('Yorinobu'),
-];
 const Row=(props:any) => {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
@@ -65,14 +53,14 @@ const Row=(props:any) => {
         </React.Fragment>
     );
 }
-// Refactor 'rows' for props when connecting to the backend
+
 export const BillEach = (props: any) => {
     return (
         <TableContainer component={Paper}>
             <Table>
 
                 <TableBody>
-                    {rows.map((row) => (
+                    {props.orderDet.map((row) => (
                         <Row key={row.name} row={row} />
                     ))}
                 </TableBody>
@@ -84,10 +72,13 @@ export const BillEach = (props: any) => {
 
 BillEach.defaultProps =
     {
-        bills: []
+        orderDet: [
+            createData('Hanako', [{product: "des", cost: 123}, {product:"dw", cost: 124}], 45),
+            createData('Yorinobu', [{product: "ads", cost: 456}], 54),
+        ]
     }
 
 BillEach.propTypes =
     {
-        bills: PropTypes.array
+        orderDet: PropTypes.array
     }
