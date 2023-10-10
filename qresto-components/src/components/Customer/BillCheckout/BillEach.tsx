@@ -2,6 +2,8 @@ import {Box, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, Ta
 import React from "react";
 import PropTypes from "prop-types";
 
+// Eliminar createData y defaultProps antes de desplegar
+
 function createData(
     name: string,
     list: Array<{product: string, cost: number}>,
@@ -12,8 +14,6 @@ function createData(
 
 const Row=(props:any) => {
     const { row } = props;
-    const [open, setOpen] = React.useState(false);
-
     return (
         <React.Fragment>
 
