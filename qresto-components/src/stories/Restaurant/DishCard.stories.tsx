@@ -33,7 +33,8 @@ export const DishCardMain: Story = {
           };
 
         return( 
-            <div style={contenedor}>
+
+            <div style={contenedor} >
             {dishes.map(dish => <DishCard dish={dish} />)}
             </div>
            
