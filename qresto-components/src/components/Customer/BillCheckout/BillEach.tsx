@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 // Eliminar createData y defaultProps antes de desplegar
 
 function createData(
-    name: string,
-    list: Array<{product: string, cost: number}>,
+    customer: string,
+    dishes: Array<{dish: string, cost: number}>,
     total: number,
 ) {
-    return {name, list, total};
+    return {customer, dishes, total};
 }
 
 const Row=(props:any) => {
@@ -37,9 +37,9 @@ const Row=(props:any) => {
 
                             <TableBody>
                                 {row.list.map((listRow) => (
-                                    <TableRow key={listRow.product}>
+                                    <TableRow key={listRow.dish}>
                                         <TableCell component="th" scope="row">
-                                            {listRow.product}
+                                            {listRow.dish}
                                         </TableCell>
                                         <TableCell align="right">{listRow.cost}</TableCell>
                                     </TableRow>
@@ -61,7 +61,7 @@ export const BillEach = (props: any) => {
 
                 <TableBody>
                     {props.orderDet.map((row) => (
-                        <Row key={row.name} row={row} />
+                        <Row key={row.customer} row={row} />
                     ))}
                 </TableBody>
 
@@ -73,8 +73,8 @@ export const BillEach = (props: any) => {
 BillEach.defaultProps =
     {
         orderDet: [
-            createData('Hanako', [{product: "des", cost: 123}, {product:"dw", cost: 124}], 45),
-            createData('Yorinobu', [{product: "ads", cost: 456}], 54),
+            createData('Hanako', [{dish: "des", cost: 123}, {dish:"dw", cost: 124}], 45),
+            createData('Yorinobu', [{dish: "ads", cost: 456}], 54),
         ]
     }
 

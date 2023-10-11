@@ -1,14 +1,11 @@
-import styles from './MenuCategories.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container } from '@mui/material';
 import { Grid } from '@mui/material';
 import {theme} from '@/Common/Theme/themes'
 import { ButtonCategory } from './ButtonCategory';
 import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
 import { categories } from '@/components/Common/FakeData/CategoriesData';
-import { CustomerFooter } from '@/Customer/CustomerFooter/CustomerFooter';
 
 export const MenuCategories = (props: any) => {
 

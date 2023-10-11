@@ -61,6 +61,9 @@ export const BillCheckout = (props: any) => {
     </>);
 }
 
+// Recibo orders, que tienen orderDet por Customer, que es lo que le tengo que pasar a los componentes
+// Itero sobre Orders para tener todos los orderDet por customer, despues itero sobre todos los OrderDet
+// por Customer así obtengo todos los OrderDet sin importar el customer
 BillCheckout.defaultProps =
     {
         orders: [],
