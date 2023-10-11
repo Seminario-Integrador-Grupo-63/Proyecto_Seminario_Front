@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
-import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
+import { Header } from '@/Customer/Header/Header';
 import { CustomerOrderDetail } from './CustomerOrderDetail';
 import { Footer } from '@/Customer/Footer/Footer';
 import { OrderState } from '@/Customer/OrderState/OrderState';
@@ -64,11 +64,11 @@ export const ListOrderDetails = (props: any) => {
     if(props.order != null){
         return (<>
             <CustomerContainer>
-                <CustomerHeader 
+                <Header 
                     title={'Detalles de la orden'}
                     goBackEnabled={true}>
                     <OrderState/> 
-                </CustomerHeader>
+                </Header>
                 <Grid>
                     {customers.map((customer, index) => createOrderDetails(customer, index))}   
 

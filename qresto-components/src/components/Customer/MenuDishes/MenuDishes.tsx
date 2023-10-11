@@ -1,12 +1,10 @@
 import styles from './MenuDishes.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Container} from '@mui/material'
-import { CustomerHeader } from '@/components/Customer/CustomerHeader/CustomerHeader';
+import { Header } from '@/Customer/Header/Header';
 import {Grid} from '@mui/material'
-import {theme} from '@/Common/Theme/themes'
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
-import { dishes } from '@/components/Common/FakeData/DishesData';
+import { dishes } from '@/Common/FakeData/DishesData';
 import { ButtonDish } from './ButtonDish';
 
 export const MenuDishes = (props: any) => {
@@ -32,8 +30,9 @@ export const MenuDishes = (props: any) => {
 
     return (<>
         <CustomerContainer>
-            <CustomerHeader 
+            <Header 
                 title={props.title}
+                onGoBack={props.onGoBack}
                 goBackEnabled={true}
                 searchEnabled={true}/>
             <Grid 
@@ -54,13 +53,15 @@ MenuDishes.defaultProps =
 {
     dishes: dishes,
     title: 'Title',
-    onClickDish: function(){}
+    onClickDish: function(){},
+    onGoBack: function(){}
 }
 
 MenuDishes.propTypes = 
 {
     dishes: PropTypes.array,
     title: PropTypes.string,
-    onClickDish: PropTypes.func
+    onClickDish: PropTypes.func,
+    onGoBack: PropTypes.func
 }
 

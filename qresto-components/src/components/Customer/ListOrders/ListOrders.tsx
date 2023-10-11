@@ -1,7 +1,7 @@
 import styles from './ListOrders.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
+import { Header } from '@/Customer/Header/Header';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
 import {Grid} from '@mui/material'
 import { OrderButton } from './OrderButton';
@@ -24,7 +24,7 @@ export const ListOrders = (props: any) => {
 
     return (<>
         <CustomerContainer>
-            <CustomerHeader
+            <Header
                 goBackEnabled={true}
                 title={'Ordenes'}/>
             {props.orders.map(order => createOrder(order))}

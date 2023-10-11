@@ -7,7 +7,7 @@ import { Box } from '@mui/material'
 import { TextField } from '@mui/material'
 import { Typography } from '@mui/material'
 import { ThemeProvider } from '@mui/material'
-import { theme } from '@/components/Common/Theme/themes';
+import { theme } from '@/Common/Theme/themes';
 import { CustomTextField } from '@/Common/CustomTextField';
 import {Button} from '@mui/material'
 
@@ -23,14 +23,15 @@ export const NameInput = (props: any) => {
     } 
 
     return (<>
-        <ThemeProvider theme={theme}>
+        {/* <ThemeProvider theme={theme}>
             <Container
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     height: '100vh'
-                }}>
+                }}> */}
+            <ThemeProvider theme={theme}>
                 <Box
                     bgcolor="primary.main"
                     sx={{
@@ -44,7 +45,7 @@ export const NameInput = (props: any) => {
                         paddingTop: 2,
                         paddingBottom: 2,
                         borderRadius: 3,
-                        boxShadow: 3
+                        boxShadow: 3,
                     }}>
                     <Typography 
                         color="secondary.main">
@@ -52,6 +53,7 @@ export const NameInput = (props: any) => {
                     </Typography>
 
                     <CustomTextField 
+                        label={'Nombre'}
                         color={theme.palette.secondary}
                         value={input}
                         onChange={onChange}/> 
@@ -67,8 +69,9 @@ export const NameInput = (props: any) => {
                         Ingresar
                     </Button>
                 </Box>
-            </Container>
-        </ThemeProvider>
+            </ThemeProvider>
+            {/* </Container>
+        </ThemeProvider>*/}
     </>);
         
 }

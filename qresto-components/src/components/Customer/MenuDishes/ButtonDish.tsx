@@ -1,11 +1,10 @@
 import styles from './ButtonDish.module.scss';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {theme} from '@/components/Common/Theme/themes'
+import {theme} from '@/Common/Theme/themes'
 import {Typography } from '@mui/material';
-import {Box} from '@mui/material';
 import {Grid} from '@mui/material';
-import { TruncatedText } from '@/components/Common/TruncatedText/TruncatedText';
+import { TruncatedText } from '@/Common/TruncatedText/TruncatedText';
 import { useNumCharacters } from '@/Common/TruncatedText/utils';
 
 export const ButtonDish = (props: any) => {
