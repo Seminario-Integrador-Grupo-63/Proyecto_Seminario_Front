@@ -1,7 +1,7 @@
 import styles from './MenuDishes.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header } from '@/Customer/Header/Header';
+import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import {Grid} from '@mui/material'
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
 import { dishes } from '@/Common/FakeData/DishesData';
@@ -30,7 +30,7 @@ export const MenuDishes = (props: any) => {
 
     return (<>
         <CustomerContainer>
-            <Header 
+            <CustomerHeader
                 title={props.title}
                 onGoBack={props.onGoBack}
                 goBackEnabled={true}

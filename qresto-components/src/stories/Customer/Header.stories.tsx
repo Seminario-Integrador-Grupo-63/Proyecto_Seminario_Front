@@ -1,18 +1,18 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Header } from "@/Customer/Header/Header";
+import { CustomerHeader } from "@/Customer/CustomerHeader/CustomerHeader";
 import {widths100} from "@/Stories/viewports";
 
 export default {
-    title: "components/Customer/Header",
-    component: Header ,
+    title: "components/Customer/CustomerHeader",
+    component: CustomerHeader ,
     argTypes: {},
     parameters: {
         viewport: {viewports: widths100},
         layout: 'fullscreen'
     }
-} as Meta<typeof Header >;
+} as Meta<typeof CustomerHeader >;
 
-type Story = StoryObj<typeof Header>;
+type Story = StoryObj<typeof CustomerHeader>;
 
 export const HeaderMain: Story = {
     render: () =>{
@@ -22,7 +22,7 @@ export const HeaderMain: Story = {
         }
 
         return(<>
-            <Header/>
+            <CustomerHeader/>
         </>);
     } 
 };

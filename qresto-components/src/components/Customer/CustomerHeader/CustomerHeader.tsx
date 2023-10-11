@@ -1,4 +1,4 @@
-// import styles from './Header.module.scss';
+// import styles from './CustomerHeader.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {AppBar} from '@mui/material'
@@ -11,7 +11,7 @@ import {IconButton} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import { Grid } from '@mui/material'
 
-export const Header = (props: any) => {
+export const CustomerHeader = (props: any) => {
 
     const enableGoBackButton = () => {
         return(
@@ -97,7 +97,7 @@ export const Header = (props: any) => {
     </>);
 }
 
-Header.defaultProps =
+CustomerHeader.defaultProps =
 {
     goBackEnabled: false,
     searchEnabled: false,
@@ -106,7 +106,7 @@ Header.defaultProps =
     onGoBack: function(){}
 }
 
-Header.propTypes = 
+CustomerHeader.propTypes =
 {
     goBackEnabled: PropTypes.bool,
     searchEnabled: PropTypes.bool,
