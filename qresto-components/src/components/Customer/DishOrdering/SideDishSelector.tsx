@@ -1,9 +1,7 @@
 
-import styles from './SideDishSelector.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
-import { theme } from '@/components/Common/Theme/themes';
 import { Checkbox } from '@mui/material';
 import {FormGroup} from '@mui/material'
 import {FormControlLabel} from '@mui/material'

@@ -46,9 +46,15 @@ export const ButtonDishStory: Story = {
 
         const screenWidth = useScreenWidth()
 
+        const onClick = (dish) => {
+            console.log("onClick")
+            console.log("dish: ", dish)
+
+        }
         return(<>
             <ButtonDish 
                 dish={dishes[0]}
+                onClick={onClick}
                 displayTotalPrice={true}
                 totalPricePosition={'right'}/>
 

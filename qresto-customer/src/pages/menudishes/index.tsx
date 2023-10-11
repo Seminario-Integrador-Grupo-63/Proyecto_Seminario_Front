@@ -9,22 +9,34 @@ export default function MenuDishesPage() {
     const router = useRouter()
     const [dishes, setDishes] = useState([])
     const searchParams = useSearchParams()
-    const [category, setCategory] = useState<any>({})
+    const [category, setCategory] = useState(null)
+    const [customer, setCustomer] = useState('')
 
     useEffect(() => {
-        const categoryId = searchParams.get('category')
-        if(categoryId != null){
-            fetchCategory(categoryId)
-            fetchDishes(categoryId)
-        }
+        setCategory(JSON.parse(searchParams.get('category')))
+        setCustomer(searchParams.get('customer'))
+
     }, [searchParams])
+
+    useEffect(() => {
+        if(category != null){
+            fetchDishes(category.id)
+        }
+    }, [category])
 
     const goBack = () => {
         router.replace('/menucategories')
     }
 
-    const selectDish = () => {
- 
+    const goDishOrdering = (dish) => {
+        router.replace({
+            pathname: '/dishordering', 
+            query: {
+                customer: customer,
+                dishId: dish.id,
+                category: JSON.stringify(category)
+            }
+        })
     }
 
     const fetchDishes = async (categoryId) => {
@@ -32,17 +44,14 @@ export default function MenuDishesPage() {
         setDishes(data)
     }
 
-    const fetchCategory = async(id)=> {
-        const data = await getCategoryRequest(id)
-        setCategory(data)
-    }
-
     return (<>
-        <MenuDishes 
-            title={category.name}
-            onClickDish={selectDish}
-            onGoBack={goBack}
-            dishes={dishes}/>
+        {category != null?
+            <MenuDishes 
+                title={category.name}
+                onClickDish={goDishOrdering}
+                onGoBack={goBack}
+                dishes={dishes}/>
+        :null}
     </>)
 }
 /**

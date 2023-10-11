@@ -1,5 +1,5 @@
 import styles from './CustomAppBar.module.scss';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {AppBar} from '@mui/material'
 import { Toolbar } from '@mui/material';
@@ -9,6 +9,29 @@ import {AddButton} from './AddButton'
 import { Adder} from '@/Common/Adder'
 
 export const AdderFooter = (props: any) => {
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [units, setUnits] = useState(1)
+
+    useEffect(() => {
+        if(props.dish != null){
+            setTotalPrice(props.dish.price)
+        }
+    }, [props.dish])
+
+    const increaseQuantity = (value) => {
+        setTotalPrice(totalPrice + props.dish.price)
+        setUnits(value)
+    }
+
+    const decreaseQuantity = (value) => {
+        setTotalPrice(totalPrice - props.dish.price)
+        setUnits(value)
+    }
+
+    const onAdd = () => {
+        props.onAdd(totalPrice, units)
+    }
+
     return (<>
         <AppBar 
             position="sticky"
@@ -30,7 +53,10 @@ export const AdderFooter = (props: any) => {
                         }}>
                         <Adder 
                             color={themeButton.palette.primary}
-                            value={1}/>
+                            increase={increaseQuantity}
+                            decrease={decreaseQuantity}
+                            minValue={1}
+                            value={units}/>
                     </Grid>
                     <Grid 
                         xs={4}
@@ -40,6 +66,8 @@ export const AdderFooter = (props: any) => {
                             flexDirection: 'row-reverse'
                         }}>
                         <AddButton
+                            price={totalPrice}
+                            onClick={onAdd}
                             title={'Agregar'}/>
                     </Grid>
                 </Grid>
@@ -50,15 +78,13 @@ export const AdderFooter = (props: any) => {
 
 AdderFooter.defaultProps =
 {
-    goBackEnabled: false,
-    searchEnabled: false,
-    title: 'Title'
+    dish: function(){},
+    onAdd: function(){}
 }
 
 AdderFooter.propTypes = 
 {
-    goBackEnabled: PropTypes.bool,
-    searchEnabled: PropTypes.bool,
-    title: PropTypes.string
+    dish: PropTypes.func,
+    onAdd: PropTypes.func
 }
 

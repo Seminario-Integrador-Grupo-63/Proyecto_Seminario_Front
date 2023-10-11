@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as https from 'https';
+import { buildDish } from "./utils";
 
 const url = "http://localhost:8000"
 
@@ -32,6 +33,13 @@ export async function getDishesByCategoryIdRequest(categoryId){
 export async function getOrdersRequest(){
     const response = await axios.get<any>(url + '/order', { httpsAgent: new https.Agent({ rejectUnauthorized: false }) })
     return response
+}
+
+export async function getDishRequest(id){
+    const responseDish = await axios.get<any>(url + `/dish/${id}`, { httpsAgent: new https.Agent({ rejectUnauthorized: false }) })
+    const responseCategory = await axios.get<any>(url + `/category/${responseDish.data.dish.category}`, { httpsAgent: new https.Agent({ rejectUnauthorized: false }) })
+    const dish = buildDish(responseDish, responseCategory)
+    return dish
 }
 
 /**

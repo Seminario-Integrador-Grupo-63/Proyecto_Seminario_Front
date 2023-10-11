@@ -1,4 +1,4 @@
-import styles from './DishOrdering.module.scss';
+// import styles from './DishOrdering.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
@@ -10,12 +10,26 @@ import {Grid} from '@mui/material'
 import { AdderFooter } from '../AdderFooter/AdderFooter';
 
 export const DishOrdering = (props: any) => {
+    const addDish = (totalPrice, units) => {
+        const orderDetails = []
+        for (let i = 0; i < units; i++){
+            orderDetails.push({
+                dish: props.dish,
+                sideDish: null,
+                customer: props.customer,
+                subtotal: props.dish.price
+            })
+        }
+        props.onAdd(orderDetails)
+    }
+
     if(props.dish != null){
         return (<>
             <CustomerContainer>
                 <Header 
                     title={props.dish.name}
-                    goBackEnabled={true}/>
+                    goBackEnabled={true}
+                    onGoBack={props.goBack}/>
                 <Box
                     component="img"
                     sx={{
@@ -45,23 +59,31 @@ export const DishOrdering = (props: any) => {
                         title={'Guarniciones'}
                         sideDishes={props.dish.sideDishes}/>
                 </Grid>
-                <AdderFooter/>
+                <AdderFooter 
+                    dish={props.dish}
+                    onAdd={addDish}
+                    />
             </CustomerContainer>
         </>);
     } else {
         return (<></>)
     }
-
 }
 
 DishOrdering.defaultProps =
 {
-    dish: null
+    dish: null,
+    goBack: function(){},
+    customer: '',
+    onAdd: function(){}
 }
 
 DishOrdering.propTypes = 
 {
-    dish: PropTypes.object
+    dish: PropTypes.object,
+    goBack: PropTypes.func,
+    customer: PropTypes.string,
+    onAdd: PropTypes.func
 }
 /**
 console.log(" ")

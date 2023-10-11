@@ -65,7 +65,6 @@ export const Header = (props: any) => {
                 <Grid container>
                     <Grid 
                         xs={8}
-                        // md={8}
                         item
                         sx={{
                             display: 'flex',

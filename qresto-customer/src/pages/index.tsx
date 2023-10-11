@@ -10,7 +10,7 @@ export default function Home() {
     const router = useRouter()
 
     const onEnterName = (name) => {
-        router.replace('/menucategories')
+        router.replace(`/menucategories?customer=${name}`)
     }
 
     return (<>

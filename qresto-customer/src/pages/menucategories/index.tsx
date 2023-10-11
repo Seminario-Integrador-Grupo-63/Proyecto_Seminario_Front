@@ -1,21 +1,22 @@
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import Link from 'next/link'
 import {useEffect, useState} from 'react'
 import { useRouter } from 'next/router'
+import { useSearchParams} from 'next/navigation'
 import {MenuCategories} from '@/Customer/MenuCategories/MenuCategories'
 import {getCategoriesRequest} from '@/requests'
 
-const inter = Inter({ subsets: ['latin'] })
-
 export default function MenuCategoriesPage() {
     const router = useRouter()
-
+    const searchParams = useSearchParams()
+    const [customer, setCustomer] = useState('')
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
         fetchData()
     }, [])
+
+    useEffect(() => {
+        setCustomer(searchParams.get('customer'))
+    }, [searchParams])
 
     const fetchData = async () => {
         const response = await getCategoriesRequest()
@@ -23,7 +24,13 @@ export default function MenuCategoriesPage() {
     }
 
     const onClickCategory = (category) => {
-        router.replace(`/menudishes?category=${category.id}`)
+        router.replace({
+            pathname: '/menudishes', 
+            query: {
+                customer: customer,
+                category: JSON.stringify(category)
+            }
+        })
     }
 
     return (<>

@@ -8,18 +8,29 @@ import { Box } from '@mui/material';
 export const Adder = (props: any) => {
     const [value, setValue] = useState(props.value || 0)
 
-    const add = () => {
-        setValue(value + 1)
+    const verifyMinValue = (value) => {
+        return value >= props.minValue
     }
 
-    const substractOnlyPositives = () => {
+    const increase = () => {
+        setValue(value + 1)
+        props.increase(value + 1)
+    }
+
+    const decreaseOnlyPositives = () => {
         if (value > 0) {
-            setValue(value - 1);
+            if(verifyMinValue(value - 1)){
+                setValue(value - 1);
+                props.decrease(value - 1)
+            }
         }
     }
 
-    const substract = () => {
-        setValue(value - 1)
+    const decrease = () => {
+        if(verifyMinValue(value - 1)){
+            setValue(value - 1)
+            props.decrease(value -1)
+        }
     }
 
     return (<>
@@ -36,14 +47,14 @@ export const Adder = (props: any) => {
                     fontWeight: 'bold',
                     minWidth: '25px'
                 }}
-                onClick={props.allowNegatives?substract: substractOnlyPositives}>
+                onClick={props.allowNegatives?decrease: decreaseOnlyPositives}>
                 -
             </CustomButton>
             <Typography 
                 sx={{
-                    color: props.color.contrastText,
-                    mr: 1,
-                    ml: 1
+                        color: props.color.contrastText,
+                        mr: 1,
+                        ml: 1
                     }}>
                     {value}
                 </Typography>
@@ -54,7 +65,7 @@ export const Adder = (props: any) => {
                     minWidth: '25px'
                 }}
                 color={props.color}
-                onClick={add}>
+                onClick={increase}>
                 +
             </CustomButton>
         </Box>
@@ -65,14 +76,20 @@ Adder.defaultProps =
 {
     color: null,
     value: 0,
-    allowNegatives: false
+    allowNegatives: false,
+    increase: function(){},
+    decrease: function(){},
+    minValue: 0,
 }
 
 Adder.propTypes = 
 {
     color: PropTypes.object,
     value: PropTypes.number,
-    allowNegatives: PropTypes.bool
+    allowNegatives: PropTypes.bool,
+    increase: PropTypes.func,
+    decrease: PropTypes.func,
+    minValue: PropTypes.number
 
 }
 
