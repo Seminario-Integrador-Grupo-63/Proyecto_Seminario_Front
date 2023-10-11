@@ -1,4 +1,4 @@
-import {styled, Switch, SwitchProps} from "@mui/material";
+import {styled, Switch} from "@mui/material";
 import {theme} from "@/Common/Theme/themes"
 
 

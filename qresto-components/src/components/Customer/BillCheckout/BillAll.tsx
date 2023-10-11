@@ -1,10 +1,6 @@
-import {Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import PropTypes from "prop-types";
-import {BillCheckout} from "@/Customer/BillCheckout/BillCheckout";
 import React from "react";
-import {theme} from "@/Common/Theme/themes";
 
 // Eliminar createData y defaultProps antes de desplegar
 
