@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Grid} from '@mui/material'
-import { Header } from '@/Customer/Header/Header';
+import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { Footer } from '@/Customer/Footer/Footer';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
 import { NameInput } from './NameInput';
@@ -10,7 +10,7 @@ import { NameInput } from './NameInput';
 export const NameInputMain = (props: any) => {
     return (<>
         <CustomerContainer>
-            <Header title=''/>
+            <CustomerHeader title=''/>
             <Grid 
                 container
                 sx={{

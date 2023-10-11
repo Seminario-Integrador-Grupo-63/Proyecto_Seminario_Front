@@ -64,7 +64,7 @@ export const customViewports = {
     width896: {name: "Width 896", styles: { width: "896px", height: "100%"}},
     width900: {name: "Width 900", styles: { width: "900px", height: "100%"}},
     width915: {name: "Width 915", styles: { width: "915px", height: "100%"}},
-    width915: {name: "Width 926", styles: { width: "926px", height: "100%"}},
+    width926: {name: "Width 926", styles: { width: "926px", height: "100%"}},
     width1000: {name: "Width 1000", styles: { width: "1000px", height: "100%"}},
     width1080: {name: "Width 1080", styles: { width: "1080px", height: "100%"}},
     width1100: {name: "Width 1100", styles: { width: "1100px", height: "100%"}},
