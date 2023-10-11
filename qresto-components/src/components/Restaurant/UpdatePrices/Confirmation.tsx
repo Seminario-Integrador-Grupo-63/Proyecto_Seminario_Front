@@ -1,65 +1,62 @@
+// Confirmation.js
 import React from 'react';
-import {
-  Container,
-  Typography,
-  Button,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  TextField,
-  Select,
-  MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  PaperProps,
-  Paper,
-  DialogContentText,
-} from '@mui/material';
+import { Dialog, DialogTitle, DialogActions, Button, Typography } from '@mui/material';
+import { theme } from '@/components/Common/Theme/themes';
 
-
-
-export default function DraggableDialog() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+function Confirmation({ open, onClose }) {
   return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Actualizar
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        //PaperComponent={PaperComponent}
-        aria-labelledby="draggable-dialog-title"
-      >
-        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          Desea Realizar la confirmacion de actualizacion?
-        </DialogTitle>
-        <DialogContent>
-          {/*<DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText>*/}
-        </DialogContent>
-         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Cancel
+    <div
+      style={{
+
+        maxWidth: 200,
+        maxHeight: 100, 
+      }}>
+      <Dialog open={open} onClose={onClose}>
+        <Typography
+          color="white"
+          sx={{
+            backgroundColor: theme.palette.primary.main,
+            textAlign: "center",
+            fontSize: 25,
+            marginTop:5
+          }}
+        >
+          Confirmar
+        </Typography>
+        <Typography variant="h6" gutterBottom align="center" marginTop={2} >
+          Estas seguro de que quieres Confirmar?
+        </Typography>
+        <hr />
+
+        <DialogActions>
+
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={onClose}
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              margin: 1
+            }}
+          >
+            Confirmar
           </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
+
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={onClose}
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              margin: 1
+            }}
+          >
+            Cancelar
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 }
+
+export default Confirmation;

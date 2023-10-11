@@ -15,8 +15,10 @@ import {
   DialogActions,
 } from '@mui/material';
 import Updatelist from './Updatelist';
+import PropTypes from 'prop-types';
+import { theme } from '@/components/Common/Theme/themes';
 
-function UpdatePrices() {
+function UpdatePrices({ categoryOptions, actualizacionOpciones, listaProducto }) {
   const [formData, setFormData] = useState({
     selectedOption: '',
     selectedCategory: '',
@@ -25,17 +27,8 @@ function UpdatePrices() {
   });
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [preciosActualizados, setPreciosActualizados] = useState([]);
 
-  const categoryOptions = ['Categoría 1', 'Categoría 2', 'Categoría 3'];
-  const ActualizacionOpciones = ['Aumentar', 'Disminuir'];
-
-  const handleActualizarPrecios = () => {
-    // Aquí puedes implementar la lógica para actualizar los precios y luego actualizar el estado de "preciosActualizados".
-    // Por ejemplo, puedes hacer una solicitud a un servidor para actualizar los precios y luego establecer los nuevos precios en el estado.
-    // setPreciosActualizados(nuevosPrecios);
-    setIsDialogOpen(false);
-  };
+ 
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
@@ -106,32 +99,34 @@ function UpdatePrices() {
         onChange={(e) => setFormData({ ...formData, selectedActualizacion: e.target.value })}
         style={{ marginBottom: '1rem' }}
       >
-        {ActualizacionOpciones.map((Opc, index) => (
+        {actualizacionOpciones.map((Opc, index) => (
           <MenuItem key={index} value={Opc}>
             {Opc}
           </MenuItem>
         ))}
       </Select>
-
-      <Button variant="outlined" color="primary" onClick={handleUpdateClick}>
-        Actualizar
-      </Button>
+      <div style={{ display: 'flex', marginTop: '10px', justifyContent: 'space-between' }}>
+        <Button
+          type="submit"
+          variant="contained"
+          onClick={handleUpdateClick}
+          sx={{
+            backgroundColor: theme.palette.primary.main,
+          }}>
+          Actualizar
+        </Button>
+      </div>
 
       {/* Ventana flotante */}
       <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-        <DialogTitle>"Listado de Precios Actualizados"</DialogTitle>
-        <Updatelist />
-
-        <DialogActions>
-             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                <Button variant="outlined" color="primary" onClick={handleCloseDialog}>
-                 Cancelar
-                </Button>
-            </div>
-        </DialogActions>
+        <Updatelist open={isDialogOpen} onClose={handleCloseDialog} listaProducto={listaProducto} />
       </Dialog>
     </Container>
   );
 }
+
+UpdatePrices.propTypes = {
+  title: PropTypes.string,
+};
 
 export default UpdatePrices;

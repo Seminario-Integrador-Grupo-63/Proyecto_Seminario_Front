@@ -16,7 +16,24 @@ type Story = StoryObj<typeof UpdatePrices>;
 
 export const Common: Story = {
     render: () =>{
+        const categoryOptions = ['Categoría 1', 'Categoría 2', 'Categoría 3'];
+        const actualizacionOpciones = ['Aumentar', 'Disminuir'];
 
+        function createData(
+            name: string,
+            price: number,
+            
+          ) {
+            return { name, price, };
+          }
+          
+          const rows = [
+            createData('Frozen yoghurt', 159),
+            createData('Ice cream sandwich', 237),
+            createData('Eclair', 262),
+            createData('Cupcake', 305),
+            createData('Gingerbread', 356),
+          ];
         const [open, setOpen] = useState(false);
 
         const handleClickOpen = () => {
@@ -32,6 +49,9 @@ export const Common: Story = {
           
                       
             <UpdatePrices
+            categoryOptions={categoryOptions}
+            actualizacionOpciones={actualizacionOpciones}
+            listaProducto={rows}
             />
         </>);
     } 

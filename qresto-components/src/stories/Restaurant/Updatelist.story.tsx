@@ -20,12 +20,29 @@ export default {
 
 } as Meta<typeof UpdatePrices >;
 
-type Story = StoryObj<typeof Updatelist>;
+type UpdatelistStory = StoryObj<typeof Updatelist>;
 
-export const Common: Story = {
+export const Common: UpdatelistStory = {
     render: () =>{
 
         const [open, setOpen] = useState(false);
+
+        
+function createData(
+    name: string,
+    price: number,
+    
+  ) {
+    return { name, price, };
+  }
+  
+  const rows = [
+    createData('Frozen yoghurt', 159),
+    createData('Ice cream sandwich', 237),
+    createData('Eclair', 262),
+    createData('Cupcake', 305),
+    createData('Gingerbread', 356),
+  ];
 
         const handleClickOpen = () => {
             setOpen(true);
@@ -39,7 +56,11 @@ export const Common: Story = {
         return(<>         
                       
           <div >
-          <UpdatePrices  />
+          <Updatelist 
+          open={handleClickOpen}
+          onClose={handleClose}
+          listaProducto={rows}
+           />
         </div>
         </>);
     } 
