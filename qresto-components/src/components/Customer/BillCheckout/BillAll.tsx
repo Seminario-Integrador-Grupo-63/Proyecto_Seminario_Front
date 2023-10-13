@@ -5,10 +5,10 @@ import React from "react";
 // Eliminar createData y defaultProps antes de desplegar
 
 function createData(
-    product: string,
+    dish: string,
     cost: number,
 ) {
-    return {product, cost };
+    return {dish, cost };
 }
 
 export const BillAll = (props: any) => {
@@ -24,12 +24,12 @@ export const BillAll = (props: any) => {
                 </TableHead>
 
                 <TableBody>
-                    {props.bills.map((row: {product:string, cost:number}) => (
+                    {props.dishes.map((row: {dish:string, cost:number}) => (
                         <TableRow
-                            key={row.product}
+                            key={row.dish}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row">{row.product}</TableCell>
+                            <TableCell component="th" scope="row">{row.dish}</TableCell>
                             <TableCell align="right">{row.cost}</TableCell>
                         </TableRow>
                     ))}
@@ -42,12 +42,12 @@ export const BillAll = (props: any) => {
 
 BillAll.defaultProps =
     {
-        bills: [createData('Cupcake', 3.7),
+        dishes: [createData('Cupcake', 3.7),
                 createData('Donut', 25.0),
                 createData('Eclair', 16.0)]
     }
 
 BillAll.propTypes =
     {
-        bills: PropTypes.array
+        dishes: PropTypes.array
     }
