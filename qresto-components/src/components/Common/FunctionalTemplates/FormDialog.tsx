@@ -56,7 +56,8 @@ FormDialog.defaultProps =
     onClose: function(){},
     title: 'Title',
     children: null,
-    maxWidth: 'md'
+    maxWidth: 'md',
+
 }
 
 FormDialog.propTypes = 

@@ -25,7 +25,11 @@ export default function DishOrderingPage() {
     }, [dish])
 
     const fecthDish = async (id) => {
+        console.log(" ")
+        console.log("DishOrderingPage fetchDish")
+        
         const d = await getDishRequest(id)
+        console.log("d: ", d)
         setDish(d)
     }
 
@@ -39,14 +43,13 @@ export default function DishOrderingPage() {
     }
 
     const addOrderDetails = (orderDetails) => {
-
         
-        router.replace({
-            pathname: '/menudishes',
-            query: {
-                category: JSON.stringify(category)
-            }
-        })
+        // router.replace({
+        //     pathname: '/menudishes',
+        //     query: {
+        //         category: JSON.stringify(category)
+        //     }
+        // })
     }
 
     return (<>
@@ -59,6 +62,6 @@ export default function DishOrderingPage() {
 }
 /**
 console.log(" ")
-console.log("Title")
+console.log("DishOrderingPage")
 console.log(": ", )
 */

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useSearchParams } from 'next/navigation';
 import {useEffect, useState} from 'react'
 import {MenuDishes} from '@/Customer/MenuDishes/MenuDishes'
-import { getCategoryRequest, getDishesByCategoryIdRequest } from '@/requests'
+import { getDishesByCategoryIdRequest } from '@/requests'
 
 export default function MenuDishesPage() {
     const router = useRouter()
@@ -29,6 +29,11 @@ export default function MenuDishesPage() {
     }
 
     const goDishOrdering = (dish) => {
+        console.log(" ")
+        console.log("MenuDishesPages goDishordering")
+        console.log("customer: ", customer)
+        console.log("dish: ", dish)
+        console.log("category: ", category)
         router.replace({
             pathname: '/dishordering', 
             query: {

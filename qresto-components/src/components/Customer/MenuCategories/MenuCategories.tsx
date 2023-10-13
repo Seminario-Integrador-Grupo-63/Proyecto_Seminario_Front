@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
-import {theme} from '@/Common/Theme/themes'
 import { ButtonCategory } from './ButtonCategory';
 import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
+<<<<<<< Updated upstream
 import { categories } from '@/components/Common/FakeData/CategoriesData';
+=======
+import { categories } from '@/Common/FakeData/CategoriesData';
+>>>>>>> Stashed changes
 
 export const MenuCategories = (props: any) => {
 
@@ -33,7 +36,6 @@ export const MenuCategories = (props: any) => {
     return (<>
         <CustomerContainer>
             <CustomerHeader title={'Categoría'}/>
-
             <Grid 
                 sx={{
                     width: '90%',
@@ -44,7 +46,6 @@ export const MenuCategories = (props: any) => {
                 }}>
                 {props.categories.map(category => createCategory(category))}
             </Grid>
-            {/* <CustomerFooter/> */}
         </CustomerContainer>
     </>);
 }

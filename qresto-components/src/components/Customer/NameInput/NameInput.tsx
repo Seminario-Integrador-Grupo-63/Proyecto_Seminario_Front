@@ -23,14 +23,6 @@ export const NameInput = (props: any) => {
     } 
 
     return (<>
-        {/* <ThemeProvider theme={theme}>
-            <Container
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh'
-                }}> */}
             <ThemeProvider theme={theme}>
                 <Box
                     bgcolor="primary.main"
@@ -70,8 +62,6 @@ export const NameInput = (props: any) => {
                     </Button>
                 </Box>
             </ThemeProvider>
-            {/* </Container>
-        </ThemeProvider>*/}
     </>);
         
 }

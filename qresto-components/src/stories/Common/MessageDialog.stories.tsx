@@ -5,7 +5,7 @@ import { Button } from  '@mui/material'
 import {useState} from 'react'
 
 export default {
-    title: "components/Common/FunctionalTemplates/MessageDialog",
+    title: "components/Common/MessageDialog",
     component: MessageDialog ,
     argTypes: {},
     parameters: {

@@ -78,13 +78,13 @@ export const AdderFooter = (props: any) => {
 
 AdderFooter.defaultProps =
 {
-    dish: function(){},
+    dish: null,
     onAdd: function(){}
 }
 
 AdderFooter.propTypes = 
 {
-    dish: PropTypes.func,
+    dish: PropTypes.object,
     onAdd: PropTypes.func
 }
 
