@@ -11,13 +11,14 @@ import {
     ThemeProvider
 } from '@mui/material'
 import {theme} from '@/Common/Theme/themes'
+import { themeMessageDialog } from './Theme/themeMessageDialog';
 
 export const MessageDialog = (props: any) => {
     return (<>
         <div>
             <Dialog
                 fullWidth
-                maxWidth={'md'}
+                maxWidth={props.maxWidth}
                 open={props.open}
                 onClose={props.onClose}
                 aria-labelledby="alert-dialog-title"
@@ -46,10 +47,20 @@ export const MessageDialog = (props: any) => {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        color: ''
+                        textAlign: 'center',
+                        
                     }}>
-                    {props.description}
+                    <Typography 
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: themeMessageDialog.palette.primary.light,
+                            fontSize: 'subtitle2.fontSize'
+                        }}>
+                        {props.description}
+                    </Typography>
                 </DialogContent>
 
                 <DialogActions
@@ -72,16 +83,19 @@ export const MessageDialog = (props: any) => {
                             {props.submitButtonText}
                         </Button>
 
-                        <Button 
-                            sx={{
-                                width: '80%',
-                                margin: '10px 0'
-                            }}
-                            onClick={props.onClose} 
-                            color="primary"
-                            autoFocus>
-                            {props.cancelButtonText}
-                        </Button>
+                        {props.cancelButtonVisible?
+                            <Button 
+                                sx={{
+                                    width: '80%',
+                                    margin: '10px 0'
+                                }}
+                                onClick={props.onClose} 
+                                color="primary"
+                                autoFocus>
+                                {props.cancelButtonText}
+                            </Button>
+                        :
+                            null}
                     </ThemeProvider>
                 </DialogActions>
             </Dialog>
@@ -96,9 +110,10 @@ MessageDialog.defaultProps =
     onClose: function(){},
     title: 'Title',
     description: 'Description',
-    maxWidth: 'sm',
+    maxWidth: 'xs',
     submitButtonText: 'Confirmar',
-    cancelButtonText: 'Cancelar'
+    cancelButtonText: 'Cancelar',
+    cancelButtonVisible: true
 }
 
 MessageDialog.propTypes =
@@ -110,6 +125,7 @@ MessageDialog.propTypes =
     description: PropTypes.string,
     maxWidth: PropTypes.string,
     submitButtonText: PropTypes.string,
+    cancelButtonVisible: PropTypes.bool,
     cancelButtonText: PropTypes.string
 }
 

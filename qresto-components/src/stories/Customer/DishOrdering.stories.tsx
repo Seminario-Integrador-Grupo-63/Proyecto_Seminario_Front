@@ -3,7 +3,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import {widths100} from "@/Stories/viewports";
 import { DishOrdering } from "@/Customer/DishOrdering/DishOrdering";
 import { SideDishSelector } from "@/Customer/DishOrdering/SideDishSelector";
-import { dishes } from "@/components/Common/FakeData/DishesData";
+import { dishes } from "@/Common/FakeData/DishesData";
 
 export default {
     title: "components/Customer/DishOrdering",

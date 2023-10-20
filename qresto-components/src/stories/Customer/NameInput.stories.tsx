@@ -15,8 +15,14 @@ type Story = StoryObj<typeof NameInputMain >;
 export const NameInputScreen: Story = {
     render: () =>{
 
+        const onClick = (name) => {
+            console.log(" ")
+            console.log("onClick")
+            console.log("name: ", name)
+        }
+
         return(<>
-            <NameInputMain/>
+            <NameInputMain onClick={onClick}/>
         </>);
     } 
 };

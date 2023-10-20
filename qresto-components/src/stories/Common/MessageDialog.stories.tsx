@@ -36,6 +36,8 @@ export const MessageDialogMain: Story = {
 
             <MessageDialog 
                 open={open}
+                title={'Se confirmará la orden'}
+                description={'Esta acción puede deshacerse antes de que su orden esté en preparación'}
                 onClose={handleClose}/>
         </>);
     } 

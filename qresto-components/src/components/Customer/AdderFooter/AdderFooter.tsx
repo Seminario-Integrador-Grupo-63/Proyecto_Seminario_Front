@@ -1,4 +1,3 @@
-import styles from './CustomAppBar.module.scss';
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {AppBar} from '@mui/material'
@@ -10,26 +9,50 @@ import { Adder} from '@/Common/Adder'
 
 export const AdderFooter = (props: any) => {
     const [totalPrice, setTotalPrice] = useState(0)
-    const [units, setUnits] = useState(1)
+    const [amount, setAmount] = useState(1)
+    const [sideDishPrice, setSideDishPrice] = useState(0)
 
     useEffect(() => {
-        if(props.dish != null){
+        if(sideDishPrice !== 0){
+            setSideDishPrice(0)
+        }
+    }, [])
+
+    useEffect(() => {
+        if(props.dish !== null){
             setTotalPrice(props.dish.price)
         }
     }, [props.dish])
 
+    useEffect(() => {
+        if(props.sideDish !== null){
+            setSideDishPrice(props.sideDish.extraPrice)
+        } else {
+            if(sideDishPrice !== undefined){
+                setTotalPrice((props.dish.price - sideDishPrice)*amount)
+            }
+            setSideDishPrice(0)
+        }
+    }, [props.sideDish])
+
+    useEffect(() => {
+        if(sideDishPrice !== undefined){
+            setTotalPrice((props.dish.price + sideDishPrice)*amount)
+        }
+    }, [sideDishPrice])
+
     const increaseQuantity = (value) => {
-        setTotalPrice(totalPrice + props.dish.price)
-        setUnits(value)
+        setTotalPrice((props.dish.price + sideDishPrice)*value)
+        setAmount(value)
     }
 
     const decreaseQuantity = (value) => {
-        setTotalPrice(totalPrice - props.dish.price)
-        setUnits(value)
+        setTotalPrice((props.dish.price + sideDishPrice)*value)
+        setAmount(value)
     }
 
     const onAdd = () => {
-        props.onAdd(totalPrice, units)
+        props.onAdd(totalPrice, amount)
     }
 
     return (<>
@@ -56,7 +79,7 @@ export const AdderFooter = (props: any) => {
                             increase={increaseQuantity}
                             decrease={decreaseQuantity}
                             minValue={1}
-                            value={units}/>
+                            value={amount}/>
                     </Grid>
                     <Grid 
                         xs={4}
@@ -79,12 +102,14 @@ export const AdderFooter = (props: any) => {
 AdderFooter.defaultProps =
 {
     dish: null,
+    sideDish: null,
     onAdd: function(){}
 }
 
 AdderFooter.propTypes = 
 {
     dish: PropTypes.object,
+    sideDish: PropTypes.object,
     onAdd: PropTypes.func
 }
 

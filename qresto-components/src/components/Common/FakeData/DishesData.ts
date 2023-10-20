@@ -42,5 +42,15 @@ export const dishes = [
         price: 2500,
         sideDishes: sideDishes,
         image: imageDish3
+    },
+    {
+        id: 3,
+        name: 'Milanesa vegana 2',
+        description: 'Esta es una descripción re larga de la milanesa vegana que explica todos los ingredientes que tiene',
+        preparationTime: 30,
+        category: 2,
+        price: 2500,
+        sideDishes: [],
+        image: imageDish3
     }
 ]

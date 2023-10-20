@@ -10,6 +10,7 @@
         "customer:build": "yarn workspace qresto-customer build",
         "customer:start": "yarn workspace qresto-customer start",
         "customer:dev": "yarn workspace qresto-customer dev",
+        "customer:build-start": "yarn workspace qresto-customer build && yarn workspace qresto-customer start",
         "restaurant:build": "yarn workspace qresto-restaurant build",
         "restaurant:start": "yarn workspace qresto-restaurant start"
     }

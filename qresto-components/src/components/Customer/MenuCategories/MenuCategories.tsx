@@ -4,14 +4,9 @@ import { Grid } from '@mui/material';
 import { ButtonCategory } from './ButtonCategory';
 import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
-<<<<<<< Updated upstream
-import { categories } from '@/components/Common/FakeData/CategoriesData';
-=======
-import { categories } from '@/Common/FakeData/CategoriesData';
->>>>>>> Stashed changes
+import { Footer } from '@/Customer/Footer/Footer';
 
 export const MenuCategories = (props: any) => {
-
     const onClickCategory = (category) => {
         props.onClickCategory(category)
     }
@@ -46,20 +41,34 @@ export const MenuCategories = (props: any) => {
                 }}>
                 {props.categories.map(category => createCategory(category))}
             </Grid>
+            {props.ordersButtonVisible?
+                <Footer 
+                    onClick={props.onClickFooter}
+                    buttonText={'Ver ordenes'}
+                    text={"$" + props.ordersTotal}/>
+            :
+                null
+            }
         </CustomerContainer>
     </>);
 }
 
 MenuCategories.defaultProps =
 {
-    categories: categories,
-    onClickCategory: function(){}
+    categories: [],
+    onClickCategory: function(){},
+    ordersButtonVisible: false,
+    ordersTotal: 0,
+    onClickFooter: function(){}
 }
 
 MenuCategories.propTypes = 
 {
     categories: PropTypes.array,
-    onClickCategory: PropTypes.func
+    onClickCategory: PropTypes.func,
+    ordersButtonVisible: PropTypes.bool,
+    ordersTotal: PropTypes.number,
+    onClickFooter: PropTypes.func
 }
 
 

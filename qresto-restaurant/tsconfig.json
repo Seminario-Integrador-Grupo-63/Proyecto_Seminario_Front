@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@/requests": ["../qresto-components/src/pages/api/requests"],
       "@/Customer/*": ["../qresto-components/src/components/Customer/*"],
       "@/Common/*": ["../qresto-components/src/components/Common/*"],
       "@/Restaurant/*": ["../qresto-components/src/components/Restaurant/*"]

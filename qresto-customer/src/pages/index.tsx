@@ -1,16 +1,41 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import Link from 'next/link'
+import {useState, useEffect} from 'react';
 import { useRouter } from 'next/router'
 import { NameInputMain } from '@/Customer/NameInput/NameInputMain'
-
-const inter = Inter({ subsets: ['latin'] })
+import { postCustomer } from '@/requests'
+import {MessageDialog} from '@/Common/MessageDialog'
+import {tableCode} from '@/Common/FakeData/Tables'
+import { FlowState} from '@/Common/FlowState'
 
 export default function Home() {
     const router = useRouter()
+    const [openRepeatedNameDialog, setOpenRepeatedNameDialog] = useState(false)
+    const [openEmptyNameDialog, setOpenEmptyNameDialog] = useState(false)
+    const flowState: FlowState = {
+        customer: '',
+        orders: {
+            buttonVisible: false,
+            total: 0
+        }
+    }
 
-    const onEnterName = (name) => {
-        router.replace(`/menucategories?customer=${name}`)
+    const onEnterName = async (name) => {
+        if(name === ''){
+            setOpenEmptyNameDialog(true)
+        } else {
+            const result = await postCustomer(name, tableCode)
+            setOpenRepeatedNameDialog(!result)
+            if(result){
+                // router.replace(`/menucategories?customer=${name}`) 
+                flowState.customer = name
+                router.replace({
+                    pathname: "/menucategories",
+                    query: {
+                        flowState: JSON.stringify(flowState)
+                    }
+                })
+            }
+        }
     }
 
     return (<>
@@ -22,6 +47,22 @@ export default function Home() {
         </Head>
         <main>
             <NameInputMain onClick={onEnterName}/>
+            <MessageDialog 
+                open={openRepeatedNameDialog} 
+                title='Nombre repetido'
+                onSubmit={() => setOpenRepeatedNameDialog(false)}
+                submitButtonText={"Aceptar"}
+                cancelButtonVisible={false}
+                description={'El nombre que ingresaste ya lo está usando alguien más en tu mesa. Por favor, cambialo agregando tu apellido, o colocando o agregando algún número o letra'}/>
+        
+            <MessageDialog 
+                open={openEmptyNameDialog} 
+                title='Ingrese un nombre'
+                onSubmit={() => setOpenEmptyNameDialog(false)}
+                cancelButtonVisible={false}
+                submitButtonText={"Aceptar"}
+                description={'Debe ingresar un nombre para poder realizar una orden'}/>
+        
         </main>
     </>)
 }

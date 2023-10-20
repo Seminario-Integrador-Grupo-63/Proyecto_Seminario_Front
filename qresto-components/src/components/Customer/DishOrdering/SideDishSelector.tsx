@@ -61,13 +61,28 @@ export const SideDishSelector = (props: any) => {
     const createCheckbox = (sideDish) => {
 
         return(
-            <FormControlLabel 
-                key={sideDish.id}
-                checked={checkedSideDishes[sideDish.id] || false}
-                onChange={() => handleCheckboxChange(sideDish)}
-                control={<Checkbox />} 
-                disabled={!enableCheckboxConfiguration[sideDish.id]}
-                label={sideDish.name} />
+            <Grid 
+                container
+                key={sideDish.id}>
+                <Grid item xs={6}>
+                    <FormControlLabel 
+                        checked={checkedSideDishes[sideDish.id] || false}
+                        onChange={() => handleCheckboxChange(sideDish)}
+                        control={<Checkbox />} 
+                        disabled={!enableCheckboxConfiguration[sideDish.id]}
+                        label={sideDish.name} />
+                </Grid>
+                <Grid 
+                    item xs={6}
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'row-reverse',
+                        textAlign: 'right',
+                        alignItems: 'center'
+                    }}>
+                    <Typography>${sideDish.extraPrice}</Typography>
+                </Grid>
+            </Grid>
         )
     }
 

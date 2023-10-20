@@ -31,6 +31,7 @@ export const Footer = (props: any) => {
                             props.buttonVisible?
                                 <Button 
                                     variant='text'
+                                    onClick={props.onClick}
                                     sx={{
                                         color: theme.palette.secondary.main
                                     }}>
@@ -76,13 +77,14 @@ Footer.defaultProps =
 {
     text: 'Text',
     buttonText: 'Button',
-    buttonVisible: true
+    buttonVisible: true,
+    onClick: function(){}
 }
 
 Footer.propTypes = 
 {
     text: PropTypes.string,
     buttonText: PropTypes.string,
-    buttonVisible: PropTypes.bool
+    buttonVisible: PropTypes.bool,
+    onClick: PropTypes.func
 }
-

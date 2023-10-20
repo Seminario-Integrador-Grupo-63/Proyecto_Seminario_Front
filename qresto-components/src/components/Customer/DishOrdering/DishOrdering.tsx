@@ -1,5 +1,4 @@
-// import styles from './DishOrdering.module.scss';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
 import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
@@ -14,33 +13,51 @@ import { SideDishSelector } from './SideDishSelector';
 import { AdderFooter } from '../AdderFooter/AdderFooter';
 
 export const DishOrdering = (props: any) => {
-    const [selectedSideDish, setSelectedSideDish] = useState({})
+    const [selectedSideDish, setSelectedSideDish] = useState<any>(null)
     const [observation, setObservation] = useState('')
 
-    const addDish = (totalPrice, units) => {
-        console.log(" ")
-        console.log("totalPrice: ", totalPrice)
-        console.log("units: ", units)
-        console.log("selectedSideDish: ", selectedSideDish)
-        console.log("observation: ", observation)
-        // const orderDetails = []
-        // for (let i = 0; i < units; i++){
-        //     orderDetails.push({
-        //         dish: props.dish,
-        //         sideDish: null,
-        //         customer: props.customer,
-        //         subtotal: props.dish.price
-        //     })
-        // }
-
-        // props.onAdd(orderDetails)
+    const addDish = (subTotal, amount) => {
+        let sideDishId = 0
+        if(selectedSideDish != null) {
+            sideDishId = selectedSideDish.id
+        } else {
+            sideDishId = null
+        }
+        const orderDetail = {
+            dish: props.dish.id,
+            sideDish: sideDishId,
+            observation: observation,
+            ammount: amount,
+            customerName: props.customer,
+            subTotal: subTotal
+        }
+        props.onAdd(orderDetail)
     }
 
+    // const addDish = (subTotal, amount) => {
+    //     let orderDetail = null
+    //     if(selectedSideDish != null) {
+    //         orderDetail = {
+    //             dish: props.dish.id,
+    //             sideDish: selectedSideDish.id,
+    //             observation: observation,
+    //             ammount: amount,
+    //             customerName: props.customer,
+    //             subTotal: subTotal
+    //         }
+    //     } else {
+    //         orderDetail = {
+    //             dish: props.dish.id,
+    //             observation: observation,
+    //             ammount: amount,
+    //             customerName: props.customer,
+    //             subTotal: subTotal
+    //         }
+    //     }
+    //     props.onAdd(orderDetail)
+    // }
+
     const onSelectSideDish = (sideDishId) => {
-        console.log(" ")
-        console.log("onSelectSideDish(sideDishId)")
-        console.log("sideDishId: ", sideDishId)
-        console.log("props.dish: ", props.dish)
         if(sideDishId > -1){
             const index = props.dish.sideDishes.findIndex(sideDish => sideDish.id == sideDishId)
             setSelectedSideDish(props.dish.sideDishes[index])
@@ -81,10 +98,14 @@ export const DishOrdering = (props: any) => {
                         </Typography>
                     </Box>
 
-                    <SideDishSelector 
+                    {props.dish.sideDishes.length > 0?
+                        <SideDishSelector 
                         title={'Guarniciones'}
                         onCheckSideDish={onSelectSideDish}
                         sideDishes={props.dish.sideDishes}/>
+                    :
+                        null
+                    }
 
                     <TextField
                         label={'Observaciones'}
@@ -101,6 +122,7 @@ export const DishOrdering = (props: any) => {
                 </Grid>
                 <AdderFooter 
                     dish={props.dish}
+                    sideDish={selectedSideDish}
                     onAdd={addDish}/>
             </CustomerContainer>
         </>);

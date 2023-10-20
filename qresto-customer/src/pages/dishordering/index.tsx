@@ -2,14 +2,28 @@ import { useRouter } from 'next/router'
 import {DishOrdering} from '@/Customer/DishOrdering/DishOrdering'
 import { useSearchParams} from 'next/navigation'
 import { useEffect, useState} from 'react'
-import { getDishRequest } from '@/requests'
+import { 
+    getDish,
+    postOrderDetail,
+    getOrders
+} from '@/requests'
+import { tableCode} from '@/Common/FakeData/Tables'
+import { FlowState } from '@/Common/FlowState'
+
 
 export default function DishOrderingPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [dish, setDish] = useState(null)
     const [category, setCategory] = useState(null)
-    const [customer, setCustomer] = useState('')
+    // const [customer, setCustomer] = useState('')
+    const [flowState, setFlowState] = useState<FlowState>({
+        customer: '',
+        orders: {
+            buttonVisible: false,
+            total: 0
+        }
+    })
 
     useEffect(() => {
         const dishId = searchParams.get('dishId')
@@ -17,19 +31,12 @@ export default function DishOrderingPage() {
             fecthDish(dishId)
         }
         setCategory(JSON.parse(searchParams.get('category')))
-        setCustomer(searchParams.get('customer'))
+        setFlowState(JSON.parse(searchParams.get('flowState')))
+        // setCustomer(searchParams.get('customer'))
     }, [searchParams])
 
-    useEffect(() => {
-
-    }, [dish])
-
     const fecthDish = async (id) => {
-        console.log(" ")
-        console.log("DishOrderingPage fetchDish")
-        
-        const d = await getDishRequest(id)
-        console.log("d: ", d)
+        const d = await getDish(id)
         setDish(d)
     }
 
@@ -37,24 +44,39 @@ export default function DishOrderingPage() {
         router.replace({
             pathname: '/menudishes',
             query: {
+                flowState: JSON.stringify(flowState),
                 category: JSON.stringify(category)
             }
         })
     }
 
-    const addOrderDetails = (orderDetails) => {
-        
-        // router.replace({
-        //     pathname: '/menudishes',
-        //     query: {
-        //         category: JSON.stringify(category)
-        //     }
-        // })
+    const addOrderDetails = async (orderDetail) => {
+        await postOrderDetail(orderDetail, tableCode)
+        const orders = await getOrders(tableCode)
+        const totalOrders = calculateOrdersTotal(orders)
+        flowState.orders.total = totalOrders
+        flowState.orders.buttonVisible = true
+        router.replace({
+            pathname: '/menucategories',
+            query: {
+                // customer: customer,
+                // ordersButtonVisible: true
+                flowState: JSON.stringify(flowState)
+            }
+        })
+    }
+
+    const calculateOrdersTotal = (orders) => {
+        let total = 0
+        orders.forEach(order => {
+            total += order.total
+        })
+        return total
     }
 
     return (<>
         <DishOrdering
-            customer={customer}
+            customer={flowState.customer}
             dish={dish}
             onAdd={addOrderDetails}
             goBack={goBack}/>

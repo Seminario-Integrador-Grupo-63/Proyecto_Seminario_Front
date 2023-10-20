@@ -1,25 +1,53 @@
-export function buildDish(responseDish, responseCategory){
-    const dish = {
-        id: responseDish.data.dish.id,
-        name: responseDish.data.dish.name,
-        preparationTime: responseDish.data.dish.preparation_time,
-        image: responseDish.data.dish.image,
-        category: {
-            id: responseCategory.data.id,
-            name: responseCategory.data.name,
-            image: responseCategory.data.image
-        },
-        price: parseFloat(responseDish.data.dish.price),
-        sideDishes: []
-    }
+export function buildDish(responseDish){
+    // const dish = {
+    //     ...responseDish.data.dish,
+    //     sideDishes: responseDish.data.options
+    // }
 
-    responseDish.data.options.forEach(sideDish => {
-        dish.sideDishes.push({
-            id: sideDish.side_dish_id,
-            name: sideDish.side_dish_name,
-            description: sideDish.side_dish_description,
-            extraPrice: parseFloat(sideDish.extra_price)
+    const dish = {
+        ...responseDish.data.dish,
+        sideDishes: responseDish.data.options.map(sideDish => {
+            return {
+                id: sideDish.sideDishID,
+                name: sideDish.sideDishName,
+                description: sideDish.sideDishDescription,
+                extraPrice: parseFloat(sideDish.extraPrice)
+            }
         })
-    })
+    }
     return dish
+}
+
+export function buildOrders(response){
+    console.log(" ")
+    console.log("buildOrders(response)")
+    console.log("response: ", response)
+    const orders = response.data.map(order => {
+        return {
+            id: order.id,
+            confirmedCustomers: order.confirmedCustomera,
+            totalCustomers: order.totalCustomers,
+            createdAtDate: order.CreatedAtDate,
+            createdAtTime: order.CreatedAtTime,
+            state: order.state,
+            total: order.total,
+            customerOrderDetail: order.customerOrderDetail.map(customerOrderDetail => {
+                return {
+                    ...customerOrderDetail,
+                    orderDetails: customerOrderDetail.orderDetails.map(orderDetail => {
+                        return {
+                            amount: orderDetail.ammount,
+                            dish: orderDetail.dish,
+                            observation: orderDetail.observation,
+                            sideDish: orderDetail.sideDish,
+                            subTotal: orderDetail.subTotal
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+    console.log("orders: ", orders)
+    return orders
 }
