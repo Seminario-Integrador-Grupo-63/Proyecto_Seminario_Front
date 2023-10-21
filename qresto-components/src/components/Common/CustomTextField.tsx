@@ -1,5 +1,4 @@
-import styles from './CustomTextField.module.scss';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '@mui/material'
 
@@ -21,8 +20,11 @@ export const CustomTextField = (props: any) => {
     }
     const onChange = (event: any) => {
         setInput(event.target.value)
-        props.onChange(input)
     }
+
+    useEffect(() => {
+        props.onChange(input)
+    }, [input])
 
     if(props.color !== null){
         style.labelColor = props.color.dark

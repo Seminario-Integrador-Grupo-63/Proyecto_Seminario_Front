@@ -1,9 +1,9 @@
-import styles from './CustomAppBar.module.scss';
+// import styles from './CustomerHeader.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {AppBar} from '@mui/material'
 import { Toolbar, Typography } from '@mui/material';
-import {theme} from '@/components/Common/Theme/themes'
+import {theme} from '@/Common/Theme/themes'
 import { LogoWitch } from '@/Common/Logos/LogoWitch/LogoWitch';
 import { LogoQResto } from '@/Common/Logos/LogoQResto/LogoQResto';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -18,7 +18,8 @@ export const CustomerHeader = (props: any) => {
             <IconButton
                 sx={{
                     marginRight: '20px'
-                }}>
+                }}
+                onClick={props.onGoBack}>
                 <ArrowBackIcon 
                     fontSize='large'
                     sx={{
@@ -31,9 +32,8 @@ export const CustomerHeader = (props: any) => {
     const enableSearch = () => {
         return(
             <IconButton
-                sx={{
-                    marginRight: '20px'
-                }}>
+                sx={{marginRight: '20px'}}
+                onClick={props.onGoBack}>
                 <SearchIcon 
                     fontSize='large'
                     sx={{
@@ -65,7 +65,6 @@ export const CustomerHeader = (props: any) => {
                 <Grid container>
                     <Grid 
                         xs={8}
-                        // md={8}
                         item
                         sx={{
                             display: 'flex',
@@ -92,6 +91,7 @@ export const CustomerHeader = (props: any) => {
                     </Grid>
                 </Grid>
             </Toolbar>
+            {props.children}
         </AppBar>
     </>);
 }
@@ -100,13 +100,17 @@ CustomerHeader.defaultProps =
 {
     goBackEnabled: false,
     searchEnabled: false,
-    title: 'Title'
+    title: 'Title',
+    children: null,
+    onGoBack: function(){}
 }
 
-CustomerHeader.propTypes = 
+CustomerHeader.propTypes =
 {
     goBackEnabled: PropTypes.bool,
     searchEnabled: PropTypes.bool,
-    title: PropTypes.string
+    title: PropTypes.string,
+    children: PropTypes.node,
+    onGoBack: PropTypes.func
 }
 

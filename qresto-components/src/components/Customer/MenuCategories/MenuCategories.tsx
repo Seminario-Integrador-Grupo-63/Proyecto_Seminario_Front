@@ -1,17 +1,12 @@
-import styles from './MenuCategories.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container } from '@mui/material';
 import { Grid } from '@mui/material';
-import {theme} from '@/components/Common/Theme/themes'
 import { ButtonCategory } from './ButtonCategory';
 import { CustomerHeader } from '@/Customer/CustomerHeader/CustomerHeader';
 import { CustomerContainer } from '@/Customer/CustomerContainer/CustomerContainer';
-import { categories } from '@/components/Common/FakeData/CategoriesData';
-import { CustomerFooter } from '@/Customer/CustomerFooter/CustomerFooter';
+import { Footer } from '@/Customer/Footer/Footer';
 
 export const MenuCategories = (props: any) => {
-
     const onClickCategory = (category) => {
         props.onClickCategory(category)
     }
@@ -36,7 +31,6 @@ export const MenuCategories = (props: any) => {
     return (<>
         <CustomerContainer>
             <CustomerHeader title={'Categoría'}/>
-
             <Grid 
                 sx={{
                     width: '90%',
@@ -47,21 +41,34 @@ export const MenuCategories = (props: any) => {
                 }}>
                 {props.categories.map(category => createCategory(category))}
             </Grid>
-            {/* <CustomerFooter/> */}
+            {props.ordersButtonVisible?
+                <Footer 
+                    onClick={props.onClickFooter}
+                    buttonText={'Ver ordenes'}
+                    text={"$" + props.ordersTotal}/>
+            :
+                null
+            }
         </CustomerContainer>
     </>);
 }
 
 MenuCategories.defaultProps =
 {
-    categories: categories,
-    onClickCategory: function(){}
+    categories: [],
+    onClickCategory: function(){},
+    ordersButtonVisible: false,
+    ordersTotal: 0,
+    onClickFooter: function(){}
 }
 
 MenuCategories.propTypes = 
 {
     categories: PropTypes.array,
-    onClickCategory: PropTypes.func
+    onClickCategory: PropTypes.func,
+    ordersButtonVisible: PropTypes.bool,
+    ordersTotal: PropTypes.number,
+    onClickFooter: PropTypes.func
 }
 
 

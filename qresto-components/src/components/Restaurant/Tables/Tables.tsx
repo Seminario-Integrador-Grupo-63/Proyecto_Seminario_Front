@@ -1,0 +1,38 @@
+import styles from './Tables.module.scss';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Layout } from '@/Restaurant/Layout/Layout';
+import { Container } from '@mui/material';
+
+export const Tables = (props: any) => {
+    return (<>
+        <Layout
+            title={'Mesas'}
+            onOrders={props.onOrders}
+            onFoodMenu={props.onFoodMenu}
+            onTables={props.onTables}
+            onUsers={props.onUsers}>
+            <Container>
+
+            </Container>
+        </Layout>
+    </>);
+}
+
+Tables.defaultProps =
+{
+    onOrders: function(){},
+    onTables:  function(){},
+    onFoodMenu:  function(){},
+    onUsers:  function(){},
+}
+
+Tables.propTypes = 
+{
+    onOrders: PropTypes.func,
+    onTables: PropTypes.func,
+    onFoodMenu: PropTypes.func,
+    onUsers: PropTypes.func,
+}
+
+

@@ -1,14 +1,60 @@
-import styles from './CustomAppBar.module.scss';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {AppBar} from '@mui/material'
 import { Toolbar } from '@mui/material';
-import {theme, themeButton} from '@/components/Common/Theme/themes'
+import {theme, themeButton} from '@/Common/Theme/themes'
 import { Grid } from '@mui/material'
 import {AddButton} from './AddButton'
 import { Adder} from '@/Common/Adder'
 
 export const AdderFooter = (props: any) => {
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [amount, setAmount] = useState(1)
+    const [sideDishPrice, setSideDishPrice] = useState(0)
+
+    useEffect(() => {
+        if(sideDishPrice !== 0){
+            setSideDishPrice(0)
+        }
+    }, [])
+
+    useEffect(() => {
+        if(props.dish !== null){
+            setTotalPrice(props.dish.price)
+        }
+    }, [props.dish])
+
+    useEffect(() => {
+        if(props.sideDish !== null){
+            setSideDishPrice(props.sideDish.extraPrice)
+        } else {
+            if(sideDishPrice !== undefined){
+                setTotalPrice((props.dish.price - sideDishPrice)*amount)
+            }
+            setSideDishPrice(0)
+        }
+    }, [props.sideDish])
+
+    useEffect(() => {
+        if(sideDishPrice !== undefined){
+            setTotalPrice((props.dish.price + sideDishPrice)*amount)
+        }
+    }, [sideDishPrice])
+
+    const increaseQuantity = (value) => {
+        setTotalPrice((props.dish.price + sideDishPrice)*value)
+        setAmount(value)
+    }
+
+    const decreaseQuantity = (value) => {
+        setTotalPrice((props.dish.price + sideDishPrice)*value)
+        setAmount(value)
+    }
+
+    const onAdd = () => {
+        props.onAdd(totalPrice, amount)
+    }
+
     return (<>
         <AppBar 
             position="sticky"
@@ -30,7 +76,10 @@ export const AdderFooter = (props: any) => {
                         }}>
                         <Adder 
                             color={themeButton.palette.primary}
-                            value={1}/>
+                            increase={increaseQuantity}
+                            decrease={decreaseQuantity}
+                            minValue={1}
+                            value={amount}/>
                     </Grid>
                     <Grid 
                         xs={4}
@@ -40,6 +89,8 @@ export const AdderFooter = (props: any) => {
                             flexDirection: 'row-reverse'
                         }}>
                         <AddButton
+                            price={totalPrice}
+                            onClick={onAdd}
                             title={'Agregar'}/>
                     </Grid>
                 </Grid>
@@ -50,15 +101,15 @@ export const AdderFooter = (props: any) => {
 
 AdderFooter.defaultProps =
 {
-    goBackEnabled: false,
-    searchEnabled: false,
-    title: 'Title'
+    dish: null,
+    sideDish: null,
+    onAdd: function(){}
 }
 
 AdderFooter.propTypes = 
 {
-    goBackEnabled: PropTypes.bool,
-    searchEnabled: PropTypes.bool,
-    title: PropTypes.string
+    dish: PropTypes.object,
+    sideDish: PropTypes.object,
+    onAdd: PropTypes.func
 }
 

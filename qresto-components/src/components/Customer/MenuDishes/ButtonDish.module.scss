@@ -1,16 +1,16 @@
-
 .container {
     display: flex;
     flex-direction: row;
     border-radius: 15px;
-    height: 13vh;
+    height: fit-content;
     width: 95%;
     box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, 0.2);
     transition: transform 0.08s ease-in-out;
 }
 
-.container:active {
+.container.active {
     transform: scale(1.03);
+    transition: transform 0.05s ease-in-out;
 }
 
 .imageDish{

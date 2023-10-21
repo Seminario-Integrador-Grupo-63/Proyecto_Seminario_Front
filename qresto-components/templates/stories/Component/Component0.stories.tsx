@@ -10,8 +10,6 @@ export default {
         viewport: {viewports: widths100},
         layout: 'fullscreen'
     }
-
-
 } as Meta<typeof Component >;
 
 type Story = StoryObj<typeof Component>;

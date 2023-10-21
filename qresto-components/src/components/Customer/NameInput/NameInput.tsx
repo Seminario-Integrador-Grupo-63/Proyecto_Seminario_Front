@@ -1,13 +1,10 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import styles from './NameInput.module.css'
-import {Container} from '@mui/material'
 import { Box } from '@mui/material'
-import { TextField } from '@mui/material'
 import { Typography } from '@mui/material'
 import { ThemeProvider } from '@mui/material'
-import { theme } from '@/components/Common/Theme/themes';
+import { theme } from '@/Common/Theme/themes';
 import { CustomTextField } from '@/Common/CustomTextField';
 import {Button} from '@mui/material'
 
@@ -24,53 +21,45 @@ export const NameInput = (props: any) => {
 
     return (<>
         <ThemeProvider theme={theme}>
-            <Container
+            <Box
+                bgcolor="primary.main"
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: '100vh'
+                    flexDirection: 'column',
+
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                    paddingTop: 2,
+                    paddingBottom: 2,
+                    borderRadius: 3,
+                    boxShadow: 3,
                 }}>
-                <Box
-                    bgcolor="primary.main"
+                <Typography 
+                    color="secondary.main">
+                    Ingrese su nombre
+                </Typography>
+
+                <CustomTextField 
+                    label={'Nombre'}
+                    color={theme.palette.secondary}
+                    value={input}
+                    onChange={onChange}/> 
+
+                <Button 
+                    variant="contained"
+                    color="secondary"
+                    onClick={onClick}
                     sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-
-                        paddingLeft: 5,
-                        paddingRight: 5,
-                        paddingTop: 2,
-                        paddingBottom: 2,
-                        borderRadius: 3,
-                        boxShadow: 3
+                        marginTop: '10px',
+                        marginBottom: '10px'
                     }}>
-                    <Typography 
-                        color="secondary.main">
-                        Ingrese su nombre
-                    </Typography>
-
-                    <CustomTextField 
-                        color={theme.palette.secondary}
-                        value={input}
-                        onChange={onChange}/> 
-
-                    <Button 
-                        variant="contained"
-                        color="secondary"
-                        onClick={onClick}
-                        sx={{
-                            marginTop: '10px',
-                            marginBottom: '10px'
-                        }}>
-                        Ingresar
-                    </Button>
-                </Box>
-            </Container>
+                    Ingresar
+                </Button>
+            </Box>
         </ThemeProvider>
     </>);
-        
 }
 
 NameInput.defaultProps =
