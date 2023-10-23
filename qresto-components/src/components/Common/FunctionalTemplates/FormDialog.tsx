@@ -15,7 +15,7 @@ export const FormDialog = (props: any) => {
         <div>
             <Dialog
                 fullWidth
-                maxWidth={'md'}
+                maxWidth={props.maxWidth}
                 open={props.open}
                 onClose={props.onClose}
                 aria-labelledby="alert-dialog-title"
