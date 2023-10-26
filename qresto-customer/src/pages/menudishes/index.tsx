@@ -10,7 +10,6 @@ export default function MenuDishesPage() {
     const [dishes, setDishes] = useState([])
     const searchParams = useSearchParams()
     const [category, setCategory] = useState(null)
-    // const [customer, setCustomer] = useState('')
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
         orders: {
@@ -19,10 +18,8 @@ export default function MenuDishesPage() {
         }
     })
 
-
     useEffect(() => {
         setCategory(JSON.parse(searchParams.get('category')))
-        // setCustomer(searchParams.get('customer'))
         setFlowState(JSON.parse(searchParams.get('flowState')))
 
     }, [searchParams])
@@ -37,8 +34,6 @@ export default function MenuDishesPage() {
         router.replace({
             pathname: '/menucategories',
             query: {
-                // ordersButtonVisible: true,
-                // customer: customer
                 flowState: JSON.stringify(flowState)
             }
         })
@@ -48,7 +43,6 @@ export default function MenuDishesPage() {
         router.replace({
             pathname: '/dishordering', 
             query: {
-                // customer: customer,
                 flowState: JSON.stringify(flowState),
                 dishId: dish.id,
                 category: JSON.stringify(category)
@@ -71,8 +65,3 @@ export default function MenuDishesPage() {
         :null}
     </>)
 }
-/**
-console.log(" ")
-console.log("MenuDishesPages")
-console.log(": ", )
-*/

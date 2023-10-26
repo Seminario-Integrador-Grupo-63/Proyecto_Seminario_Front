@@ -31,12 +31,13 @@ export const MessageDialog = (props: any) => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        marginTop: "50px"
+                        marginTop: "50px",
+                        textAlign: 'center'
                     }}>
                     <Typography
                         sx={{
                             fontSize: 'h5.fontSize',
-                            fontWeight: 'bold'
+                            fontWeight: 'bold',
                         }}>
                          {props.title}
                     </Typography>

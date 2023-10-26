@@ -7,97 +7,91 @@ import { CustomerOrderDetail } from './CustomerOrderDetail';
 import { Footer } from '@/Customer/Footer/Footer';
 import { OrderState } from '@/Customer/OrderState/OrderState';
 import { Grid } from '@mui/material';
+import { MessageDialog } from '@/Common/MessageDialog';
+import _ from 'lodash';
 
 export const ListOrderDetails = (props: any) => {
-    const [customers, setCustomers] = useState([])
+    const [openConfirm, setOpenConfirm] = useState(false)
 
-    useEffect(() => {
-        setCustomerDishes()
-    }, [])
-
-    const setCustomerDishes = () => {
-        let customersAux = {}
-        // Armar un objecto JSON de la forma 
-        // customersAux = {
-        //      'Nombre1': {...},
-        //      'Nombre2': {...}
-        // }
-        // para mapear los clientes de los distintos objectos OrderDetail
-        props.order.orderDetails.map(orderDetail => {
-            if (!customersAux.hasOwnProperty(orderDetail.customer)) { // Si todavía no está este customer en el json
-                customersAux[orderDetail.customer] = { // Agregar el nuevo customer (el nombre funciona como key)
-                    name: orderDetail.customer,
-                    dishes: [{
-                        dish: orderDetail.dish,
-                        sideDish: orderDetail.sideDish,
-                        subtotal: orderDetail.subtotal
-                    }],
-                    total: orderDetail.subtotal
-                }
-            } else { // Si ya se colocó el customer en el objeto json
-                customersAux[orderDetail.customer].dishes.push({
-                    dish: orderDetail.dish,
-                    sideDish: orderDetail.sideDish,
-                    subtotal: orderDetail.subtotal
-                })
-                customersAux[orderDetail.customer].total += orderDetail.subtotal
-            }
-        })
-
-        // Armar el array que finalmente será iterado
-        let customers = []
-        for(let customer in customersAux){
-            customers.push(customersAux[customer])
+    const createOrderDetails = (customerOrderDetail, index) => {
+        let currentCustomer = false
+        if(customerOrderDetail.customer === props.customer){
+            currentCustomer = true
         }
 
-        setCustomers(customers)
-    }
-
-    const createOrderDetails = (customer, index) => {
         return(
             <CustomerOrderDetail 
                 key={index}
-                customer={customer}/>
+                currentCustomer={currentCustomer}
+                onRemove={props.onRemoveOrderDetail}
+                customerOrderDetail={customerOrderDetail}/>
         )
     }
 
+    const confirmOrder = () => {
+        props.onConfirmOrder(props.order)
+    }
+
+    const sortCustomers = (customerOrderDetails) => {
+        for(let i in customerOrderDetails){
+            if(customerOrderDetails[i].customer === props.customer){
+                const customerOrderDetail = customerOrderDetails[i]
+                customerOrderDetails.splice(i, 1)
+                customerOrderDetails.unshift(customerOrderDetail)
+                return customerOrderDetails
+            } else {
+
+            }
+        }
+        return customerOrderDetails
+    }
+    
     if(props.order != null){
         return (<>
             <CustomerContainer>
                 <CustomerHeader
                     title={'Detalles de la orden'}
+                    onGoBack={props.onGoBack}
                     goBackEnabled={true}>
-                    <OrderState/> 
+                    <OrderState state={props.order.state}/> 
                 </CustomerHeader>
-                <Grid>
-                    {customers.map((customer, index) => createOrderDetails(customer, index))}   
-
+                <Grid sx={{width: '100%'}}>
+                    {sortCustomers(props.order.customerOrderDetail).map((customerOrderDetail, index) => createOrderDetails(customerOrderDetail, index))}
                 </Grid>
 
                 <Footer
                     text={'Total: $' + props.order.total}
-                    buttonVisible={false}/>
+                    buttonText='Confirmar Orden'
+                    onClick={() => setOpenConfirm(true)}
+                    buttonVisible={true}/>
             </CustomerContainer>
+
+            <MessageDialog
+                open={openConfirm}
+                title={'Se confirmará la orden'}
+                description={'Esta acción puede deshacerse antes de que su orden esté en preparación'}
+                onClose={() => setOpenConfirm(false)}
+                onSubmit={confirmOrder}/>
         </>);
     } else {
         return (<></>);
     }
-   
 }
 
 ListOrderDetails.defaultProps =
 {
-    orderDetails: [],
-    order: null
+    order: null,
+    onGoBack: function(){},
+    onRemoveOrderDetail: function(){},
+    onConfirmOrder: function(){},
+    customer: ''
 }
 
 ListOrderDetails.propTypes = 
 {
-    orderDetails: PropTypes.array,
-    order: PropTypes.object
+    order: PropTypes.object,
+    onGoBack: PropTypes.func,
+    onRemoveOrderDetail: PropTypes.func,
+    onConfirmOrder: PropTypes.func,
+    customer: PropTypes.string
 }
-/**
-console.log(" ")
-console.log("ListOrderDetails")
-console.log(": ", )
-*/

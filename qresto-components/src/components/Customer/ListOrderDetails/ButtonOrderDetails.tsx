@@ -1,11 +1,15 @@
 import styles from './ButtonOrderDetails.module.scss';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {theme} from '@/Common/Theme/themes'
-import {Typography } from '@mui/material';
-import {Grid} from '@mui/material';
+import {
+    Typography,
+    Grid,
+    IconButton,
+} from '@mui/material';
 import { TruncatedText } from '@/Common/TruncatedText/TruncatedText';
 import { useNumCharacters } from '@/Common/TruncatedText/utils';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const ButtonOrderDetails = (props: any) => {
     const fixedHeight = '18vh'
@@ -18,6 +22,10 @@ export const ButtonOrderDetails = (props: any) => {
         setTimeout(() => {
             setIsActive(false);
         }, 100); 
+    }
+
+    const onRemove = () => {
+        props.onRemove(props.dish, props.sideDish)
     }
 
     const truncatedTextClick = (isUnfolded) => {
@@ -78,6 +86,7 @@ export const ButtonOrderDetails = (props: any) => {
     }
 
     const displaySideDish = () => {
+
         return(
             <Grid
                 container
@@ -134,19 +143,11 @@ export const ButtonOrderDetails = (props: any) => {
                             typography: {lg: 'h5', md: 'h6', sm:'h6', xs: 'subtitle1'},
                             textAlign: 'right'
                         }}>
-                        {'$' + calculateTotal()}
+                        {'$' + props.orderDetail.subTotal}
                     </Typography>
                 </Grid>
             </Grid>
         )
-    }
-
-    const calculateTotal = () => {
-        let total = props.dish.price
-        if(props.sideDish != null) {
-            total += props.sideDish.extraPrice
-        }
-        return total
     }
 
     if(props.dish !== null) {
@@ -178,6 +179,20 @@ export const ButtonOrderDetails = (props: any) => {
                     {props.sideDish != null?displaySideDish():null}
                     {displayTotalPrice()}
                 </Grid>
+                {props.removeButtonVisible?
+                    <Grid>
+                        <IconButton
+                        onClick={onRemove}>
+                            <CloseIcon 
+                                fontSize='small'
+                                sx={{
+                                    color: theme.palette.secondary.main,
+                                }}/>
+                        </IconButton>
+                    </Grid>
+                :
+                    null
+                }
             </div>
         </>);
     } else {
@@ -191,7 +206,10 @@ ButtonOrderDetails.defaultProps =
     sideDish: null,
     onClick: function(){},
     displayTotalPrice: true,
-    totalPricePosition: 'left'
+    totalPricePosition: 'left',
+    onRemove: function(){},
+    removeButtonVisible: false,
+    orderDetail: null
 }
 
 ButtonOrderDetails.propTypes = 
@@ -200,12 +218,9 @@ ButtonOrderDetails.propTypes =
     sideDish: PropTypes.object,
     onClick: PropTypes.func,
     displayTotalPrice: PropTypes.bool,
-    totalPricePosition: PropTypes.oneOf(['right', 'left'])
+    totalPricePosition: PropTypes.oneOf(['right', 'left']),
+    onRemove: PropTypes.func,
+    removeButtonVisible: PropTypes.bool,
+    orderDetail: PropTypes.object
 }
-
-/**
-console.log(" ")
-console.log("ButtonDish")
-console.log(": ", )
-*/
 

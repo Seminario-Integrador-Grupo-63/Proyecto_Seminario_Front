@@ -43,12 +43,7 @@ export async function getDishesByCategoryId(categoryId){
 }
 
 export async function getOrders(tableCode){
-    // const response = await axios.get<any>(url + '/order', { httpsAgent: new https.Agent({ rejectUnauthorized: false }) })
-    // return response
-    console.log(" ")
-    console.log("getOrders(tableCode)")
     const response = await axios.get(url + `/table/${tableCode}/orders/`)
-    console.log("response: ", response)
     return buildOrders(response)
 }
 
@@ -59,22 +54,14 @@ export async function getDish(id){
 }
 
 export async function postOrderDetail(orderDetail, tableCode){
-    console.log(' ')
-    console.log('requests postOrderDetail(orderDetail, tableCode)')
-    console.log('orderDetail: ', orderDetail)
     const response = await axios.post<any>(url + `/order/detail/${tableCode}`, orderDetail)
-    console.log('response: ', response)
 }
 
 // ---------------------------------------------------------------------------------------------------
-// export { getCategoriesRequest } from "@/Common/FakeData/FakeRequests";
-// export { getCategoryRequest } from "@/Common/FakeData/FakeRequests";
-// export { getDishesByCategoryIdRequest } from "@/Common/FakeData/FakeRequests";
-// export { getOrdersRequest } from "@/Common/FakeData/FakeRequests";
-// export { getDishRequest } from "@/Common/FakeData/FakeRequests";
-
-/**
-console.log(" ")
-console.log("requests")
-console.log(": ", )
-*/
+// export { getCategories } from "@/Common/FakeData/FakeRequests";
+// export { getCategory } from "@/Common/FakeData/FakeRequests";
+// export { postOrderDetail } from '@/Common/FakeData/FakeRequests'; 
+// export { postCustomer } from '@/Common/FakeData/FakeRequests';
+// export { getDishesByCategoryId } from "@/Common/FakeData/FakeRequests";
+// export { getOrders } from "@/Common/FakeData/FakeRequests";
+// export { getDish } from "@/Common/FakeData/FakeRequests";
