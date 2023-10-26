@@ -42,8 +42,12 @@ export default function MenuCategoriesPage() {
     }
 
     const onClickShowOrders = () => {
-        console.log("onClickShowOrders()")
-
+        router.replace({
+            pathname: '/listorders', 
+            query: {
+                flowState: JSON.stringify(flowState)
+            }
+        })
     }
 
     return (<>

@@ -34,29 +34,6 @@ export const DishOrdering = (props: any) => {
         props.onAdd(orderDetail)
     }
 
-    // const addDish = (subTotal, amount) => {
-    //     let orderDetail = null
-    //     if(selectedSideDish != null) {
-    //         orderDetail = {
-    //             dish: props.dish.id,
-    //             sideDish: selectedSideDish.id,
-    //             observation: observation,
-    //             ammount: amount,
-    //             customerName: props.customer,
-    //             subTotal: subTotal
-    //         }
-    //     } else {
-    //         orderDetail = {
-    //             dish: props.dish.id,
-    //             observation: observation,
-    //             ammount: amount,
-    //             customerName: props.customer,
-    //             subTotal: subTotal
-    //         }
-    //     }
-    //     props.onAdd(orderDetail)
-    // }
-
     const onSelectSideDish = (sideDishId) => {
         if(sideDishId > -1){
             const index = props.dish.sideDishes.findIndex(sideDish => sideDish.id == sideDishId)
@@ -146,9 +123,4 @@ DishOrdering.propTypes =
     customer: PropTypes.string,
     onAdd: PropTypes.func
 }
-/**
-console.log(" ")
-console.log("DishOrdering")
-console.log(": ", )
-*/
 

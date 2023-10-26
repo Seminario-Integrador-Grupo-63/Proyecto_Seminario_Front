@@ -1,7 +1,12 @@
 
+import { ordersDTO } from "./OrdersData"
+
 class FakeBackend{
     private delayTime: number = 500
     private orders: Array<any> = []
+    private table: any = {
+        customer: ''
+    }
     constructor(){}
 
     private async delay(time) {
@@ -10,7 +15,7 @@ class FakeBackend{
         })
     }
     
-    public async sendOrderDetail(orderDetail){
+    public async postOrderDetail(orderDetail, tableCode){
         await this.delay(this.delayTime)
         const lastId = this.getOrderLastId() 
         const order = {
@@ -35,6 +40,17 @@ class FakeBackend{
         }
         return lastId
     }
+
+    public getOrders(tableCode){
+        this.delay(this.delayTime)
+        return ordersDTO
+    }
+
+    public postCustomer(customer, tableCode){
+        this.table.customer = customer
+        return true
+    }
+
 }
 
 export default FakeBackend

@@ -1,0 +1,53 @@
+@mixin responsive-top($top){
+    top: $top;
+
+    $breakpoints: (
+        600px: 0.9,
+        800px: 1,
+        1000px: 1.05,
+        1200px: 1.1,
+        1400px: 1.15,
+        1600px: 1.18,
+        1800px: 1.2,
+        2000px: 1.22,
+        2200px: 1.25,
+        2400px: 1.26,
+    );
+
+    @each $bp, $multiplier in $breakpoints {
+        @media screen and (min-width: $bp) and (max-width: #{($bp + 199px)}) {
+            top: $top * $multiplier;
+        }
+
+        @media screen and (min-width: 2400px){
+            top: $top * $multiplier;
+        }
+    }
+}
+
+@mixin responsive-width($width){
+    width: $width;
+
+    $breakpoints: (
+        600px: 1.1,
+        800px: 1.15,
+        1000px: 1.16,
+        1200px: 1.1,
+        1400px: 1.12,
+        1600px: 1.13,
+        1800px: 1.13,
+        2000px: 1.13,
+        2200px: 1.13,
+        2400px: 1.13,
+    );
+
+    @each $bp, $multiplier in $breakpoints {
+        @media screen and (min-width: $bp) and (max-width: #{($bp + 199px)}) {
+            width: $width * $multiplier;
+        }
+
+        @media screen and (min-width: 2400px){
+            width: $width * $multiplier;
+        }
+    }
+}
