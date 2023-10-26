@@ -37,6 +37,9 @@ export const FormDialogMain: Story = {
 
             <FormDialog 
                 open={open}
+                submitText="aceptar"
+                action1Text="sgdf"
+                action1Visible={true}
                 onClose={handleClose}/>
         </>);
     } 

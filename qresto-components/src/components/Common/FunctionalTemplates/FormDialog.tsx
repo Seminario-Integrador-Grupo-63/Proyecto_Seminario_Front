@@ -1,4 +1,3 @@
-// import styles from './FormDialog.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -37,11 +36,18 @@ export const FormDialog = (props: any) => {
                 </DialogContent>
 
                 <DialogActions>
+                    {props.action1Visible?
+                        <Button onClick={props.onaction1}>
+                            {props.action1Text}
+                        </Button>
+                    :
+                        null
+                    }
                     <Button onClick={props.onSubmit}>
-                        Submit
+                        {props.submitText}
                     </Button>
                     <Button onClick={props.onClose} autoFocus>
-                        Close
+                        {props.closeText}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -53,21 +59,28 @@ FormDialog.defaultProps =
 {
     open: false,
     onSubmit: function(){},
+    submitText: 'Submit',
     onClose: function(){},
+    closeText: 'Close',
     title: 'Title',
     children: null,
     maxWidth: 'md',
-
+    action1Visible: false,
+    action1Text: 'Action 1',
+    onAction1: function(){}
 }
 
 FormDialog.propTypes = 
 {
     open: PropTypes.bool,
     onSubmit: PropTypes.func,
+    submitText: PropTypes.string,
     onClose: PropTypes.func,
+    closeText: PropTypes.string,
     title: PropTypes.string,
     children: PropTypes.node,
-    maxWidth: PropTypes.string
+    maxWidth: PropTypes.string,
+    action1Visible: PropTypes.bool,
+    action1Text: PropTypes.string,
+    onAction1: PropTypes.func
 }
-
-
