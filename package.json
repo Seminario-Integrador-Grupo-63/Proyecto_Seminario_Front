@@ -13,11 +13,5 @@
         "customer:build-start": "yarn workspace qresto-customer build && yarn workspace qresto-customer start",
         "restaurant:build": "yarn workspace qresto-restaurant build",
         "restaurant:start": "yarn workspace qresto-restaurant start"
-    },
-    "dependencies": {
-        "@mui/icons-material": "^5.14.13",
-        "@mui/material": "^5.14.13",
-        "@mui/x-data-grid-generator": "^6.16.0",
-        "@mui/x-data-grid-pro": "^6.16.0"
     }
 }
