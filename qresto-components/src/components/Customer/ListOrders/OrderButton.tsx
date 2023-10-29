@@ -7,8 +7,27 @@ import { theme } from '@/Common/Theme/themes';
 
 export const OrderButton = (props: any) => {
     const onClick = () => {
-
+        props.onClick(props.order)
     }
+
+    const setState = () => {
+        if(props.order.state === 'processing'){
+            return 'Armando orden'
+        }
+
+        if(props.order.state === 'waiting'){
+            return 'Orden en espera'
+        }
+
+        if(props.order.state === 'preparation'){
+            return 'Orden en preparación'
+        }
+
+        if(props.order.state === 'delivered'){
+            return 'Orden entregada'
+        }
+    }
+
 
     return (<>
         <div
@@ -40,7 +59,7 @@ export const OrderButton = (props: any) => {
                             typography: {lg: 'h5', xs: 'h5'},
                             textAlign: 'left'
                         }}>
-                        {'Orden ' + props.order.numCustomers + ' Personas'}
+                        {'Orden ' + props.order.totalCustomers + ' Personas'}
                     </Typography>
                 </Grid>
                 <Grid
@@ -55,7 +74,7 @@ export const OrderButton = (props: any) => {
                             typography: {lg: 'subtitle1', xs: 'subtitle1'},
                             textAlign: 'right'
                         }}>
-                        {'Confirmados ' + props.order.confirmedCustomers + '/' + props.order.numCustomers}
+                        {'Confirmados ' + props.order.confirmedCustomers + '/' + props.order.totalCustomers}
                     </Typography>
                 </Grid>
             </Grid>
@@ -82,7 +101,7 @@ export const OrderButton = (props: any) => {
                             typography: {lg: 'subtitle1', xs: 'subtitle1'},
                             textAlign: 'left'
                         }}>
-                        {'Estado: ' + props.order.state}
+                        {'Estado: ' + setState()}
                     </Typography>
                 </Grid>
             </Grid>
@@ -123,7 +142,7 @@ export const OrderButton = (props: any) => {
                             typography: {lg: 'subtitle1', xs: 'subtitle1'},
                             textAlign: 'right'
                         }}>
-                        {props.order.createAt + ' ' + props.order.createAtTime}
+                        {props.order.createdAtDate + ' ' + props.order.createdAtTime}
                     </Typography>
                 </Grid>
             </Grid>

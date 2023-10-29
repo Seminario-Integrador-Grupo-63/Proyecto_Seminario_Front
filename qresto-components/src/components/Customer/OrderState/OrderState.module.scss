@@ -1,4 +1,5 @@
 @import '@/Common/Theme/StateColors.module.scss';
+@import './Responsivness.module.scss';
 
 .container{
     position: sticky;
@@ -6,7 +7,7 @@
     flex-direction: row;
     padding-top: 20px;
     padding: 2%;
-    width: 100%;
+    // width: 100%;
     justify-content: space-around;
     background-color: $state-primary-contrast-text;
 }
@@ -15,6 +16,9 @@
     display: flex;
     flex-direction: row;
     position: absolute;
-    width: 75%;
-    top: 30px;
+    width: 70%;
+
+    @include responsive-top(30%);
+    @include responsive-width(65%);
 }
+

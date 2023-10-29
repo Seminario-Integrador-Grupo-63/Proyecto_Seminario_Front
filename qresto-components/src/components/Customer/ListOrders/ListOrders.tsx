@@ -11,12 +11,13 @@ export const ListOrders = (props: any) => {
     const createOrder = (order) => {
         return(
             <Grid 
+                key={order.id}
                 container
                 sx={{
                     padding: '15px'
                 }}>
                 <OrderButton
-                    key={order.id}
+                    onClick={props.onOrderClick}
                     order={order}/>
             </Grid>
         )
@@ -26,8 +27,9 @@ export const ListOrders = (props: any) => {
         <CustomerContainer>
             <CustomerHeader
                 goBackEnabled={true}
+                onGoBack={props.onGoBack}
                 title={'Ordenes'}/>
-            {props.orders.map(order => createOrder(order))}
+                {props.orders.map(order => createOrder(order))}
             <Footer
                 text={''}
                 buttonVisible={false}/>
@@ -37,12 +39,17 @@ export const ListOrders = (props: any) => {
 
 ListOrders.defaultProps =
 {
-    orders: []
+    orders: [],
+    onGoBack: function(){},
+    onOrderClick: function(){}
 }
 
 ListOrders.propTypes = 
 {
-    orders: PropTypes.array
+    orders: PropTypes.array,
+    onGoBack: PropTypes.func,
+    onOrderClick: PropTypes.func,
+    
 }
 
 

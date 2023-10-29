@@ -1,8 +1,8 @@
 {
     "private": true,
     "workspaces": [
-        "qresto-customer", 
-        "qresto-restaurant", 
+        "qresto-customer",
+        "qresto-restaurant",
         "qresto-components"
     ],
     "scripts": {

@@ -3,7 +3,7 @@ import { ListOrders } from "@/Customer/ListOrders/ListOrders";
 import { OrderButton } from "@/Customer/ListOrders/OrderButton";
 import {widths100} from "@/Stories/viewports";
 import { orders } from "@/Common/FakeData/OrdersData";
-
+import { ordersDTO } from "@/Common/FakeData/OrdersData";
 
 export default {
     title: "components/Customer/ListOrders",
@@ -19,12 +19,16 @@ type Story = StoryObj<typeof ListOrders>;
 
 export const ListOrdersMain: Story = {
     render: () =>{
-        const myFunction = () => {
-            
+        const orderClick = (order) => {
+            console.log(' ')
+            console.log('orderClick')
+            console.log('order: ', order)
         }
 
         return(<>
-            <ListOrders orders={orders}/>
+            <ListOrders 
+                onOrderClick={orderClick}
+                orders={ordersDTO}/>
         </>);
     } 
 };
@@ -33,7 +37,7 @@ export const ListOrdersButton: Story = {
     render: () =>{
         return(<>
             <OrderButton
-                order={orders[0]}/>
+                order={ordersDTO[0]}/>
         </>);
     } 
 };
