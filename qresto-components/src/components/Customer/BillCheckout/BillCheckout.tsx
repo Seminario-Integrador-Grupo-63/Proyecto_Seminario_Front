@@ -1,7 +1,7 @@
 import {CustomerContainer} from "@/Customer/CustomerContainer/CustomerContainer";
 import {CustomerHeader} from "@/Customer/CustomerHeader/CustomerHeader";
 import {Footer} from "@/Customer/Footer/Footer";
-import React from "react";
+import React, {useEffect} from "react";
 import {theme} from "@/Common/Theme/themes";
 import {FormControlLabel, Typography} from "@mui/material";
 import {BillAll} from "@/Customer/BillCheckout/BillAll";
@@ -16,12 +16,19 @@ export const BillCheckout = (props: any) => {
         setChecked(event.target.checked);
     };
 
+    const calculateTotal = () => {
+        let total = 0
+        props.billData.forEach(customerBill => {
+            total += customerBill.customerTotal
+        })
+        return total
+    }
+
     return (<>
         <CustomerContainer>
             <CustomerHeader
                 goBackEnabled={true}
-                title={'Cuenta'}
-            />
+                title={'Cuenta'}/>
 
             <CustomerContainer>
                 <AppBar
@@ -39,8 +46,8 @@ export const BillCheckout = (props: any) => {
                                 checked={checked}
                                 onChange={handleChange}
                                 name="switch"
-                                sx={{marginLeft: '20px'}}
-                            />}
+                                sx={{marginLeft: '20px'}}/>
+                        }
                         label={
                             <Typography
                                 variant={'h6'}
@@ -50,29 +57,25 @@ export const BillCheckout = (props: any) => {
                         }
                     />
                 </AppBar>
-                {checked? <BillEach/> : <BillAll/>}
+                {checked? 
+                    <BillEach billData={props.billData}/> 
+                : 
+                    <BillAll billData={props.billData}/>
+                }
             </CustomerContainer>
 
             <Footer
-                text={`Total: ${props.total}`}
-                buttonVisible={false}
-            />
+                text={"Total: $" + calculateTotal()}
+                buttonVisible={false}/>
         </CustomerContainer>
     </>);
 }
 
-// Recibo orders, que tienen orderDet por Customer, que es lo que le tengo que pasar a los componentes
-// Itero sobre Orders para tener todos los orderDet por customer, despues itero sobre todos los OrderDet
-// por Customer así obtengo todos los OrderDet sin importar el customer
-BillCheckout.defaultProps =
-    {
-        orders: [],
-        total: 0,
-    }
+BillCheckout.defaultProps = {
+    billData: [],
+}
 
-BillCheckout.propTypes =
-    {
-        orders: PropTypes.array,
-        total: PropTypes.number
-    }
+BillCheckout.propTypes = {
+    billData: PropTypes.array,
+}
 

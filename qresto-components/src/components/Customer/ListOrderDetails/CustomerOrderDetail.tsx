@@ -25,20 +25,20 @@ export const CustomerOrderDetail = (props: any) => {
                 <ButtonOrderDetails 
                     orderDetail={orderDetail}
                     dish={orderDetail.dish}
-                    removeButtonVisible={props.currentCustomer}
-                    onRemove={() => confirmRemoveOrderDetail(orderDetail)}
+                    deleteButtonVisible={props.currentCustomer}
+                    onDelete={() => confirmDeleteOrderDetail(orderDetail)}
                     sideDish={orderDetail.sideDish}/>
             </Grid>
         )
     }
 
-    const confirmRemoveOrderDetail = (orderDetail) => {
+    const confirmDeleteOrderDetail = (orderDetail) => {
         setMessageTitle('Se removerá el producto "' + orderDetail.dish.name + '" de su orden')
         setActionData(orderDetail)
         setOpenMessageDialog(true)
     }
 
-    const removeOrderDetail = () => {
+    const deleteOrderDetail = () => {
         let sideDishId = 0
         if(actionData.sideDish != null) {
             sideDishId = actionData.sideDish.id
@@ -50,12 +50,12 @@ export const CustomerOrderDetail = (props: any) => {
             dish: actionData.dish.id,
             sideDish: sideDishId,
             observation: actionData.observation,
-            ammount: actionData.amount,
+            amount: actionData.amount,
             customerName: props.customerOrderDetail.customer,
             subTotal: actionData.subTotal
         }
 
-        props.onRemove(orderDetailDTO)
+        props.onDelete(orderDetailDTO)
     }
 
     if(props.customerOrderDetail != null){
@@ -96,7 +96,7 @@ export const CustomerOrderDetail = (props: any) => {
                 open={openMessageDialog}
                 title={messageTitle}
                 description={'Esta acción no puede deshacerse'}
-                onSubmit={removeOrderDetail}
+                onSubmit={deleteOrderDetail}
                 onClose={() => setOpenMessageDialog(false)}/>
         </>)
     } else {
@@ -107,14 +107,14 @@ export const CustomerOrderDetail = (props: any) => {
 CustomerOrderDetail.defaultProps =
 {
     customerOrderDetail: null,
-    onRemove: function(){},
+    onDelete: function(){},
     currentCustomer: false
 }
 
 CustomerOrderDetail.propTypes = 
 {
     customerOrderDetail: PropTypes.object,
-    onRemove: PropTypes.func,
+    onDelete: PropTypes.func,
     currentCustomer: PropTypes.bool
 }
 

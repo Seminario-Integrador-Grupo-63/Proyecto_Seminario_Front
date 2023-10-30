@@ -1,8 +1,6 @@
 import {styled, Switch} from "@mui/material";
 import {theme} from "@/Common/Theme/themes"
 
-
-
 export const BillSwitch = styled(Switch)(({  }) => ({
     '& .MuiSwitch-switchBase': {
         '&.Mui-checked': {

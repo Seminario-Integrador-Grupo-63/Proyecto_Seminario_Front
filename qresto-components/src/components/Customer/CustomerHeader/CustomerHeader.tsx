@@ -110,7 +110,7 @@ CustomerHeader.propTypes =
     goBackEnabled: PropTypes.bool,
     searchEnabled: PropTypes.bool,
     title: PropTypes.string,
-    children: PropTypes.node,
+    children: PropTypes.any,
     onGoBack: PropTypes.func
 }
 

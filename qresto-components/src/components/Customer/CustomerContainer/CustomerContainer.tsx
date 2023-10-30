@@ -1,4 +1,4 @@
-import styles from './CustomerContainer.module.scss';
+// import styles from './CustomerContainer.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Container} from '@mui/material'
@@ -34,7 +34,14 @@ CustomerContainer.defaultProps =
 
 CustomerContainer.propTypes = 
 {
-    children: PropTypes.node
+    // children: PropTypes.node
+    childre: PropTypes.any
+    // children: PropTypes.element
+    // children: PropTypes.oneOfType([
+    //     PropTypes.arrayOf(PropTypes.element),
+    //     PropTypes.element
+    // ])
+
 }
 
 

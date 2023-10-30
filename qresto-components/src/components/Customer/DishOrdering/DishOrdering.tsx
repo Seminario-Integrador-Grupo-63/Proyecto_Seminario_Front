@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { theme } from '@/Common/Theme/themes';
 import { SideDishSelector } from './SideDishSelector';
-import { AdderFooter } from '../AdderFooter/AdderFooter';
+import { AdderFooter } from '@/Customer/AdderFooter/AdderFooter';
 
 export const DishOrdering = (props: any) => {
     const [selectedSideDish, setSelectedSideDish] = useState<any>(null)
@@ -27,7 +27,7 @@ export const DishOrdering = (props: any) => {
             dish: props.dish.id,
             sideDish: sideDishId,
             observation: observation,
-            ammount: amount,
+            amount: amount,
             customerName: props.customer,
             subTotal: subTotal
         }

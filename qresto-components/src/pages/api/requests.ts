@@ -1,8 +1,7 @@
 import axios from "axios";
 import * as https from 'https';
 import { 
-    buildDish,
-    buildOrders
+    buildDish
 } from "./utils";
 
 const url = "http://localhost:8000"
@@ -37,14 +36,17 @@ export async function getDishesByCategoryId(categoryId){
     const headers = {
         'category-id': categoryId
     }
-
     const response = await axios.get<any>(url + '/dish/', {headers})
     return response.data
 }
 
 export async function getOrders(tableCode){
+    console.log(' ')
+    console.log('requests getOrders(tableCode)')
+    
     const response = await axios.get(url + `/table/${tableCode}/orders/`)
-    return buildOrders(response)
+    console.log('response: ', response)
+    return response.data
 }
 
 export async function getDish(id){
@@ -54,7 +56,39 @@ export async function getDish(id){
 }
 
 export async function postOrderDetail(orderDetail, tableCode){
+    console.log(' ')
+    console.log('requests postOrderDetail(orderDetail, tableCode)')
+    console.log('orderDetail: ', orderDetail)
     const response = await axios.post<any>(url + `/order/detail/${tableCode}`, orderDetail)
+}
+
+export async function confirmOrder(customer, tableCode){
+    const response = await axios.post<any>(url + `/order/${tableCode}?customer_name=${customer}`)
+}
+
+export async function getTables(){
+    const headers = {
+        'restaurant-id': 1
+    }
+    const response = await axios.get<any>(url + '/table/', {headers})
+    return response.data
+}
+
+export async function getBill(tableCode){
+    console.log(' ')
+    console.log('requests getBill(tableCode)')
+    // console.log(': ', )
+    const response = await axios.get<any>(url + `/table/${tableCode}/bill`)
+    console.log('response: ', response)
+    return response.data[0]
+}
+
+export async function deleteOrderDetail(tableCode, orderDetail){
+    const response = await axios.delete<any>(url + `/table/detail/${tableCode}/`,orderDetail)
+}
+
+export async function cancelOrder(){
+
 }
 
 // ---------------------------------------------------------------------------------------------------
