@@ -1,4 +1,3 @@
-// import styles from './CustomerOrderDetail.module.scss';
 import React, { useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { Grid} from '@mui/material'
@@ -39,6 +38,9 @@ export const CustomerOrderDetail = (props: any) => {
     }
 
     const deleteOrderDetail = () => {
+        console.log(' ')
+        console.log('CustomerOrderDetail deleteOrderDetail()')
+        
         let sideDishId = 0
         if(actionData.sideDish != null) {
             sideDishId = actionData.sideDish.id
@@ -54,8 +56,10 @@ export const CustomerOrderDetail = (props: any) => {
             customerName: props.customerOrderDetail.customer,
             subTotal: actionData.subTotal
         }
-
+        
+        setOpenMessageDialog(false)
         props.onDelete(orderDetailDTO)
+
     }
 
     if(props.customerOrderDetail != null){

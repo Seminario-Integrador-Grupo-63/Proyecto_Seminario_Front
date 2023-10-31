@@ -36,21 +36,25 @@ export const BillAll = (props: any) => {
                     }
                 </TableRow>
 
-                <TableRow
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                {orderDetail.sideDish !== null ?<>
+                    <TableRow
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 
-                    {orderDetail.amount > 1?
-                        <>
-                            <TableCell component="th" scope="row">{orderDetail.sideDish.name}</TableCell>
-                            <TableCell align="right">${orderDetail.sideDish.extraPrice}</TableCell>
-                        </>
-                    :
-                        <>
-                            <TableCell component="th" scope="row">{orderDetail.sideDish.name} X{orderDetail.amount}</TableCell>
-                            <TableCell align="right">${orderDetail.sideDish.extraPrice}</TableCell>
-                        </>
-                    }
-                </TableRow>
+                        {orderDetail.amount > 1?
+                                <>
+                                    <TableCell component="th" scope="row">{orderDetail.sideDish.name} X{orderDetail.amount}</TableCell>
+                                    <TableCell align="right">${orderDetail.sideDish.extraPrice}</TableCell>
+                                </>
+                        :
+                            <>
+                                <TableCell component="th" scope="row">{orderDetail.sideDish.name} X{orderDetail.amount}</TableCell>
+                                <TableCell align="right">${orderDetail.sideDish.extraPrice}</TableCell>
+                            </>
+                        }
+                    </TableRow>
+                </>:
+                    null
+                }
             </React.Fragment>
         )
     }

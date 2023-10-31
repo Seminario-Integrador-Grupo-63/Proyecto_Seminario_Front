@@ -18,16 +18,19 @@ export const BillRow =(props:any) => {
                                 ${orderDetail.dish.price*orderDetail.amount}
                             </TableCell>
                         </TableRow>
-                        <TableRow >
-                            <TableCell component="th" scope="row">
-                                {orderDetail.sideDish.name} X{orderDetail.amount}
-                            </TableCell>
-                            <TableCell align="right">
-                                ${orderDetail.sideDish.extraPrice*orderDetail.amount}
-                            </TableCell>
-                        </TableRow> 
-                    </>
-                :
+                        {orderDetail.sideDish !== null ?<>
+                            <TableRow >
+                                <TableCell component="th" scope="row">
+                                    {orderDetail.sideDish.name} X{orderDetail.amount}
+                                </TableCell>
+                                <TableCell align="right">
+                                    ${orderDetail.sideDish.extraPrice*orderDetail.amount}
+                                </TableCell>
+                            </TableRow> 
+                        </>:
+                            null
+                        }
+                    </>:
                     <>
                         <TableRow >
                             <TableCell component="th" scope="row">
@@ -35,12 +38,18 @@ export const BillRow =(props:any) => {
                             </TableCell>
                             <TableCell align="right">${orderDetail.dish.price}</TableCell>
                         </TableRow>
-                        <TableRow >
-                            <TableCell component="th" scope="row">
-                                {orderDetail.sideDish.name}
-                            </TableCell>
-                            <TableCell align="right">${orderDetail.sideDish.extraPrice}</TableCell>
-                        </TableRow> 
+
+                        {orderDetail.sideDish !== null ?<>
+                            <TableRow >
+                                <TableCell component="th" scope="row">
+                                    {orderDetail.sideDish.name}
+                                </TableCell>
+                                <TableCell align="right">${orderDetail.sideDish.extraPrice}</TableCell>
+                            </TableRow> 
+                        </>:
+                            null
+                        }
+
                     </>
                 }
             </React.Fragment>

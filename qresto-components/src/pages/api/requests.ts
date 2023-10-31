@@ -75,16 +75,12 @@ export async function getTables(){
 }
 
 export async function getBill(tableCode){
-    console.log(' ')
-    console.log('requests getBill(tableCode)')
-    // console.log(': ', )
     const response = await axios.get<any>(url + `/table/${tableCode}/bill`)
-    console.log('response: ', response)
     return response.data[0]
 }
 
 export async function deleteOrderDetail(tableCode, orderDetail){
-    const response = await axios.delete<any>(url + `/table/detail/${tableCode}/`,orderDetail)
+    const response = await axios.delete<any>(url + `/order/detail/${tableCode}`, {data: orderDetail})
 }
 
 export async function cancelOrder(){

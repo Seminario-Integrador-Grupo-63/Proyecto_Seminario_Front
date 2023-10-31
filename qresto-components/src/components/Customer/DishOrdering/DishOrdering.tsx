@@ -23,6 +23,7 @@ export const DishOrdering = (props: any) => {
         } else {
             sideDishId = null
         }
+
         const orderDetail = {
             dish: props.dish.id,
             sideDish: sideDishId,
@@ -31,6 +32,7 @@ export const DishOrdering = (props: any) => {
             customerName: props.customer,
             subTotal: subTotal
         }
+
         props.onAdd(orderDetail)
     }
 

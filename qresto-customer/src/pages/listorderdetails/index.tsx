@@ -5,8 +5,8 @@ import { useSearchParams} from 'next/navigation'
 import { ListOrderDetails } from '@/Customer/ListOrderDetails/ListOrderDetails';
 import { 
     confirmOrder as confirmOrderRequest,
-    deleteOrderDetail as deleteOrderDetailRequest
-    // getOrders
+    deleteOrderDetail as deleteOrderDetailRequest,
+    getOrders
 } from '@/requests';
 import { tableCode } from '@/Common/FakeData/Tables';
 
@@ -57,17 +57,13 @@ export default function ListOrderDetailsPage() {
     }
 
     const deleteOrderDetail = async (orderDetail) => {
-        console.log(' ')
-        console.log('ListOrderDetailsPage deleteOrderDetail(orderDetail)')
-        console.log('orderDetail: ', orderDetail)
         await deleteOrderDetailRequest(tableCode, orderDetail)
-        console.log('order: ', order)
-        // router.replace({
-        //     pathname: '/listorders',
-        //     query: {
-        //         flowState: JSON.stringify(flowState),
-        //     }
-        // })
+        router.replace({
+            pathname: '/listorders',
+            query: {
+                flowState: JSON.stringify(flowState),
+            }
+        })
     }
 
     return (<>
