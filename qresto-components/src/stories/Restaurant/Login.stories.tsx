@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from "@storybook/react";
-import {customViewports} from "@/Stories//viewports";
 import {widths100} from "@/Stories/viewports";
 import { Login } from "@/Restaurant/Login/Login";
 import {Container, Button} from "@mui/material"

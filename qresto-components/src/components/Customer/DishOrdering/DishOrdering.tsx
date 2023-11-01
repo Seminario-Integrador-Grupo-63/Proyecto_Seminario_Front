@@ -100,7 +100,7 @@ export const DishOrdering = (props: any) => {
 
                     {props.dish.sideDishes.length > 0?
                         <SideDishSelector 
-                        title={'Guarniciones'}
+                        title={'SideDish'}
                         onCheckSideDish={onSelectSideDish}
                         sideDishes={props.dish.sideDishes}/>
                     :

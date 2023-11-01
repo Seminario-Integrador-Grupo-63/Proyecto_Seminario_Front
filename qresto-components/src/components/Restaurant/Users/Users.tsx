@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Container} from '@mui/material'
 import {Layout} from '@/Restaurant/Layout/Layout'
+import {UsersTable} from "@/Restaurant/Users/UsersTable";
 
 export const Users = (props: any) => {
     return (<>
@@ -13,6 +14,7 @@ export const Users = (props: any) => {
             onTables={props.onTables}
             onUsers={props.onUsers}>
             <Container>
+                <UsersTable/>
 
             </Container>
         </Layout>

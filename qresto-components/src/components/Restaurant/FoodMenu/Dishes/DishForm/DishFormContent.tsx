@@ -78,7 +78,7 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                     </Grid>
                     <Grid sx={{marginBottom: marginBottom}}>
                         <SelectorChips
-                            label={'Guarniciones'} 
+                            label={'SideDish'}
                             items={loadSideDishes()}/>
                     </Grid>
                 </Grid>
