@@ -50,63 +50,6 @@ export const ListOrderDetails = (props: any) => {
         props.onRequestBill(props.order)
     }
 
-    // const stateConfig = {
-    //     'processing': {
-    //         confirm: {
-    //             title: 'Se confirmará la orden',
-    //             description: 'Esta acción puede deshacerse antes de que su orden esté en preparación',
-    //             action: confirm,
-    //         },
-    //         footer: {
-    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-    //             buttonText: 'Confirmar orden',
-    //             action: openConfirmDialog,
-    //             buttonVisible: true,
-    //         }
-    //     },
-    //     'waiting': {
-    //         confirm: {
-    //             title: 'Se cancelará la orden',
-    //             description: 'Esta acción no puede deshacerse',
-    //             action: cancel,
-    //         },
-    //         footer: {
-    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-    //             buttonText: 'Cancelar Orden',
-    //             buttonVisible: true,
-    //             action: openCancelDialog
-    //         }
-    //     },
-    //     'preparation': {
-    //         confirm: {
-    //             title: 'Se cancelará la orden',
-    //             description: 'Esta acción no puede deshacerse',
-    //             action: cancel,
-    //         },
-    //         footer: {
-    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-    //             buttonText: 'Cancelar Orden',
-    //             action: openCancelDialog,
-    //             buttonVisible: false,
-    //         }
-    //     },
-    //     'delivered': {
-    //         confirm: {
-    //             title: '',
-    //             description: '',
-    //             action: cancel,
-    //         },
-    //         footer: {
-    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-    //             buttonText: 'Pedir cuenta',
-    //             action: requestBill,
-    //             buttonVisible: true,
-    //         }
-    //     },
-    // }
-
-
-    // --------------------------------------------------------------- Hardcode
     const stateConfig = {
         'processing': {
             confirm: {
@@ -129,9 +72,9 @@ export const ListOrderDetails = (props: any) => {
             },
             footer: {
                 text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-                buttonText: 'Pedir cuenta',
-                action: requestBill,
+                buttonText: 'Cancelar Orden',
                 buttonVisible: true,
+                action: openCancelDialog
             }
         },
         'preparation': {
@@ -142,9 +85,9 @@ export const ListOrderDetails = (props: any) => {
             },
             footer: {
                 text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-                buttonText: 'Pedir cuenta',
-                action: requestBill,
-                buttonVisible: true,
+                buttonText: 'Cancelar Orden',
+                action: openCancelDialog,
+                buttonVisible: false,
             }
         },
         'delivered': {
@@ -161,6 +104,62 @@ export const ListOrderDetails = (props: any) => {
             }
         },
     }
+
+    // --------------------------------------------------------------- Hardcode
+    // const stateConfig = {
+    //     'processing': {
+    //         confirm: {
+    //             title: 'Se confirmará la orden',
+    //             description: 'Esta acción puede deshacerse antes de que su orden esté en preparación',
+    //             action: confirm,
+    //         },
+    //         footer: {
+    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+    //             buttonText: 'Confirmar orden',
+    //             action: openConfirmDialog,
+    //             buttonVisible: true,
+    //         }
+    //     },
+    //     'waiting': {
+    //         confirm: {
+    //             title: 'Se cancelará la orden',
+    //             description: 'Esta acción no puede deshacerse',
+    //             action: cancel,
+    //         },
+    //         footer: {
+    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+    //             buttonText: 'Pedir cuenta',
+    //             action: requestBill,
+    //             buttonVisible: true,
+    //         }
+    //     },
+    //     'preparation': {
+    //         confirm: {
+    //             title: 'Se cancelará la orden',
+    //             description: 'Esta acción no puede deshacerse',
+    //             action: cancel,
+    //         },
+    //         footer: {
+    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+    //             buttonText: 'Pedir cuenta',
+    //             action: requestBill,
+    //             buttonVisible: true,
+    //         }
+    //     },
+    //     'delivered': {
+    //         confirm: {
+    //             title: '',
+    //             description: '',
+    //             action: cancel,
+    //         },
+    //         footer: {
+    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+    //             buttonText: 'Pedir cuenta',
+    //             action: requestBill,
+    //             buttonVisible: true,
+    //         }
+    //     },
+    // }
     //--------------------------------------------------------------------------
 
     const sortCustomers = (customerOrderDetails) => {
