@@ -10,13 +10,11 @@ import {
 import { tableCode} from '@/Common/FakeData/Tables'
 import { FlowState } from '@/Common/FlowState'
 
-
 export default function DishOrderingPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [dish, setDish] = useState(null)
     const [category, setCategory] = useState(null)
-    // const [customer, setCustomer] = useState('')
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
         orders: {
@@ -32,7 +30,6 @@ export default function DishOrderingPage() {
         }
         setCategory(JSON.parse(searchParams.get('category')))
         setFlowState(JSON.parse(searchParams.get('flowState')))
-        // setCustomer(searchParams.get('customer'))
     }, [searchParams])
 
     const fecthDish = async (id) => {
@@ -59,8 +56,6 @@ export default function DishOrderingPage() {
         router.replace({
             pathname: '/menucategories',
             query: {
-                // customer: customer,
-                // ordersButtonVisible: true
                 flowState: JSON.stringify(flowState)
             }
         })
@@ -82,8 +77,3 @@ export default function DishOrderingPage() {
             goBack={goBack}/>
     </>)
 }
-/**
-console.log(" ")
-console.log("DishOrderingPage")
-console.log(": ", )
-*/

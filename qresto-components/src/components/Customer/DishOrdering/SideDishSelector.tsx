@@ -120,9 +120,3 @@ SideDishSelector.propTypes =
     title: PropTypes.string,
     onCheckSideDish: PropTypes.func
 }
-
-/**
-console.log(" ")
-console.log("SideDishSelector")
-console.log(": ", )
-*/

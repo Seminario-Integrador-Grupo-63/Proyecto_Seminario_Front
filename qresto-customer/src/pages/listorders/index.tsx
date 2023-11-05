@@ -32,6 +32,7 @@ export default function ListOrdersPage() {
     }
 
     const goBack = () => {
+
         router.replace({
             pathname: '/menucategories',
             query: {

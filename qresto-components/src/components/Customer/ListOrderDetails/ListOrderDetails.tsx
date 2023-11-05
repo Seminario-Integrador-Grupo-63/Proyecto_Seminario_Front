@@ -23,14 +23,145 @@ export const ListOrderDetails = (props: any) => {
             <CustomerOrderDetail 
                 key={index}
                 currentCustomer={currentCustomer}
-                onRemove={props.onRemoveOrderDetail}
+                onDelete={props.onDeleteOrderDetail}
                 customerOrderDetail={customerOrderDetail}/>
         )
     }
 
-    const confirmOrder = () => {
-        props.onConfirmOrder(props.order)
+    const confirm = () => {
+        props.onConfirmOrder()
+        setOpenConfirm(false)
     }
+
+    const cancel = () => {
+        props.onCancelOrder(props.order)
+        setOpenConfirm(false)
+    }
+
+    const openConfirmDialog = () => {
+        setOpenConfirm(true)
+    }   
+
+    const openCancelDialog = () => {
+        setOpenConfirm(true)
+    }
+
+    const requestBill = () => {
+        props.onRequestBill(props.order)
+    }
+
+    // const stateConfig = {
+    //     'processing': {
+    //         confirm: {
+    //             title: 'Se confirmará la orden',
+    //             description: 'Esta acción puede deshacerse antes de que su orden esté en preparación',
+    //             action: confirm,
+    //         },
+    //         footer: {
+    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+    //             buttonText: 'Confirmar orden',
+    //             action: openConfirmDialog,
+    //             buttonVisible: true,
+    //         }
+    //     },
+    //     'waiting': {
+    //         confirm: {
+    //             title: 'Se cancelará la orden',
+    //             description: 'Esta acción no puede deshacerse',
+    //             action: cancel,
+    //         },
+    //         footer: {
+    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+    //             buttonText: 'Cancelar Orden',
+    //             buttonVisible: true,
+    //             action: openCancelDialog
+    //         }
+    //     },
+    //     'preparation': {
+    //         confirm: {
+    //             title: 'Se cancelará la orden',
+    //             description: 'Esta acción no puede deshacerse',
+    //             action: cancel,
+    //         },
+    //         footer: {
+    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+    //             buttonText: 'Cancelar Orden',
+    //             action: openCancelDialog,
+    //             buttonVisible: false,
+    //         }
+    //     },
+    //     'delivered': {
+    //         confirm: {
+    //             title: '',
+    //             description: '',
+    //             action: cancel,
+    //         },
+    //         footer: {
+    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+    //             buttonText: 'Pedir cuenta',
+    //             action: requestBill,
+    //             buttonVisible: true,
+    //         }
+    //     },
+    // }
+
+
+    // --------------------------------------------------------------- Hardcode
+    const stateConfig = {
+        'processing': {
+            confirm: {
+                title: 'Se confirmará la orden',
+                description: 'Esta acción puede deshacerse antes de que su orden esté en preparación',
+                action: confirm,
+            },
+            footer: {
+                text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+                buttonText: 'Confirmar orden',
+                action: openConfirmDialog,
+                buttonVisible: true,
+            }
+        },
+        'waiting': {
+            confirm: {
+                title: 'Se cancelará la orden',
+                description: 'Esta acción no puede deshacerse',
+                action: cancel,
+            },
+            footer: {
+                text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+                buttonText: 'Pedir cuenta',
+                action: requestBill,
+                buttonVisible: true,
+            }
+        },
+        'preparation': {
+            confirm: {
+                title: 'Se cancelará la orden',
+                description: 'Esta acción no puede deshacerse',
+                action: cancel,
+            },
+            footer: {
+                text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+                buttonText: 'Pedir cuenta',
+                action: requestBill,
+                buttonVisible: true,
+            }
+        },
+        'delivered': {
+            confirm: {
+                title: '',
+                description: '',
+                action: cancel,
+            },
+            footer: {
+                text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
+                buttonText: 'Pedir cuenta',
+                action: requestBill,
+                buttonVisible: true,
+            }
+        },
+    }
+    //--------------------------------------------------------------------------
 
     const sortCustomers = (customerOrderDetails) => {
         for(let i in customerOrderDetails){
@@ -56,22 +187,23 @@ export const ListOrderDetails = (props: any) => {
                     <OrderState state={props.order.state}/> 
                 </CustomerHeader>
                 <Grid sx={{width: '100%'}}>
-                    {sortCustomers(props.order.customerOrderDetail).map((customerOrderDetail, index) => createOrderDetails(customerOrderDetail, index))}
+                    {sortCustomers(props.order.customerOrderDetails).map((customerOrderDetail, index) => createOrderDetails(customerOrderDetail, index))}
                 </Grid>
 
                 <Footer
-                    text={'Total: $' + props.order.total}
-                    buttonText='Confirmar Orden'
-                    onClick={() => setOpenConfirm(true)}
-                    buttonVisible={true}/>
-            </CustomerContainer>
+                    text={stateConfig[props.order.state].footer.text}
+                    buttonText={stateConfig[props.order.state].footer.buttonText}
+                    onClick={stateConfig[props.order.state].footer.action}
+                    buttonVisible={stateConfig[props.order.state].footer.buttonVisible}/>
 
+            </CustomerContainer>
+                
             <MessageDialog
                 open={openConfirm}
-                title={'Se confirmará la orden'}
-                description={'Esta acción puede deshacerse antes de que su orden esté en preparación'}
+                title={stateConfig[props.order.state].confirm.title}
+                description={stateConfig[props.order.state].confirm.description}
                 onClose={() => setOpenConfirm(false)}
-                onSubmit={confirmOrder}/>
+                onSubmit={stateConfig[props.order.state].confirm.action}/>
         </>);
     } else {
         return (<></>);
@@ -82,16 +214,20 @@ ListOrderDetails.defaultProps =
 {
     order: null,
     onGoBack: function(){},
-    onRemoveOrderDetail: function(){},
+    onDeleteOrderDetail: function(){},
     onConfirmOrder: function(){},
-    customer: ''
+    customer: '',
+    onRequestBill: function(){},
+    onCancelOrder: function(){}
 }
 
 ListOrderDetails.propTypes = 
 {
     order: PropTypes.object,
     onGoBack: PropTypes.func,
-    onRemoveOrderDetail: PropTypes.func,
+    onDeleteOrderDetail: PropTypes.func,
     onConfirmOrder: PropTypes.func,
-    customer: PropTypes.string
+    customer: PropTypes.string,
+    onRequestBill: PropTypes.func,
+    onCancelOrder: PropTypes.func
 }

@@ -3,6 +3,12 @@ import {useEffect, useState} from 'react'
 import { FlowState } from '@/Common/FlowState'
 import { useSearchParams} from 'next/navigation'
 import { ListOrderDetails } from '@/Customer/ListOrderDetails/ListOrderDetails';
+import { 
+    confirmOrder as confirmOrderRequest,
+    deleteOrderDetail as deleteOrderDetailRequest,
+    getOrders
+} from '@/requests';
+import { tableCode } from '@/Common/FakeData/Tables';
 
 export default function ListOrderDetailsPage() {
     const router = useRouter()
@@ -19,7 +25,6 @@ export default function ListOrderDetailsPage() {
     useEffect(() => {
         setFlowState(JSON.parse(searchParams.get('flowState')))
         setOrder(JSON.parse(searchParams.get('order')))
-        // console.log('order: ', order)
     }, [searchParams])
 
     const goBack = () => {
@@ -32,8 +37,41 @@ export default function ListOrderDetailsPage() {
         })
     }
 
+    const confirmOrder = async () => {
+        await confirmOrderRequest(flowState.customer, tableCode)
+        router.replace({
+            pathname: '/listorders',
+            query: {
+                flowState: JSON.stringify(flowState),
+            }
+        })
+    }
+
+    const requestBill = () => {
+        router.replace({
+            pathname: '/billcheckout',
+            query: {
+                flowState: JSON.stringify(flowState),
+            }
+        })
+    }
+
+    const deleteOrderDetail = async (orderDetail) => {
+        await deleteOrderDetailRequest(tableCode, orderDetail)
+        router.replace({
+            pathname: '/listorders',
+            query: {
+                flowState: JSON.stringify(flowState),
+            }
+        })
+    }
+
     return (<>
         <ListOrderDetails 
+            customer={flowState.customer}
+            onConfirmOrder={confirmOrder}
+            onDeleteOrderDetail={deleteOrderDetail}
+            onRequestBill={requestBill}
             onGoBack={goBack}
             order={order}/>
     </>)

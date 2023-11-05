@@ -24,8 +24,8 @@ export const ButtonOrderDetails = (props: any) => {
         }, 100); 
     }
 
-    const onRemove = () => {
-        props.onRemove(props.dish, props.sideDish)
+    const onDelete = () => {
+        props.onDelete(props.dish, props.sideDish)
     }
 
     const truncatedTextClick = (isUnfolded) => {
@@ -179,10 +179,10 @@ export const ButtonOrderDetails = (props: any) => {
                     {props.sideDish != null?displaySideDish():null}
                     {displayTotalPrice()}
                 </Grid>
-                {props.removeButtonVisible?
+                {props.deleteButtonVisible?
                     <Grid>
                         <IconButton
-                        onClick={onRemove}>
+                        onClick={onDelete}>
                             <CloseIcon 
                                 fontSize='small'
                                 sx={{
@@ -207,8 +207,8 @@ ButtonOrderDetails.defaultProps =
     onClick: function(){},
     displayTotalPrice: true,
     totalPricePosition: 'left',
-    onRemove: function(){},
-    removeButtonVisible: false,
+    onDelete: function(){},
+    deleteButtonVisible: false,
     orderDetail: null
 }
 
@@ -219,8 +219,8 @@ ButtonOrderDetails.propTypes =
     onClick: PropTypes.func,
     displayTotalPrice: PropTypes.bool,
     totalPricePosition: PropTypes.oneOf(['right', 'left']),
-    onRemove: PropTypes.func,
-    removeButtonVisible: PropTypes.bool,
+    onDelete: PropTypes.func,
+    deleteButtonVisible: PropTypes.bool,
     orderDetail: PropTypes.object
 }
 

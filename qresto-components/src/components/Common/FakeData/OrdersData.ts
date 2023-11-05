@@ -36,9 +36,9 @@ export const ordersDTO = [
         totalCustomers: 1,
         createdAtDate: "19/10/2023",
         createdAtTime: "20:56:03",
-        state: "preparation",
+        state: "processing",
         total: 5044,
-        customerOrderDetail: [
+        customerOrderDetails: [
             {
                 customer: "Daniela",
                 orderDetails: [
@@ -105,11 +105,89 @@ export const ordersDTO = [
         totalCustomers: 1,
         createdAtDate: "19/10/2023",
         createdAtTime: "20:56:19",
+        state: "waiting",
+        total: 1186,
+        customerOrderDetails: [
+            {
+                customer: "Benito",
+                orderDetails: [
+                    {
+                        amount: 1,
+                        dish: {
+                            image: imageDish1,
+                            id: 17,
+                            category: 2,
+                            restaurant: 1,
+                            name: "Sanguche de milanesa",
+                            description: "Wea re grasosa",
+                            preparationTime: 10,
+                            price: 1186
+                        },
+                        observation: "ffhggh",
+                        sideDish: {
+                            image: null,
+                            id: 18,
+                            restaurant: 1,
+                            name: "Ensalada rusa",
+                            description: "Wea para acompañar"
+                        },
+                        subTotal: 1186
+                    }
+                ],
+                customerTotal: 1186
+            }
+        ]
+    },
+    {
+        id: null,
+        confirmedCustomers: 1,
+        totalCustomers: 1,
+        createdAtDate: "19/10/2023",
+        createdAtTime: "20:56:19",
         state: "preparation",
         total: 1186,
-        customerOrderDetail: [
+        customerOrderDetails: [
             {
-                customer: "martin",
+                customer: "Martin",
+                orderDetails: [
+                    {
+                        amount: 1,
+                        dish: {
+                            image: imageDish1,
+                            id: 17,
+                            category: 2,
+                            restaurant: 1,
+                            name: "Sanguche de milanesa",
+                            description: "Wea re grasosa",
+                            preparationTime: 10,
+                            price: 1186
+                        },
+                        observation: "ffhggh",
+                        sideDish: {
+                            image: null,
+                            id: 18,
+                            restaurant: 1,
+                            name: "Ensalada rusa",
+                            description: "Wea para acompañar"
+                        },
+                        subTotal: 1186
+                    }
+                ],
+                customerTotal: 1186
+            }
+        ]
+    },
+    {
+        id: null,
+        confirmedCustomers: 1,
+        totalCustomers: 1,
+        createdAtDate: "19/10/2023",
+        createdAtTime: "20:56:19",
+        state: "delivered",
+        total: 1186,
+        customerOrderDetails: [
+            {
+                customer: "Benito",
                 orderDetails: [
                     {
                         amount: 1,

@@ -20,20 +20,12 @@ type Story = StoryObj<typeof ListOrderDetails>;
 
 export const ListOrderDetailsMain: Story = {
     render: () =>{
-
-        // console.log(' ')
-        // console.log('ListOrderDetails.stories')
-        // // console.log('ordersDTO[0].customerOrderDetail[0]: ', ordersDTO[0].customerOrderDetail[0])
-        // console.log("ordersDTO[0]: ", ordersDTO[0])
-        // console.log("ordersDTO: ", ordersDTO)
-        // const customer = _.cloneDeep(ordersDTO[0].customerOrderDetail[0].customer)
-
-        const customer = ordersDTO[0].customerOrderDetail[0].customer
-        console.log("customer: ", customer)
+        const order = ordersDTO[1]
+        const customer = order.customerOrderDetails[0].customer
         return(<>
             <ListOrderDetails 
-                order={ordersDTO[0]}
+                order={order}
                 customer={customer}/>
         </>);
-    } 
+    }
 };

@@ -8,7 +8,6 @@ import { FlowState } from '@/Common/FlowState'
 export default function MenuCategoriesPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
-    // const [customer, setCustomer] = useState('')
     const [categories, setCategories] = useState([])
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
@@ -59,8 +58,3 @@ export default function MenuCategoriesPage() {
             onClickCategory={onClickCategory}/>
     </>)
 }
-/**
-console.log(" ")
-console.log("MenuCategoriesPage")
-console.log(": ", )
-*/
