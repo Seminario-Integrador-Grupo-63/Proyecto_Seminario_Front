@@ -32,7 +32,7 @@ export const ImageButton = (props: any) => {
                 <Button 
                     onClick={props.onChange}
                     size="small">
-                    Cambiar
+                    {props.buttonText}
                 </Button>
             </CardActions>
         </Card>
@@ -41,10 +41,12 @@ export const ImageButton = (props: any) => {
 
 ImageButton.defaultProps = {
     image: '',
+    buttonText: 'Cambiar', 
     onChange: function(){}
 }
 
 ImageButton.propTypes = {
     image: PropTypes.string,
+    buttonText: PropTypes.string, 
     onChange: PropTypes.func
 }

@@ -12,6 +12,7 @@ export const Categories = (props: any) => {
     // En esta parte van las funciones
     const [open, setOpen] = useState <boolean>(false);
     const [isNew, setIsNew] = useState <boolean>(true);
+    const [selectedCategory, setSelectedCategory] = useState(null)
   
     const handleClose = () => {
         setOpen(false);
@@ -19,6 +20,7 @@ export const Categories = (props: any) => {
 
     const onClickCategory = (category) => {
         //props.onClickCategory(category)
+        setSelectedCategory(category)
         setOpen(true)
         setIsNew(false)
     }
@@ -55,7 +57,9 @@ export const Categories = (props: any) => {
                     isNew={isNew}
                     open={open}
                     onClose={handleClose}
-                    onSubmit={props.onSubmit}/>
+                    onUpdate={props.onUpdate}
+                    onDelete={props.onDelete}
+                    category={selectedCategory}/>
             </Grid>
         </Layout>
     </>);
@@ -64,15 +68,17 @@ export const Categories = (props: any) => {
 Categories.defaultProps =
 {
     categories: [],
-    onClickCategory: function(){},
-    onSubmit: function(){}
+    // onClickCategory: function(){},
+    onUpdate: function(){},
+    onDelete: function(){}
   // Acá van los valores por default de los atributos en caso de que no se pasen desde el pader
 }
 
 Categories.propTypes = 
 {
     categories: PropTypes.array,
-    onClickCategory: PropTypes.func,
-    onSubmit: PropTypes.func
+    // onClickCategory: PropTypes.func,
+    onUpdate: PropTypes.func,
+    onDelete: PropTypes.func
   // Acá se definen los atributos o propiedades que que se le pasan al componente desde el padre
 }
