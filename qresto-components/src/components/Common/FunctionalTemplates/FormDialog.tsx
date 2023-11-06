@@ -6,8 +6,10 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Typography
+    Typography,
+    ThemeProvider
 } from '@mui/material'
+import {theme} from '@/Common/Theme/themes'
 
 export const FormDialog = (props: any) => {
     return (<>
@@ -34,19 +36,24 @@ export const FormDialog = (props: any) => {
                 <DialogContent>
                     {props.children}
                 </DialogContent>
-
+                
                 <DialogActions>
-                    {props.action1Visible?
-                        <Button onClick={props.onaction1}>
-                            {props.action1Text}
+                    <ThemeProvider theme={theme}>
+                        {props.action1Visible?
+                            <Button onClick={props.onaction1}
+                                    color='primary'>
+                                {props.action1Text}
+                            </Button>
+                        :
+                            null
+                        }
+                        <Button onClick={props.onSubmit}
+                                color='primary'>
+                            {props.submitText}
                         </Button>
-                    :
-                        null
-                    }
-                    <Button onClick={props.onSubmit}>
-                        {props.submitText}
-                    </Button>
-                    <Button onClick={props.onClose} autoFocus>
+                    </ThemeProvider>
+                    <Button onClick={props.onClose} autoFocus
+                            sx={{color: 'black'}}>
                         {props.closeText}
                     </Button>
                 </DialogActions>
