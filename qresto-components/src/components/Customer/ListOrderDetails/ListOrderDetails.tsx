@@ -22,6 +22,7 @@ export const ListOrderDetails = (props: any) => {
         return(
             <CustomerOrderDetail 
                 key={index}
+                state={props.order.state}
                 currentCustomer={currentCustomer}
                 onDelete={props.onDeleteOrderDetail}
                 customerOrderDetail={customerOrderDetail}/>
@@ -73,7 +74,7 @@ export const ListOrderDetails = (props: any) => {
             footer: {
                 text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
                 buttonText: 'Cancelar Orden',
-                buttonVisible: true,
+                buttonVisible: false,
                 action: openCancelDialog
             }
         },
@@ -105,62 +106,33 @@ export const ListOrderDetails = (props: any) => {
         },
     }
 
-    // --------------------------------------------------------------- Hardcode
-    // const stateConfig = {
-    //     'processing': {
-    //         confirm: {
-    //             title: 'Se confirmará la orden',
-    //             description: 'Esta acción puede deshacerse antes de que su orden esté en preparación',
-    //             action: confirm,
-    //         },
-    //         footer: {
-    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-    //             buttonText: 'Confirmar orden',
-    //             action: openConfirmDialog,
-    //             buttonVisible: true,
-    //         }
-    //     },
-    //     'waiting': {
-    //         confirm: {
-    //             title: 'Se cancelará la orden',
-    //             description: 'Esta acción no puede deshacerse',
-    //             action: cancel,
-    //         },
-    //         footer: {
-    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-    //             buttonText: 'Pedir cuenta',
-    //             action: requestBill,
-    //             buttonVisible: true,
-    //         }
-    //     },
-    //     'preparation': {
-    //         confirm: {
-    //             title: 'Se cancelará la orden',
-    //             description: 'Esta acción no puede deshacerse',
-    //             action: cancel,
-    //         },
-    //         footer: {
-    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-    //             buttonText: 'Pedir cuenta',
-    //             action: requestBill,
-    //             buttonVisible: true,
-    //         }
-    //     },
-    //     'delivered': {
-    //         confirm: {
-    //             title: '',
-    //             description: '',
-    //             action: cancel,
-    //         },
-    //         footer: {
-    //             text: props.order != null ? 'Total: $' + props.order.total : 'Total: $0',
-    //             buttonText: 'Pedir cuenta',
-    //             action: requestBill,
-    //             buttonVisible: true,
-    //         }
-    //     },
+    // TODO: cambiar state config por funciones como "setFooterButtonVisible"
+    // para cada propiedad del footer que se necesite
+    // const setFooterText = () => {
+
     // }
-    //--------------------------------------------------------------------------
+
+    const setFooterButtonVisible = () => {
+        if(customerIsInOrder()){
+            if(props.confirmed && props.order.state === 'processing'){
+                return false
+            } else {
+                return stateConfig[props.order.state].footer.buttonVisible
+            }
+        } else {
+            return false
+        }
+    }
+
+    const customerIsInOrder = () => {
+        let isInOrder = props.order.customerOrderDetails.some(customerOrderDetail => {
+            if(customerOrderDetail.customer === props.customer){
+                return true
+            }
+        })
+        console.log('isInOrder: ', isInOrder)
+        return isInOrder
+    }
 
     const sortCustomers = (customerOrderDetails) => {
         for(let i in customerOrderDetails){
@@ -193,8 +165,7 @@ export const ListOrderDetails = (props: any) => {
                     text={stateConfig[props.order.state].footer.text}
                     buttonText={stateConfig[props.order.state].footer.buttonText}
                     onClick={stateConfig[props.order.state].footer.action}
-                    buttonVisible={stateConfig[props.order.state].footer.buttonVisible}/>
-
+                    buttonVisible={setFooterButtonVisible()}/>
             </CustomerContainer>
                 
             <MessageDialog
@@ -217,7 +188,8 @@ ListOrderDetails.defaultProps =
     onConfirmOrder: function(){},
     customer: '',
     onRequestBill: function(){},
-    onCancelOrder: function(){}
+    onCancelOrder: function(){},
+    confirmed: false,
 }
 
 ListOrderDetails.propTypes = 
@@ -228,5 +200,6 @@ ListOrderDetails.propTypes =
     onConfirmOrder: PropTypes.func,
     customer: PropTypes.string,
     onRequestBill: PropTypes.func,
-    onCancelOrder: PropTypes.func
+    onCancelOrder: PropTypes.func,
+    confirmed: PropTypes.bool
 }

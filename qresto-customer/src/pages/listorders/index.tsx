@@ -12,6 +12,7 @@ export default function ListOrdersPage() {
     const [orders, setOrders] = useState([])
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
+        confirmed: false,
         orders: {
             buttonVisible: false,
             total: 0
@@ -23,20 +24,43 @@ export default function ListOrdersPage() {
     }, [searchParams])
 
     useEffect(() => {
-        fetchOrders()
-    }, [])
+        // Initial fetch
+        fetchOrders();
+    
+        // Fetch orders every 2 seconds
+        const intervalId = setInterval(fetchOrders, 2000);
+    
+        // Clean up the interval when the component is unmounted
+        return () => clearInterval(intervalId);
+      }, []);
+
+    const calculateOrdersTotal = (orders) => {
+        let total = 0
+        orders.forEach(order => {
+            total += order.total
+        })
+        return total
+    }
 
     const fetchOrders = async () => {
         const fetchedOrders = await getOrders(tableCode)
         setOrders(fetchedOrders)
+        flowState.orders.total = calculateOrdersTotal(fetchedOrders)
     }
 
-    const goBack = () => {
 
+    const goBack = () => {
         router.replace({
             pathname: '/menucategories',
             query: {
-                flowState: JSON.stringify(flowState)
+                flowState: JSON.stringify({
+                    customer: flowState.customer,
+                    confirmed: flowState.confirmed,
+                    orders: {
+                        buttonVisible: flowState.orders.buttonVisible,
+                        total: flowState.orders.total
+                    }
+                }),
             }
         })
     }
@@ -45,7 +69,14 @@ export default function ListOrdersPage() {
         router.replace({
             pathname: '/listorderdetails',
             query: {
-                flowState: JSON.stringify(flowState),
+                flowState: JSON.stringify({
+                    customer: flowState.customer,
+                    confirmed: flowState.confirmed,
+                    orders: {
+                        buttonVisible: flowState.orders.buttonVisible,
+                        total: flowState.orders.total
+                    }
+                }),
                 order: JSON.stringify(order)
             }
         })

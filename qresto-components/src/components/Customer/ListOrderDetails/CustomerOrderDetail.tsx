@@ -24,7 +24,8 @@ export const CustomerOrderDetail = (props: any) => {
                 <ButtonOrderDetails 
                     orderDetail={orderDetail}
                     dish={orderDetail.dish}
-                    deleteButtonVisible={props.currentCustomer}
+                    // deleteButtonVisible={props.currentCustomer}
+                    deleteButtonVisible={setDeleteButtonVisible()}
                     onDelete={() => confirmDeleteOrderDetail(orderDetail)}
                     sideDish={orderDetail.sideDish}/>
             </Grid>
@@ -38,9 +39,6 @@ export const CustomerOrderDetail = (props: any) => {
     }
 
     const deleteOrderDetail = () => {
-        console.log(' ')
-        console.log('CustomerOrderDetail deleteOrderDetail()')
-        
         let sideDishId = 0
         if(actionData.sideDish != null) {
             sideDishId = actionData.sideDish.id
@@ -56,10 +54,18 @@ export const CustomerOrderDetail = (props: any) => {
             customerName: props.customerOrderDetail.customer,
             subTotal: actionData.subTotal
         }
-        
+
         setOpenMessageDialog(false)
         props.onDelete(orderDetailDTO)
+    }
 
+    const setDeleteButtonVisible = () => {
+        if(props.state === 'processing'){
+            if(props.currentCustomer){
+                return true
+            }
+        }
+        return false
     }
 
     if(props.customerOrderDetail != null){
@@ -112,14 +118,16 @@ CustomerOrderDetail.defaultProps =
 {
     customerOrderDetail: null,
     onDelete: function(){},
-    currentCustomer: false
+    currentCustomer: false,
+    state: ''
 }
 
 CustomerOrderDetail.propTypes = 
 {
     customerOrderDetail: PropTypes.object,
     onDelete: PropTypes.func,
-    currentCustomer: PropTypes.bool
+    currentCustomer: PropTypes.bool,
+    state: PropTypes.string
 }
 
 

@@ -27,7 +27,7 @@ export const BillCheckout = (props: any) => {
     return (<>
         <CustomerContainer>
             <CustomerHeader
-                goBackEnabled={true}
+                goBackEnabled={false}
                 title={'Cuenta'}/>
 
             <CustomerContainer>

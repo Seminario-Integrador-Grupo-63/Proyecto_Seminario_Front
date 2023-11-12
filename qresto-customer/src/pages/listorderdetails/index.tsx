@@ -16,6 +16,7 @@ export default function ListOrderDetailsPage() {
     const [order, setOrder] = useState(null)
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
+        confirmed: false,
         orders: {
             buttonVisible: false,
             total: 0
@@ -32,17 +33,24 @@ export default function ListOrderDetailsPage() {
             pathname: '/listorders',
             query: {
                 flowState: JSON.stringify(flowState),
-                order: JSON.stringify(order)
             }
         })
     }
 
     const confirmOrder = async () => {
         await confirmOrderRequest(flowState.customer, tableCode)
+        flowState.confirmed = true
         router.replace({
             pathname: '/listorders',
             query: {
-                flowState: JSON.stringify(flowState),
+                flowState: JSON.stringify({
+                    customer: flowState.customer,
+                    confirmed: flowState.confirmed,
+                    orders: {
+                        buttonVisible: flowState.orders.buttonVisible,
+                        total: flowState.orders.total
+                    }
+                }),
             }
         })
     }
@@ -51,17 +59,32 @@ export default function ListOrderDetailsPage() {
         router.replace({
             pathname: '/billcheckout',
             query: {
-                flowState: JSON.stringify(flowState),
+                flowState: JSON.stringify({
+                    customer: flowState.customer,
+                    confirmed: flowState.confirmed,
+                    orders: {
+                        buttonVisible: flowState.orders.buttonVisible,
+                        total: flowState.orders.total
+                    }
+                }),
             }
         })
     }
 
     const deleteOrderDetail = async (orderDetail) => {
         await deleteOrderDetailRequest(tableCode, orderDetail)
+        flowState.confirmed = false
         router.replace({
             pathname: '/listorders',
             query: {
-                flowState: JSON.stringify(flowState),
+                flowState: JSON.stringify({
+                    customer: flowState.customer,
+                    confirmed: flowState.confirmed,
+                    orders: {
+                        buttonVisible: flowState.orders.buttonVisible,
+                        total: flowState.orders.total
+                    }
+                }),
             }
         })
     }
@@ -69,6 +92,7 @@ export default function ListOrderDetailsPage() {
     return (<>
         <ListOrderDetails 
             customer={flowState.customer}
+            confirmed={flowState.confirmed}
             onConfirmOrder={confirmOrder}
             onDeleteOrderDetail={deleteOrderDetail}
             onRequestBill={requestBill}

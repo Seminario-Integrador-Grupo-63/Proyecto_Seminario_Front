@@ -17,6 +17,7 @@ export default function DishOrderingPage() {
     const [category, setCategory] = useState(null)
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
+        confirmed: false,
         orders: {
             buttonVisible: false,
             total: 0

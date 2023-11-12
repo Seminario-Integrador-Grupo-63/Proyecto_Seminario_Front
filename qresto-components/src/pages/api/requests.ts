@@ -41,11 +41,7 @@ export async function getDishesByCategoryId(categoryId){
 }
 
 export async function getOrders(tableCode){
-    console.log(' ')
-    console.log('requests getOrders(tableCode)')
-    
     const response = await axios.get(url + `/table/${tableCode}/orders/`)
-    console.log('response: ', response)
     return response.data
 }
 
@@ -56,9 +52,6 @@ export async function getDish(id){
 }
 
 export async function postOrderDetail(orderDetail, tableCode){
-    console.log(' ')
-    console.log('requests postOrderDetail(orderDetail, tableCode)')
-    console.log('orderDetail: ', orderDetail)
     const response = await axios.post<any>(url + `/order/detail/${tableCode}`, orderDetail)
 }
 

@@ -17,6 +17,7 @@ export default function BillCheckoutPage() {
     const [billData, setBillData] = useState(null)
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
+        confirmed: false,
         orders: {
             buttonVisible: false,
             total: 0

@@ -13,6 +13,7 @@ export default function Home() {
     const [openEmptyNameDialog, setOpenEmptyNameDialog] = useState(false)
     const flowState: FlowState = {
         customer: '',
+        confirmed: false,
         orders: {
             buttonVisible: false,
             total: 0
