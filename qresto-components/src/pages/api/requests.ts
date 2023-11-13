@@ -5,6 +5,7 @@ import {
 } from "./utils";
 
 const url = "http://localhost:8000"
+const restaurantId = 1
 
 export async function getQR(){
     const response = await axios.get<any>(url + '/qrcode');
@@ -21,13 +22,13 @@ export async function postCustomer(customer, tableCode){
 }
 
 export async function getCategories(){
-    const headers = {'restaurant-id': 1}
+    const headers = {'restaurant-id': restaurantId}
     const response = await axios.get<any>(url + '/category/', {headers})
     return response.data
 }
 
 export async function getCategory(id){
-    const headers = {'restaurant-id': 1}
+    const headers = {'restaurant-id': restaurantId}
     const response = await axios.get<any>(url + `/category/${id}`, {headers})
     return response.data
 }
