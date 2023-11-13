@@ -1,6 +1,7 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
+import {theme} from "@/Common/Theme/themes";
 
 export const BillAll = (props: any) => {
     const calculateTotal = () => {
@@ -61,12 +62,19 @@ export const BillAll = (props: any) => {
 
     return (<>
         <TableContainer component={Paper}>
-            <Table size="small" aria-label="a dense table">
+            <Table size="small" aria-label="a dense table"
+                   sx={{backgroundColor: theme.palette.primary.contrastText}}>
                 <TableHead>
-                    <TableRow>
-                        <TableCell align="left">Producto</TableCell>
-                        <TableCell align="right">Costo</TableCell>
-                    </TableRow>
+                    {/*<TableRow>
+                        <TableCell align="left"
+                                   style={{ fontWeight: 'bold' }}>
+                            PRODUCTO
+                        </TableCell>
+                        <TableCell align="right"
+                                   style={{ fontWeight: 'bold' }}>
+                            PRECIO
+                        </TableCell>
+                    </TableRow>*/}
                 </TableHead>
 
                 <TableBody>

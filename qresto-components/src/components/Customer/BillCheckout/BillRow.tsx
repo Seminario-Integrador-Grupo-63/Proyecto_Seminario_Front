@@ -1,6 +1,8 @@
-import {Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Box, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
+import {theme} from "@/Common/Theme/themes";
+import TableContainer from "@mui/material/TableContainer";
 
 export const BillRow =(props:any) => {
     const row = props.row;
@@ -10,7 +12,7 @@ export const BillRow =(props:any) => {
             <React.Fragment key={index}>
                 {orderDetail.amount > 1 ?
                     <>
-                        <TableRow >
+                        <TableRow>
                             <TableCell component="th" scope="row">
                                 {orderDetail.dish.name} X{orderDetail.amount}
                             </TableCell>
@@ -18,7 +20,7 @@ export const BillRow =(props:any) => {
                                 ${orderDetail.dish.price*orderDetail.amount}
                             </TableCell>
                         </TableRow>
-                        {orderDetail.sideDish !== null ?<>
+                        {orderDetail.sideDish !== null ? <>
                             <TableRow >
                                 <TableCell component="th" scope="row">
                                     {orderDetail.sideDish.name} X{orderDetail.amount}
@@ -57,33 +59,27 @@ export const BillRow =(props:any) => {
     } 
 
     return (
-        <TableRow key={props.keyRow}>
-            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                <Box sx={{ margin: 1 }}>
-                    <Table size="small" aria-label="purchases">
-                        <TableHead>
-                            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-                                <TableCell 
-                                    component="th" 
-                                    scope="row"
-                                    style={{ fontWeight: 'bold' }}>
-                                    {row.customer}
-                                </TableCell>
-                                <TableCell 
-                                    align="right"
-                                    style={{ fontWeight: 'bold' }}>
-                                    Total: ${row.customerTotal}
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
+            <Table size="small" aria-label="purchases">
+                <TableHead>
+                    <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+                        <TableCell
+                            component="th"
+                            scope="row"
+                            style={{ fontWeight: 'bold' }}>
+                            {row.customer}
+                        </TableCell>
+                        <TableCell
+                            align="right"
+                            style={{ fontWeight: 'bold' }}>
+                            Total: ${row.customerTotal}
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
 
-                        <TableBody>
-                            {row.orderDetails.map((orderDetail, index) => createdOrderDetail(orderDetail, index))}
-                        </TableBody>
-                    </Table>
-                </Box>
-            </TableCell>
-        </TableRow>
+                <TableBody>
+                    {row.orderDetails.map((orderDetail, index) => createdOrderDetail(orderDetail, index))}
+                </TableBody>
+            </Table>
     );
 }
 
