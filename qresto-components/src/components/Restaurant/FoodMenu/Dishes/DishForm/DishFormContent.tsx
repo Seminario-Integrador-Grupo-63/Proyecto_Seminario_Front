@@ -113,7 +113,7 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>
                             }}/>
                     </Grid>
-                    <Grid sx={{marginBottom: marginBottom}}>
+                    {/* <Grid sx={{marginBottom: marginBottom}}>
                         <FormGroup>
                             <FormControlLabel control={<Checkbox />} label="Incluye Descuento" />
                         </FormGroup>
@@ -135,7 +135,7 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                                     startAdornment: <InputAdornment position="start">$</InputAdornment>
                                 }}/>
                         </Grid>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Grid>
         </Container>
