@@ -6,7 +6,6 @@ import {
     getCategories,
     getOrders
 } from '@/requests'
-import { FlowState } from '@/Common/FlowState'
 import { tableCode } from '@/Common/FakeData/Tables'
 
 export default function MenuCategoriesPage() {
@@ -14,14 +13,7 @@ export default function MenuCategoriesPage() {
     const searchParams = useSearchParams()
     const [categories, setCategories] = useState([])
     const [customer, setCustomer] = useState('')
-    const [flowState, setFlowState] = useState<FlowState>({
-        customer: '',
-        confirmed: false,
-        orders: {
-            buttonVisible: false,
-            total: 0
-        }
-    })
+    const [orders, setOrders] = useState([])
 
     useEffect(() => {
         fetchData()
@@ -37,6 +29,11 @@ export default function MenuCategoriesPage() {
         return () => clearInterval(intervalId);
     }, [customer])
 
+    useEffect(() => {
+        let customer = searchParams.get('customer')
+        setCustomer(customer)
+    }, [searchParams])
+
     const calculateOrdersTotal = (orders) => {
         let total = 0
         orders.forEach(order => {
@@ -47,18 +44,7 @@ export default function MenuCategoriesPage() {
 
     const fetchOrders = async () => {
         const fetchedOrders = await getOrders(tableCode)
-        refreshOrderFlowTotal(fetchedOrders)
-    }
-
-    const refreshOrderFlowTotal = (orders) => {
-        setFlowState({
-            customer: customer,
-            confirmed: flowState.confirmed,
-            orders: {
-                buttonVisible: setFooterButtonVisible(orders),
-                total: calculateOrdersTotal(orders)
-            }
-        })
+        setOrders(fetchedOrders)
     }
 
     const setFooterButtonVisible = (orders) => {
@@ -69,13 +55,6 @@ export default function MenuCategoriesPage() {
         }
     }
 
-    useEffect(() => {
-        let fs = JSON.parse(searchParams.get('flowState'))
-        setCustomer(fs.customer)
-        setFlowState(fs)
-
-    }, [searchParams])
-
     const fetchData = async () => {
         const response = await getCategories()
         setCategories(response)
@@ -85,8 +64,8 @@ export default function MenuCategoriesPage() {
         router.replace({
             pathname: '/menudishes', 
             query: {
-                flowState: JSON.stringify(flowState),
-                category: JSON.stringify(category)
+                category: JSON.stringify(category),
+                customer: customer
             }
         })
     }
@@ -95,14 +74,7 @@ export default function MenuCategoriesPage() {
         router.replace({
             pathname: '/listorders', 
             query: {
-                flowState: JSON.stringify({
-                    customer: flowState.customer,
-                    confirmed: flowState.confirmed,
-                    orders: {
-                        buttonVisible: flowState.orders.buttonVisible,
-                        total: flowState.orders.total
-                    }
-                }),
+                customer: customer
             }
         })
     }
@@ -110,8 +82,8 @@ export default function MenuCategoriesPage() {
     return (<>
         <MenuCategories 
             categories={categories}
-            ordersButtonVisible={flowState.orders.buttonVisible}
-            ordersTotal={flowState.orders.total}
+            ordersButtonVisible={setFooterButtonVisible(orders)}
+            ordersTotal={calculateOrdersTotal(orders)}
             onClickFooter={onClickShowOrders}
             onClickCategory={onClickCategory}/>
     </>)

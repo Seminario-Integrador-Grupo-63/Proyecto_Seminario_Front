@@ -113,9 +113,3 @@ Login.propTypes =
     usernameInputType: PropTypes.oneOf(["email", "username"]),
     error: PropTypes.bool
 }
-
-/**
-console.log("")
-console.log(":", )
-console.log("  ")
-*/

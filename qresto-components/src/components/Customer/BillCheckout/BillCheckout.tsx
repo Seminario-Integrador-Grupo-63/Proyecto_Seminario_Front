@@ -24,6 +24,10 @@ export const BillCheckout = (props: any) => {
         return total
     }
 
+    const processData = () => {
+        
+    }
+
     return (<>
         <CustomerContainer>
             <CustomerHeader

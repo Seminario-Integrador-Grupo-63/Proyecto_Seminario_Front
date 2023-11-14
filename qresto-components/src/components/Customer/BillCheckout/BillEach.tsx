@@ -7,6 +7,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 
 export const BillEach = (props: any) => {
+
     const createBillRow = (row, index) => {
         return(<BillRow key={'billrow' + index} row={row} />)
     }

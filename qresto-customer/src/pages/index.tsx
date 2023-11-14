@@ -5,20 +5,23 @@ import { NameInputMain } from '@/Customer/NameInput/NameInputMain'
 import { postCustomer } from '@/requests'
 import {MessageDialog} from '@/Common/MessageDialog'
 import {tableCode} from '@/Common/FakeData/Tables'
-import { FlowState} from '@/Common/FlowState'
+// import { FlowState} from '@/Common/FlowState'
+// import { customer } from './global'
 
 export default function Home() {
     const router = useRouter()
     const [openRepeatedNameDialog, setOpenRepeatedNameDialog] = useState(false)
     const [openEmptyNameDialog, setOpenEmptyNameDialog] = useState(false)
-    const flowState: FlowState = {
-        customer: '',
-        confirmed: false,
-        orders: {
-            buttonVisible: false,
-            total: 0
-        }
-    }
+    // const [customer, setCustomer] = useState('')
+    
+    // const flowState: FlowState = {
+    //     customer: '',
+    //     confirmed: false,
+    //     orders: {
+    //         buttonVisible: false,
+    //         total: 0
+    //     }
+    // }
 
     const onEnterName = async (name) => {
         if(name === ''){
@@ -27,17 +30,17 @@ export default function Home() {
             const result = await postCustomer(name, tableCode)
             setOpenRepeatedNameDialog(!result)
             if(result){
-                // router.replace(`/menucategories?customer=${name}`) 
-                flowState.customer = name
                 router.replace({
                     pathname: "/menucategories",
                     query: {
-                        flowState: JSON.stringify(flowState)
+                        customer: name
                     }
                 })
             }
         }
     }
+
+
 
     return (<>
         <Head>
@@ -67,8 +70,3 @@ export default function Home() {
         </main>
     </>)
 }
-/**
-console.log(" ")
-console.log("Home")
-console.log(": ", )
-*/

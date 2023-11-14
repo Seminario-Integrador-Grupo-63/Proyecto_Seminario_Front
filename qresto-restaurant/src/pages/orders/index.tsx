@@ -20,8 +20,3 @@ export default function QRGeneratorPage() {
         <Orders/>
     </>)
 }
-/**
-console.log(" ")
-console.log("Home")
-console.log(": ", )
-*/

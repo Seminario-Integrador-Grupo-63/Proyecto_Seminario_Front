@@ -70,7 +70,7 @@ export async function getTables(){
 
 export async function getBill(tableCode){
     const response = await axios.get<any>(url + `/table/${tableCode}/bill`)
-    return response.data[0]
+    return response.data
 }
 
 export async function deleteOrderDetail(tableCode, orderDetail){

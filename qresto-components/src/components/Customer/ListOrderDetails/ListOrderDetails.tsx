@@ -130,7 +130,6 @@ export const ListOrderDetails = (props: any) => {
                 return true
             }
         })
-        console.log('isInOrder: ', isInOrder)
         return isInOrder
     }
 

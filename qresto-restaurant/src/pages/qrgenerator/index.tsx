@@ -22,8 +22,3 @@ export default function QRGeneratorPage() {
         <QRGenerator qrcodes={qrImage}/>
     </>)
 }
-/**
-console.log(" ")
-console.log("Home")
-console.log(": ", )
-*/

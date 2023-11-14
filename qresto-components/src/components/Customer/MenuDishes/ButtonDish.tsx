@@ -132,10 +132,3 @@ ButtonDish.propTypes =
     displayTotalPrice: PropTypes.bool,
     totalPricePosition: PropTypes.oneOf(['right', 'left'])
 }
-
-/**
-console.log(" ")
-console.log("ButtonDish")
-console.log(": ", )
-*/
-

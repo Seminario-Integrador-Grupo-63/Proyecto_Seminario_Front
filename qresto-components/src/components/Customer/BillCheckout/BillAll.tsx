@@ -48,7 +48,7 @@ export const BillAll = (props: any) => {
                                 </>
                         :
                             <>
-                                <TableCell component="th" scope="row">{orderDetail.sideDish.name} X{orderDetail.amount}</TableCell>
+                                <TableCell component="th" scope="row">{orderDetail.sideDish.name}</TableCell>
                                 <TableCell align="right">${orderDetail.sideDish.extraPrice}</TableCell>
                             </>
                         }
@@ -64,8 +64,8 @@ export const BillAll = (props: any) => {
         <TableContainer component={Paper}>
             <Table size="small" aria-label="a dense table"
                    sx={{backgroundColor: theme.palette.primary.contrastText}}>
-                <TableHead>
-                    {/*<TableRow>
+                {/* <TableHead>
+                    <TableRow>
                         <TableCell align="left"
                                    style={{ fontWeight: 'bold' }}>
                             PRODUCTO
@@ -74,8 +74,8 @@ export const BillAll = (props: any) => {
                                    style={{ fontWeight: 'bold' }}>
                             PRECIO
                         </TableCell>
-                    </TableRow>*/}
-                </TableHead>
+                    </TableRow>
+                </TableHead> */}
 
                 <TableBody>
                     {props.billData.map(customerData => createCustomerData(customerData))}
@@ -93,9 +93,7 @@ export const BillAll = (props: any) => {
                             ${calculateTotal()}
                         </TableCell>
                     </TableRow>
-
                 </TableBody>
-
             </Table>
         </TableContainer>
     </>)
