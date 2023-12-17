@@ -6,15 +6,17 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Typography
+    Typography,
+    ThemeProvider
 } from '@mui/material'
+import {theme} from '@/Common/Theme/themes'
 
 export const FormDialog = (props: any) => {
     return (<>
         <div>
             <Dialog
                 fullWidth
-                maxWidth={'md'}
+                maxWidth={props.maxWidth}
                 open={props.open}
                 onClose={props.onClose}
                 aria-labelledby="alert-dialog-title"
@@ -34,19 +36,24 @@ export const FormDialog = (props: any) => {
                 <DialogContent>
                     {props.children}
                 </DialogContent>
-
+                
                 <DialogActions>
-                    {props.action1Visible?
-                        <Button onClick={props.onaction1}>
-                            {props.action1Text}
+                    <ThemeProvider theme={theme}>
+                        {props.action1Visible?
+                            <Button onClick={props.onaction1}
+                                    color='primary'>
+                                {props.action1Text}
+                            </Button>
+                        :
+                            null
+                        }
+                        <Button onClick={props.onSubmit}
+                                color='primary'>
+                            {props.submitText}
                         </Button>
-                    :
-                        null
-                    }
-                    <Button onClick={props.onSubmit}>
-                        {props.submitText}
-                    </Button>
-                    <Button onClick={props.onClose} autoFocus>
+                    </ThemeProvider>
+                    <Button onClick={props.onClose} autoFocus
+                            sx={{color: 'black'}}>
                         {props.closeText}
                     </Button>
                 </DialogActions>
@@ -78,7 +85,7 @@ FormDialog.propTypes =
     onClose: PropTypes.func,
     closeText: PropTypes.string,
     title: PropTypes.string,
-    children: PropTypes.node,
+    children: PropTypes.any,
     maxWidth: PropTypes.string,
     action1Visible: PropTypes.bool,
     action1Text: PropTypes.string,

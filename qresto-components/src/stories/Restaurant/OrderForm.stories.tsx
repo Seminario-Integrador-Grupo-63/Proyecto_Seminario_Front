@@ -1,53 +1,51 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { FormDialog } from "@/Common/FunctionalTemplates/FormDialog";
+import { OrderForm } from "@/Restaurant/OrderForm/OrderForm";
 import {widths100} from "@/Stories/viewports";
-import { Button } from  '@mui/material'
-import {useState} from 'react'
+import { useState } from "react";
+import { Button} from '@mui/material'
+import { ordersDTO } from "@/Common/FakeData/OrdersData";
 
 export default {
-    title: "components/Common/FunctionalTemplates/FormDialog",
-    component: FormDialog ,
+    title: "components/Restaurant/OrderForm",
+    component: OrderForm ,
     argTypes: {},
     parameters: {
         viewport: {viewports: widths100},
         layout: 'fullscreen'
     }
-} as Meta<typeof FormDialog >;
+} as Meta<typeof OrderForm >;
 
-type Story = StoryObj<typeof FormDialog>;
+type Story = StoryObj<typeof OrderForm>;
 
-export const FormDialogMain: Story = {
+export const OrderFormMain: Story = {
     render: () =>{
 
         const [open, setOpen] = useState(false);
 
         const handleClickOpen = () => {
             setOpen(true);
-        }
+        };
       
         const handleClose = () => {
             setOpen(false);
-        }
-        
+        };
         return(<>
             <Button variant="outlined" onClick={handleClickOpen}>
-                Abrir dialog
+                Abrir Order Form
             </Button>
 
-            <FormDialog 
+            <OrderForm
                 open={open}
-                submitText="aceptar"
-                action1Text="sgdf"
-                action1Visible={true}
-                onClose={handleClose}/>
+                onClose={handleClose}
+                order={ordersDTO[0]}/>
         </>);
     } 
 };
 
-// export const Aspect1: Story = {
+// export const OrderFormTableShowcase: Story = {
 //     render: () =>{
 //         return(<>
-//             <FormDialogMobile mode={"portrait"}/>
+//             {/* <OrderFormMobile mode={"portrait"}/> */}
 //         </>);
 //     } 
 // };

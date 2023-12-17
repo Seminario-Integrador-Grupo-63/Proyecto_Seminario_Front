@@ -76,11 +76,6 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                             label={'Categorías'} 
                             items={loadCategories()}/>
                     </Grid>
-                    <Grid sx={{marginBottom: marginBottom}}>
-                        <SelectorChips
-                            label={'Guarniciones'} 
-                            items={loadSideDishes()}/>
-                    </Grid>
                 </Grid>
 
                 {/* --------------------------------------------------------- Lado derecho */}
@@ -113,29 +108,13 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>
                             }}/>
                     </Grid>
-                    {/* <Grid sx={{marginBottom: marginBottom}}>
-                        <FormGroup>
-                            <FormControlLabel control={<Checkbox />} label="Incluye Descuento" />
-                        </FormGroup>
-                    </Grid>
-                    <Grid
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'row'
-                        }}>
-                        <Grid item xs={6} sx={{marginRight: '7.5px'}}>
-                            <TextField label={'Descuento %'}/>
-                        </Grid>
-                        <Grid item xs={6} sx={{marginleft: '7.5px'}}>
-                            <TextField 
-                                label={'Precio Final'}
-                                fullWidth
-                                type='number'
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start">$</InputAdornment>
-                                }}/>
-                        </Grid>
-                    </Grid> */}
+                </Grid>
+                
+                {/* --------------------------------------------------------- Parte de abajo */}
+                <Grid sx={{marginBottom: marginBottom}} item xs={12}>
+                    <SelectorChips
+                        label={'Guarniciones'} 
+                        items={loadSideDishes()}/>
                 </Grid>
             </Grid>
         </Container>
