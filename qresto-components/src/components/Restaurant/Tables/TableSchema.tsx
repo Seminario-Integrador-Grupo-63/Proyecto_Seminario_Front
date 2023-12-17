@@ -6,24 +6,6 @@ import PropTypes from "prop-types";
 import ListItem from "@mui/material/ListItem";
 
 
-function createSector(
-    sector: string,
-    tables: Array<any>,
-) {
-    return { sector, tables };
-}
-function createTable(
-    name: string,
-) {
-    return { name};
-}
-
-const rows = [
-    createSector('Terraza', [createTable("Mesa 1"), createTable("Mesa 2")]),
-    createSector('Patio', [createTable("Mesa 3"), createTable("Mesa 4")]),
-    createSector('Interior', [createTable("Mesa 5"), createTable("Mesa 6")]),
-];
-
 export const TableSchema = ( props: any ) => {
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -41,11 +23,7 @@ export const TableSchema = ( props: any ) => {
 
 TableSchema.defaultProps =
     {
-        sectors: [
-            createSector('Terraza', [createTable("Mesa 1"), createTable("Mesa 2"), createTable("Mesa 1"), createTable("Mesa 1"), createTable("Mesa 1")]),
-            createSector('Patio', [createTable("Mesa 3"), createTable("Mesa 4")]),
-            createSector('Interior', [createTable("Mesa 5"), createTable("Mesa 6")]),
-        ],
+        sectors: [],
     }
 
 TableSchema.propTypes =

@@ -22,7 +22,7 @@ export const TableGrid = ( props: any ) => {
                 <Typography>
                     {props.sectorName}
                 </Typography>
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12}}>
                     {props.tables.map((table) => (
                         <Grid item xs={6} sm={3}>
                             <Item>
