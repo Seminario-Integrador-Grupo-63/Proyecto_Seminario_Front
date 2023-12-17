@@ -1,18 +1,16 @@
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import * as React from "react";
 import List from "@mui/material/List";
 import {TableGrid} from "@/Restaurant/Tables/TableGrid";
 import PropTypes from "prop-types";
 import ListItem from "@mui/material/ListItem";
-import Typography from "@mui/material/Typography";
 
 
-function createSection(
-    name: string,
+function createSector(
+    sector: string,
     tables: Array<any>,
 ) {
-    return { name, tables };
+    return { sector, tables };
 }
 function createTable(
     name: string,
@@ -21,18 +19,18 @@ function createTable(
 }
 
 const rows = [
-    createSection('Terraza', [createTable("Mesa 1"), createTable("Mesa 2")]),
-    createSection('Patio', [createTable("Mesa 3"), createTable("Mesa 4")]),
-    createSection('Interior', [createTable("Mesa 5"), createTable("Mesa 6")]),
+    createSector('Terraza', [createTable("Mesa 1"), createTable("Mesa 2")]),
+    createSector('Patio', [createTable("Mesa 3"), createTable("Mesa 4")]),
+    createSector('Interior', [createTable("Mesa 5"), createTable("Mesa 6")]),
 ];
 
 export const TableSchema = ( props: any ) => {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <List>
-                {props.sections.map((section) =>(
+                {props.sectors.map((sector) =>(
                     <ListItem>
-                        <TableGrid tables={section.tables} sectionName={section.name}/>
+                        <TableGrid tables={sector.tables} sectorName={sector.sector}/>
                     </ListItem>
                 ))}
             </List>
@@ -43,14 +41,14 @@ export const TableSchema = ( props: any ) => {
 
 TableSchema.defaultProps =
     {
-        sections: [
-            createSection('Terraza', [createTable("Mesa 1"), createTable("Mesa 2"), createTable("Mesa 1"), createTable("Mesa 1"), createTable("Mesa 1")]),
-            createSection('Patio', [createTable("Mesa 3"), createTable("Mesa 4")]),
-            createSection('Interior', [createTable("Mesa 5"), createTable("Mesa 6")]),
+        sectors: [
+            createSector('Terraza', [createTable("Mesa 1"), createTable("Mesa 2"), createTable("Mesa 1"), createTable("Mesa 1"), createTable("Mesa 1")]),
+            createSector('Patio', [createTable("Mesa 3"), createTable("Mesa 4")]),
+            createSector('Interior', [createTable("Mesa 5"), createTable("Mesa 6")]),
         ],
     }
 
 TableSchema.propTypes =
     {
-        sections: PropTypes.array,
+        sectors: PropTypes.array,
     }

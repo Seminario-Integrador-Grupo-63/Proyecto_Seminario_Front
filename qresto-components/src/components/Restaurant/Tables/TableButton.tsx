@@ -9,12 +9,11 @@ import propTypes = SliderValueLabel.propTypes;
 export default function TableButton (props: any) {
     return (
     <React.Fragment>
-        <Button
-        >{props.tableName}
+        <Button>
+            Mesa {props.tableId}
         </Button>
     </React.Fragment>
-)
-}
+)}
 
 TableButton.defaultProps =
     {
@@ -26,6 +25,6 @@ TableButton.defaultProps =
 TableButton.propTypes =
     {
         stateColor: propTypes.String,
-        tableName: propTypes.String,
+        tableId: propTypes.String,
         onCLickTable: propTypes.function,
     }
