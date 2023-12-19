@@ -33,6 +33,7 @@ export const FoodMenu = (props: any) => {
                 }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tab label="Categorias"/>
                         <Tab label="Platos"/>
                         <Tab label="Guarniciones"/>
                         <Tab label="Actualizar Precios"/>

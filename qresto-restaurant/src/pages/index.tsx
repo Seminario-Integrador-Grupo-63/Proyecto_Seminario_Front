@@ -1,10 +1,9 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { getQRRequest } from './api/requests'
-import {useState, useEffect} from 'react'
+import {useEffect} from 'react'
+import {Layout} from "@/Restaurant/Layout/Layout";
+import {FoodMenu} from "@/Restaurant/FoodMenu/FoodMenu";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,9 +23,27 @@ export default function Home() {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className={styles.main}>
-            <div className={styles.description}>
-            </div>
+
+        <main>
+            <Layout
+                // onTables={}
+                // onUsers={}
+                // onOrders={}
+                // onFoodMenu={}
+            >
+                <FoodMenu>
+
+                </FoodMenu>
+
+            </Layout>
         </main>
+
+
+
+
+        {/*<main className={styles.main}>*/}
+        {/*    <div className={styles.description}>*/}
+        {/*    </div>*/}
+        {/*</main>*/}
     </>)
 }

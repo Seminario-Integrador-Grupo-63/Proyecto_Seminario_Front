@@ -1,4 +1,3 @@
-import styles from './Users.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Container} from '@mui/material'
