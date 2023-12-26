@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
 import {useEffect} from 'react'
-import { Orders } from '@/Restaurant/Orders/Orders'
+import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu'
 
 export default function QRGeneratorPage() {
 
     return (<>
-        <Orders/>
+        <FoodMenu/>
     </>)
 }

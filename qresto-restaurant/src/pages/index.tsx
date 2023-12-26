@@ -1,20 +1,16 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
 import {useEffect} from 'react'
-import {Layout} from "@/Restaurant/Layout/Layout";
-import {FoodMenu} from "@/Restaurant/FoodMenu/FoodMenu";
-
-const inter = Inter({ subsets: ['latin'] })
+import { Login } from '@/Restaurant/Login/Login'
 
 export default function Home() {
     const router = useRouter()
 
-    useEffect(() => {
-        if (router.asPath === '/') {
-            router.replace('/orders');
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (router.asPath === '/') {
+    //         router.replace('/orders');
+    //     }
+    // }, []);
 
     return (<>
         <Head>
@@ -23,27 +19,6 @@ export default function Home() {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
-
-        <main>
-            <Layout
-                // onTables={}
-                // onUsers={}
-                // onOrders={}
-                // onFoodMenu={}
-            >
-                <FoodMenu>
-
-                </FoodMenu>
-
-            </Layout>
-        </main>
-
-
-
-
-        {/*<main className={styles.main}>*/}
-        {/*    <div className={styles.description}>*/}
-        {/*    </div>*/}
-        {/*</main>*/}
+        <Login/>
     </>)
 }

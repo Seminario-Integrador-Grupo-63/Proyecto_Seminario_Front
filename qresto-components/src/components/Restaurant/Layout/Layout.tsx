@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { Container } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -20,6 +20,7 @@ import FastfoodIcon from '@mui/icons-material/Fastfood';
 import TableBarIcon from '@mui/icons-material/TableBar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {theme} from '@/Common/Theme//themes'
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -34,26 +35,27 @@ interface Props {
 
 export const Layout = (props: any) => {
     const { window} = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [title, setTitle] = useState('Title')
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
-    };
+    }
 
     const onOrders = () => {
-        props.onOrders()
+        setTitle('Ordenes')
     }
 
     const onTables = () => {
-        props.onTables()
+        setTitle('Mesas')
     }
 
     const onFoodMenu = () => {
-        props.onFoodMenu()
+        setTitle('Carta')
     }
 
     const onUsers = () => {
-        props.onUsers()
+        setTitle('Usuarios')
     }
   
     const drawer = (
@@ -62,40 +64,48 @@ export const Layout = (props: any) => {
             <Divider />
             <List>
                 <ListItem key={"orders"}>
-                    <ListItemButton onClick={onOrders}>
-                        <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                        {<StyleIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={"Ordenes"} />
-                    </ListItemButton>
+                    <Link href="/orders">
+                        <ListItemButton onClick={onOrders}>
+                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                {<StyleIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={"Ordenes"} />
+                        </ListItemButton>
+                    </Link>
                 </ListItem>
                 <ListItem key={"tables"}>
-                    <ListItemButton onClick={onTables}>
-                        <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                        {<TableBarIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={"Mesas"} />
-                    </ListItemButton>
+                    <Link href="/tables">
+                        <ListItemButton onClick={onTables}>
+                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                {<TableBarIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={"Mesas"} />
+                        </ListItemButton>
+                    </Link>
                 </ListItem>
                 <ListItem key={"food-menu"}>
-                    <ListItemButton onClick={onFoodMenu}>
-                        <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                        {<FastfoodIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={"Carta"} />
-                    </ListItemButton>
+                    <Link href="/foodmenu">
+                        <ListItemButton onClick={onFoodMenu}>
+                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                {<FastfoodIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={"Carta"} />
+                        </ListItemButton>
+                    </Link>
                 </ListItem>
                 <ListItem key={"users"}>
-                    <ListItemButton onClick={onUsers}>
-                        <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                        {<AccountCircleIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={"Usuarios"} />
-                    </ListItemButton>
+                    <Link href="/users">
+                        <ListItemButton onClick={onUsers}>
+                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                {<AccountCircleIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={"Usuarios"} />
+                        </ListItemButton>
+                    </Link>
                 </ListItem>
             </List>
         </div>
-    );
+    )
   
     const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -103,9 +113,13 @@ export const Layout = (props: any) => {
         <Container
             maxWidth={false}
             sx={{
-
+                height: '100%'
             }}>
-            <Box sx={{ display: 'flex' }}>
+            <Box 
+                sx={{ 
+                    display: 'flex', 
+                    width: '95vw',
+                    height: '95vh'}}>
                 <CssBaseline />
                 <AppBar
                     position="fixed"
@@ -128,7 +142,7 @@ export const Layout = (props: any) => {
                             noWrap 
                             component="div"
                             sx={{color: theme.palette.secondary.main, fontSize: 25}}>
-                            {props.title}
+                            {title}
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -163,7 +177,11 @@ export const Layout = (props: any) => {
                 </Box>
                 <Box
                     component="main"
-                    sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+                    sx={{ 
+                        flexGrow: 1, 
+                        p: 3, 
+                        width: { sm: `calc(100% - ${drawerWidth}px)` } 
+                        }}>
                     <Toolbar />
                     {props.children}
                 </Box>
@@ -174,19 +192,10 @@ export const Layout = (props: any) => {
 
 Layout.defaultProps =
 {
-    title: 'Title',
-    onOrders: function(){},
-    onTables:  function(){},
-    onFoodMenu:  function(){},
-    onUsers:  function(){},
+    children: null
 }
 
 Layout.propTypes = 
 {
-    title: PropTypes.string,
-    onOrders: PropTypes.func,
-    onTables: PropTypes.func,
-    onFoodMenu: PropTypes.func,
-    onUsers: PropTypes.func,
-    children: PropTypes.node,
+    children: PropTypes.any,
 }

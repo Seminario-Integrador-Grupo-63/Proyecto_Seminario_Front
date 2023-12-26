@@ -7,18 +7,16 @@ import {TableSchema} from "@/Restaurant/Tables/TableSchema";
 
 export const Tables = (props: any) => {
     return (<>
-        <Layout
+        {/* <Layout
             title={'Mesas'}
             onOrders={props.onOrders}
             onFoodMenu={props.onFoodMenu}
             onTables={props.onTables}
-            onUsers={props.onUsers}>
-            <Container>
-                <TableSchema>
-
-                </TableSchema>
+            onUsers={props.onUsers}>*/}
+            <Container> 
+                <TableSchema></TableSchema>
             </Container>
-        </Layout>
+        {/* </Layout> */}
     </>);
 }
 
@@ -39,5 +37,3 @@ Tables.propTypes =
     onUsers: PropTypes.func,
     sectors: PropTypes.array,
 }
-
-

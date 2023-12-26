@@ -2,10 +2,10 @@ import { Meta, StoryObj } from "@storybook/react";
 //*import { DishCard } from '@/components/Restaurant/DishCard/DishCard.1';
 import {widths100} from "@/Stories/viewports";
 import { dishes } from "@/components/Common/FakeData/DishesData";
-import { DishCard } from "@/components/Restaurant/DishCard/DishCard";
+import { DishCard } from "@/components/Restaurant/FoodMenu/Dishes/DishCard/DishCard";
 
 export default {
-    title: "components/Restaurant/DishCard",
+    title: "components/Restaurant/FoodMenu/DishCard",
     component: DishCard ,
     argTypes: {},
     parameters: {
@@ -35,7 +35,7 @@ export const DishCardMain: Story = {
         return( 
 
             <div style={contenedor} >
-            {dishes.map(dish => <DishCard dish={dish} />)}
+                {dishes.map(dish => <DishCard dish={dish} />)}
             </div>
            
         );
