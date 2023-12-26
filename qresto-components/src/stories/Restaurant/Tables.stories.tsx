@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Tables } from "@/Restaurant/Tables/Tables";
 import {widths100} from "@/Stories/viewports";
+import {tableSchema} from "@/Common/FakeData/Tables";
 
 export default {
     title: "components/Restaurant/Tables",
@@ -24,7 +25,7 @@ export const TablesMain: Story = {
         }
 
         return(<>
-            <Tables/>
+            <Tables sectors={tableSchema}/>
         </>);
     } 
 };

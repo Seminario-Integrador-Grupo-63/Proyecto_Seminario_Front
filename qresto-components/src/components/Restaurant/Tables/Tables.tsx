@@ -28,6 +28,7 @@ Tables.defaultProps =
     onTables:  function(){},
     onFoodMenu:  function(){},
     onUsers:  function(){},
+    sectors: [],
 }
 
 Tables.propTypes = 
@@ -36,6 +37,7 @@ Tables.propTypes =
     onTables: PropTypes.func,
     onFoodMenu: PropTypes.func,
     onUsers: PropTypes.func,
+    sectors: PropTypes.array,
 }
 
 

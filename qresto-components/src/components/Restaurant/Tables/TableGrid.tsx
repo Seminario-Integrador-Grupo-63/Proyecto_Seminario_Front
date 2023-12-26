@@ -20,13 +20,13 @@ export const TableGrid = ( props: any ) => {
         <React.Fragment>
             <Box>
                 <Typography>
-                    {props.sectionName}
+                    {props.sectorName}
                 </Typography>
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12}}>
                     {props.tables.map((table) => (
                         <Grid item xs={6} sm={3}>
                             <Item>
-                                <TableButton tableName={table.name}/>
+                                <TableButton tableId={table.id}/>
                             </Item>
                         </Grid>
                     ))}
@@ -39,12 +39,12 @@ export const TableGrid = ( props: any ) => {
 
 TableGrid.defaultProps =
     {
-        sectionName: "",
+        sectorName: "",
         tables: [],
     }
 
 TableGrid.propTypes =
     {
-        sectionName: PropTypes.string,
+        sectorName: PropTypes.string,
         tables: PropTypes.array,
     }
