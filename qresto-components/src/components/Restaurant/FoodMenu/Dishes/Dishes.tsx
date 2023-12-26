@@ -1,4 +1,3 @@
-import styles from './Dishes.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DishCard } from '../Dishes/DishCard/DishCard';
