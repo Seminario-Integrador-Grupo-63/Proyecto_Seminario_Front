@@ -6,7 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CustomButton } from '@/Common/CustomButton';
 import { theme, themeButton } from '@/Common/Theme/themes';
-import { Box, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
+import { ThemeProvider } from '@emotion/react';
 
 export const DishCard = (props: any) => {
     const contenedor = {
@@ -21,23 +22,9 @@ export const DishCard = (props: any) => {
                     component="img"
                     style={{width: '100%',height: '180px',objectFit: 'cover'}}
                     alt=""
-                    // src={setImage()}
                     src={props.dish.image}
                 />
             </div>
-            <Grid
-                sx={{
-                    width: '90vw'
-                }}>
-                <Box
-                    sx={{
-                        background: theme.palette.secondary.light,
-                        borderRadius: '5px',
-                        padding: '10px',
-                        marginBottom: '3vh'
-                    }}>
-                </Box>
-            </Grid>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {props.dish.name}
@@ -47,19 +34,16 @@ export const DishCard = (props: any) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <CustomButton
-                color={themeButton.palette.primary}>
-                <div>
-                    {props.title}
-                    <span style={{ marginLeft: '30px' }}>Edit{props.price}</span>
-                </div>
-                </CustomButton>
-                <CustomButton color={themeButton.palette.primary}>
-                <div>
-                    {props.title}
-                    <span style={{ marginLeft: '30px' }}>Delete{props.price}</span>
-                </div>
-                </CustomButton>
+                <Grid container justifyContent="flex-end">
+                    <ThemeProvider theme={themeButton}>
+                        <Button variant="text" color="primary">
+                            Edit
+                        </Button>
+                        <Button variant="text" color="primary">
+                            Delete
+                        </Button>
+                    </ThemeProvider>
+                </Grid>
             </CardActions>
         </Card>
     )
