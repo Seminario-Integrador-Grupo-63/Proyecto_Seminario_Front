@@ -1,5 +1,4 @@
-// import styles from './DataTable.module.scss';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {
     Paper,
@@ -9,154 +8,162 @@ import {
     TableContainer,
     TableHead,
     TablePagination,
-    TableRow
+    TableRow,
+    IconButton,
 } from '@mui/material';
-
-interface Column {
-    id: 'name' | 'code' | 'population' | 'size' | 'density';
-    label: string;
-    minWidth?: number;
-    align?: 'right';
-    format?: (value: number) => string;
-}
-  
-const columns: readonly Column[] = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-    {
-      id: 'population',
-      label: 'Population',
-      minWidth: 170,
-      align: 'right',
-      format: (value: number) => value.toLocaleString('en-US'),
-    },
-    {
-      id: 'size',
-      label: 'Size\u00a0(km\u00b2)',
-      minWidth: 170,
-      align: 'right',
-      format: (value: number) => value.toLocaleString('en-US'),
-    },
-    {
-      id: 'density',
-      label: 'Density',
-      minWidth: 170,
-      align: 'right',
-      format: (value: number) => value.toFixed(2),
-    },
-]
-
-interface Data {
-    name: string;
-    code: string;
-    population: number;
-    size: number;
-    density: number;
-  }
-  
-  function createData(
-    name: string,
-    code: string,
-    population: number,
-    size: number,
-  ): Data {
-    const density = population / size;
-    return { name, code, population, size, density };
-}
-
-const rows = [
-    createData('India', 'IN', 1324171354, 3287263),
-    createData('China', 'CN', 1403500365, 9596961),
-    createData('Italy', 'IT', 60483973, 301340),
-    createData('United States', 'US', 327167434, 9833520),
-    createData('Canada', 'CA', 37602103, 9984670),
-    createData('Australia', 'AU', 25475400, 7692024),
-    createData('Germany', 'DE', 83019200, 357578),
-    createData('Ireland', 'IE', 4857000, 70273),
-    createData('Mexico', 'MX', 126577691, 1972550),
-    createData('Japan', 'JP', 126317000, 377973),
-    createData('France', 'FR', 67022000, 640679),
-    createData('United Kingdom', 'GB', 67545757, 242495),
-    createData('Russia', 'RU', 146793744, 17098246),
-    createData('Nigeria', 'NG', 200962417, 923768),
-    createData('Brazil', 'BR', 210147125, 8515767),
-]; 
+import DeleteIcon from '@mui/icons-material/Delete';
+import LaunchIcon from '@mui/icons-material/Launch';
+import EditIcon from '@mui/icons-material/Edit';
 
 export const DataTable = (props: any) => {
-
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [page, setPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [headers, setHeaders] = useState([])
+    // const [rows, setRows] = useState([])
   
     const handleChangePage = (event: unknown, newPage: number) => {
-      setPage(newPage);
-    };
-  
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
+        setPage(newPage)
     }
   
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0)
+    }
+
+    useEffect(() => {
+        setActions();
+    }, [props.headers, props.actions]);
+
+    const setActions = () => {
+        if(props.actions){
+            const hasActions = headers.some(header => header.key == 'actions')
+            if(!hasActions){
+                let h = props.headers
+                h.push({label: 'Actions', key: 'actions'})
+                setHeaders(h)
+            }
+        }
+    }
+
+    const onEdit = (row) => {
+        props.onEdit(row)
+    }
+
+    const onDelete = (row) => {
+        props.onShow(row)
+    }
+
+    const onShow = (row) => {
+        props.onShow(row)
+    }
+
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+            <TableContainer sx={{ maxHeight: 440 }}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            {headers.map((header, index) => (
+                                <TableCell
+                                    key={index}>
+                                    {header.label}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {props.rows
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, rowIndex) => (
+                            <TableRow hover role="checkbox" tabIndex={-1} key={"row" + rowIndex}>
+                                {headers.map((header, cellIndex) => (
+                                <TableCell key={"cell" + cellIndex}>
+                                    {header.key === 'actions' ? (
+                                    /* Render content for 'actions' header */
+                                    <>
+                                        {props.actionsType === 'edit-delete' ? (
+                                            <>
+                                                <IconButton 
+                                                    aria-label="edit"
+                                                    onClick={() => onEdit(row)}>
+                                                    <EditIcon/>
+                                                </IconButton>
+
+                                                <IconButton 
+                                                    aria-label="delete"
+                                                    onClick={() => onDelete(row)}>
+                                                    <DeleteIcon/>
+                                                </IconButton>
+                                            </>
+                                            ) : (
+                                            <>
+                                                <IconButton 
+                                                    aria-label="show"
+                                                    onClick={() => onShow(row)}>
+                                                    <LaunchIcon/>
+                                                </IconButton>
+                                            </>
+                                        )}
+                                    </>
+                                    ) : (
+                                        /* Render regular cell content */
+                                        row[header.key]
+                                    )}
+                                </TableCell>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={props.rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}/>
         </Paper>
-      );
+    )
 }
 
 DataTable.defaultProps =
 {
-
-
+    headers: [],
+    rows: [],
+    actions: true,
+    actionsType: 'edit-delete',
+    onEdit: function(){},
+    onDelete: function(){},
+    onShow: function(){}
 }
 
 DataTable.propTypes =
 {
+    headers: PropTypes.array,
+    /**
+    headers = [
+        {title: "Header 1", key: header1},
+        {title: "Another Header", key: anotherHeader},
+        ...
+    ]
+    */
 
+    rows: PropTypes.array,
+    /**
+    rows = [
+        {header1: "value 1A", anotherHeader: "value 1B"},
+        {header1: "value 2A", anotherHeader: "value 2B"},
+        ...
+    ]
+    */
+
+    actions: PropTypes.bool,
+    actionsType: PropTypes.oneOf(['edit-delete', 'show']),
+    onEdit: PropTypes.func,
+    onDelete: PropTypes.func,
+    onShow: PropTypes.func
 }
 
 

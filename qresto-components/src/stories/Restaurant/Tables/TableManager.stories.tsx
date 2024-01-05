@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { TableManager } from "@/Restaurant/Tables/TableManager";
 import {widths100} from "@/Stories/viewports";
+import { ordersDTO } from "@/Common/FakeData/OrdersData";
 
 export default {
     title: "components/Restaurant/Tables/TableManager",
@@ -18,7 +19,7 @@ export const TableManagerMain: Story = {
     render: () =>{
 
         return(<>
-            <TableManager/>
+            <TableManager orders={ordersDTO}/>
         </>);
     } 
 };
