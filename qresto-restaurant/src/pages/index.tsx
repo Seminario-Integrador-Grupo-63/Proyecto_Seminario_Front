@@ -1,16 +1,37 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import {useEffect} from 'react'
 import { Login } from '@/Restaurant/Login/Login'
+import {loginRestaurant} from "@/requests";
+import {useState} from "react";
 
 export default function Home() {
     const router = useRouter()
+    const [userLogin, setUserLogin] = useState(null)
 
     // useEffect(() => {
     //     if (router.asPath === '/') {
     //         router.replace('/orders');
     //     }
     // }, []);
+
+    const singIn = async (user) => {
+        const result = await loginRestaurant(user)
+        // Guardar en el use state el resultado
+        setUserLogin(result)
+        // Si es rol admin va a users, si es employee a orders
+        if(userLogin != null){
+            if(userLogin.role == "admin"){
+                await router.replace({
+                    pathname: "/users",
+                })
+            }
+            if(userLogin.role == "employee"){
+                await router.replace({
+                    pathname: "/orders",
+                })
+            }
+        }
+    }
 
     return (<>
         <Head>
@@ -19,6 +40,6 @@ export default function Home() {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Login/>
+        <Login onSignInSubmit={singIn}/>
     </>)
 }

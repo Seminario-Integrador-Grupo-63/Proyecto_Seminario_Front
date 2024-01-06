@@ -81,6 +81,17 @@ export async function cancelOrder(){
 
 }
 
+export async function loginRestaurant(user) {
+    try{
+        const response = await axios.post<any>(url + `/login`, user)
+        // Guardar restaurant ID
+        return response.data
+
+    } catch (error){
+        return false
+    }
+}
+
 // ---------------------------------------------------------------------------------------------------
 // export { getCategories } from "@/Common/FakeData/FakeRequests";
 // export { getCategory } from "@/Common/FakeData/FakeRequests";
