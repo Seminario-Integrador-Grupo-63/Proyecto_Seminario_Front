@@ -6,7 +6,7 @@ import { Button} from '@mui/material'
 import { ordersDTO } from "@/Common/FakeData/OrdersData";
 
 export default {
-    title: "components/Restaurant/OrderForm",
+    title: "components/Restaurant/Tables/OrderForm",
     component: OrderForm ,
     argTypes: {},
     parameters: {

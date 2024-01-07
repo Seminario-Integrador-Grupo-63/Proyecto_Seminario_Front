@@ -1,9 +1,8 @@
-import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
 import {useEffect} from 'react'
 import {Table} from "@mui/material";
-
-const inter = Inter({ subsets: ['latin'] })
+import { TableSchema } from '@/Restaurant/Tables/TableSchema'
+import { sectors} from '@/Common/FakeData/Tables'
 
 export default function TablesPage() {
     const router = useRouter()
@@ -13,6 +12,6 @@ export default function TablesPage() {
     }, [])
 
     return (<>
-        <Table/>
+        <TableSchema sectors={sectors}/>
     </>)
 }

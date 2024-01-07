@@ -1,31 +1,25 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Tables } from "@/Restaurant/Tables/Tables";
+import { TableManager } from "@/Restaurant/Tables/TableManager";
 import {widths100} from "@/Stories/viewports";
-import {tableSchema} from "@/Common/FakeData/Tables";
+import { ordersDTO } from "@/Common/FakeData/OrdersData";
 
 export default {
-    title: "components/Restaurant/Tables",
-    component: Tables ,
+    title: "components/Restaurant/Tables/TableManager",
+    component: TableManager ,
     argTypes: {},
     parameters: {
         viewport: {viewports: widths100},
         layout: 'fullscreen'
     }
+} as Meta<typeof TableManager >;
 
+type Story = StoryObj<typeof TableManager>;
 
-} as Meta<typeof Tables >;
-
-type Story = StoryObj<typeof Tables>;
-
-export const TablesMain: Story = {
+export const TableManagerMain: Story = {
     render: () =>{
 
-        const myFunction = () => {
-            
-        }
-
         return(<>
-            <Tables sectors={tableSchema}/>
+            <TableManager orders={ordersDTO}/>
         </>);
     } 
 };
@@ -33,7 +27,7 @@ export const TablesMain: Story = {
 // export const Aspect1: Story = {
 //     render: () =>{
 //         return(<>
-//             <TablesMobile mode={"portrait"}/>
+//             <TableManagerMobile mode={"portrait"}/>
 //         </>);
 //     } 
 // };
@@ -52,5 +46,6 @@ const onAction = () => {
 }
 
 console.log(": ", )
+
 */
 
