@@ -42,16 +42,16 @@ export const Layout = (props: any) => {
         setMobileOpen(!mobileOpen);
     }
 
-    const onOrders = () => {
-        setTitle('Ordenes')
-    }
-
     const onTables = () => {
         setTitle('Mesas')
     }
 
     const onFoodMenu = () => {
         setTitle('Carta')
+    }
+
+    const onOrders = () => {
+        setTitle('Ordenes')
     }
 
     const onUsers = () => {
@@ -63,16 +63,6 @@ export const Layout = (props: any) => {
             <Toolbar />
             <Divider />
             <List>
-                <ListItem key={"orders"}>
-                    <Link href="/orders">
-                        <ListItemButton onClick={onOrders}>
-                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                {<StyleIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={"Ordenes"} />
-                        </ListItemButton>
-                    </Link>
-                </ListItem>
                 <ListItem key={"tables"}>
                     <Link href="/tables">
                         <ListItemButton onClick={onTables}>
@@ -90,6 +80,16 @@ export const Layout = (props: any) => {
                                 {<FastfoodIcon />}
                             </ListItemIcon>
                             <ListItemText primary={"Carta"} />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+                <ListItem key={"orders"}>
+                    <Link href="/orders">
+                        <ListItemButton onClick={onOrders}>
+                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                {<StyleIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={"Ordenes"} />
                         </ListItemButton>
                     </Link>
                 </ListItem>
