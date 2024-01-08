@@ -15,7 +15,8 @@ export const Sector = (props: any) => {
                         <Table 
                             table={table} 
                             tableId={(index + 1).toString()}
-                            key={index + 1}/>
+                            key={index + 1}
+                            onClick={props.onTableClick}/>
                     ))}
                 </Grid>
             </Grid>
@@ -27,12 +28,14 @@ export const Sector = (props: any) => {
 
 Sector.defaultProps =
 {
-    sector: null
+    sector: null,
+    onTableClick: function(){}
 }
 
 Sector.propTypes =
 {
-    sector: PropTypes.object
+    sector: PropTypes.object,
+    onTableClick: PropTypes.func
 }
 
 

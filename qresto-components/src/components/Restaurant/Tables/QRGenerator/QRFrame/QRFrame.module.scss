@@ -2,17 +2,19 @@
 .frame {
     display: flex;
     flex-direction: column;
-    width: 500px;
-    height: 650px;
-    padding: 50px;
+    width: 450px;
+    height: 600px;
+    padding: 30px;
     border-radius: 20px;
     background-color: black;
     align-items: center;
 }
 
 .text {
+    display: flex;
     margin: 20px;
     font-size: 40px;
     color: white;
+
     text-align: center;
 }

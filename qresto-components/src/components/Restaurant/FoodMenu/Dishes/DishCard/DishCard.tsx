@@ -15,6 +15,14 @@ export const DishCard = (props: any) => {
         width: '300px', // Establece un ancho fijo para la tarjeta
     }
 
+    const onEdit = () => {
+        props.onEdit(props.dish)
+    }
+
+    const onDelete = () => {
+        props.onDelete(props.dish)
+    }
+
     return (
         <Card sx={{ maxWidth: 300 }} style={contenedor}>
             <div style={{ minHeight: 180 }}>
@@ -22,8 +30,7 @@ export const DishCard = (props: any) => {
                     component="img"
                     style={{width: '100%',height: '180px',objectFit: 'cover'}}
                     alt=""
-                    src={props.dish.image}
-                />
+                    src={props.dish.image}/>
             </div>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -36,10 +43,16 @@ export const DishCard = (props: any) => {
             <CardActions>
                 <Grid container justifyContent="flex-end">
                     <ThemeProvider theme={themeButton}>
-                        <Button variant="text" color="primary">
+                        <Button 
+                            variant="text" 
+                            color="primary"
+                            onClick={onEdit}>
                             Edit
                         </Button>
-                        <Button variant="text" color="primary">
+                        <Button 
+                            variant="text" 
+                            color="primary"
+                            onClick={onDelete}>
                             Delete
                         </Button>
                     </ThemeProvider>
@@ -55,11 +68,16 @@ DishCard.defaultProps =
         image: '',
         name: '',
         description: ''
-    }
+    },
+    onEdit: function(){},
+    onDelete: function(){}
+    
 }
 
 DishCard.propTypes = 
 {
-    dish: PropTypes.object
+    dish: PropTypes.object,
+    onEdit: PropTypes.func,
+    onDelete: PropTypes.func
 }
 

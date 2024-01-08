@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Container,
-  Box,
-  Tabs,
-  Tab,
+    Container,
+    Box,
+    Tabs,
+    Tab,
 } from '@mui/material';
 import { CustomTabPanel } from '@/Common/CustomTabPanel';
 import { Dishes } from './Dishes/Dishes';
+import { SideDishes } from './SideDishes';
 
 export const FoodMenu = (props: any) => {
     const [value, setValue] = useState(0);
-    const [containerHeight, setContainerHeight] = useState('95vh');
+    const [containerHeight, setContainerHeight] = useState('85vh');
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -35,14 +36,10 @@ export const FoodMenu = (props: any) => {
         <Container
             maxWidth={false}
             sx={{
-                border: '1px solid gray',
-                borderRadius: '8px',
-                width: '95%',
-                overflowY: 'auto',
+                width: '100%',
                 height: containerHeight,
                 transition: 'height 0.3s ease', // Agregado para una transición suave
             }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs
                 value={value}
                 onChange={handleChange}
@@ -59,12 +56,11 @@ export const FoodMenu = (props: any) => {
                 <Dishes dishes={props.dishes} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-                Guarniciones
+                <SideDishes sideDishes={props.sideDishes}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
                 Actualizar Precios
             </CustomTabPanel>
-            </Box>
         </Container>
         </>
     );
@@ -72,8 +68,10 @@ export const FoodMenu = (props: any) => {
 
 FoodMenu.defaultProps = {
     dishes: [],
+    sideDishes: []
 }
 
 FoodMenu.propTypes = {
     dishes: PropTypes.array,
+    sideDishes: PropTypes.array
 }

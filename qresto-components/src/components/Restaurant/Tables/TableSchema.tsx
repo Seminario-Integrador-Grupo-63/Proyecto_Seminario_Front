@@ -14,7 +14,9 @@ export const TableSchema = ( props: any ) => {
                 }}>
                 {props.sectors.map((sector, index) => (
                 <Grid item key={index} xs={12}>
-                    <Sector sector={sector} />
+                    <Sector 
+                        sector={sector} 
+                        onTableClick={props.onTableClick}/>
                 </Grid>
                 ))}
             </Grid>
@@ -25,9 +27,11 @@ export const TableSchema = ( props: any ) => {
 TableSchema.defaultProps =
 {
     sectors: [],
+    onTableClick: function(){}
 }
 
 TableSchema.propTypes =
 {
     sectors: PropTypes.array,
+    onTableClick: PropTypes.func
 }

@@ -7,9 +7,14 @@ import {
     Typography
 } from '@mui/material'
 import { DataTable } from '@/Common/DataTable';
+import { OrderForm } from './OrderForm/OrderForm'
 
 export const TableManager = (props: any) => {
     const [orderRows, setOrderRows] = useState([])
+    const [openOrderForm, setOpenOrderForm] = useState(false)
+    const [orderFormIsNew, setOrderFormIsNew] = useState(true)
+    const [orderFormEntity, setOrderFormEntity] = useState(null)
+
     const orderHeaders = [
         {label: 'Total comensales', key: 'totalCustomers'},
         {label: 'Estado', key: 'state'},
@@ -52,12 +57,30 @@ export const TableManager = (props: any) => {
         setOrderRows(rows)
     }, [])
 
-    const onShowOrder = (order) => {
-        console.log(' ')
-        console.log('TableManager onShowOrder(order)')
-        console.log('order: ', order)
-        
-    } 
+    const onGenerateOrder = () => {
+        setOpenOrderForm(true)
+        setOrderFormIsNew(true)
+    }
+
+    const onEditOrder = (order) => {
+        let orderEntity = searchOrder(order.id)
+        setOrderFormEntity(orderEntity)
+        setOpenOrderForm(true)
+        setOrderFormIsNew(false)
+    }
+
+    const onDeleteOrder = (order) => {
+
+    }
+
+    const onOrderFormClose = () => {
+        setOpenOrderForm(false)
+    }
+
+    const searchOrder = (id) => {
+        const index = props.orders.findIndex(order => order.id === id)
+        return props.orders[index]
+    }
 
     return (
         <Container maxWidth={false}>
@@ -66,7 +89,11 @@ export const TableManager = (props: any) => {
                 justifyContent="space-between" 
                 spacing={2}>
                 <Grid item xs={3}>
-                    <Button variant="contained">Agregar Orden</Button>
+                    <Button 
+                        variant="contained"
+                        onClick={onGenerateOrder}>
+                        Generar Orden
+                    </Button>
                 </Grid>
                 <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button
@@ -85,10 +112,17 @@ export const TableManager = (props: any) => {
                     <DataTable 
                         headers={orderHeaders}
                         rows={orderRows}
-                        actionsType='show'
-                        onShow={onShowOrder}/>
+                        actionsType='edit-delete'
+                        onEdit={onEditOrder}
+                        onDelete={onDeleteOrder}/>
                 </Grid>
             </Grid>
+
+            <OrderForm 
+                open={openOrderForm}
+                isNew={orderFormIsNew}
+                onClose={onOrderFormClose}
+                order={orderFormEntity}/>
         </Container>
     )
 }
@@ -96,11 +130,13 @@ export const TableManager = (props: any) => {
 TableManager.defaultProps =
 {
     orders: [],
+    table: null
 }
 
 TableManager.propTypes =
 {
-    orders: PropTypes.array
+    orders: PropTypes.array,
+    table: PropTypes.object
 }
 
 

@@ -11,7 +11,18 @@ export default function TablesPage() {
 
     }, [])
 
+    const onTableClick = (tableId) => {
+        router.replace({
+            pathname: '/tables/table',
+            query: {
+                tableId: tableId
+            }
+        })
+    }
+
     return (<>
-        <TableSchema sectors={sectors}/>
+        <TableSchema 
+            sectors={sectors}
+            onTableClick={onTableClick}/>
     </>)
 }

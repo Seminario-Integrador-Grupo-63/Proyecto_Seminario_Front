@@ -14,7 +14,7 @@ export async function getQR(){
 
 export async function postCustomer(customer, tableCode){
     try{
-        const response = await axios.post(url + `/table/${tableCode}/init?customer_name=${customer}`)
+        await axios.post(url + `/table/${tableCode}/init?customer_name=${customer}`)
         return true
     } catch (error){
         return false
@@ -52,6 +52,14 @@ export async function getDish(id){
     return dish
 }
 
+export async function getDishes(restaurantId){
+    const headers = {
+        'restaurant-id': 1
+    }
+    const response = await axios.get<any>(url + '/dish/', {headers})
+    return response.data
+}
+
 export async function postOrderDetail(orderDetail, tableCode){
     const response = await axios.post<any>(url + `/order/detail/${tableCode}`, orderDetail)
 }
@@ -66,6 +74,15 @@ export async function getTables(){
     }
     const response = await axios.get<any>(url + '/table/', {headers})
     return response.data
+}
+
+export async function getTable(id){
+    try{
+        const response = await axios.get(url + '/table/${id}')
+        return response
+    }catch {
+        return false
+    }
 }
 
 export async function getBill(tableCode){

@@ -50,7 +50,7 @@ export const DataTable = (props: any) => {
     }
 
     const onDelete = (row) => {
-        props.onShow(row)
+        props.onDelete(row)
     }
 
     const onShow = (row) => {

@@ -3,12 +3,18 @@ import {Button} from "@mui/material";
 // import SliderValueLabel from "@mui/material/Slider/SliderValueLabel";
 // import propTypes = SliderValueLabel.propTypes;
 import PropTypes from 'prop-types';
+import { PanToolSharp } from '@mui/icons-material';
 
-export const Table = (props: any) => {
+export const Table = (props: any) => { 
+    const onClick = () => {
+        props.onClick(props.table)
+    }
+
     if(props.table !== null){
         return (
             <React.Fragment>
                 <Button 
+                    onClick={onClick}
                     sx={{
                         border: '1px solid gray',
                         backgroundColor:'#D9D9D9',
@@ -29,18 +35,16 @@ export const Table = (props: any) => {
 
 Table.defaultProps =
 {
-    // stateColor: "black",
-    // tableName: "Mesa",
     table: null,
     tableId: 0,
     onClickTable: function (){},
+    onClick: function(){}
 }
 
 Table.propTypes =
 {
-    // stateColor: PropTypes.string,
-    // tableId: PropTypes.string,
     onCLickTable: PropTypes.func,
     tableId: PropTypes.string,
-    table: PropTypes.object
+    table: PropTypes.object,
+    onClick: PropTypes.func
 }
