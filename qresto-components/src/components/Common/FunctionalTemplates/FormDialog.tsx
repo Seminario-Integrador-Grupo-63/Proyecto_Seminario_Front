@@ -85,7 +85,7 @@ FormDialog.propTypes =
     onClose: PropTypes.func,
     closeText: PropTypes.string,
     title: PropTypes.string,
-    children: PropTypes.node,
+    children: PropTypes.any,
     maxWidth: PropTypes.string,
     action1Visible: PropTypes.bool,
     action1Text: PropTypes.string,

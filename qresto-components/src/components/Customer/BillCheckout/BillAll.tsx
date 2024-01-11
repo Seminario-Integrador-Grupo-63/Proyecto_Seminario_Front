@@ -1,6 +1,7 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
+import {theme} from "@/Common/Theme/themes";
 
 export const BillAll = (props: any) => {
     const calculateTotal = () => {
@@ -47,7 +48,7 @@ export const BillAll = (props: any) => {
                                 </>
                         :
                             <>
-                                <TableCell component="th" scope="row">{orderDetail.sideDish.name} X{orderDetail.amount}</TableCell>
+                                <TableCell component="th" scope="row">{orderDetail.sideDish.name}</TableCell>
                                 <TableCell align="right">${orderDetail.sideDish.extraPrice}</TableCell>
                             </>
                         }
@@ -61,13 +62,20 @@ export const BillAll = (props: any) => {
 
     return (<>
         <TableContainer component={Paper}>
-            <Table size="small" aria-label="a dense table">
-                <TableHead>
+            <Table size="small" aria-label="a dense table"
+                   sx={{backgroundColor: theme.palette.primary.contrastText}}>
+                {/* <TableHead>
                     <TableRow>
-                        <TableCell align="left">Producto</TableCell>
-                        <TableCell align="right">Costo</TableCell>
+                        <TableCell align="left"
+                                   style={{ fontWeight: 'bold' }}>
+                            PRODUCTO
+                        </TableCell>
+                        <TableCell align="right"
+                                   style={{ fontWeight: 'bold' }}>
+                            PRECIO
+                        </TableCell>
                     </TableRow>
-                </TableHead>
+                </TableHead> */}
 
                 <TableBody>
                     {props.billData.map(customerData => createCustomerData(customerData))}
@@ -85,9 +93,7 @@ export const BillAll = (props: any) => {
                             ${calculateTotal()}
                         </TableCell>
                     </TableRow>
-
                 </TableBody>
-
             </Table>
         </TableContainer>
     </>)

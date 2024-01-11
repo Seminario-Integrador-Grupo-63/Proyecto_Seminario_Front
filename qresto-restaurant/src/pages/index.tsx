@@ -1,21 +1,16 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { getQRRequest } from './api/requests'
-import {useState, useEffect} from 'react'
-
-const inter = Inter({ subsets: ['latin'] })
+import {useEffect} from 'react'
+import { Login } from '@/Restaurant/Login/Login'
 
 export default function Home() {
     const router = useRouter()
 
-    useEffect(() => {
-        if (router.asPath === '/') {
-            router.replace('/orders');
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (router.asPath === '/') {
+    //         router.replace('/orders');
+    //     }
+    // }, []);
 
     return (<>
         <Head>
@@ -24,14 +19,6 @@ export default function Home() {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className={styles.main}>
-            <div className={styles.description}>
-            </div>
-        </main>
+        <Login/>
     </>)
 }
-/**
-console.log(" ")
-console.log("Home")
-console.log(": ", )
-*/

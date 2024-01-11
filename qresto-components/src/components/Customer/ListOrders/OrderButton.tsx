@@ -28,6 +28,17 @@ export const OrderButton = (props: any) => {
         }
     }
 
+    const setPersonsText = () => {
+        let text = 'Orden ' + props.order.totalCustomers
+        if(props.order.totalCustomers > 1){
+            text += ' Personas'
+        } else {
+            text += ' Persona'
+        }
+        
+        return text
+    }
+
 
     return (<>
         <div
@@ -59,7 +70,7 @@ export const OrderButton = (props: any) => {
                             typography: {lg: 'h5', xs: 'h5'},
                             textAlign: 'left'
                         }}>
-                        {'Orden ' + props.order.totalCustomers + ' Personas'}
+                        {setPersonsText()}
                     </Typography>
                 </Grid>
                 <Grid

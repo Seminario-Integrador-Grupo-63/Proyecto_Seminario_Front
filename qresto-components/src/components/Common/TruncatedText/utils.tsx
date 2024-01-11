@@ -30,8 +30,3 @@ export function useNumCharacters(breakpoints){
   
     return numCharacters;
 }
-
-/**
-console.log(" ")
-console.log(": ", )
-*/

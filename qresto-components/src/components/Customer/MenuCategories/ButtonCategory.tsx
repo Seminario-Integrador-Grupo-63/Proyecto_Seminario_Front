@@ -48,9 +48,3 @@ ButtonCategory.propTypes =
     category: PropTypes.object,
     onClick: PropTypes.func
 }
-/**
-console.log(" ")
-console.log("ButtonCategory")
-console.log(": ", )
-*/
-

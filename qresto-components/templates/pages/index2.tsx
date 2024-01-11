@@ -10,6 +10,7 @@ export default function ListOrdersPage() {
     const searchParams = useSearchParams()
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
+        confirmed: false,
         orders: {
             buttonVisible: false,
             total: 0

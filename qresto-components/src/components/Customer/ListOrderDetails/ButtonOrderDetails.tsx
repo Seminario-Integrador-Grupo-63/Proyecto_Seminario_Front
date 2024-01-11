@@ -182,7 +182,7 @@ export const ButtonOrderDetails = (props: any) => {
                 {props.deleteButtonVisible?
                     <Grid>
                         <IconButton
-                        onClick={onDelete}>
+                            onClick={onDelete}>
                             <CloseIcon 
                                 fontSize='small'
                                 sx={{

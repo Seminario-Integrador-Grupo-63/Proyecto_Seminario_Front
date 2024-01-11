@@ -1,6 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { FoodMenu } from "@/Restaurant/FoodMenu/FoodMenu";
 import {widths100} from "@/Stories/viewports";
+import { Layout } from "@/Restaurant/Layout/Layout";
+import { dishes } from "@/Common/FakeData/DishesData";
+import { sideDishes } from "@/Common/FakeData/SideDishesData";
 
 export default {
     title: "components/Restaurant/FoodMenu/FoodMenu",
@@ -10,47 +13,32 @@ export default {
         viewport: {viewports: widths100},
         layout: 'fullscreen'
     }
-
-
 } as Meta<typeof FoodMenu >;
 
 type Story = StoryObj<typeof FoodMenu>;
 
 export const FoodMenuMain: Story = {
     render: () =>{
-
-        const myFunction = () => {
-            
-        }
-
+        console.log('dishes: ', dishes)
         return(<>
-            <FoodMenu/>
-        </>);
+            <div 
+                style={{
+                    width:'90vw',
+                    height: '90vh'}}>
+                <FoodMenu
+                    dishes={dishes}/>
+            </div>
+        </>)
     } 
-};
-
-// export const Aspect1: Story = {
-//     render: () =>{
-//         return(<>
-//             <FoodMenuMobile mode={"portrait"}/>
-//         </>);
-//     } 
-// };
-
-// export const aspect2: Story = {
-//     render: () =>{
-//         return(<>
-//             
-//         </>);
-//     } 
-// };
-
-/**
-const onAction = () => {
-
 }
 
-console.log(": ", )
-
-*/
+export const FoodMenuLayout: Story = {
+    render: () =>{
+        return(<>
+            <Layout>
+                <FoodMenu dishes={dishes}/>
+            </Layout>
+        </>)
+    } 
+}
 

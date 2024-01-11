@@ -10,7 +10,6 @@ import {ThemeProvider, Toolbar} from "@mui/material";
 import {LogoWitch} from "@/Common/Logos/LogoWitch/LogoWitch";
 import {LogoQResto} from "@/Common/Logos/LogoQResto/LogoQResto";
 
-
 export const Login = (props: any) => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -19,80 +18,90 @@ export const Login = (props: any) => {
         props.onSignInSubmit({
             username: data.get('username'),
             password: data.get('password'),
-          });
-    };
+          })
+    }
 
     return (
         <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs"
-                   sx={{backgroundColor: theme.palette.primary.contrastText,
-                   }}>
-            <CssBaseline />
-            <Box
-            sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}>
-                <Toolbar
+            <Container 
+                maxWidth={false}
+                sx={{
+                    backgroundColor: theme.palette.primary.contrastText,
+                    // width: '100vw',
+                    height: '100vh'
+                    }}>
+                {/* <CssBaseline /> */}
+                <Box
                     sx={{
-                        backgroundColor: theme.palette.primary.contrastText,
+                        // marginTop: 8,
+                        paddingTop: 8,
                         display: 'flex',
-                        justifyContent: 'space-between',
+                        flexDirection: 'column',
                         alignItems: 'center',
                     }}>
-                    <LogoWitch/>
-                    <LogoQResto/>
-                </Toolbar>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                    {props.usernameInputType === "email"?
-                        <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="username"
-                        label={props.usernameText}
-                        name="username"
-                        autoComplete="email"
-                        autoFocus/>
-                    :null}
-
-                    {props.usernameInputType === "username"?
-                        <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="username"
-                        label={props.usernameText}
-                        name="username"
-                        autoFocus/>
-                    :null}
-
-                    <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Contraseña"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"/>
-                    {props.error && (
-                        <p style={{ color: 'red' }}>Error: Invalid username or password.</p>
-                    )}
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
+                    <Toolbar
                         sx={{
-                            backgroundColor: theme.palette.primary.main,
-                            mt: 3, mb: 2 }}>
-                        Ingresar
-                    </Button>
+                            backgroundColor: theme.palette.primary.contrastText,
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}>
+                        <LogoWitch/>
+                        <LogoQResto/>
+                    </Toolbar>
+                    <Box 
+                        component="form" 
+                        onSubmit={handleSubmit} 
+                        noValidate 
+                        // sx={{ mt: 1 }}
+                        >
+                        {props.usernameInputType === "email"?
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="username"
+                                label={props.usernameText}
+                                name="username"
+                                autoComplete="email"
+                                autoFocus/>
+                        :null}
+
+                        {props.usernameInputType === "username"?
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="username"
+                                label={props.usernameText}
+                                name="username"
+                                autoFocus/>
+                        :null}
+
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Contraseña"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"/>
+                            {props.error && (
+                                <p style={{ color: 'red' }}>Error: Nombre de usuario contraseña inválidos.</p>
+                            )}
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{
+                                backgroundColor: theme.palette.primary.main,
+                                mt: 3, mb: 2 }}>
+                            Ingresar
+                        </Button>
+                    </Box>
                 </Box>
-            </Box>
-        </Container>
+            </Container>
         </ThemeProvider>
     );
 }
@@ -113,9 +122,3 @@ Login.propTypes =
     usernameInputType: PropTypes.oneOf(["email", "username"]),
     error: PropTypes.bool
 }
-
-/**
-console.log("")
-console.log(":", )
-console.log("  ")
-*/

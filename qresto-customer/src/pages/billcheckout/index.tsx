@@ -11,20 +11,10 @@ import { tableCode} from '@/Common/FakeData/Tables'
 import {BillCheckout} from '@/Customer/BillCheckout/BillCheckout';
 
 export default function BillCheckoutPage() {
-    const router = useRouter()
     const searchParams = useSearchParams()
-    const [orders, setOrders] = useState([])
     const [billData, setBillData] = useState(null)
-    const [flowState, setFlowState] = useState<FlowState>({
-        customer: '',
-        orders: {
-            buttonVisible: false,
-            total: 0
-        }
-    })
-
     useEffect(() => {
-        setFlowState(JSON.parse(searchParams.get('flowState')))
+
     }, [searchParams])
 
     useEffect(() => {
@@ -32,7 +22,6 @@ export default function BillCheckoutPage() {
     }, [])
 
     const fetchBill = async() => {
-
         const bill = await getBill(tableCode)
         setBillData(bill)
     }

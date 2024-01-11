@@ -25,8 +25,3 @@ export default function Home() {
         </main> */}
     </>)
 }
-/**
-console.log(" ")
-console.log("Title")
-console.log(": ", )
-*/

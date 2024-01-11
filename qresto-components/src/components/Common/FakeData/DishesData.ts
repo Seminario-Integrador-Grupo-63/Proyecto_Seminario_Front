@@ -15,7 +15,7 @@ import { sideDishes } from "./SideDishesData"
 export const dishes = [
     {
         id: 1,
-        name: 'Milanesa Napolitana ljasjlkdsal aljalksjds aljajlfkjdsglkjs kdflkñgfdlkgfd kñlfdkñlgfdñlkgfds',
+        name: 'Milanesa Napolitana',
         description: 'Esta es una descripción re larga de la milanesa napolitana que explica todos los ingredientes que tiene',
         preparationTime: 30,
         category: 1,
@@ -45,6 +45,46 @@ export const dishes = [
     },
     {
         id: 3,
+        name: 'Milanesa vegana 2',
+        description: 'Esta es una descripción re larga de la milanesa vegana que explica todos los ingredientes que tiene',
+        preparationTime: 30,
+        category: 2,
+        price: 2500,
+        sideDishes: [],
+        image: imageDish3
+    },
+    {
+        id: 4,
+        name: 'Milanesa Napolitana',
+        description: 'Esta es una descripción re larga de la milanesa napolitana que explica todos los ingredientes que tiene',
+        preparationTime: 30,
+        category: 1,
+        price: 3000,
+        sideDishes: sideDishes,
+        image: imageDish1
+    },
+    {
+        id: 5,
+        name: 'Milanesa rellena',
+        description: 'Esta es una descripción re larga de la milanesa rellena que explica todos los ingredientes que tiene',
+        preparationTime: 30,
+        category: 1,
+        price: 3300,
+        sideDishes: sideDishes,
+        image: imageDish2
+    },
+    {
+        id: 6,
+        name: 'Milanesa vegana',
+        description: 'Esta es una descripción re larga de la milanesa vegana que explica todos los ingredientes que tiene',
+        preparationTime: 30,
+        category: 2,
+        price: 2500,
+        sideDishes: sideDishes,
+        image: imageDish3
+    },
+    {
+        id: 7,
         name: 'Milanesa vegana 2',
         description: 'Esta es una descripción re larga de la milanesa vegana que explica todos los ingredientes que tiene',
         preparationTime: 30,

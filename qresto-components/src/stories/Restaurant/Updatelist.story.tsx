@@ -3,7 +3,7 @@ import UpdatePrices from "@/components/Restaurant/UpdatePrices/UpdatePrices";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import Updatelist from "@/components/Restaurant/UpdatePrices/Updatelist";
-import { DishCard } from "@/components/Restaurant/DishCard/DishCard";
+import { DishCard } from "@/components/Restaurant/FoodMenu/Dishes/DishCard/DishCard";
 import { dishes } from "@/components/Common/FakeData/DishesData";
 import { widths100 } from "../viewports";
 

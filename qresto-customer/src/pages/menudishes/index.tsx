@@ -10,8 +10,10 @@ export default function MenuDishesPage() {
     const [dishes, setDishes] = useState([])
     const searchParams = useSearchParams()
     const [category, setCategory] = useState(null)
+    const [customer, setCustomer] = useState('')
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
+        confirmed: false,
         orders: {
             buttonVisible: false,
             total: 0
@@ -21,7 +23,8 @@ export default function MenuDishesPage() {
     useEffect(() => {
         setCategory(JSON.parse(searchParams.get('category')))
         setFlowState(JSON.parse(searchParams.get('flowState')))
-
+        let customer = searchParams.get('customer')
+        setCustomer(searchParams.get('customer'))
     }, [searchParams])
 
     useEffect(() => {
@@ -34,7 +37,8 @@ export default function MenuDishesPage() {
         router.replace({
             pathname: '/menucategories',
             query: {
-                flowState: JSON.stringify(flowState)
+                flowState: JSON.stringify(flowState),
+                customer: customer
             }
         })
     }
@@ -45,7 +49,8 @@ export default function MenuDishesPage() {
             query: {
                 flowState: JSON.stringify(flowState),
                 dishId: dish.id,
-                category: JSON.stringify(category)
+                category: JSON.stringify(category),
+                customer: customer
             }
         })
     }

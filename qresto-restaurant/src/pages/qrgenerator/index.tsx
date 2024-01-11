@@ -1,29 +1,22 @@
 import { useRouter } from 'next/router'
 import { getQR as getQRRequest} from '@/requests'
 import {useState, useEffect} from 'react'
-import { QRGenerator } from '@/Restaurant/QRGenerator/QRGenerator'
+import { QRGenerator } from '@/Restaurant/Tables/QRGenerator/QRGenerator'
 
 export default function QRGeneratorPage() {
     const router = useRouter()
-    const [qrImage, setQRImage] = useState(Array);
+    const [qrImage, setQRImage] = useState(Array)
 
     const getQR = async () => {
         const response = await getQRRequest()
-        setQRImage([response.data]);
-
+        setQRImage([response.data])
     }
 
     useEffect(() => {
         getQR()
     }, [])
     
-
     return (<>
         <QRGenerator qrcodes={qrImage}/>
     </>)
 }
-/**
-console.log(" ")
-console.log("Home")
-console.log(": ", )
-*/

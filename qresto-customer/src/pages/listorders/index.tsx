@@ -10,21 +10,22 @@ export default function ListOrdersPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [orders, setOrders] = useState([])
-    const [flowState, setFlowState] = useState<FlowState>({
-        customer: '',
-        orders: {
-            buttonVisible: false,
-            total: 0
-        }
-    })
+    const [customer, setCustomer] = useState('')
 
     useEffect(() => {
-        setFlowState(JSON.parse(searchParams.get('flowState')))
+        setCustomer(searchParams.get('customer'))
     }, [searchParams])
 
     useEffect(() => {
-        fetchOrders()
-    }, [])
+        // Initial fetch
+        fetchOrders();
+    
+        // Fetch orders every 2 seconds
+        const intervalId = setInterval(fetchOrders, 2000);
+    
+        // Clean up the interval when the component is unmounted
+        return () => clearInterval(intervalId);
+    }, []);
 
     const fetchOrders = async () => {
         const fetchedOrders = await getOrders(tableCode)
@@ -32,11 +33,10 @@ export default function ListOrdersPage() {
     }
 
     const goBack = () => {
-
         router.replace({
             pathname: '/menucategories',
             query: {
-                flowState: JSON.stringify(flowState)
+                customer: customer
             }
         })
     }
@@ -45,8 +45,8 @@ export default function ListOrdersPage() {
         router.replace({
             pathname: '/listorderdetails',
             query: {
-                flowState: JSON.stringify(flowState),
-                order: JSON.stringify(order)
+                order: JSON.stringify(order),
+                customer: customer
             }
         })
     }

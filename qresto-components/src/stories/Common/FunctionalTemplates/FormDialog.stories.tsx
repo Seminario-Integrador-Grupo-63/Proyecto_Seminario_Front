@@ -23,13 +23,12 @@ export const FormDialogMain: Story = {
 
         const handleClickOpen = () => {
             setOpen(true);
-        };
+        }
       
         const handleClose = () => {
             setOpen(false);
-        };
+        }
         
-
         return(<>
             <Button variant="outlined" onClick={handleClickOpen}>
                 Abrir dialog

@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
 import {useEffect, useState} from 'react'
-import { FlowState } from '@/Common/FlowState'
 import { useSearchParams} from 'next/navigation'
 import { ListOrderDetails } from '@/Customer/ListOrderDetails/ListOrderDetails';
-import { 
+import {
     confirmOrder as confirmOrderRequest,
     deleteOrderDetail as deleteOrderDetailRequest,
     getOrders
@@ -14,35 +13,29 @@ export default function ListOrderDetailsPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [order, setOrder] = useState(null)
-    const [flowState, setFlowState] = useState<FlowState>({
-        customer: '',
-        orders: {
-            buttonVisible: false,
-            total: 0
-        }
-    })
+    const [customer, setCustomer] = useState('')
 
     useEffect(() => {
-        setFlowState(JSON.parse(searchParams.get('flowState')))
         setOrder(JSON.parse(searchParams.get('order')))
+        let customer = searchParams.get('customer')
+        setCustomer(customer)
     }, [searchParams])
 
     const goBack = () => {
         router.replace({
             pathname: '/listorders',
             query: {
-                flowState: JSON.stringify(flowState),
-                order: JSON.stringify(order)
+                customer: customer
             }
         })
     }
 
     const confirmOrder = async () => {
-        await confirmOrderRequest(flowState.customer, tableCode)
+        await confirmOrderRequest(customer, tableCode)
         router.replace({
             pathname: '/listorders',
             query: {
-                flowState: JSON.stringify(flowState),
+                customer: customer
             }
         })
     }
@@ -51,7 +44,7 @@ export default function ListOrderDetailsPage() {
         router.replace({
             pathname: '/billcheckout',
             query: {
-                flowState: JSON.stringify(flowState),
+                customer: customer
             }
         })
     }
@@ -61,14 +54,31 @@ export default function ListOrderDetailsPage() {
         router.replace({
             pathname: '/listorders',
             query: {
-                flowState: JSON.stringify(flowState),
+                customer: customer
             }
         })
     }
 
+    const setConfirmedCustomer = () => {
+        if(order != null){
+            if(order.customerList.length > 0){
+                return order.customerList.some(c => {
+                    if(c.customer === customer){
+                        return c.confirmed
+                    }
+                })
+            } else {
+                return true
+            }
+        } else {
+            return false
+        }
+    }
+
     return (<>
-        <ListOrderDetails 
-            customer={flowState.customer}
+        <ListOrderDetails
+            customer={customer}
+            confirmed={setConfirmedCustomer()}
             onConfirmOrder={confirmOrder}
             onDeleteOrderDetail={deleteOrderDetail}
             onRequestBill={requestBill}

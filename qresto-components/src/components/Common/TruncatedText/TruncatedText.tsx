@@ -123,9 +123,3 @@ TruncatedText.propTypes =
     onClick: PropTypes.func
 }
 
-/**
-console.log(" ")
-console.log("TruncatedText")
-console.log(": ", )
-*/
-

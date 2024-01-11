@@ -8,20 +8,22 @@ import {
     getOrders
 } from '@/requests'
 import { tableCode} from '@/Common/FakeData/Tables'
-import { FlowState } from '@/Common/FlowState'
+// import { FlowState } from '@/Common/FlowState'
 
 export default function DishOrderingPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [dish, setDish] = useState(null)
     const [category, setCategory] = useState(null)
-    const [flowState, setFlowState] = useState<FlowState>({
-        customer: '',
-        orders: {
-            buttonVisible: false,
-            total: 0
-        }
-    })
+    const [customer, setCustomer] = useState('')
+    // const [flowState, setFlowState] = useState<FlowState>({
+    //     customer: '',
+    //     confirmed: false,
+    //     orders: {
+    //         buttonVisible: false,
+    //         total: 0
+    //     }
+    // })
 
     useEffect(() => {
         const dishId = searchParams.get('dishId')
@@ -29,7 +31,10 @@ export default function DishOrderingPage() {
             fecthDish(dishId)
         }
         setCategory(JSON.parse(searchParams.get('category')))
-        setFlowState(JSON.parse(searchParams.get('flowState')))
+        // setFlowState(JSON.parse(searchParams.get('flowState')))
+        let customer = searchParams.get('customer')
+
+        setCustomer(customer)
     }, [searchParams])
 
     const fecthDish = async (id) => {
@@ -41,8 +46,16 @@ export default function DishOrderingPage() {
         router.replace({
             pathname: '/menudishes',
             query: {
-                flowState: JSON.stringify(flowState),
-                category: JSON.stringify(category)
+                // flowState: JSON.stringify({
+                //     customer: customer,
+                //     confirmed: flowState.confirmed,
+                //     orders: {
+                //         buttonVisible: flowState.orders.buttonVisible,
+                //         total: flowState.orders.total
+                //     }
+                // }),
+                category: JSON.stringify(category),
+                customer: customer
             }
         })
     }
@@ -51,12 +64,20 @@ export default function DishOrderingPage() {
         await postOrderDetail(orderDetail, tableCode)
         const orders = await getOrders(tableCode)
         const totalOrders = calculateOrdersTotal(orders)
-        flowState.orders.total = totalOrders
-        flowState.orders.buttonVisible = true
+        // flowState.orders.total = totalOrders
+        // flowState.orders.buttonVisible = true
         router.replace({
             pathname: '/menucategories',
             query: {
-                flowState: JSON.stringify(flowState)
+                // flowState: JSON.stringify({
+                //     customer: customer,
+                //     confirmed: flowState.confirmed,
+                //     orders: {
+                //         buttonVisible: flowState.orders.buttonVisible,
+                //         total: flowState.orders.total
+                //     }
+                // }),
+                customer: customer
             }
         })
     }
@@ -71,7 +92,7 @@ export default function DishOrderingPage() {
 
     return (<>
         <DishOrdering
-            customer={flowState.customer}
+            customer={customer}
             dish={dish}
             onAdd={addOrderDetails}
             goBack={goBack}/>

@@ -5,6 +5,7 @@ import {
 } from "./utils";
 
 const url = "http://localhost:8000"
+const restaurantId = 1
 
 export async function getQR(){
     const response = await axios.get<any>(url + '/qrcode');
@@ -13,7 +14,7 @@ export async function getQR(){
 
 export async function postCustomer(customer, tableCode){
     try{
-        const response = await axios.post(url + `/table/${tableCode}/init?customer_name=${customer}`)
+        await axios.post(url + `/table/${tableCode}/init?customer_name=${customer}`)
         return true
     } catch (error){
         return false
@@ -21,13 +22,13 @@ export async function postCustomer(customer, tableCode){
 }
 
 export async function getCategories(){
-    const headers = {'restaurant-id': 1}
+    const headers = {'restaurant-id': restaurantId}
     const response = await axios.get<any>(url + '/category/', {headers})
     return response.data
 }
 
 export async function getCategory(id){
-    const headers = {'restaurant-id': 1}
+    const headers = {'restaurant-id': restaurantId}
     const response = await axios.get<any>(url + `/category/${id}`, {headers})
     return response.data
 }
@@ -41,11 +42,7 @@ export async function getDishesByCategoryId(categoryId){
 }
 
 export async function getOrders(tableCode){
-    console.log(' ')
-    console.log('requests getOrders(tableCode)')
-    
     const response = await axios.get(url + `/table/${tableCode}/orders/`)
-    console.log('response: ', response)
     return response.data
 }
 
@@ -55,10 +52,15 @@ export async function getDish(id){
     return dish
 }
 
+export async function getDishes(restaurantId){
+    const headers = {
+        'restaurant-id': 1
+    }
+    const response = await axios.get<any>(url + '/dish/', {headers})
+    return response.data
+}
+
 export async function postOrderDetail(orderDetail, tableCode){
-    console.log(' ')
-    console.log('requests postOrderDetail(orderDetail, tableCode)')
-    console.log('orderDetail: ', orderDetail)
     const response = await axios.post<any>(url + `/order/detail/${tableCode}`, orderDetail)
 }
 
@@ -74,9 +76,18 @@ export async function getTables(){
     return response.data
 }
 
+export async function getTable(id){
+    try{
+        const response = await axios.get(url + '/table/${id}')
+        return response
+    }catch {
+        return false
+    }
+}
+
 export async function getBill(tableCode){
     const response = await axios.get<any>(url + `/table/${tableCode}/bill`)
-    return response.data[0]
+    return response.data
 }
 
 export async function deleteOrderDetail(tableCode, orderDetail){

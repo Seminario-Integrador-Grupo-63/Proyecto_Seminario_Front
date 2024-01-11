@@ -1,20 +1,20 @@
-import styles from './QRFrame.module.scss';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Container } from '@mui/material';
-import {Box}  from '@mui/material';
+import styles from './QRFrame.module.scss'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Container } from '@mui/material'
+import {Box}  from '@mui/material'
 
 export const QRFrame = (props: any) => {
     return (<>
         <Container>
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+            <Box display="flex" justifyContent="center" alignItems="center" height="80vh">
                 <div className={styles.frame}>
                     <img src={`data:image/png;base64,${props.qrcode}`} alt="QR Code" />
                     <scan className={styles.text}>{props.text}</scan>
                 </div>
             </Box>
         </Container>
-    </>);
+    </>)
 }
 
 QRFrame.defaultProps =
