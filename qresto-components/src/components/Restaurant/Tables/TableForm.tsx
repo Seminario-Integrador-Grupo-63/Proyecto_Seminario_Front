@@ -30,6 +30,7 @@ export const TableForm = (props: any) => {
         props.sections.forEach(section => {
             sectionsList.push(section.id)
         })
+        return sectionsList
     }
 
     // const handleNumber=(event)=>{
@@ -71,7 +72,7 @@ export const TableForm = (props: any) => {
 
                 <Grid item xs={6}>
                     <TextField 
-                        sx={{marginTop:1}}
+                        sx={{marginTop:2}}
                         id="TableNumber"
                         label="Número"
                         variant="outlined"
@@ -79,10 +80,13 @@ export const TableForm = (props: any) => {
                         //onChange={handleNumber}
                         />
                 </Grid>
-                <Grid item xs={6}>
-                    <InputLabel id="select-label-section">Sección</InputLabel>
+                <Grid
+                    item xs={6}
+                    sx={{marginTop:2}
+                }>
                     <Selector
-                            label={'Categoría'} 
+
+                            label={'Sección'} 
                             items={loadSections()}
                     />
                 </Grid>
@@ -99,7 +103,7 @@ TableForm.defaultProps =
     onClose: function(){},
     onDelete: function(){},
     table: null,
-    sections: null,
+    sections: [],
 }
 
 TableForm.propTypes = 
