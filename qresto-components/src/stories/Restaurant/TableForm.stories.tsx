@@ -3,9 +3,10 @@ import { TableForm } from "@/components/Restaurant/Tables/TableForm";
 import {widths100} from "@/Stories/viewports";
 import { Button } from  '@mui/material'
 import {useState} from 'react'
+import {Orders} from "@/Restaurant/Orders/Orders";
 
 export default {
-    title: "components/Restaurant/Table/TableForm",
+    title: "components/Restaurant/Tables",
     component: TableForm ,
     argTypes: {},
     parameters: {
@@ -13,6 +14,7 @@ export default {
         layout: 'fullscreen'
     }
 } as Meta<typeof TableForm >;
+
 
 type Story = StoryObj<typeof TableForm>;
 

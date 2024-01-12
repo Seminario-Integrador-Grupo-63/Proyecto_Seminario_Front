@@ -30,6 +30,7 @@ export const TableForm = (props: any) => {
         props.sections.forEach(section => {
             sectionsList.push(section.id)
         })
+    }
 
     // const handleNumber=(event)=>{
     //     setTableNumber(event.target.value)
