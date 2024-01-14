@@ -1,110 +1,84 @@
 import React, { useState } from 'react';
 import {
-    Container,
     Typography,
-    Button,
-    TextField,
-    Select,
-    MenuItem,
-    AppBar,
-    Toolbar,
-    Grid,
-    Accordion,
-    AccordionDetails,
     TableContainer,
     Table,
     TableHead,
     TableRow,
     TableCell,
-    Paper,
-    TableBody,
+    TableBody, TableFooter, Button, IconButton,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
 import { theme } from '@/components/Common/Theme/themes';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-function UserList({ OrdenList }) {
-    const [] = useState({
-        selectedOption: '',
-        selectedCategory: '',
-        inputValueNombre: '',
-        inputValueUsuario: '',
-        selectedActualizacion: '',
-        inputValueContraseña: '',
-        inputValueDescripcion: '',
-    });
-
-  
+export const UserList = (props) => {
     return (
-        <>
-            <AppBar
-                position="sticky"
-                sx={{
-                    width: { sm: `100%` },
-                    marginTop: 'auto',
-                    bottom: 0,
-                    backgroundColor: theme.palette.primary.main,
-                }}
-            >
-                <Toolbar>
-                    <Grid container justifyContent="left">
-                        <Grid xs={6} item>
-                            <TableHead >
-                                <TableRow>
-                                    <TableCell>
-                                        <Typography
-
-                                            sx={{
-                                                color: theme.palette.secondary.main,
-                                                marginLeft: '100px', // Añadidoara separar un poco de la celda siguiente
-                                                marginRight: '200px'
-                                            }}
-                                        >
-                                            {"Nombre"}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography
-                                            sx={{
-                                                color: theme.palette.secondary.main,
-                                                marginRight: '550px',
-                                            }}
-                                        >
-                                            {"Permisos"}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                        </Grid>
-                    </Grid>
-                </Toolbar>
-            </AppBar>
-            <Accordion>
-                <AccordionDetails >
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableBody >
-                                {OrdenList.map((row) => (
-                                    <TableRow key={row.dish} >
-                                        <TableCell>
-                                            {row.dish}
-                                        </TableCell>
-                                        <TableCell align="left">{row.nombre}</TableCell>
-                                        <TableCell align="left">{row.permiso}</TableCell>
-                                        <TableCell align="right">{row.crear}</TableCell>
-                                        <TableCell align="left">{row.borrar}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </AccordionDetails>
-            </Accordion>
-        </>
+        <TableContainer >
+            <Table sx={{ minWidth: 650 }}>
+                <TableHead sx={{backgroundColor: theme.palette.primary.main,}} >
+                    <TableRow>
+                        <TableCell align={"center"}>
+                            <Typography sx={{color: theme.palette.secondary.main,}}>
+                                Nombre
+                            </Typography>
+                        </TableCell>
+                        <TableCell align={"center"}>
+                            <Typography sx={{color: theme.palette.secondary.main}}>
+                                Permiso
+                            </Typography>
+                        </TableCell>
+                        <TableCell align={"center"}>
+                            <Typography sx={{color: theme.palette.secondary.main}}>
+                                Acciones
+                            </Typography>
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody >
+                    {props.users.map((row) => (
+                        <TableRow  >
+                            <TableCell align="center">{row.nombre}</TableCell>
+                            <TableCell align="center">{row.permiso}</TableCell>
+                            <TableCell aria-label={"user-buttons"} align="center">
+                                <IconButton onClick={props.editUser}>
+                                    <EditIcon/>
+                                </IconButton>
+                                <IconButton onClick={props.deleteUser}>
+                                    <DeleteIcon/>
+                                </IconButton>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TableCell>
+                            <Button startIcon={<AddIcon/>} onClick={props.newUser}>
+                                Nuevo usuario
+                            </Button>
+                        </TableCell>
+                    </TableRow>
+                </TableFooter>
+            </Table>
+        </TableContainer>
     );
 }
 
+UserList.defaultProps = {
+    users: [],
+    editUser: null,
+    deleteUser: null,
+    newUser: null,
+}
 UserList.propTypes = {
     title: PropTypes.string,
+    users: PropTypes.array,
+    newUser: PropTypes.func,
+    editUser: PropTypes.func,
+    deleteUser: PropTypes.func,
 };
 
 export default UserList;
