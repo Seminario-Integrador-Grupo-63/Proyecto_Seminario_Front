@@ -92,6 +92,15 @@ export async function loginRestaurant(user) {
     }
 }
 
+export async function getUsers(restaurantId) {
+    try {
+        const response = await axios.get(url + '/users', restaurantId)
+        return response.data
+    } catch (error) {
+        return false
+    }
+}
+
 // ---------------------------------------------------------------------------------------------------
 // export { getCategories } from "@/Common/FakeData/FakeRequests";
 // export { getCategory } from "@/Common/FakeData/FakeRequests";
