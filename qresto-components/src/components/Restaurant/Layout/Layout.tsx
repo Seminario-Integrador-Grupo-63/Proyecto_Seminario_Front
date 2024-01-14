@@ -73,6 +73,7 @@ export const Layout = (props: any) => {
                         </ListItemButton>
                     </Link>
                 </ListItem>
+                {props.admin? <>
                 <ListItem key={"food-menu"}>
                     <Link href="/foodmenu">
                         <ListItemButton onClick={onFoodMenu}>
@@ -102,7 +103,7 @@ export const Layout = (props: any) => {
                             <ListItemText primary={"Usuarios"} />
                         </ListItemButton>
                     </Link>
-                </ListItem>
+                </ListItem></>:<></>}
             </List>
         </div>
     )
@@ -192,10 +193,12 @@ export const Layout = (props: any) => {
 
 Layout.defaultProps =
 {
-    children: null
+    children: null,
+    admin: true
 }
 
 Layout.propTypes = 
 {
     children: PropTypes.any,
+    admin: PropTypes.bool,
 }
