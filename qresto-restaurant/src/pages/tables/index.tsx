@@ -1,21 +1,26 @@
 import { useRouter } from 'next/router'
-import {useEffect} from 'react'
-import {Table} from "@mui/material";
+import {useEffect, useState} from 'react'
+import { getTablesGrid } from '@/requests';
 import { TableSchema } from '@/Restaurant/Tables/TableSchema'
-import { sectors} from '@/Common/FakeData/Tables'
 
 export default function TablesPage() {
     const router = useRouter()
+    const [sectors, setSectors] = useState([])
 
     useEffect(() => {
-
+        fetchTablesGrid()
     }, [])
 
-    const onTableClick = (tableId) => {
+    const fetchTablesGrid = async () => {
+        const tablesGrid = await getTablesGrid()
+        setSectors(tablesGrid)
+    }
+
+    const onTableClick = (table) => {
         router.replace({
             pathname: '/tables/table',
             query: {
-                tableId: tableId
+                tableId: table.id
             }
         })
     }

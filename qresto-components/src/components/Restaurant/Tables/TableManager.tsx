@@ -55,7 +55,7 @@ export const TableManager = (props: any) => {
             }
         })
         setOrderRows(rows)
-    }, [])
+    }, [props.orders])
 
     const onGenerateOrder = () => {
         setOpenOrderForm(true)

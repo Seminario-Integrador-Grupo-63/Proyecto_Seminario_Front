@@ -7,27 +7,38 @@ import { getOrders, getTable } from '@/requests'
 
 export default function TablePage() {
     const [table, setTable] = useState(null)
+    const [orders, setOrders] = useState([])
     const router = useRouter()
     const searchParams = useSearchParams()
     
     useEffect(() => {
         const tableId = searchParams.get('tableId')
-        const table = fetchTable(parseInt(tableId))
-        setTable(table)
+        fetchTable(parseInt(tableId))
     }, [searchParams])
 
+    useEffect(() => {
+        if(table !== null){
+            fetchOrders()
+        }
+    }, [table])
 
     const fetchTable = async (tableId) => {
         const table = await getTable(tableId)
-        return table
+        setTable(table)
     }
 
-    const fetchOrders = async (tableId) => {
-        // const orders = await getOrders()
+    const fetchOrders = async () => {
+        console.log(' ')
+        console.log('index fetchOrders ()')
+        console.log('table: ', table)
+        let ords = await getOrders(table.tableCode)
+        console.log('ords: ', ords)
+        setOrders(ords)
     }
 
     return (<>
         <TableManager
-            table={table}/>
+            table={table}
+            orders={orders}/>
     </>)
 }

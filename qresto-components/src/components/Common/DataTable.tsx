@@ -19,7 +19,7 @@ export const DataTable = (props: any) => {
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [headers, setHeaders] = useState([])
-    // const [rows, setRows] = useState([])
+    const [rows, setRows] = useState([])
   
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage)
@@ -33,6 +33,10 @@ export const DataTable = (props: any) => {
     useEffect(() => {
         setActions();
     }, [props.headers, props.actions]);
+
+    useEffect(() => {
+        setRows(props.rows)
+    }, [props.rows])
 
     const setActions = () => {
         if(props.actions){
@@ -72,7 +76,7 @@ export const DataTable = (props: any) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.rows
+                        {rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, rowIndex) => (
                             <TableRow hover role="checkbox" tabIndex={-1} key={"row" + rowIndex}>

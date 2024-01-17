@@ -9,12 +9,11 @@ export const Sector = (props: any) => {
             <Grid container>
                 <Grid item xs={12} sx={{marginTop: '10px', marginBottom: '10px'}}>
                     <Typography sx={{marginLeft: '20px'}} variant='h6'>
-                        {props.sector.name}
+                        {props.sector.sector}
                     </Typography>
                     {props.sector.tables.map((table, index) => (
                         <Table 
                             table={table} 
-                            tableId={(index + 1).toString()}
                             key={index + 1}
                             onClick={props.onTableClick}/>
                     ))}
