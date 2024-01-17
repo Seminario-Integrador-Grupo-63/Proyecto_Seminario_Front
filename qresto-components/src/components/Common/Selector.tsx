@@ -1,4 +1,3 @@
-import styles from './Selector.module.scss';
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { Select, SelectChangeEvent} from '@mui/material'
@@ -11,10 +10,15 @@ export const Selector = (props: any) => {
 
     const handleSelector = (event: SelectChangeEvent) => {
         setValue(event.target.value);
-    };
+        props.onChange(event.target.value)
+    }
 
     const createItem = (item, index) => {
-        return(<MenuItem key={index} value={item}>{item}</MenuItem>)
+        if(props.itemText === ''){
+            return(<MenuItem key={index} value={item}>{item}</MenuItem>)
+        } else {
+            return(<MenuItem key={index} value={item}>{item[props.itemText]}</MenuItem>)
+        }
     }
 
     return (<>
@@ -38,7 +42,8 @@ Selector.defaultProps =
     label: 'Label',
     items: [],
     emptyOptionText: 'Seleccionar opción',
-    onChange: function(){}
+    onChange: function(){},
+    itemText: ''
 }
 
 Selector.propTypes = 
@@ -46,7 +51,8 @@ Selector.propTypes =
     label: PropTypes.string,
     items: PropTypes.array,
     emptyOptionText: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    itemText: PropTypes.string
 }
 
 

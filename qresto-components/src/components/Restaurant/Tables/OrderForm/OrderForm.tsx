@@ -89,6 +89,9 @@ export const OrderForm = (props: any) => {
             </Grid>
 
             <OrderDetailForm 
+                categories={props.categories}
+                dishes={props.dishes}
+                sideDishes={props.sideDishes}
                 open={orderDetailFormOpen}
                 onClose={closeOrderDetailForm}/>
 
@@ -106,7 +109,10 @@ OrderForm.defaultProps =
     onSubmit: function(){},
     onClose: function(){},
     order: null,
-    isNew: true
+    isNew: true,
+    categories: [],
+    dishes: [],
+    sideDishes: []
 }
 
 OrderForm.propTypes = 
@@ -115,5 +121,8 @@ OrderForm.propTypes =
     onSubmit: PropTypes.func,
     onClose: PropTypes.func,
     order: PropTypes.object,
-    isNew: PropTypes.bool
+    isNew: PropTypes.bool,
+    categories: PropTypes.array,
+    dishes: PropTypes.array,
+    sideDishes: PropTypes.array
 }

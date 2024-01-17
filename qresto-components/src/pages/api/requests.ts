@@ -42,9 +42,6 @@ export async function getDishesByCategoryId(categoryId){
 }
 
 export async function getOrders(tableCode){
-    console.log(' ')
-    console.log('requests getOrders(tableCode)')
-    console.log('tableCode: ', tableCode)
     const response = await axios.get(url + `/table/${tableCode}/orders/`)
     return response.data
 }
@@ -80,9 +77,6 @@ export async function getTablesGrid(){
 }
 
 export async function getTable(id){
-    console.log(' ')
-    console.log('requests getTable(id)')
-    console.log('id: ', id)
     try{
         const response = await axios.get(url + `/table/${id}`)
         return response.data
