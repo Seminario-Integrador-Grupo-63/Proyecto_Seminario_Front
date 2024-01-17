@@ -85,9 +85,8 @@ export const TableForm = (props: any) => {
                     sx={{marginTop:2}
                 }>
                     <Selector
-
-                            label={'Sección'} 
-                            items={loadSections()}
+                        label={'Sección'} 
+                        items={loadSections()}
                     />
                 </Grid>
             </Grid>      

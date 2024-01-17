@@ -10,20 +10,27 @@ import { ImageButton } from '@/Restaurant/ImageSelector/ImageButton';
 import { ImageSelector } from '@/Restaurant/ImageSelector/ImageSelector';
 import { useState, useEffect } from 'react';
 
-
 export const CategoriesForm = (props: any) => {
 
     const [categoryName, setCategoryName] = useState('')
     const [categoryImage, setCategoryImage] = useState('')
 
     useEffect(() =>{
-        if(props.category != null){
-            if(props.isNew == false){
+        // if(props.category != null){
+        //     if(props.isNew == false){
+        //         setCategoryName(props.category.name)
+        //         setCategoryImage(props.category.image)
+        //     }
+        if(props.isNew == false){
                 setCategoryName(props.category.name)
                 setCategoryImage(props.category.image)
             }
-        }
-    },[props.category])
+        else
+            {
+                setCategoryName('')
+                setCategoryImage('')
+            }
+        },[props.category])
 
     
     const handleName=(event)=>{

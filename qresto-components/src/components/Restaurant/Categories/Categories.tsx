@@ -1,5 +1,6 @@
 import styles from './Categories.module.scss';
-import {Grid,
+import {Grid, 
+        Card,
     } from '@mui/material'
 import { useState } from 'react';
 import { ButtonCategory } from '../../Customer/MenuCategories/ButtonCategory'
@@ -7,6 +8,7 @@ import { Layout } from '../Layout/Layout';
 import { CategoriesForm } from './CategoriesForm';
  
 import PropTypes from 'prop-types';
+import {theme, themeButton} from '@/Common/Theme//themes'
 
 export const Categories = (props: any) => {
     // En esta parte van las funciones
@@ -23,6 +25,13 @@ export const Categories = (props: any) => {
         setSelectedCategory(category)
         setOpen(true)
         setIsNew(false)
+        console.log(`categoria: ${category} categoria seleccionada ${selectedCategory}`);
+    }
+    const onClickNew = (category) => {
+        setSelectedCategory(category)
+        setOpen(true)
+        setIsNew(true)
+        console.log(`categoria: ${category} categoria seleccionada ${selectedCategory}`);
     }
 
     const createCategory = (category) => {
@@ -43,25 +52,28 @@ export const Categories = (props: any) => {
     }
 
     return (<>
-        <Layout title={'Categorías'}>
-            <Grid 
-                sx={{
-                    display: 'grid',
-                    columnGap: 3,
-                    rowGap: 1,
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    //overflowY: 'scroll','&::-webkit-scrollbar':{width:0,}
-                }}>
-                {props.categories.map(category => createCategory(category))}
-                <CategoriesForm
+        <Grid 
+            sx={{
+                display: 'grid',
+                columnGap: 3,
+                rowGap: 1,
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                //overflowY: 'scroll','&::-webkit-scrollbar':{width:0,}
+            }}>
+
+            <ButtonCategory 
+                category={null}
+                onClick={onClickNew}/>
+                
+            {props.categories.map(category => createCategory(category))}
+        </Grid>
+        <CategoriesForm
                     isNew={isNew}
                     open={open}
                     onClose={handleClose}
                     onUpdate={props.onUpdate}
                     onDelete={props.onDelete}
                     category={selectedCategory}/>
-            </Grid>
-        </Layout>
     </>);
 }
 
