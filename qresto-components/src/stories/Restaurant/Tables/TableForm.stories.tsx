@@ -6,7 +6,7 @@ import {useState} from 'react'
 import {Orders} from "@/Restaurant/Orders/Orders";
 
 export default {
-    title: "components/Restaurant/Tables",
+    title: "components/Restaurant/Tables/TableForm",
     component: TableForm ,
     argTypes: {},
     parameters: {
@@ -25,11 +25,11 @@ export const TableFormMain: Story = {
 
         const handleClickOpen = () => {
             setOpen(true);
-        };
+        }
       
         const handleClose = () => {
-            setOpen(false);
-        };
+            setOpen(false)
+        }
         
 
         return(<>
@@ -40,9 +40,9 @@ export const TableFormMain: Story = {
             <TableForm 
                 open={open}
                 onClose={handleClose}
-                table={[
+                table={
                     {id: 1,
-                     section: 2}]}/>
+                     section: 2}}/>
         </>);
     } 
-};
+}

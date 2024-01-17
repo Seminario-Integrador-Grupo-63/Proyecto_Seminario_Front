@@ -9,10 +9,7 @@ import { Selector } from '@/Common/Selector';
 import { FormDialog } from '@/Common/FunctionalTemplates/FormDialog';
 import { useState, useEffect } from 'react';
 
-
-
 export const TableForm = (props: any) => {
-
     const [tableNumber, setTableNumber] = useState('')
     const [tableSection, setTableSection] = useState('')
 
