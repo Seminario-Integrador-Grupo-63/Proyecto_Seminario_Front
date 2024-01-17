@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Dishes } from "@/Restaurant/FoodMenu/Dishes/Dishes";
-import {DishForm} from '@/components/Restaurant/FoodMenu/Dishes/DishForm/DishForm'
+import {DishForm} from '@/Restaurant/FoodMenu/Dishes/DishForm/DishForm'
 import {widths100} from "@/Stories/viewports";
 import { dishes } from "@/Common/FakeData/DishesData";
 import { categories } from '@/Common/FakeData/CategoriesData'

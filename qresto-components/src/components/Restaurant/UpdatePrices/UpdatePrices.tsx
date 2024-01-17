@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import Updatelist from './Updatelist';
 import PropTypes from 'prop-types';
-import { theme } from '@/components/Common/Theme/themes';
+import { theme } from '@/Common/Theme/themes';
 
 function UpdatePrices({ categoryOptions, actualizacionOpciones, listaProducto }) {
   const [formData, setFormData] = useState({

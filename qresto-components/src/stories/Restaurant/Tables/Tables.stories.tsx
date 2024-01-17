@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import {widths100} from "@/Stories/viewports";
 import {sectors} from '@/Common/FakeData/Tables'
-import { TableSchema } from "@/components/Restaurant/Tables/TableSchema";
+import { TableSchema } from "@/Restaurant/Tables/TableSchema";
 
 export default {
     title: "components/Restaurant/Tables/TableSchema",

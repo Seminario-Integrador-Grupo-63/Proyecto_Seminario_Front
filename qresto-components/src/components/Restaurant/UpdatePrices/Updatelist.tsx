@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Typography, Button, Dialog } from '@mui/material';
 import Confirmation from './Confirmation';
-import { theme } from '@/components/Common/Theme/themes';
+import { theme } from '@/Common/Theme/themes';
 
 export default function BasicTable({ open, onClose, listaProducto }) {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);

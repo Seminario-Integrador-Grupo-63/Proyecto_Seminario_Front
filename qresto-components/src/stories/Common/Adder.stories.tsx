@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Adder } from "@/Common/Adder";
 import {widths100} from "@/Stories/viewports";
-import { themeButton } from "@/components/Common/Theme/themes";
+import { themeButton } from "@/Common/Theme/themes";
 
 export default {
     title: "components/Common/Adder",
