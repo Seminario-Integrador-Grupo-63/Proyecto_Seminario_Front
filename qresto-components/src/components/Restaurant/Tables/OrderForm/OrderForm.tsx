@@ -13,7 +13,8 @@ export const OrderForm = (props: any) => {
     const [orderDetailFormOpen, setOrderDetailFormOpen] = useState(false)
     const [customerFormOpen, setCustomerFormOpen] = useState(false)
     const [title, setTitle] = useState('Generar Orden')
-    const [submitText, setSubmitText] = useState('Generar') 
+    const [submitText, setSubmitText] = useState('Generar')
+    const [order, setOrder] = useState(null)
 
     useEffect(() => {
         if(props.isNew){
@@ -24,6 +25,12 @@ export const OrderForm = (props: any) => {
             setSubmitText('Actualizar')
         }
     }, [props.isNew])
+
+    useEffect(() => {
+        if(props.order !== null){
+            setOrder(props.order)
+        }
+    }, [props.order])
 
     const openCustomerForm = () => {
         setCustomerFormOpen(true)
@@ -41,6 +48,29 @@ export const OrderForm = (props: any) => {
         setCustomerFormOpen(false)
     }
 
+    const submitCustomer = (customer) => {
+        if(order === null){
+            let ord = {
+                customerOrderDetails: [
+                    {
+                        customer: customer,
+                        orderDetails: []
+                    },
+                ]
+            }
+            setOrder(ord)
+        } else {
+            let ord = order
+            ord.customerOrderDetails.push({
+                customer: customer,
+                orderDetails: []  
+            })
+            setOrder(ord)
+        }
+
+        setCustomerFormOpen(false)
+    }
+
     return (<>
         <FormDialog 
             open={props.open}
@@ -49,30 +79,28 @@ export const OrderForm = (props: any) => {
             closeText='Cancelar'
             maxWidth='lg'
             onClose={props.onClose}>
-            {props.order !== null?
-                <>
-                    <Grid container>
-                        <OrderDetailTable 
-                            order={props.order}
-                            onAddOrderDetail={onAddOrderDetail}/>
-                    </Grid>
-                    <Grid>
-                        <Button onClick={openCustomerForm}>Nuevo Comensal</Button>
-                    </Grid>
-        
-                    <OrderDetailForm 
-                        open={orderDetailFormOpen}
-                        onClose={closeOrderDetailForm}/>
-        
-                    <CustomerForm 
-                        open={customerFormOpen}
-                        onClose={closeCustomerForm}/>
-                </>
-            :
-                null
-            }
+            <Grid container>
+                <OrderDetailTable 
+                    order={order}
+                    onAddOrderDetail={onAddOrderDetail}/>
+            </Grid>
+            <Grid>
+                <Button onClick={openCustomerForm}>Agregar Comensal</Button>
+            </Grid>
+
+            <OrderDetailForm 
+                categories={props.categories}
+                dishes={props.dishes}
+                sideDishes={props.sideDishes}
+                open={orderDetailFormOpen}
+                onClose={closeOrderDetailForm}/>
+
+            <CustomerForm 
+                open={customerFormOpen}
+                onClose={closeCustomerForm}
+                onSubmit={submitCustomer}/>
         </FormDialog>
-    </>);
+    </>)
 }
 
 OrderForm.defaultProps =
@@ -81,7 +109,10 @@ OrderForm.defaultProps =
     onSubmit: function(){},
     onClose: function(){},
     order: null,
-    isNew: true
+    isNew: true,
+    categories: [],
+    dishes: [],
+    sideDishes: []
 }
 
 OrderForm.propTypes = 
@@ -90,5 +121,8 @@ OrderForm.propTypes =
     onSubmit: PropTypes.func,
     onClose: PropTypes.func,
     order: PropTypes.object,
-    isNew: PropTypes.bool
+    isNew: PropTypes.bool,
+    categories: PropTypes.array,
+    dishes: PropTypes.array,
+    sideDishes: PropTypes.array
 }

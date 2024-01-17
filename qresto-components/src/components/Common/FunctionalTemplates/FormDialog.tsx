@@ -33,7 +33,12 @@ export const FormDialog = (props: any) => {
                     </Typography>
                 </DialogTitle>
                 
-                <DialogContent>
+                <DialogContent
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
                     {props.children}
                 </DialogContent>
                 

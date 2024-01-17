@@ -14,6 +14,9 @@ export const TableManager = (props: any) => {
     const [openOrderForm, setOpenOrderForm] = useState(false)
     const [orderFormIsNew, setOrderFormIsNew] = useState(true)
     const [orderFormEntity, setOrderFormEntity] = useState(null)
+    const [dishes, setDishes] = useState([])
+    const [categories, setCategories] = useState([])
+    const [sideDishes, setSideDishes] = useState([])
 
     const orderHeaders = [
         {label: 'Total comensales', key: 'totalCustomers'},
@@ -55,7 +58,19 @@ export const TableManager = (props: any) => {
             }
         })
         setOrderRows(rows)
-    }, [])
+    }, [props.orders])
+
+    useEffect(() => {
+        setDishes(props.dishes)
+    }, [props.dishes])
+
+    useEffect(() => {
+        setCategories(props.categories)
+    }, [props.categories])
+
+    useEffect(() => {
+        setSideDishes(props.sideDishes)
+    }, [props.sidedishes])
 
     const onGenerateOrder = () => {
         setOpenOrderForm(true)
@@ -120,6 +135,9 @@ export const TableManager = (props: any) => {
 
             <OrderForm 
                 open={openOrderForm}
+                dishes={dishes}
+                categories={categories}
+                sideDishes={sideDishes}
                 isNew={orderFormIsNew}
                 onClose={onOrderFormClose}
                 order={orderFormEntity}/>
@@ -130,13 +148,19 @@ export const TableManager = (props: any) => {
 TableManager.defaultProps =
 {
     orders: [],
-    table: null
+    table: null,
+    categories: [],
+    dishes: [],
+    sideDishes: []
 }
 
 TableManager.propTypes =
 {
     orders: PropTypes.array,
-    table: PropTypes.object
+    table: PropTypes.object,
+    categories: PropTypes.array,
+    dishes: PropTypes.array,
+    sideDishes: PropTypes.array
 }
 
 

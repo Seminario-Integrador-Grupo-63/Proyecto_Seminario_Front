@@ -68,18 +68,18 @@ export async function confirmOrder(customer, tableCode){
     const response = await axios.post<any>(url + `/order/${tableCode}?customer_name=${customer}`)
 }
 
-export async function getTables(){
+export async function getTablesGrid(){
     const headers = {
         'restaurant-id': 1
     }
-    const response = await axios.get<any>(url + '/table/', {headers})
+    const response = await axios.get<any>(url + '/table/grid', {headers})
     return response.data
 }
 
 export async function getTable(id){
     try{
-        const response = await axios.get(url + '/table/${id}')
-        return response
+        const response = await axios.get(url + `/table/${id}`)
+        return response.data
     }catch {
         return false
     }
