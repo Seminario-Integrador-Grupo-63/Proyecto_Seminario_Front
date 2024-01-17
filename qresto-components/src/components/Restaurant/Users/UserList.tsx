@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     Typography,
     TableContainer,
@@ -13,8 +13,62 @@ import PropTypes from 'prop-types';
 import { theme } from '@/components/Common/Theme/themes';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {UserForm} from "@/Restaurant/Users/UserForm";
 
-export const UserList = (props) => {
+export const UserList = (props:any) => {
+
+    const [open, setOpen] = useState(false);
+    const [userDet, setUserDet] = useState()
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setUserDet(null);
+        setOpen(false);
+    };
+
+    function openForm2(readOnly:boolean, title:string) {
+        return <UserForm
+            open={open}
+            user={userDet}
+            onClose={handleClose}
+            readOnly={readOnly}
+            title={title}
+        />
+    }
+    const openForm = (event:React.MouseEvent<HTMLButtonElement>, id:number, readOnly:boolean, title:string) => {
+        setOpen(true)
+        return <UserForm
+            open={true}
+            user={userDet}
+            onClose={handleClose}
+            readOnly={readOnly}
+            title={title}
+        />
+
+    }
+
+/*
+    function editUser(user) {
+        handleClickOpen();
+        setUserDet(user);
+        openForm(false, "Editar Usuario");
+    }
+    function deleteUser(user) {
+        handleClickOpen();
+        setUserDet(user);
+        openForm(true, "Eliminar Usuario");
+    }
+    function newUser(){
+        handleClickOpen();
+        setUserDet(null);
+        openForm(false, "Nuevo Usuario");
+    }
+*/
+
+
+
     return (
         <TableContainer >
             <Table sx={{ minWidth: 650 }}>
@@ -27,7 +81,7 @@ export const UserList = (props) => {
                         </TableCell>
                         <TableCell align={"center"}>
                             <Typography sx={{color: theme.palette.secondary.main}}>
-                                Permiso
+                                Rol
                             </Typography>
                         </TableCell>
                         <TableCell align={"center"}>
@@ -39,14 +93,20 @@ export const UserList = (props) => {
                 </TableHead>
                 <TableBody >
                     {props.users.map((row) => (
-                        <TableRow  >
+                        <TableRow>
                             <TableCell align="center">{row.nombre}</TableCell>
                             <TableCell align="center">{row.permiso}</TableCell>
                             <TableCell aria-label={"user-buttons"} align="center">
-                                <IconButton onClick={props.editUser}>
+                                <IconButton
+                                    onClick={(event) =>
+                                    openForm(event, row.id, false, "Editar Usuario")}
+                                >
                                     <EditIcon/>
                                 </IconButton>
-                                <IconButton onClick={props.deleteUser}>
+                                <IconButton
+                                    onClick={(event) =>
+                                        openForm(event, row.id, true, "Eliminar Usuario")
+                                }>
                                     <DeleteIcon/>
                                 </IconButton>
                             </TableCell>
@@ -56,7 +116,11 @@ export const UserList = (props) => {
                 <TableFooter>
                     <TableRow>
                         <TableCell>
-                            <Button startIcon={<AddIcon/>} onClick={props.newUser}>
+                            <Button
+                                startIcon={<AddIcon/>}
+                                onClick={(event) =>
+                                    openForm(event, null, false, "Nuevo Usuario")}
+                            >
                                 Nuevo usuario
                             </Button>
                         </TableCell>
@@ -68,17 +132,11 @@ export const UserList = (props) => {
 }
 
 UserList.defaultProps = {
-    users: [],
-    editUser: null,
-    deleteUser: null,
-    newUser: null,
+    title: "Form",
+    users: [{nombre:"Johhny", permiso:"admin"}],
 }
 UserList.propTypes = {
     title: PropTypes.string,
     users: PropTypes.array,
-    newUser: PropTypes.func,
-    editUser: PropTypes.func,
-    deleteUser: PropTypes.func,
 };
 
-export default UserList;

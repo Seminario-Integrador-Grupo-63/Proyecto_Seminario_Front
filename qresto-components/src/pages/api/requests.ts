@@ -97,7 +97,7 @@ export async function getUsers(restaurantId) {
         const response = await axios.get(url + '/users', restaurantId)
         return response.data
     } catch (error) {
-        return false
+        return []
     }
 }
 

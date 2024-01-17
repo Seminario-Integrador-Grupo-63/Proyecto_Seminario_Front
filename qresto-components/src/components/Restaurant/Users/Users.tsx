@@ -1,23 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Container} from '@mui/material'
+import PropTypes from "prop-types";
+import {UserList} from "@/Restaurant/Users/UserList";
 
 export const Users = (props: any) => {
-    return (<>
-            <Container>
-                <h1>Usuarios</h1>
-            </Container>
-    </>);
+
+
+
+    return <>
+        <UserList users={props.users}/>
+    </>;
 }
 
 Users.defaultProps =
 {
-
+    users: []
 }
 
 Users.propTypes = 
 {
-
+    users: PropTypes.array
 }
 
 
