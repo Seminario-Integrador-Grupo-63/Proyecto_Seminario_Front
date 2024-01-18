@@ -14,6 +14,9 @@ export const TableForm = (props: any) => {
     const [tableSection, setTableSection] = useState('')
 
     useEffect(() =>{
+        console.log(' ')
+        console.log('TableForm useEffect')
+        console.log('props.table: ', props.table)
         if(props.table != null){
             if(props.isNew == false){
                 setTableNumber(props.table.id)
@@ -83,8 +86,7 @@ export const TableForm = (props: any) => {
                 }>
                     <Selector
                         label={'Sección'} 
-                        items={loadSections()}
-                    />
+                        items={loadSections()}/>
                 </Grid>
             </Grid>      
         </FormDialog>

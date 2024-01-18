@@ -7,9 +7,13 @@ import {
 const url = "http://localhost:8000"
 const restaurantId = 1
 
-export async function getQR(){
-    const response = await axios.get<any>(url + '/qrcode');
-    return response;
+export async function getQR(tableId){
+    console.log(' ')
+    console.log('requests getQR(tableId)')
+    console.log('tableId: ', tableId)
+    const response = await axios.get(url + `/table/${tableId}/qrcode`)
+    console.log('response: ', response)
+    return response.data
 }
 
 export async function postCustomer(customer, tableCode){

@@ -18,7 +18,7 @@ export default function TablesPage() {
 
     const onTableClick = (table) => {
         router.replace({
-            pathname: '/tables/table',
+            pathname: '/tables/tablemanager',
             query: {
                 tableId: table.id
             }

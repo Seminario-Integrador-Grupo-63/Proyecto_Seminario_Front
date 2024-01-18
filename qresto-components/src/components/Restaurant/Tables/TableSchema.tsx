@@ -13,11 +13,11 @@ export const TableSchema = ( props: any ) => {
                     borderRadius: '10px'
                 }}>
                 {props.sectors.map((sector, index) => (
-                <Grid item key={index} xs={12}>
-                    <Sector 
-                        sector={sector} 
-                        onTableClick={props.onTableClick}/>
-                </Grid>
+                    <Grid item key={index} xs={12}>
+                        <Sector 
+                            sector={sector} 
+                            onTableClick={props.onTableClick}/>
+                    </Grid>
                 ))}
             </Grid>
         </Container>

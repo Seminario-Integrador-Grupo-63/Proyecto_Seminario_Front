@@ -4,6 +4,15 @@ import { Grid, Typography } from '@mui/material'
 import {Table} from './Table'
 
 export const Sector = (props: any) => {
+    // const onTableClick = (table) => {
+    //     const sector = {
+    //         id: table.sector,
+    //         name: props.sector,
+    //         table: table
+    //     }
+    //     props.onTableClick(sector)
+    // }
+
     if(props.sector !== null){
         return (<>
             <Grid container>

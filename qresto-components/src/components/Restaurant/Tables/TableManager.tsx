@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types';
 import { 
     Container, 
@@ -6,8 +6,10 @@ import {
     Button, 
     Typography
 } from '@mui/material'
-import { DataTable } from '@/Common/DataTable';
+import { DataTable } from '@/Common/DataTable'
 import { OrderForm } from './OrderForm/OrderForm'
+import { TableForm } from './TableForm'
+import { MessageDialog } from '@/Common/MessageDialog'
 
 export const TableManager = (props: any) => {
     const [orderRows, setOrderRows] = useState([])
@@ -17,6 +19,14 @@ export const TableManager = (props: any) => {
     const [dishes, setDishes] = useState([])
     const [categories, setCategories] = useState([])
     const [sideDishes, setSideDishes] = useState([])
+    const [openTableForm, setOpenTableForm] = useState(false)
+    const [table, setTable] = useState(null)
+    // const [sector, setSector] = useState(null)
+    const [openMessageDialog, setOpenMessageDialog] = useState(false)
+    const [titleMessageDialog, setTitleMessageDialog] = useState('')
+    const [textMessageDialog, setTextMessageDialog] = useState('')
+    const [messageDialogAction, setMessageDialogAction] = useState('')
+    const [allowDeleteTable, setAllowDeleteTable] = useState(true)
 
     const orderHeaders = [
         {label: 'Total comensales', key: 'totalCustomers'},
@@ -25,6 +35,12 @@ export const TableManager = (props: any) => {
     ]
 
     useEffect(() => {
+        if(props.orders.length > 0){
+            setAllowDeleteTable(false)
+        } else {
+            setAllowDeleteTable(true)
+        }
+
         let rows = props.orders.map(order => {
             let state = 'Armando'
             switch (order.state) {
@@ -72,20 +88,88 @@ export const TableManager = (props: any) => {
         setSideDishes(props.sideDishes)
     }, [props.sidedishes])
 
+    useEffect(() => {
+        if(props.table !== null){
+            setTable(props.table)
+        }
+    }, [props.table])
+
+    // useEffect(() => {
+    //     if(props.sector !== null){
+    //         setSector(props.sector)
+    //     }
+    // }, [props.sector])
+
     const onGenerateOrder = () => {
         setOpenOrderForm(true)
         setOrderFormIsNew(true)
     }
 
-    const onEditOrder = (order) => {
-        let orderEntity = searchOrder(order.id)
-        setOrderFormEntity(orderEntity)
-        setOpenOrderForm(true)
-        setOrderFormIsNew(false)
+    const showCannotModifyOrder = () => {
+        setTitleMessageDialog('Modificar orden')
+        setTextMessageDialog('No se puede modificar order en el estado actual')
+        setOpenMessageDialog(true)
     }
 
-    const onDeleteOrder = (order) => {
+    const showCannotCancelOrder = () => {
+        setTitleMessageDialog('Cancelar orden')
+        setTextMessageDialog('No se puede cancelar orden en el estado actual')
+        setOpenMessageDialog(true)
+    }
 
+    const onEditOrder = (order) => {
+        const orderIndex = props.orders.findIndex(o => o.id === order.id)
+        const selectedOrder = props.orders[orderIndex]
+        if(selectedOrder.state === 'processing' || selectedOrder.state === 'waiting'){
+            let orderEntity = searchOrder(order.id)
+            setOrderFormEntity(orderEntity)
+            setOpenOrderForm(true)
+            setOrderFormIsNew(false)
+        } else {
+            showCannotModifyOrder()
+        }
+    }
+
+    const onEditTable = () => {
+        setOpenTableForm(true)
+    }
+
+    const onCloseTableForm = () => {
+        setOpenTableForm(false)
+    }
+
+    const onConfirmDeleteTable = () => {
+        setTitleMessageDialog("Se eliminará la mesa")
+        setTextMessageDialog("Está seguro que desea eliminar esta mesa?")
+        setMessageDialogAction('delete-table')
+        setOpenMessageDialog(true)
+    }
+
+    const deleteTable = () => {
+        props.deleteTable(props.table.id)
+    }
+
+    const onSubmitMessageDialog = () => {
+        if(messageDialogAction === 'delete-table'){
+            deleteTable()
+        }
+    }
+
+    const onCloseMessageDialog = () => {
+        setOpenMessageDialog(false)
+    }
+
+    const onCancelOrder = (order) => {
+        const orderIndex = props.orders.findIndex(o => o.id === order.id)
+        const selectedOrder = props.orders[orderIndex]
+        if(selectedOrder.state === 'processing' || selectedOrder.state === 'waiting'){
+            let orderEntity = searchOrder(order.id)
+            setOrderFormEntity(orderEntity)
+            setOpenOrderForm(true)
+            setOrderFormIsNew(false)
+        } else {
+            showCannotCancelOrder()
+        }
     }
 
     const onOrderFormClose = () => {
@@ -113,13 +197,22 @@ export const TableManager = (props: any) => {
                 <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button
                         sx={{ marginRight: '5px', marginLeft: '5px' }}
-                        variant="contained">
+                        variant="contained"
+                        onClick={onEditTable}>
                         Editar
                     </Button>
                     <Button
                         sx={{ marginRight: '5px', marginLeft: '5px' }}
-                        variant="contained">
+                        variant="contained"
+                        onClick={props.generateQR}>
                         Generar QR
+                    </Button>
+                    <Button
+                        sx={{ marginRight: '5px', marginLeft: '5px' }}
+                        variant="contained"
+                        onClick={onConfirmDeleteTable}
+                        disabled={!allowDeleteTable}>
+                        Eliminar
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
@@ -129,7 +222,7 @@ export const TableManager = (props: any) => {
                         rows={orderRows}
                         actionsType='edit-delete'
                         onEdit={onEditOrder}
-                        onDelete={onDeleteOrder}/>
+                        onDelete={onCancelOrder}/>
                 </Grid>
             </Grid>
 
@@ -141,6 +234,19 @@ export const TableManager = (props: any) => {
                 isNew={orderFormIsNew}
                 onClose={onOrderFormClose}
                 order={orderFormEntity}/>
+
+            <TableForm
+                isNew={false}
+                table={table}
+                open={openTableForm}
+                onClose={onCloseTableForm}/>
+
+            <MessageDialog
+                open={openMessageDialog}
+                title={titleMessageDialog}
+                description={textMessageDialog}
+                onSubmit={onSubmitMessageDialog}
+                onClose={onCloseMessageDialog}/>
         </Container>
     )
 }
@@ -151,7 +257,11 @@ TableManager.defaultProps =
     table: null,
     categories: [],
     dishes: [],
-    sideDishes: []
+    sideDishes: [],
+    // sector: null,
+    deleteTable: function(){},
+    generateQR: function(){},
+    displayQR: function(){}
 }
 
 TableManager.propTypes =
@@ -160,7 +270,10 @@ TableManager.propTypes =
     table: PropTypes.object,
     categories: PropTypes.array,
     dishes: PropTypes.array,
-    sideDishes: PropTypes.array
+    sideDishes: PropTypes.array,
+    // sector: PropTypes.string,
+    deleteTable: PropTypes.func,
+    generateQR: PropTypes.func,
 }
 
 

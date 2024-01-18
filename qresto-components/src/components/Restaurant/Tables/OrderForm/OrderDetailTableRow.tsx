@@ -23,7 +23,9 @@ export const OrderDetailTableRow = (props: any) => {
     }
 
     const onEditCustomerOrderDetail = () => {
-
+        console.log(' ')
+        console.log('OrderDetailTableRow onEditCustomerOrderDetail()')
+        console.log('props.customerOrderDetail: ', props.customerOrderDetail)
     }
 
     const onDeleteCustomerOrderDetail = () => {
@@ -31,13 +33,14 @@ export const OrderDetailTableRow = (props: any) => {
     }
 
     const onEditOrderDetail = () => {
-
+        console.log(' ')
+        console.log('OrderDetailTableRow onEditOrderDetail()')
+        console.log('props.customerOrderDetail: ', props.customerOrderDetail)
     }
 
     const onDeleteOrderDetail = () => {
 
     }
-
 
     return (
         <React.Fragment>
@@ -130,11 +133,13 @@ export const OrderDetailTableRow = (props: any) => {
 OrderDetailTableRow.defaultProps =
 {
     customerOrderDetail: null,
-    onAddOrderDetail: function(){}
+    onAddOrderDetail: function(){},
+    onEditCustomerOrderDetail: function(){}
 }
 
 OrderDetailTableRow.propTypes = 
 {
     customerOrderDetail: PropTypes.object,
-    onAddOrderDetail: PropTypes.func
+    onAddOrderDetail: PropTypes.func,
+    onEditCustomerOrderDetail: PropTypes.func
 }

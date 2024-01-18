@@ -32,16 +32,11 @@ export const FormDialog = (props: any) => {
                          {props.title}
                     </Typography>
                 </DialogTitle>
-                
-                <DialogContent
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
+
+                <DialogContent>
                     {props.children}
                 </DialogContent>
-                
+
                 <DialogActions>
                     <ThemeProvider theme={theme}>
                         {props.action1Visible?
@@ -64,7 +59,7 @@ export const FormDialog = (props: any) => {
                 </DialogActions>
             </Dialog>
         </div>
-    </>);
+    </>)
 }
 
 FormDialog.defaultProps =
