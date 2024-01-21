@@ -7,14 +7,18 @@ import {
 const url = "http://localhost:8000"
 const restaurantId = 1
 
-export async function getQR(){
-    const response = await axios.get<any>(url + '/qrcode');
-    return response;
+export async function getQR(tableId){
+    console.log(' ')
+    console.log('requests getQR(tableId)')
+    console.log('tableId: ', tableId)
+    const response = await axios.get(url + `/table/${tableId}/qrcode`)
+    console.log('response: ', response)
+    return response.data
 }
 
 export async function postCustomer(customer, tableCode){
     try{
-        const response = await axios.post(url + `/table/${tableCode}/init?customer_name=${customer}`)
+        await axios.post(url + `/table/${tableCode}/init?customer_name=${customer}`)
         return true
     } catch (error){
         return false
@@ -53,6 +57,14 @@ export async function getDish(id){
     return dish
 }
 
+export async function getDishes(restaurantId){
+    const headers = {
+        'restaurant-id': 1
+    }
+    const response = await axios.get<any>(url + '/dish/', {headers})
+    return response.data
+}
+
 export async function postOrderDetail(orderDetail, tableCode){
     const response = await axios.post<any>(url + `/order/detail/${tableCode}`, orderDetail)
 }
@@ -61,12 +73,21 @@ export async function confirmOrder(customer, tableCode){
     const response = await axios.post<any>(url + `/order/${tableCode}?customer_name=${customer}`)
 }
 
-export async function getTables(){
+export async function getTablesGrid(){
     const headers = {
         'restaurant-id': 1
     }
-    const response = await axios.get<any>(url + '/table/', {headers})
+    const response = await axios.get<any>(url + '/table/grid', {headers})
     return response.data
+}
+
+export async function getTable(id){
+    try{
+        const response = await axios.get(url + `/table/${id}`)
+        return response.data
+    }catch {
+        return false
+    }
 }
 
 export async function getBill(tableCode){
@@ -83,14 +104,7 @@ export async function cancelOrder(){
 }
 //-**-*-*-*-*
 
-export async function getDishes(restaurantId) {
-    const headers = {
-        'restaurant-id':1
-    }
-    const response = await axios.get<any>(url + '/dish/' , {headers})
-    console.log("response: ", response)
-    return response.data
-}
+
 
 export async function updateDishPrice(restaurantId, dishId, percentage) {
     const response = await axios.put(url + '/dish/update_prices', )

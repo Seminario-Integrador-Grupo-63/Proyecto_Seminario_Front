@@ -6,12 +6,21 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CustomButton } from '@/Common/CustomButton';
 import { theme, themeButton } from '@/Common/Theme/themes';
-import { Box, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
+import { ThemeProvider } from '@emotion/react';
 
 export const DishCard = (props: any) => {
     const contenedor = {
         margin: 10,
         width: '300px', // Establece un ancho fijo para la tarjeta
+    }
+
+    const onEdit = () => {
+        props.onEdit(props.dish)
+    }
+
+    const onDelete = () => {
+        props.onDelete(props.dish)
     }
 
     return (
@@ -21,23 +30,8 @@ export const DishCard = (props: any) => {
                     component="img"
                     style={{width: '100%',height: '180px',objectFit: 'cover'}}
                     alt=""
-                    // src={setImage()}
-                    src={props.dish.image}
-                />
+                    src={props.dish.image}/>
             </div>
-            <Grid
-                sx={{
-                    width: '90vw'
-                }}>
-                <Box
-                    sx={{
-                        background: theme.palette.secondary.light,
-                        borderRadius: '5px',
-                        padding: '10px',
-                        marginBottom: '3vh'
-                    }}>
-                </Box>
-            </Grid>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {props.dish.name}
@@ -47,19 +41,24 @@ export const DishCard = (props: any) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <CustomButton
-                color={themeButton.palette.primary}>
-                <div>
-                    {props.title}
-                    <span style={{ marginLeft: '30px' }}>Edit{props.onEdit}</span>
-                </div>
-                </CustomButton>
-                <CustomButton color={themeButton.palette.primary}>
-                <div>
-                    {props.title}
-                    <span style={{ marginLeft: '30px' }}>Delete{props.onDelete}</span>
-                </div>
-                </CustomButton>
+
+                <Grid container justifyContent="flex-end">
+                    <ThemeProvider theme={themeButton}>
+                        <Button 
+                            variant="text" 
+                            color="primary"
+                            onClick={onEdit}>
+                            Edit
+                        </Button>
+                        <Button 
+                            variant="text" 
+                            color="primary"
+                            onClick={onDelete}>
+                            Delete
+                        </Button>
+                    </ThemeProvider>
+                </Grid>
+
             </CardActions>
         </Card>
     )
@@ -68,18 +67,22 @@ export const DishCard = (props: any) => {
 DishCard.defaultProps =
 {
     dish: {
-        onEdit: function(){},
-        onDelete: function(){},
         image: '',
         name: '',
         description: ''
-    }
+    },
+    onEdit: function(){},
+    onDelete: function(){}
+    
 }
 
 DishCard.propTypes = 
 {
-    onEdit: PropTypes.func,    
-    onDelete: PropTypes.func,
-    dish: PropTypes.object
+
+
+    dish: PropTypes.object,
+    onEdit: PropTypes.func,
+    onDelete: PropTypes.func
+
 }
 

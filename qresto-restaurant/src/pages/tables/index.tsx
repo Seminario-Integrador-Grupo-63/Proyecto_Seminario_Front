@@ -1,18 +1,33 @@
-import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
-import {useEffect} from 'react'
-import {Table} from "@mui/material";
-
-const inter = Inter({ subsets: ['latin'] })
+import {useEffect, useState} from 'react'
+import { getTablesGrid } from '@/requests';
+import { TableSchema } from '@/Restaurant/Tables/TableSchema'
 
 export default function TablesPage() {
     const router = useRouter()
+    const [sectors, setSectors] = useState([])
 
     useEffect(() => {
-
+        fetchTablesGrid()
     }, [])
 
+    const fetchTablesGrid = async () => {
+        const tablesGrid = await getTablesGrid()
+        setSectors(tablesGrid)
+    }
+
+    const onTableClick = (table) => {
+        router.replace({
+            pathname: '/tables/tablemanager',
+            query: {
+                tableId: table.id
+            }
+        })
+    }
+
     return (<>
-        <Table/>
+        <TableSchema 
+            sectors={sectors}
+            onTableClick={onTableClick}/>
     </>)
 }

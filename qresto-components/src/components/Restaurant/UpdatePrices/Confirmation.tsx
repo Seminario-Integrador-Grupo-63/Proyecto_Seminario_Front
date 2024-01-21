@@ -1,7 +1,7 @@
 // Confirmation.js
 import React from 'react';
 import { Dialog, DialogTitle, DialogActions, Button, Typography } from '@mui/material';
-import { theme } from '@/components/Common/Theme/themes';
+import { theme } from '@/Common/Theme/themes';
 
 function Confirmation({ open, onClose }) {
   return (

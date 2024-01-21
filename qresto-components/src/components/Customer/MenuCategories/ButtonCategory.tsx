@@ -10,7 +10,7 @@ export const ButtonCategory = (props: any) => {
         props.onClick(props.category)
     }
 
-    if(props.category !== null) {
+    if(props.category !== null) { //si la categoria no es null retorna el boton para previsualizar y modificar la categoria
         return (<>
             <div
                 className={styles.categoryButton}
@@ -32,8 +32,26 @@ export const ButtonCategory = (props: any) => {
                 </Typography>
             </div>
         </>);
-    } else {
-        return(<></>)
+    } else { //si no la categoria es null retorna el boton para crear una nueva categoria
+        return(<>
+            <div
+                className={styles.categoryButton}
+                style={{
+                    background: theme.palette.primary.main,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover'
+                }}
+                onClick={onClick}>
+                <Typography
+                    sx={{
+                        color: theme.palette.secondary.main,
+                        typography: {lg: 'h3', xs: 'h5', md: 'h4'},
+                        textAlign: 'center'
+                    }}>
+                    {'+'}
+                </Typography>
+            </div>
+        </>)
     }
 }
 

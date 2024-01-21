@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { OrderForm } from "@/Restaurant/OrderForm/OrderForm";
+import { OrderForm } from "@/components/Restaurant/Tables/OrderForm/OrderForm";
 import {widths100} from "@/Stories/viewports";
 import { useState } from "react";
 import { Button} from '@mui/material'
 import { ordersDTO } from "@/Common/FakeData/OrdersData";
 
 export default {
-    title: "components/Restaurant/OrderForm",
+    title: "components/Restaurant/Tables/OrderForm",
     component: OrderForm ,
     argTypes: {},
     parameters: {

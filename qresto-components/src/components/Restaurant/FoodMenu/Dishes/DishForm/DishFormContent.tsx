@@ -1,6 +1,7 @@
 import styles from './DishForm.module.scss';
 import React, {
     useState,
+    useEffect,
     forwardRef,
     useImperativeHandle
 } from 'react';
@@ -14,7 +15,6 @@ import {
     Checkbox,
     FormGroup,
     FormControlLabel
-
 } from '@mui/material'
 import { ImageButton } from '@/Restaurant/ImageSelector/ImageButton';
 import { PreparationTimeField } from './PreparationTimeField';
@@ -22,8 +22,15 @@ import { Selector } from '@/Common/Selector';
 import { SelectorChips } from '@/Common/SelectorChips';
 
 export const DishFormContent = forwardRef((props: any, ref: any) => {
+    const [image, setImage] = useState('')
     const marginBottom = '15px'
     
+    useEffect(() => {
+        if(props.dish === null){
+            setImage('')
+        }
+    }, [props.dish])
+
 
     const handlePreparationTimeChange = (preparationTime) => {
 
@@ -32,7 +39,6 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
     useImperativeHandle(ref, () => ({
         verifyFields(){
             let isReady = false
-            // if()
             return true
         }
     }))
@@ -53,6 +59,12 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
         return sideDishes
     }
 
+    const onChangeImage = () => {
+        console.log(' ')
+        console.log('DishFormContent onChangeImage()')
+        // console.log(': ', )
+    }
+
     return (<>
         <Container>
             <Grid container spacing={2}>
@@ -69,7 +81,10 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                             justifyContent: 'center',
                             marginBottom: marginBottom
                         }}>
-                        <ImageButton image={props.dish.image}/>
+                        
+                        <ImageButton 
+                            onChange={onChangeImage}
+                            image={image}/>
                     </Grid>
                     <Grid sx={{marginBottom: marginBottom}}>
                         <Selector

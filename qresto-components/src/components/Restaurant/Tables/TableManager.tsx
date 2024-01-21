@@ -1,0 +1,279 @@
+import React, {useState, useEffect} from 'react'
+import PropTypes from 'prop-types';
+import { 
+    Container, 
+    Grid, 
+    Button, 
+    Typography
+} from '@mui/material'
+import { DataTable } from '@/Common/DataTable'
+import { OrderForm } from './OrderForm/OrderForm'
+import { TableForm } from './TableForm'
+import { MessageDialog } from '@/Common/MessageDialog'
+
+export const TableManager = (props: any) => {
+    const [orderRows, setOrderRows] = useState([])
+    const [openOrderForm, setOpenOrderForm] = useState(false)
+    const [orderFormIsNew, setOrderFormIsNew] = useState(true)
+    const [orderFormEntity, setOrderFormEntity] = useState(null)
+    const [dishes, setDishes] = useState([])
+    const [categories, setCategories] = useState([])
+    const [sideDishes, setSideDishes] = useState([])
+    const [openTableForm, setOpenTableForm] = useState(false)
+    const [table, setTable] = useState(null)
+    // const [sector, setSector] = useState(null)
+    const [openMessageDialog, setOpenMessageDialog] = useState(false)
+    const [titleMessageDialog, setTitleMessageDialog] = useState('')
+    const [textMessageDialog, setTextMessageDialog] = useState('')
+    const [messageDialogAction, setMessageDialogAction] = useState('')
+    const [allowDeleteTable, setAllowDeleteTable] = useState(true)
+
+    const orderHeaders = [
+        {label: 'Total comensales', key: 'totalCustomers'},
+        {label: 'Estado', key: 'state'},
+        {label: 'Total', key: 'total'}
+    ]
+
+    useEffect(() => {
+        if(props.orders.length > 0){
+            setAllowDeleteTable(false)
+        } else {
+            setAllowDeleteTable(true)
+        }
+
+        let rows = props.orders.map(order => {
+            let state = 'Armando'
+            switch (order.state) {
+                case 'processing':
+                    state = 'Armando';
+                    break;
+                case 'waiting':
+                    state = 'En espera';
+                    break;
+                case 'preparation':
+                    state = 'En Preparación';
+                    break;
+                case 'cancelled':
+                    state = 'Cancelada';
+                    break;
+                case 'delivered':
+                    state = 'Entregada';
+                    break;
+                case 'closed':
+                    state = 'Cerrada';
+                    break;
+                default:
+                    state = 'Unknown';
+            }
+
+            return {
+                id: order.id,
+                totalCustomers: order.totalCustomers,
+                state: state,
+                total: order.total
+            }
+        })
+        setOrderRows(rows)
+    }, [props.orders])
+
+    useEffect(() => {
+        setDishes(props.dishes)
+    }, [props.dishes])
+
+    useEffect(() => {
+        setCategories(props.categories)
+    }, [props.categories])
+
+    useEffect(() => {
+        setSideDishes(props.sideDishes)
+    }, [props.sidedishes])
+
+    useEffect(() => {
+        if(props.table !== null){
+            setTable(props.table)
+        }
+    }, [props.table])
+
+    // useEffect(() => {
+    //     if(props.sector !== null){
+    //         setSector(props.sector)
+    //     }
+    // }, [props.sector])
+
+    const onGenerateOrder = () => {
+        setOpenOrderForm(true)
+        setOrderFormIsNew(true)
+    }
+
+    const showCannotModifyOrder = () => {
+        setTitleMessageDialog('Modificar orden')
+        setTextMessageDialog('No se puede modificar order en el estado actual')
+        setOpenMessageDialog(true)
+    }
+
+    const showCannotCancelOrder = () => {
+        setTitleMessageDialog('Cancelar orden')
+        setTextMessageDialog('No se puede cancelar orden en el estado actual')
+        setOpenMessageDialog(true)
+    }
+
+    const onEditOrder = (order) => {
+        const orderIndex = props.orders.findIndex(o => o.id === order.id)
+        const selectedOrder = props.orders[orderIndex]
+        if(selectedOrder.state === 'processing' || selectedOrder.state === 'waiting'){
+            let orderEntity = searchOrder(order.id)
+            setOrderFormEntity(orderEntity)
+            setOpenOrderForm(true)
+            setOrderFormIsNew(false)
+        } else {
+            showCannotModifyOrder()
+        }
+    }
+
+    const onEditTable = () => {
+        setOpenTableForm(true)
+    }
+
+    const onCloseTableForm = () => {
+        setOpenTableForm(false)
+    }
+
+    const onConfirmDeleteTable = () => {
+        setTitleMessageDialog("Se eliminará la mesa")
+        setTextMessageDialog("Está seguro que desea eliminar esta mesa?")
+        setMessageDialogAction('delete-table')
+        setOpenMessageDialog(true)
+    }
+
+    const deleteTable = () => {
+        props.deleteTable(props.table.id)
+    }
+
+    const onSubmitMessageDialog = () => {
+        if(messageDialogAction === 'delete-table'){
+            deleteTable()
+        }
+    }
+
+    const onCloseMessageDialog = () => {
+        setOpenMessageDialog(false)
+    }
+
+    const onCancelOrder = (order) => {
+        const orderIndex = props.orders.findIndex(o => o.id === order.id)
+        const selectedOrder = props.orders[orderIndex]
+        if(selectedOrder.state === 'processing' || selectedOrder.state === 'waiting'){
+            let orderEntity = searchOrder(order.id)
+            setOrderFormEntity(orderEntity)
+            setOpenOrderForm(true)
+            setOrderFormIsNew(false)
+        } else {
+            showCannotCancelOrder()
+        }
+    }
+
+    const onOrderFormClose = () => {
+        setOpenOrderForm(false)
+    }
+
+    const searchOrder = (id) => {
+        const index = props.orders.findIndex(order => order.id === id)
+        return props.orders[index]
+    }
+
+    return (
+        <Container maxWidth={false}>
+            <Grid 
+                container 
+                justifyContent="space-between" 
+                spacing={2}>
+                <Grid item xs={3}>
+                    <Button 
+                        variant="contained"
+                        onClick={onGenerateOrder}>
+                        Generar Orden
+                    </Button>
+                </Grid>
+                <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button
+                        sx={{ marginRight: '5px', marginLeft: '5px' }}
+                        variant="contained"
+                        onClick={onEditTable}>
+                        Editar
+                    </Button>
+                    <Button
+                        sx={{ marginRight: '5px', marginLeft: '5px' }}
+                        variant="contained"
+                        onClick={props.generateQR}>
+                        Generar QR
+                    </Button>
+                    <Button
+                        sx={{ marginRight: '5px', marginLeft: '5px' }}
+                        variant="contained"
+                        onClick={onConfirmDeleteTable}
+                        disabled={!allowDeleteTable}>
+                        Eliminar
+                    </Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="h6">Ordenes</Typography>
+                    <DataTable 
+                        headers={orderHeaders}
+                        rows={orderRows}
+                        actionsType='edit-delete'
+                        onEdit={onEditOrder}
+                        onDelete={onCancelOrder}/>
+                </Grid>
+            </Grid>
+
+            <OrderForm 
+                open={openOrderForm}
+                dishes={dishes}
+                categories={categories}
+                sideDishes={sideDishes}
+                isNew={orderFormIsNew}
+                onClose={onOrderFormClose}
+                order={orderFormEntity}/>
+
+            <TableForm
+                isNew={false}
+                table={table}
+                open={openTableForm}
+                onClose={onCloseTableForm}/>
+
+            <MessageDialog
+                open={openMessageDialog}
+                title={titleMessageDialog}
+                description={textMessageDialog}
+                onSubmit={onSubmitMessageDialog}
+                onClose={onCloseMessageDialog}/>
+        </Container>
+    )
+}
+
+TableManager.defaultProps =
+{
+    orders: [],
+    table: null,
+    categories: [],
+    dishes: [],
+    sideDishes: [],
+    // sector: null,
+    deleteTable: function(){},
+    generateQR: function(){},
+    displayQR: function(){}
+}
+
+TableManager.propTypes =
+{
+    orders: PropTypes.array,
+    table: PropTypes.object,
+    categories: PropTypes.array,
+    dishes: PropTypes.array,
+    sideDishes: PropTypes.array,
+    // sector: PropTypes.string,
+    deleteTable: PropTypes.func,
+    generateQR: PropTypes.func,
+}
+
+

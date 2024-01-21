@@ -1,10 +1,21 @@
 import { useRouter } from 'next/router'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu'
+import { getDishes } from '@/requests'
 
 export default function QRGeneratorPage() {
+    const [dishes, setDishes] = useState([])
+
+    useEffect(() => {
+        fetchDishes()
+    }, [])
+
+    const fetchDishes = async () => {
+        const result = await getDishes(1)
+        setDishes(result)
+    }
 
     return (<>
-        <FoodMenu/>
+        <FoodMenu dishes={dishes}/>
     </>)
 }
