@@ -51,13 +51,13 @@ export const DishCard = (props: any) => {
                 color={themeButton.palette.primary}>
                 <div>
                     {props.title}
-                    <span style={{ marginLeft: '30px' }}>Edit{props.price}</span>
+                    <span style={{ marginLeft: '30px' }}>Edit{props.onEdit}</span>
                 </div>
                 </CustomButton>
                 <CustomButton color={themeButton.palette.primary}>
                 <div>
                     {props.title}
-                    <span style={{ marginLeft: '30px' }}>Delete{props.price}</span>
+                    <span style={{ marginLeft: '30px' }}>Delete{props.onDelete}</span>
                 </div>
                 </CustomButton>
             </CardActions>
@@ -68,6 +68,8 @@ export const DishCard = (props: any) => {
 DishCard.defaultProps =
 {
     dish: {
+        onEdit: function(){},
+        onDelete: function(){},
         image: '',
         name: '',
         description: ''
@@ -76,6 +78,8 @@ DishCard.defaultProps =
 
 DishCard.propTypes = 
 {
+    onEdit: PropTypes.func,    
+    onDelete: PropTypes.func,
     dish: PropTypes.object
 }
 

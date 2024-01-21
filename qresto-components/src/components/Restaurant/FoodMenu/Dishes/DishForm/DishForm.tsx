@@ -37,7 +37,6 @@ export const DishForm = (props: any) => {
 
 DishForm.defaultProps =
 {
-    dish: null,
     isNew: true,
     categories: [],
     sideDishes: [],
@@ -50,7 +49,7 @@ DishForm.defaultProps =
 
 DishForm.propTypes = 
 {
-    dish: PropTypes.object,
+    dish: PropTypes.func,
     isNew: PropTypes.bool,
     categories: PropTypes.array,
     sideDishes: PropTypes.array,

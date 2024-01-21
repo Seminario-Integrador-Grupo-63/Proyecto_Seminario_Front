@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DishCard } from '../Dishes/DishCard/DishCard';
+//import { DishCard } from '../Dishes/DishCard/DishCard';
 import {Container} from '@mui/material'
-import { dishes } from '@/components/Common/FakeData/DishesData';
+
 
 export const Dishes = (props: any) => {
     return (<>
         <Container maxWidth={false}>
-        <div>
-                {dishes.map(dish => <DishCard dish={dish} />)}
+             <div >
+                 {props.onDish()}
             </div>
 
         </Container>
@@ -18,12 +18,12 @@ export const Dishes = (props: any) => {
 
 Dishes.defaultProps =
 {
-    dishes: []
+    onDish: function(){} 
 }
 
 Dishes.propTypes = 
 {
-    dishes: PropTypes.array
+    onDish: PropTypes.func
 }
 
 

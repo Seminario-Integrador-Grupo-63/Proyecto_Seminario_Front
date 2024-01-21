@@ -78,7 +78,7 @@ function UpdatePrices({ categoryOptions, actualizacionOpciones, listaProducto })
       )}
 
       <Typography variant="h4" gutterBottom>
-        Taza
+        Tasa
       </Typography>
       <TextField
         label="Porcentaje %"

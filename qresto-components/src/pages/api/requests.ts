@@ -46,6 +46,7 @@ export async function getOrders(tableCode){
     return response.data
 }
 
+//esta
 export async function getDish(id){
     const responseDish = await axios.get<any>(url + `/dish/${id}`)
     const dish = buildDish(responseDish)
@@ -80,6 +81,32 @@ export async function deleteOrderDetail(tableCode, orderDetail){
 export async function cancelOrder(){
 
 }
+//-**-*-*-*-*
+
+export async function getDishes(restaurantId) {
+    const headers = {
+        'restaurant-id':1
+    }
+    const response = await axios.get<any>(url + '/dish/' , {headers})
+    console.log("response: ", response)
+    return response.data
+}
+
+export async function updateDishPrice(restaurantId, dishId, percentage) {
+    const response = await axios.put(url + '/dish/update_prices', )
+}
+
+export async function putDishes(restaurantId) {
+    const response = await axios.put(url + '/dish/', )
+}
+export async function postDishes(restaurantId) {
+    const response = await axios.post(url + '/dish/', )
+}
+export async function deleteDishes(restaurantId) {
+    const response = await axios.delete(url + '/dish/', )
+}
+
+
 
 // ---------------------------------------------------------------------------------------------------
 // export { getCategories } from "@/Common/FakeData/FakeRequests";

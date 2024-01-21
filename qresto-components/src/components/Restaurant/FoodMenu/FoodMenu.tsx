@@ -57,7 +57,7 @@ export const FoodMenu = (props: any) => {
             Categorías
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <Dishes dishes={props.dishes} />
+            <Dishes onDish={props.dishes} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
             Guarniciones
