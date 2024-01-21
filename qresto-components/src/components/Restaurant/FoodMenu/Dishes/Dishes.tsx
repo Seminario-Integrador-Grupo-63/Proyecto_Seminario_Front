@@ -1,4 +1,3 @@
-
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import { DishCard } from '../Dishes/DishCard/DishCard'
@@ -74,12 +73,10 @@ export const Dishes = (props: any) => {
 
 Dishes.defaultProps =
 {
-    onDish: function(){} 
+    dishes: []
 }
 
 Dishes.propTypes = 
 {
-    onDish: PropTypes.func
+    dishes: PropTypes.array
 }
-
-
