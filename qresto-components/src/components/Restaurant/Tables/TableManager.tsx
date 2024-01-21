@@ -25,8 +25,11 @@ export const TableManager = (props: any) => {
     const [openMessageDialog, setOpenMessageDialog] = useState(false)
     const [titleMessageDialog, setTitleMessageDialog] = useState('')
     const [textMessageDialog, setTextMessageDialog] = useState('')
-    const [messageDialogAction, setMessageDialogAction] = useState('')
+    const [actionMessageDialog, setActionMessageDialog] = useState('')
+    const [cancelButtonVisibleMessageDialog, setCancelButtonVisibleMessageDialog] = useState(true)
+    const [textSubmitButtonMessageDialog, setTextSubmitButtonMessageDialog] = useState('Confirmar')
     const [allowDeleteTable, setAllowDeleteTable] = useState(true)
+    const [selectedOrder, setSelectedOrder] = useState(null)
 
     const orderHeaders = [
         {label: 'Total comensales', key: 'totalCustomers'},
@@ -111,12 +114,6 @@ export const TableManager = (props: any) => {
         setOpenMessageDialog(true)
     }
 
-    const showCannotCancelOrder = () => {
-        setTitleMessageDialog('Cancelar orden')
-        setTextMessageDialog('No se puede cancelar orden en el estado actual')
-        setOpenMessageDialog(true)
-    }
-
     const onEditOrder = (order) => {
         const orderIndex = props.orders.findIndex(o => o.id === order.id)
         const selectedOrder = props.orders[orderIndex]
@@ -141,7 +138,7 @@ export const TableManager = (props: any) => {
     const onConfirmDeleteTable = () => {
         setTitleMessageDialog("Se eliminará la mesa")
         setTextMessageDialog("Está seguro que desea eliminar esta mesa?")
-        setMessageDialogAction('delete-table')
+        setActionMessageDialog('delete-table')
         setOpenMessageDialog(true)
     }
 
@@ -150,8 +147,12 @@ export const TableManager = (props: any) => {
     }
 
     const onSubmitMessageDialog = () => {
-        if(messageDialogAction === 'delete-table'){
+        if(actionMessageDialog === 'delete-table'){
             deleteTable()
+        } else if (actionMessageDialog === 'cancel-order') {
+            cancelOrder()
+        } else if (actionMessageDialog === 'accept'){
+            onCloseMessageDialog()
         }
     }
 
@@ -164,12 +165,33 @@ export const TableManager = (props: any) => {
         const selectedOrder = props.orders[orderIndex]
         if(selectedOrder.state === 'processing' || selectedOrder.state === 'waiting'){
             let orderEntity = searchOrder(order.id)
-            setOrderFormEntity(orderEntity)
-            setOpenOrderForm(true)
-            setOrderFormIsNew(false)
+            showCancelOrder(orderEntity)
         } else {
             showCannotCancelOrder()
         }
+    }
+
+    const showCancelOrder = (orderEntity) => {
+        setSelectedOrder(orderEntity)
+        setCancelButtonVisibleMessageDialog(true)
+        setTextSubmitButtonMessageDialog("Confirmar")
+        setActionMessageDialog('cancel-order')
+        setTitleMessageDialog('La orden se cancelará')
+        setTextMessageDialog('¿Está seguro que desea cancelar la orden?')
+        setOpenMessageDialog(true)
+    }
+
+    const showCannotCancelOrder = () => {
+        setTitleMessageDialog('No se puede cancelar orden')
+        setTextMessageDialog('No se puede cancelar una orden que ya ha sido enviada a la cocina para preparar')
+        setCancelButtonVisibleMessageDialog(false)
+        setActionMessageDialog('accept')
+        setTextSubmitButtonMessageDialog("Aceptar")
+        setOpenMessageDialog(true)
+    }
+
+    const cancelOrder = () => {
+        props.cancelOrder(selectedOrder)
     }
 
     const onOrderFormClose = () => {
@@ -245,6 +267,8 @@ export const TableManager = (props: any) => {
                 open={openMessageDialog}
                 title={titleMessageDialog}
                 description={textMessageDialog}
+                submitButtonText={textSubmitButtonMessageDialog}
+                cancelButtonVisible={cancelButtonVisibleMessageDialog}
                 onSubmit={onSubmitMessageDialog}
                 onClose={onCloseMessageDialog}/>
         </Container>
@@ -273,6 +297,7 @@ TableManager.propTypes =
     sideDishes: PropTypes.array,
     // sector: PropTypes.string,
     deleteTable: PropTypes.func,
+    cancelOrder: PropTypes.func,
     generateQR: PropTypes.func,
 }
 
