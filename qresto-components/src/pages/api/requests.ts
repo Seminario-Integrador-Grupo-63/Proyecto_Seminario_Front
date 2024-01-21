@@ -8,11 +8,7 @@ const url = "http://localhost:8000"
 const restaurantId = 1
 
 export async function getQR(tableId){
-    console.log(' ')
-    console.log('requests getQR(tableId)')
-    console.log('tableId: ', tableId)
     const response = await axios.get(url + `/table/${tableId}/qrcode`)
-    console.log('response: ', response)
     return response.data
 }
 
@@ -99,9 +95,8 @@ export async function deleteOrderDetail(tableCode, orderDetail){
     const response = await axios.delete<any>(url + `/order/detail/${tableCode}`, {data: orderDetail})
 }
 
-export async function cancelOrder(){
 
-}
+
 //-**-*-*-*-*
 
 
@@ -122,11 +117,7 @@ export async function deleteDishes(restaurantId) {
 
 
 
-// ---------------------------------------------------------------------------------------------------
-// export { getCategories } from "@/Common/FakeData/FakeRequests";
-// export { getCategory } from "@/Common/FakeData/FakeRequests";
-// export { postOrderDetail } from '@/Common/FakeData/FakeRequests'; 
-// export { postCustomer } from '@/Common/FakeData/FakeRequests';
-// export { getDishesByCategoryId } from "@/Common/FakeData/FakeRequests";
-// export { getOrders } from "@/Common/FakeData/FakeRequests";
-// export { getDish } from "@/Common/FakeData/FakeRequests";
+
+export async function cancelOrder(orderId){
+    const response = await axios.post(url + `/ordercancelled/${orderId}`)
+}

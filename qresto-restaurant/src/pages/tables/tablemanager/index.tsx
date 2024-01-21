@@ -7,7 +7,7 @@ import { useSearchParams} from 'next/navigation'
 import { 
     getOrders, 
     getTable,
-    getQR
+    getQR,
 } from '@/requests'
 
 export default function TableManagerPage() {
@@ -61,12 +61,17 @@ export default function TableManagerPage() {
         setOpenQRDisplay(false)
     }
 
+    const cancelOrder = (order) => {
+        
+    }
+
     return (<>
         <TableManager
             deleteTable={deleteTable}
             table={table}
             orders={orders}
-            generateQR={generateQR}/>
+            generateQR={generateQR}
+            cancelOrder={cancelOrder}/>
 
         <QRDisplay
             open={openQRDisplay}

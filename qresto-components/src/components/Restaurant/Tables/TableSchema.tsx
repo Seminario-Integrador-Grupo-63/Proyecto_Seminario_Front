@@ -1,11 +1,18 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { Grid, Container} from '@mui/material'
+import { 
+    Grid, 
+    Container,
+    Button
+} from '@mui/material'
 import { Sector } from "./Sector";
 
 export const TableSchema = ( props: any ) => {
     return (<>
         <Container maxWidth={false}>
+            <Grid>
+                <Button>+ Mesa</Button>
+            </Grid>
             <Grid 
                 container
                 sx={{
