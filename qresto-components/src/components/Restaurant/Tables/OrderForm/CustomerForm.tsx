@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { Grid, TextField } from '@mui/material'
-import { FormDialog } from '@/Common/FunctionalTemplates/FormDialog';
+import { FormDialog } from '@/Common/FormDialog';
 
 export const CustomerForm = (props: any) => {
     const [input, setInput] = useState('');

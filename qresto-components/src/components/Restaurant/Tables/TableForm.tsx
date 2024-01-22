@@ -6,7 +6,7 @@ import {
     InputLabel,
 } from '@mui/material'
 import { Selector } from '@/Common/Selector';
-import { FormDialog } from '@/Common/FunctionalTemplates/FormDialog';
+import { FormDialog } from '@/Common/FormDialog';
 import { useState, useEffect } from 'react';
 
 export const TableForm = (props: any) => {

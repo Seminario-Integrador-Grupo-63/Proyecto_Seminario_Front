@@ -5,7 +5,7 @@ import {TextField,
         Grid,
         Card,
         Button} from '@mui/material'
-import { FormDialog } from '@/Common/FunctionalTemplates/FormDialog';
+import { FormDialog } from '@/Common/FormDialog';
 import { ImageButton } from '@/Restaurant/ImageSelector/ImageButton';
 import { ImageSelector } from '@/Restaurant/ImageSelector/ImageSelector';
 import { useState, useEffect } from 'react';
@@ -68,9 +68,6 @@ export const CategoriesForm = (props: any) => {
             action1Visible
             action1Text= 'Eliminar'
             onAction1={props.onDelete}>
-            
-            
-
             <Grid 
                 sx={{
                     display: 'grid',
@@ -114,7 +111,7 @@ export const CategoriesForm = (props: any) => {
                 </Card>
             </Grid>
         </FormDialog>
-    </>);
+    </>)
 }
 
 CategoriesForm.defaultProps =

@@ -4,7 +4,7 @@ import {
     Grid,
     Button 
 } from '@mui/material'
-import { FormDialog } from '@/Common/FunctionalTemplates/FormDialog';
+import { FormDialog } from '@/Common/FormDialog';
 import { OrderDetailForm } from './OrderDetailForm';
 import {OrderDetailTable} from './OrderDetailTable'
 import { CustomerForm } from './CustomerForm';

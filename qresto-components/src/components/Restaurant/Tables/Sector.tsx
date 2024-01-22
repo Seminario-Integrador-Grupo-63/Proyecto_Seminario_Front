@@ -13,11 +13,20 @@ export const Sector = (props: any) => {
     //     props.onTableClick(sector)
     // }
 
+    const onNameClick = () => {
+        console.log(' ')
+        console.log('Sector onNameClick()')
+        // console.log(': ', )
+    }
+
     if(props.sector !== null){
         return (<>
             <Grid container>
                 <Grid item xs={12} sx={{marginTop: '10px', marginBottom: '10px'}}>
-                    <Typography sx={{marginLeft: '20px'}} variant='h6'>
+                    <Typography 
+                        sx={{marginLeft: '20px'}} 
+                        variant='h6'
+                        onClick={onNameClick}>
                         {props.sector.sector}
                     </Typography>
                     {props.sector.tables.map((table, index) => (
@@ -27,6 +36,7 @@ export const Sector = (props: any) => {
                             onClick={props.onTableClick}/>
                     ))}
                 </Grid>
+
             </Grid>
         </>)
     } else {

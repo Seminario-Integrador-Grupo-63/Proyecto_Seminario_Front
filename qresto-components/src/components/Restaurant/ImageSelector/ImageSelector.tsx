@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { FormDialog } from '@/Common/FunctionalTemplates/FormDialog';
+import { FormDialog } from '@/Common/FormDialog';
 import { UploadButton } from '@/Common/UploadButton';
 
 export const ImageSelector = (props: any) => {

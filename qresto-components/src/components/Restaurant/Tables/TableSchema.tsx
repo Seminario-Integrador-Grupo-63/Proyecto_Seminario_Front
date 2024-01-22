@@ -3,15 +3,30 @@ import PropTypes from "prop-types";
 import { 
     Grid, 
     Container,
-    Button
+    Button,
+    ThemeProvider
 } from '@mui/material'
 import { Sector } from "./Sector";
+import { themeButtonWine } from "@/Common/Theme/themes";
 
 export const TableSchema = ( props: any ) => {
     return (<>
         <Container maxWidth={false}>
-            <Grid>
-                <Button>+ Mesa</Button>
+            <Grid container spacing={2}>
+                <ThemeProvider theme={themeButtonWine}>
+                    <Grid item sx={{marginTop: '5px', marginBottom: '5px'}}>
+                        <Button 
+                            variant={'contained'}>
+                            + Sector
+                        </Button>
+                    </Grid>
+                    <Grid item sx={{marginTop: '5px', marginBottom: '5px'}}>
+                        <Button
+                            variant={'contained'}>
+                            + Mesa
+                        </Button>
+                    </Grid>
+                </ThemeProvider>
             </Grid>
             <Grid 
                 container

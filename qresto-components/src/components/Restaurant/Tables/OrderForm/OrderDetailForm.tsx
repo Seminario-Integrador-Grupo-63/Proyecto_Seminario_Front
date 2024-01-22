@@ -5,7 +5,7 @@ import {
     TextField
 } from '@mui/material'
 import { Selector } from '@/Common/Selector'
-import { FormDialog } from '@/Common/FunctionalTemplates/FormDialog'
+import { FormDialog } from '@/Common/FormDialog'
 
 export const OrderDetailForm = (props: any) => {
     const [categoryDishes, setCategoryDishes] = useState([])

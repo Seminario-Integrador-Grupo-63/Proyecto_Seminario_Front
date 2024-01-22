@@ -4,12 +4,16 @@ import {
     Container, 
     Grid, 
     Button, 
-    Typography
+    Typography,
+    IconButton,
+    ThemeProvider
 } from '@mui/material'
 import { DataTable } from '@/Common/DataTable'
 import { OrderForm } from './OrderForm/OrderForm'
 import { TableForm } from './TableForm'
 import { MessageDialog } from '@/Common/MessageDialog'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {themeButtonWine, theme} from '@/Common/Theme/themes'
 
 export const TableManager = (props: any) => {
     const [orderRows, setOrderRows] = useState([])
@@ -191,7 +195,8 @@ export const TableManager = (props: any) => {
     }
 
     const cancelOrder = () => {
-        props.cancelOrder(selectedOrder)
+        props.cancelOrder(selectedOrder.id)
+        setOpenMessageDialog(false)
     }
 
     const onOrderFormClose = () => {
@@ -210,32 +215,47 @@ export const TableManager = (props: any) => {
                 justifyContent="space-between" 
                 spacing={2}>
                 <Grid item xs={3}>
-                    <Button 
-                        variant="contained"
-                        onClick={onGenerateOrder}>
-                        Generar Orden
-                    </Button>
+                    <IconButton
+                        sx={{
+                            marginRight: '20px'
+                        }}
+                        onClick={props.goBack}>
+                        <ArrowBackIcon 
+                            fontSize='large'
+                            sx={{
+                                color: theme.palette.primary.main,
+                            }}/>
+                    </IconButton>
+                    <ThemeProvider theme={themeButtonWine}>
+                        <Button 
+                            variant="contained"
+                            onClick={onGenerateOrder}>
+                            Generar Orden
+                        </Button>
+                    </ThemeProvider>
                 </Grid>
                 <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button
-                        sx={{ marginRight: '5px', marginLeft: '5px' }}
-                        variant="contained"
-                        onClick={onEditTable}>
-                        Editar
-                    </Button>
-                    <Button
-                        sx={{ marginRight: '5px', marginLeft: '5px' }}
-                        variant="contained"
-                        onClick={props.generateQR}>
-                        Generar QR
-                    </Button>
-                    <Button
-                        sx={{ marginRight: '5px', marginLeft: '5px' }}
-                        variant="contained"
-                        onClick={onConfirmDeleteTable}
-                        disabled={!allowDeleteTable}>
-                        Eliminar
-                    </Button>
+                    <ThemeProvider theme={themeButtonWine}>
+                        <Button
+                            sx={{ marginRight: '5px', marginLeft: '5px' }}
+                            variant='contained'
+                            onClick={onEditTable}>
+                            Editar
+                        </Button>
+                        <Button
+                            sx={{ marginRight: '5px', marginLeft: '5px' }}
+                            variant="contained"
+                            onClick={props.generateQR}>
+                            Generar QR
+                        </Button>
+                        <Button
+                            sx={{ marginRight: '5px', marginLeft: '5px' }}
+                            variant="contained"
+                            onClick={onConfirmDeleteTable}
+                            disabled={!allowDeleteTable}>
+                            Eliminar
+                        </Button>
+                    </ThemeProvider>
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="h6">Ordenes</Typography>
@@ -285,7 +305,8 @@ TableManager.defaultProps =
     // sector: null,
     deleteTable: function(){},
     generateQR: function(){},
-    displayQR: function(){}
+    displayQR: function(){},
+    goBack: function(){}
 }
 
 TableManager.propTypes =
@@ -299,6 +320,5 @@ TableManager.propTypes =
     deleteTable: PropTypes.func,
     cancelOrder: PropTypes.func,
     generateQR: PropTypes.func,
+    goBack: PropTypes.func
 }
-
-

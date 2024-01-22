@@ -69,16 +69,24 @@ export async function confirmOrder(customer, tableCode){
 }
 
 export async function getTablesGrid(){
+    console.log(' ')
+    console.log('requests getTablesGrid()')
+    
     const headers = {
         'restaurant-id': 1
     }
     const response = await axios.get<any>(url + '/table/grid', {headers})
+    console.log('response: ', response)
     return response.data
 }
 
 export async function getTable(id){
+    console.log(' ')
+    console.log('requests getTable(id)')
+    console.log('id: ', id)
     try{
         const response = await axios.get(url + `/table/${id}`)
+        console.log('response: ', response)
         return response.data
     }catch {
         return false
@@ -94,6 +102,30 @@ export async function deleteOrderDetail(tableCode, orderDetail){
     const response = await axios.delete<any>(url + `/order/detail/${tableCode}`, {data: orderDetail})
 }
 
+export async function updateDishPrice(restaurantId, dishId, percentage) {
+    const response = await axios.put(url + '/dish/update_prices', )
+}
+
+export async function putDishes(restaurantId) {
+    const response = await axios.put(url + '/dish/', )
+}
+
+export async function postDishes(restaurantId) {
+    const response = await axios.post(url + '/dish/', )
+}
+
+export async function deleteDishes(restaurantId) {
+    const response = await axios.delete(url + '/dish/', )
+}
+
 export async function cancelOrder(orderId){
-    const response = await axios.post(url + `/ordercancelled/${orderId}`)
+    console.log(' ')
+    console.log('requests cancelOrder(orderId)')
+    console.log('orderId: ', orderId)
+    try{
+        const response = await axios.post(url + `/ordercancelled/${orderId}`)
+        return true
+    } catch {
+        return false
+    }
 }

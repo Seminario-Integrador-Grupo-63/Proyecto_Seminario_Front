@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import { Container } from '@mui/material'
 import {Box}  from '@mui/material'
-import { FormDialog } from '@/Common/FunctionalTemplates/FormDialog'
+import { FormDialog } from '@/Common/FormDialog'
 import QRDisplayHelper from './QRDisplayHelper'
 
 export const QRDisplay = (props: any) => {

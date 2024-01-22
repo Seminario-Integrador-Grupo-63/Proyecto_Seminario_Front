@@ -12,27 +12,26 @@ import { SideDishes } from './SideDishes';
 
 export const FoodMenu = (props: any) => {
     const [value, setValue] = useState(0);
-    const [containerHeight, setContainerHeight] = useState('85vh');
+    const [containerHeight, setContainerHeight] = useState('85vh')
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+        setValue(newValue)
+    }
 
     const handleScroll = () => {
-        const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-        const newHeight = window.innerHeight - scrollPosition;
-        setContainerHeight(`${newHeight}px`);
+        const scrollPosition = window.scrollY || document.documentElement.scrollTop
+        const newHeight = window.innerHeight - scrollPosition
+        setContainerHeight(`${newHeight}px`)
     };
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll)
         return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
 
-    return (
-        <>
+    return (<>
         <Container
             maxWidth={false}
             sx={{
@@ -62,9 +61,8 @@ export const FoodMenu = (props: any) => {
                 Actualizar Precios
             </CustomTabPanel>
         </Container>
-        </>
-    );
-};
+    </>)
+}
 
 FoodMenu.defaultProps = {
     dishes: [],
