@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import {useEffect, useState} from 'react'
 import { Users } from '@/Restaurant/Users/Users'
 import {getUsers} from "@/requests";
+import {UserList} from "@/Restaurant/Users/UserList";
 
 export default function UsersPage() {
     const [users, setUsers] = useState([])
@@ -11,8 +12,8 @@ export default function UsersPage() {
         // Initial fetch
         fetchUsers();
 
-        // Fetch users every 2 seconds
-        const intervalId = setInterval(fetchUsers, 2000);
+        // Fetch users every 10 seconds
+        const intervalId = setInterval(fetchUsers, 10000);
 
         // Clean up the interval when the component is unmounted
         return () => clearInterval(intervalId);
@@ -23,6 +24,6 @@ export default function UsersPage() {
         setUsers(fetchedUsers)
     }
     return (<>
-        <Users users={users}/>
+        <UserList users={users}/>
     </>)
 }

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Users } from "@/Restaurant/Users/Users";
-import {widths100} from "@/Stories/viewports";
+import {widths100} from "@/stories/viewports";
 
 export default {
     title: "components/Restaurant/Users",

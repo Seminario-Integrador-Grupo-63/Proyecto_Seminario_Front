@@ -62,6 +62,7 @@ export const Layout = (props: any) => {
             <Toolbar />
             <Divider />
             <List>
+                <>
                 <ListItem key={"orders"}>
                     <Link href="/orders" style={{ textDecoration: 'none' }}>
                         <ListItemButton onClick={onOrders}>
@@ -125,7 +126,7 @@ export const Layout = (props: any) => {
                                     </Typography>}/>
                         </ListItemButton>
                     </Link>
-                </ListItem></>:<></>}
+                </ListItem></>:<></>
             </List>
         </div>
     )

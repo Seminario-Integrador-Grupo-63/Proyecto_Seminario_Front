@@ -1,7 +1,7 @@
-import {FormDialog} from "@/Common/FunctionalTemplates/FormDialog";
 import {Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import React, {useState} from "react";
 import PropTypes from "prop-types";
+import {FormDialog} from "@/Common/FormDialog";
 
 
 export  const UserForm = (props: any) => {
@@ -57,8 +57,12 @@ export  const UserForm = (props: any) => {
                         label="Password"
                         name="inputValuePassword"
                         variant="outlined"
+/*
                         aria-readonly={props.readOnly}
+*/
+/*
                         defaultValue={props.user.password}
+*/
                         fullWidth
                         value={formData.inputValuePassword}
                         onChange={(e) => setFormData({ ...formData, inputValuePassword: e.target.value })}
@@ -73,9 +77,11 @@ export  const UserForm = (props: any) => {
                         label="Rol"
                         name="selected-role"
                         variant="outlined"
-                        aria-readonly={props.readOnly}
-                        readOnly={props.readOnly}
+/*                        aria-readonly={props.readOnly}
+                        readOnly={props.readOnly}*/
+/*
                         defaultValue={props.user.role}
+*/
                         fullWidth
                         value={formData.selectedRole}
                         onChange={(e) => setFormData({ ...formData, selectedRole: e.target.value })}
@@ -101,7 +107,7 @@ UserForm.DefaultProps = {
     open: false,
     onClose: function (){},
     readOnly: false,
-    user: null,
+    user: {username: "Johhny", email: "dwad"},
     title: "Form",
 
 }
