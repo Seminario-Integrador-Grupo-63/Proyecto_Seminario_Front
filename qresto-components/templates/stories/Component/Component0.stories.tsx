@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Component } from "../Component";
 import {widths100} from "@/Stories/viewports";
+import {useState, useEffect} from 'react'
+import {} from '@mui/material'
 
 export default {
     title: "components/Component",

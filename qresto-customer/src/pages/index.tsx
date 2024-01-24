@@ -4,25 +4,16 @@ import { useRouter } from 'next/router'
 import { NameInputMain } from '@/Customer/NameInput/NameInputMain'
 import { postCustomer } from '@/requests'
 import {MessageDialog} from '@/Common/MessageDialog'
-import {tableCode} from '@/Common/FakeData/Tables'
-// import { FlowState} from '@/Common/FlowState'
-// import { customer } from './global'
+// import {tableCode} from '@/Common/FakeData/Tables'
+import { useSearchParams} from 'next/navigation'
 
 export default function Home() {
     const router = useRouter()
     const [openRepeatedNameDialog, setOpenRepeatedNameDialog] = useState(false)
     const [openEmptyNameDialog, setOpenEmptyNameDialog] = useState(false)
-    // const [customer, setCustomer] = useState('')
+    const searchParams = useSearchParams()
+    const [tableCode, setTableCode] = useState('')
     
-    // const flowState: FlowState = {
-    //     customer: '',
-    //     confirmed: false,
-    //     orders: {
-    //         buttonVisible: false,
-    //         total: 0
-    //     }
-    // }
-
     const onEnterName = async (name) => {
         if(name === ''){
             setOpenEmptyNameDialog(true)
@@ -40,7 +31,10 @@ export default function Home() {
         }
     }
 
-
+    useEffect(() => {
+        const tc = searchParams.get('tableCode')
+        setTableCode(tc)
+    }, [searchParams])
 
     return (<>
         <Head>
@@ -66,7 +60,6 @@ export default function Home() {
                 cancelButtonVisible={false}
                 submitButtonText={"Aceptar"}
                 description={'Debe ingresar un nombre para poder realizar una orden'}/>
-        
         </main>
     </>)
 }

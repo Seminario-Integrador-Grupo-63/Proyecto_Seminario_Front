@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useState, useEffect} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,6 +10,15 @@ import PropTypes from 'prop-types';
 import { OrderDetailTableRow } from './OrderDetailTableRow';
 
 export const OrderDetailTable = (props: any) => {
+    const [customerOrderDetails, setCustomerOrderDetails] = useState([])
+
+    useEffect(() => {
+        if(props.order !== null){
+            setCustomerOrderDetails(props.order.customerOrderDetails)
+        }
+    }, [props.order])
+
+
     const createCustomerOrderDetailRow = (customerOrderDetail) => {
         const row = {
             customer: customerOrderDetail.customer,
@@ -40,7 +49,7 @@ export const OrderDetailTable = (props: any) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.order.customerOrderDetails.map((customerOrderDetail) => 
+                    {customerOrderDetails.map((customerOrderDetail) => 
                         <OrderDetailTableRow 
                             key={customerOrderDetail.customer} 
                             customerOrderDetail={createCustomerOrderDetailRow(customerOrderDetail)}

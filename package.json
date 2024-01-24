@@ -14,5 +14,11 @@
         "restaurant:build": "yarn workspace qresto-restaurant build",
         "restaurant:start": "yarn workspace qresto-restaurant start",
         "restaurant:build-start": "yarn workspace qresto-restaurant build && yarn workspace qresto-restaurant start"
+    },
+    "dependencies": {
+        "@mui/x-date-pickers": "^6.19.0",
+        "dayjs": "^1.11.10",
+        "html-to-pdfmake": "^2.5.1",
+        "pdfmake": "^0.2.9"
     }
 }
