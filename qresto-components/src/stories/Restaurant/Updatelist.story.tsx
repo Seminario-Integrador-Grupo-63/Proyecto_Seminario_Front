@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-import UpdatePrices from "@/components/Restaurant/UpdatePrices/UpdatePrices";
+import UpdatePrices from "@/Restaurant/UpdatePrices/UpdatePrices";
 import { useState } from "react";
 import Button from "@mui/material/Button";
-import Updatelist from "@/components/Restaurant/UpdatePrices/Updatelist";
-import { DishCard } from "@/components/Restaurant/FoodMenu/Dishes/DishCard/DishCard";
-import { dishes } from "@/components/Common/FakeData/DishesData";
+import Updatelist from "@/Restaurant/UpdatePrices/Updatelist";
+import { DishCard } from "@/Restaurant/FoodMenu/Dishes/DishCard/DishCard";
+import { dishes } from "@/Common/FakeData/DishesData";
 import { widths100 } from "../viewports";
 
 

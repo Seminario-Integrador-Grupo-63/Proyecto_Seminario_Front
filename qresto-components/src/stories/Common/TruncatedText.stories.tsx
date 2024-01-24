@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { TruncatedText } from "@/components/Common/TruncatedText/TruncatedText";
+import { TruncatedText } from "@/Common/TruncatedText/TruncatedText";
 import {widths100} from "@/Stories/viewports";
 
 export default {

@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react'
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu'
 import { getDishes } from '@/requests'
 import {updateDishPrice} from "@/requests";
+// import {updateDishPrice} from "@/requests";
 
 export default function QRGeneratorPage() {
     const [dishes, setDishes] = useState([])

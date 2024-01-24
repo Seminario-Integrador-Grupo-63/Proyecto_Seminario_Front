@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import UpdatePrices from "@/components/Restaurant/UpdatePrices/UpdatePrices";
+import UpdatePrices from "@/Restaurant/UpdatePrices/UpdatePrices";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 

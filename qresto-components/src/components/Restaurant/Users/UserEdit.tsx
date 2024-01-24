@@ -12,7 +12,7 @@ import {
   InputLabel,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import { theme } from '@/components/Common/Theme/themes';
+import { theme } from '@/Common/Theme/themes';
 
 function UserEdit({ permisosOpciones }) {
     const [formData, setFormData] = useState({

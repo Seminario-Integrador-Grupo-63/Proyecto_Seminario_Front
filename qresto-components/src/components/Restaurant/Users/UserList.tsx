@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
-import { theme } from '@/components/Common/Theme/themes';
+import { theme } from '@/Common/Theme/themes';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {UserForm} from "@/Restaurant/Users/UserForm";
