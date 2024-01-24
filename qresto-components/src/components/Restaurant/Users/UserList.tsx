@@ -22,21 +22,13 @@ export const UserList = (props:any) => {
 
     const handleClickOpen = () => {
         setOpen(true);
+        return <UserForm open={true}></UserForm>
     };
     const handleClose = () => {
         setUserDet(null);
         setOpen(false);
     };
 
-    function openForm2(readOnly:boolean, title:string) {
-        return <UserForm
-            open={open}
-            user={userDet}
-            onClose={handleClose}
-            readOnly={readOnly}
-            title={title}
-        />
-    }
     const openForm = (event:React.MouseEvent<HTMLButtonElement>, id:number, readOnly:boolean, title:string) => {
         setOpen(true)
         return <UserForm
@@ -72,6 +64,7 @@ export const UserList = (props:any) => {
     return (
         <TableContainer >
             <Table sx={{ minWidth: 650 }}>
+
                 <TableHead sx={{backgroundColor: theme.palette.primary.main,}} >
                     <TableRow>
                         <TableCell align={"center"}>
@@ -91,9 +84,10 @@ export const UserList = (props:any) => {
                         </TableCell>
                     </TableRow>
                 </TableHead>
+
                 <TableBody >
                     {props.users.map((row) => (
-                        <TableRow>
+                        <TableRow key={row.id}>
                             <TableCell align="center">{row.nombre}</TableCell>
                             <TableCell align="center">{row.permiso}</TableCell>
                             <TableCell aria-label={"user-buttons"} align="center">
@@ -113,19 +107,22 @@ export const UserList = (props:any) => {
                         </TableRow>
                     ))}
                 </TableBody>
+
                 <TableFooter>
                     <TableRow>
                         <TableCell>
                             <Button
                                 startIcon={<AddIcon/>}
-                                onClick={(event) =>
-                                    openForm(event, null, false, "Nuevo Usuario")}
+                                onClick={handleClickOpen}
+                                /*onClick={(event) =>
+                                    openForm(event, null, false, "Nuevo Usuario")}*/
                             >
                                 Nuevo usuario
                             </Button>
                         </TableCell>
                     </TableRow>
                 </TableFooter>
+
             </Table>
         </TableContainer>
     );

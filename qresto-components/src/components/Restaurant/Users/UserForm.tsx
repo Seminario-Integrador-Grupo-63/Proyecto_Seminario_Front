@@ -18,7 +18,7 @@ export  const UserForm = (props: any) => {
         inputValueUsername: props.user.username,
         inputValueEmail: props.user.email,
         inputValuePassword: props.user.password,
-        selectedRole: props.user.role,
+        inputSelectedRole: props.user.role,
     });
 
     return (<>
@@ -34,28 +34,30 @@ export  const UserForm = (props: any) => {
 
                 <Grid item xs={12} sm={6} >
                     <TextField
+                        InputProps={{readOnly: props.readOnly,}}
                         margin={"dense"}
                         label="Nombre de Usuario"
                         name="inputValueUser"
                         variant="outlined"
-                        aria-readonly={props.readOnly}
                         fullWidth
                         value={formData.inputValueUsername}
-                        onChange={(e) => setFormData({ ...formData, inputValueUsername: e.target.value })}
+                        onChange={(e) =>
+                            setFormData({ ...formData, inputValueUsername: e.target.value })}
                     >
                     </TextField>
                 </Grid>
 
                 <Grid item xs={12} sm={6} >
                     <TextField
+                        InputProps={{readOnly: props.readOnly,}}
                         margin={"dense"}
                         label="Email"
                         name="inputValueEmail"
                         variant="outlined"
-                        aria-readonly={props.readOnly}
                         fullWidth
                         value={formData.inputValueEmail}
-                        onChange={(e) => setFormData({ ...formData, inputValueEmail: e.target.value })}
+                        onChange={(e) =>
+                            setFormData({ ...formData, inputValueEmail: e.target.value })}
                     >
                     </TextField>
                 </Grid>
@@ -64,40 +66,44 @@ export  const UserForm = (props: any) => {
                 <Grid item xs={12} sm={6} >
                     <TextField
                         type={showPassword ? 'text' : 'password'}
-                        InputProps={{endAdornment:
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>}}
+                        InputProps={{
+                            readOnly: props.readOnly,
+                            endAdornment:
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                            </InputAdornment>,
+                        }}
                         margin={"dense"}
-                        label="Password"
+                        label="Contraseña"
                         name="inputValuePassword"
                         variant="outlined"
                         fullWidth
                         value={formData.inputValuePassword}
-                        onChange={(e) => setFormData({ ...formData, inputValuePassword: e.target.value })}
+                        onChange={(e) =>
+                            setFormData({ ...formData, inputValuePassword: e.target.value })}
                     >
                     </TextField>
                 </Grid>
 
                 <Grid item xs={12} sm={6}>
                     <TextField
+                        InputProps={{readOnly: props.readOnly,}}
                         margin={"dense"}
                         select
-                        id="role-selection"
-                        label="Rol"
-                        name="selected-role"
+                        label="Rol-Permiso"
+                        name="InputSelectedRole"
                         variant="outlined"
                         fullWidth
-                        value={formData.selectedRole}
-                        onChange={(e) => setFormData({ ...formData, selectedRole: e.target.value })}
-                        style={{ marginBottom: '1rem' }}
+                        value={formData.inputSelectedRole}
+                        onChange={(e) =>
+                            setFormData({ ...formData, inputSelectedRole: e.target.value })}
                     >
                         <MenuItem value={"mozo"}>Mozo</MenuItem>
                         <MenuItem value={"admin"}>Admin</MenuItem>
