@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from "prop-types";
-import {UserList} from "@/Restaurant/Users/UserList";
-import {Box} from "@mui/material";
 import {DataTable} from "@/Common/DataTable";
 import {UserForm} from "@/Restaurant/Users/UserForm";
 

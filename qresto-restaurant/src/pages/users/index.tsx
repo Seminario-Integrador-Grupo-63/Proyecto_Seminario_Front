@@ -1,8 +1,6 @@
-import { useRouter } from 'next/router'
 import {useEffect, useState} from 'react'
 import { Users } from '@/Restaurant/Users/Users'
 import {getUsers} from "@/requests";
-import {UserList} from "@/Restaurant/Users/UserList";
 
 export default function UsersPage() {
     const [users, setUsers] = useState([])
