@@ -14,7 +14,7 @@ export default {
 
 type Story = StoryObj<typeof UserForm>;
 
-const user = {username:"Johhny", email:" xD ", password:" ", role:"mozo"}
+const user = {user:"Johhny", email:" xD ", password:" ", role:"mozo"}
 export const Common: Story = {
     render: () =>{
 

@@ -119,7 +119,7 @@ export async function deleteDishes(restaurantId) {
 }
 export async function loginRestaurant(user) {
     try{
-        const response = await axios.post<any>(url + `/login`, user)
+        const response = await axios.post<any>(url + `/security/login`, user)
         // Guardar restaurant ID
         return response.data
 
@@ -130,7 +130,7 @@ export async function loginRestaurant(user) {
 
 export async function getUsers(restaurantId) {
     try {
-        const response = await axios.get(url + '/users', restaurantId)
+        const response = await axios.get(url + '/security/employees', restaurantId)
         return response.data
     } catch (error) {
         return []

@@ -148,8 +148,8 @@ DataTable.propTypes =
     headers: PropTypes.array,
     /**
     headers = [
-        {title: "Header 1", key: header1},
-        {title: "Another Header", key: anotherHeader},
+        {label: "Header 1", key: "header1"},
+        {label: "Another Header", key: "anotherHeader"},
         ...
     ]
     */

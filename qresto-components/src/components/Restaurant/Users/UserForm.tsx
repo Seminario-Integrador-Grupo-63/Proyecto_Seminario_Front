@@ -1,5 +1,5 @@
 import {Grid, IconButton, InputAdornment, MenuItem, TextField} from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {FormDialog} from "@/Common/FormDialog";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
@@ -15,11 +15,23 @@ export  const UserForm = (props: any) => {
         event.preventDefault();
     };
     const [formData, setFormData] = useState({
-        inputValueUsername: props.user.username,
-        inputValueEmail: props.user.email,
-        inputValuePassword: props.user.password,
-        inputSelectedRole: props.user.role,
+        inputValueUsername: '',
+        inputValueEmail: '',
+        inputValuePassword: '',
+        inputSelectedRole: '',
     });
+    useEffect(() => {
+        if (props.user != null) {
+            setFormData(
+                {
+                    inputValueUsername: props.user.user,
+                    inputValueEmail: props.user.email,
+                    inputValuePassword: props.user.password,
+                    inputSelectedRole: props.user.role
+                }
+            )
+        }
+    }, [props.user]);
 
     return (<>
         <FormDialog
@@ -125,7 +137,7 @@ UserForm.defaultProps = {
     open: false,
     onClose: function (){},
     readOnly: true,
-    user: {username: "Johhny", email: "dwad"},
+    user: null,
     title: "Detalles de Usuario",
 
 }

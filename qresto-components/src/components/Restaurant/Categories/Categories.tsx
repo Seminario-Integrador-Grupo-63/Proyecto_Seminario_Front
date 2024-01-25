@@ -8,7 +8,6 @@ import { Layout } from '../Layout/Layout';
 import { CategoriesForm } from './CategoriesForm';
  
 import PropTypes from 'prop-types';
-import {theme, themeButton} from '@/Common/Theme//themes'
 
 export const Categories = (props: any) => {
     // En esta parte van las funciones

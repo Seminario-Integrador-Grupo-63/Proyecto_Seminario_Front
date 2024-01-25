@@ -23,7 +23,23 @@ export default function UsersPage() {
         const fetchedUsers = await getUsers(restaurantID)
         setUsers(fetchedUsers)
     }
+    const postUser = async (user) => {
+
+    }
+    const putUser = async (user) => {
+
+    }
+    const deleteUser = async (userId) => {
+
+    }
+
     return (<>
-        <UserList users={users}/>
+        <Users
+            users={users}
+            onCreate={postUser}
+            onEdit={putUser}
+            onDelete={deleteUser}
+
+        />
     </>)
 }
