@@ -48,11 +48,11 @@ export async function getOrders(tableCode){
     return response.data
 }
 
-export async function getDish(id){
+/*export async function getDish(id){
     const responseDish = await axios.get<any>(url + `/dish/${id}`)
     const dish = buildDish(responseDish)
     return dish
-}
+}*/
 
 export async function getDishes(){
     const headers = {
@@ -144,5 +144,92 @@ export async function cancelOrder(orderId){
         return true
     } catch {
         return false
+    }
+}
+
+// 
+
+export async function getDish(dishId: number) {
+    try {
+        const response = await axios.get<any>(`${url}/dish/${dishId}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Error al obtener información del plato con ID ${dishId}:`, error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function deleteDish(dishId: number) {
+    console.log("requests deleteDish(dishId)")
+    console.log("dishId: ", dishId)
+    
+    try {
+        const response = await axios.delete<any>(`${url}/dish/${dishId}`);
+        console.log("response: ", response) 
+        return true;
+    } catch (error) {
+        console.error(`Error al eliminar plato con ID ${dishId}:`, error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function updateDish(dishId: number, updatedDish: any) {
+    try {
+        const response = await axios.put(`${url}/dish/${dishId}`, updatedDish);
+        return response.data;
+    } catch (error) {
+        console.error(`Error al actualizar plato con ID ${dishId}:`, error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function updateDishInfo(dishId: number, updatedInfo: any) {
+    try {
+        const response = await axios.patch<any>(`${url}/dish/${dishId}`, updatedInfo);
+        return response.data;
+    } catch (error) {
+        console.error(`Error al actualizar información del plato con ID ${dishId}:`, error.response?.data || error.message);
+        throw error;
+    }
+}
+
+//guarnicion?
+export async function getSideDishes() {
+    try {
+        const response = await axios.get(url + '/side-dish/');
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener guarniciones:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function getSideDish(sideDishId) {
+    try {
+        const response = await axios.get(url + `/side-dish/${sideDishId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener información de guarnición:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function deleteSideDish(sideDishId) {
+    try {
+        const response = await axios.delete(url + `/side-dish/${sideDishId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error al eliminar guarnición:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function updateSideDishInfo(sideDishId, updatedInfo) {
+    try {
+        const response = await axios.put(url + `/side-dish/${sideDishId}`, updatedInfo);
+        return response.data;
+    } catch (error) {
+        console.error("Error al actualizar información de guarnición:", error.response?.data || error.message);
+        throw error;
     }
 }

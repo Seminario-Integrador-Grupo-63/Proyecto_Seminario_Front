@@ -24,9 +24,7 @@ export const Dishes = (props: any) => {
         setIsNewDishForm(false)
     }
 
-    const onDelete = () => {
-
-    }
+    
 
     const onCloseDishForm = () => {
         setOpenDishForm(false)
@@ -56,7 +54,7 @@ export const Dishes = (props: any) => {
                             <DishCard 
                                 dish={dish} 
                                 onEdit={onEdit}
-                                onDelete={onDelete}/>
+                                onDelete={props.deleteDish}/>
                         </Grid>
                     ))}
                 </Grid>
@@ -73,12 +71,14 @@ export const Dishes = (props: any) => {
 
 Dishes.defaultProps =
 {
-    dishes: []
+    dishes: [],
+    deleteDish:function(){}
 }
 
 Dishes.propTypes = 
 {
-    dishes: PropTypes.array
+    dishes: PropTypes.array,
+    deleteDish: PropTypes.func
 }
 
 
