@@ -70,8 +70,8 @@ export async function getMenu(){
         'restaurant-id': restaurantId
     }
     const response = await axios.get<any>(url + '/category/menu', {headers})
-    console.log('response: ', response)
     const data = buildMenu(response.data)
+    console.log('data: ', data)
     return data
 }
 

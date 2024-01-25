@@ -25,9 +25,6 @@ export function buildTableGrid(data){
 }
 
 export function buildMenu(data){
-    console.log(' ')
-    console.log('utils buildMenu(data)')
-    
     const menu = data.map(categoryObj => {
         return {
             id: categoryObj.category.id,
@@ -50,6 +47,5 @@ export function buildMenu(data){
             })
         }
     })
-    console.log('menu: ', menu)
     return menu
 }
