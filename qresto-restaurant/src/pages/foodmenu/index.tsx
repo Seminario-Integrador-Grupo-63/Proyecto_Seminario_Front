@@ -4,7 +4,6 @@ import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
 import { getDishes, deleteDish, getDish, updateDishInfo, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes } from '@/requests';
 import { triggerAsyncId } from 'async_hooks';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
-import { SideDishes } from '@/Restaurant/FoodMenu/SideDishes';
 
 export default function QRGeneratorPage() {
     const [dishes, setDishes] = useState([]);
@@ -21,8 +20,12 @@ export default function QRGeneratorPage() {
     }, []);
 
     const fetchDishes = async () => {
+        console.log(' ')
+        console.log('index fetchDishes()')
+        console.log(': ', )
         try {
             const result = await getDishes();
+            console.log('result: ', result)
             setDishes(result);
         } catch (error) {
             console.error("Error al obtener platos:", error);
@@ -94,8 +97,6 @@ export default function QRGeneratorPage() {
         }
     };
 
-   
-
     //guarnicion?
 
     const handleDeleteSideDish = async (sideDishId) => {
@@ -136,14 +137,9 @@ export default function QRGeneratorPage() {
     return (<>
         <FoodMenu dishes={dishes} 
             deleteDish={handleDeleteDish} 
+            sideDishes={sidedishes}
            // updateDish={handleEditDish} 
              />
-            
-        <SideDishes
-            sideDishes={sidedishes}
-            //deleteSideDish={handleDeleteSideDish}
-            //editSideDish={handleEditSideDish}
-           />
 
         <FeedbackDialog
             open={openFeedbackDialog}

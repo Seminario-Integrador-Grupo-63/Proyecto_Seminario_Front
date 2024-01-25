@@ -49,3 +49,13 @@ export function buildMenu(data){
     })
     return menu
 }
+
+export function buildSideDish(data){
+    const sideDishes = data.map(sideDish => {
+        return {
+            ...sideDish,
+            isActive: sideDish.is_active
+        }
+    })
+    return sideDishes
+}

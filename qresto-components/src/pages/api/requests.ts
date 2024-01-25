@@ -3,7 +3,8 @@ import * as https from 'https';
 import { 
     buildDish,
     buildTableGrid,
-    buildMenu
+    buildMenu,
+    buildSideDish
 } from "./utils";
 
 const url = "http://localhost:8000"
@@ -55,6 +56,7 @@ export async function getOrders(tableCode){
 }*/
 
 export async function getDishes(){
+
     const headers = {
         'restaurant-id': restaurantId
     }
@@ -195,10 +197,20 @@ export async function updateDishInfo(dishId: number, updatedInfo: any) {
 
 //guarnicion?
 export async function getSideDishes() {
+    console.log(' ')
+    console.log('requests getSideDishes()')
+    
     try {
-        const response = await axios.get(url + '/side-dish/');
-        return response.data;
+        const headers = {
+            'restaurant-id': restaurantId
+        }
+        const response = await axios.get(url + '/side-dish/', {headers});
+        console.log('response: ', response)
+        const data = buildSideDish(response.data)
+        console.log('data: ', data)
+        return data
     } catch (error) {
+        console.log(error.response)
         console.error("Error al obtener guarniciones:", error.response?.data || error.message);
         throw error;
     }

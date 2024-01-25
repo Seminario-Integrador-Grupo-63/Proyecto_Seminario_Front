@@ -8,8 +8,7 @@ import {
 } from '@mui/material';
 import { CustomTabPanel } from '@/Common/CustomTabPanel';
 import { Dishes } from './Dishes/Dishes';
-import { SideDishes } from './SideDishes';
-import { deleteDish } from '@/requests';
+import { SideDishes } from './SideDishes/SideDishes';
 
 export const FoodMenu = (props: any) => {
     const [value, setValue] = useState(0);

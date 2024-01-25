@@ -55,7 +55,7 @@ export const ImageSelectorButton: Story = {
 
         return(<>
             <ImageButton 
-                image={imageDish1}/>
+                image={''}/>
         </>);
     }
 };
