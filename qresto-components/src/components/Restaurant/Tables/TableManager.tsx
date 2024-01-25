@@ -107,7 +107,8 @@ export const TableManager = (props: any) => {
     //     }
     // }, [props.sector])
 
-    const onGenerateOrder = () => {
+    const onGenerateOrder = async () => {
+        const data = await props.onOpenOrderForm()
         setOpenOrderForm(true)
         setOrderFormIsNew(true)
     }
@@ -305,6 +306,7 @@ TableManager.defaultProps =
     // sector: null,
     deleteTable: function(){},
     generateQR: function(){},
+    onOpenOrderForm: function(){},
     displayQR: function(){},
     goBack: function(){}
 }
@@ -317,6 +319,7 @@ TableManager.propTypes =
     dishes: PropTypes.array,
     sideDishes: PropTypes.array,
     // sector: PropTypes.string,
+    onOpenOrderForm: PropTypes.func,
     deleteTable: PropTypes.func,
     cancelOrder: PropTypes.func,
     generateQR: PropTypes.func,

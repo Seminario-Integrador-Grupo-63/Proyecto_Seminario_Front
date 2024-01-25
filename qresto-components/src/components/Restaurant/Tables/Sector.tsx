@@ -27,7 +27,7 @@ export const Sector = (props: any) => {
                         sx={{marginLeft: '20px'}} 
                         variant='h6'
                         onClick={onNameClick}>
-                        {props.sector.sector}
+                        {props.sector.name}
                     </Typography>
                     {props.sector.tables.map((table, index) => (
                         <Table 

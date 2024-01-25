@@ -13,7 +13,7 @@ export default function QRGeneratorPage() {
     }, [])
 
     const fetchDishes = async () => {
-        const result = await getDishes(1)
+        const result = await getDishes()
         setDishes(result)
     }
 

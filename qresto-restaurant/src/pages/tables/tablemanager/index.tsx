@@ -7,11 +7,11 @@ import {
     getOrders, 
     getTable,
     getQR,
-    cancelOrder as cancelOrderRequest
+    cancelOrder as cancelOrderRequest,
+    getMenu
 } from '@/requests'
-// import {LoadingDialog} from '@/Common/LoadingDialog'
-import {HamsterLoader} from '@/Common/HamsterLoader/HamsterLoader'
 import {FeedbackDialog} from '@/Common/FeedbackDialog/FeedbackDialog'
+import {PanLoader} from '@/Common/PanLoader/PanLoader'
 
 export default function TableManagerPage() {
     const [table, setTable] = useState(null)
@@ -52,6 +52,10 @@ export default function TableManagerPage() {
     const fetchOrders = async () => {
         let ords = await getOrders(table.tableCode)
         setOrders(ords)
+    }
+
+    const getDishes = async () => {
+        return await getMenu()
     }
 
     const deleteTable = async () => {
@@ -109,18 +113,20 @@ export default function TableManagerPage() {
 
     return (<>
         <TableManager
-            deleteTable={deleteTable}
-            cancelOrder={cancelOrder}
             table={table}
             orders={orders}
+            onOpenOrderForm={getDishes}
+            deleteTable={deleteTable}
+            cancelOrder={cancelOrder}
             goBack={goBack}
             generateQR={generateQR}/>
+            
         <QRDisplay
             open={openQRDisplay}
             qrcode={qrcode}
             onClose={onQRDisplayClose}/>
 
-        <HamsterLoader open={loading}/>
+        <PanLoader open={loading}/>
 
         <FeedbackDialog
             open={openFeedbackDialog}
