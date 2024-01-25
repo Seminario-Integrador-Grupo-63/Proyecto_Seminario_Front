@@ -14,16 +14,15 @@ import { TableForm } from './TableForm'
 import { MessageDialog } from '@/Common/MessageDialog'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {themeButtonWine, theme} from '@/Common/Theme/themes'
+import { PanLoader } from '@/Common/PanLoader/PanLoader';
 
 export const TableManager = (props: any) => {
     const [orderRows, setOrderRows] = useState([])
     const [openOrderForm, setOpenOrderForm] = useState(false)
+    const [menu, setMenu] = useState(null)
     const [orderFormIsNew, setOrderFormIsNew] = useState(true)
-    const [orderFormEntity, setOrderFormEntity] = useState(null)
-    const [dishes, setDishes] = useState([])
-    const [categories, setCategories] = useState([])
-    const [sideDishes, setSideDishes] = useState([])
     const [openTableForm, setOpenTableForm] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [table, setTable] = useState(null)
     // const [sector, setSector] = useState(null)
     const [openMessageDialog, setOpenMessageDialog] = useState(false)
@@ -84,18 +83,6 @@ export const TableManager = (props: any) => {
     }, [props.orders])
 
     useEffect(() => {
-        setDishes(props.dishes)
-    }, [props.dishes])
-
-    useEffect(() => {
-        setCategories(props.categories)
-    }, [props.categories])
-
-    useEffect(() => {
-        setSideDishes(props.sideDishes)
-    }, [props.sidedishes])
-
-    useEffect(() => {
         if(props.table !== null){
             setTable(props.table)
         }
@@ -108,28 +95,12 @@ export const TableManager = (props: any) => {
     // }, [props.sector])
 
     const onGenerateOrder = async () => {
+        setLoading(true)
         const data = await props.onOpenOrderForm()
+        setLoading(false)
+        setMenu(data)
         setOpenOrderForm(true)
         setOrderFormIsNew(true)
-    }
-
-    const showCannotModifyOrder = () => {
-        setTitleMessageDialog('Modificar orden')
-        setTextMessageDialog('No se puede modificar order en el estado actual')
-        setOpenMessageDialog(true)
-    }
-
-    const onEditOrder = (order) => {
-        const orderIndex = props.orders.findIndex(o => o.id === order.id)
-        const selectedOrder = props.orders[orderIndex]
-        if(selectedOrder.state === 'processing' || selectedOrder.state === 'waiting'){
-            let orderEntity = searchOrder(order.id)
-            setOrderFormEntity(orderEntity)
-            setOpenOrderForm(true)
-            setOrderFormIsNew(false)
-        } else {
-            showCannotModifyOrder()
-        }
     }
 
     const onEditTable = () => {
@@ -263,20 +234,16 @@ export const TableManager = (props: any) => {
                     <DataTable 
                         headers={orderHeaders}
                         rows={orderRows}
-                        actionsType='edit-delete'
-                        onEdit={onEditOrder}
-                        onDelete={onCancelOrder}/>
+                        actionsType='cancel'
+                        onCancel={onCancelOrder}/>
                 </Grid>
             </Grid>
 
             <OrderForm 
                 open={openOrderForm}
-                dishes={dishes}
-                categories={categories}
-                sideDishes={sideDishes}
+                menu={menu}
                 isNew={orderFormIsNew}
-                onClose={onOrderFormClose}
-                order={orderFormEntity}/>
+                onClose={onOrderFormClose}/>
 
             <TableForm
                 isNew={false}
@@ -292,6 +259,8 @@ export const TableManager = (props: any) => {
                 cancelButtonVisible={cancelButtonVisibleMessageDialog}
                 onSubmit={onSubmitMessageDialog}
                 onClose={onCloseMessageDialog}/>
+
+            <PanLoader open={loading}/>
         </Container>
     )
 }

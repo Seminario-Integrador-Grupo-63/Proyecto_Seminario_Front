@@ -15,6 +15,8 @@ export const OrderForm = (props: any) => {
     const [title, setTitle] = useState('Generar Orden')
     const [submitText, setSubmitText] = useState('Generar')
     const [order, setOrder] = useState(null)
+    const [selectedCustomer, setSelectedCustomer] = useState('')
+    const orderToPost = []
 
     useEffect(() => {
         if(props.isNew){
@@ -26,11 +28,14 @@ export const OrderForm = (props: any) => {
         }
     }, [props.isNew])
 
-    useEffect(() => {
-        if(props.order !== null){
-            setOrder(props.order)
-        }
-    }, [props.order])
+    // useEffect(() => {
+    //     console.log(' ')
+    //     console.log('OrderForm useEffect props.order')
+    //     console.log('props.order: ', props.order)
+    //     // if(props.order !== null){
+    //     //     setOrder(props.order)
+    //     // }
+    // }, [props.order])
 
     const openCustomerForm = () => {
         setCustomerFormOpen(true)
@@ -41,6 +46,7 @@ export const OrderForm = (props: any) => {
     }
 
     const onAddOrderDetail = (customerOrderDetail) => {
+        setSelectedCustomer(customerOrderDetail)
         setOrderDetailFormOpen(true)
     }
 
@@ -67,8 +73,19 @@ export const OrderForm = (props: any) => {
             })
             setOrder(ord)
         }
-
         setCustomerFormOpen(false)
+    }
+
+    const addNewDetail = (detail) => {
+        console.log(' ')
+        console.log('OrderForm addNewDetail(detail)')
+        console.log('detail: ', detail)
+        orderToPost.push(detail)
+        const index = order.customerOrderDetails.findIndex(customerOrderDetail => customerOrderDetail.customer === detail.customerName)
+        if(index !== -1){
+            order.customerOrderDetails[index].orderDetails.push(detail)
+        }
+        setOrderDetailFormOpen(false)
     }
 
     return (<>
@@ -89,9 +106,9 @@ export const OrderForm = (props: any) => {
             </Grid>
 
             <OrderDetailForm 
-                categories={props.categories}
-                dishes={props.dishes}
-                sideDishes={props.sideDishes}
+                menu={props.menu}
+                customer={selectedCustomer.toString()}
+                addNewDetail={addNewDetail}
                 open={orderDetailFormOpen}
                 onClose={closeOrderDetailForm}/>
 
@@ -108,11 +125,10 @@ OrderForm.defaultProps =
     open: false,
     onSubmit: function(){},
     onClose: function(){},
-    order: null,
+    // order: null,
     isNew: true,
-    categories: [],
-    dishes: [],
-    sideDishes: []
+    orderFormData: null,
+    menu: [],
 }
 
 OrderForm.propTypes = 
@@ -120,9 +136,7 @@ OrderForm.propTypes =
     open: PropTypes.bool,
     onSubmit: PropTypes.func,
     onClose: PropTypes.func,
-    order: PropTypes.object,
+    // order: PropTypes.object,
     isNew: PropTypes.bool,
-    categories: PropTypes.array,
-    dishes: PropTypes.array,
-    sideDishes: PropTypes.array
+    menu: PropTypes.array,
 }

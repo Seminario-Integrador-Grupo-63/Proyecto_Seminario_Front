@@ -14,6 +14,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import LaunchIcon from '@mui/icons-material/Launch';
 import EditIcon from '@mui/icons-material/Edit';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export const DataTable = (props: any) => {
     const [page, setPage] = useState(0)
@@ -40,12 +41,9 @@ export const DataTable = (props: any) => {
 
     const setActions = () => {
         if(props.actions){
-            const hasActions = headers.some(header => header.key == 'actions')
-            if(!hasActions){
-                let h = props.headers
-                h.push({label: 'Actions', key: 'actions'})
-                setHeaders(h)
-            }
+            setHeaders([...props.headers, {label: 'Actions', key: 'actions'}])
+        } else {
+            setHeaders([...props.headers])
         }
     }
 
@@ -59,6 +57,44 @@ export const DataTable = (props: any) => {
 
     const onShow = (row) => {
         props.onShow(row)
+    }
+
+    const onCancel = (row) => {
+        props.onCancel(row)
+    }
+
+    const renderActions = (row) => {
+        if (props.actionsType === 'show'){
+            return (<>
+                <IconButton 
+                    aria-label="show"
+                    onClick={() => onShow(row)}>
+                    <LaunchIcon/>
+                </IconButton>
+            </>)
+        } else if(props.actionsType === 'cancel'){
+            return(<>
+                <IconButton 
+                    aria-label="show"
+                    onClick={() => onCancel(row)}>
+                    <CancelIcon/>
+                </IconButton>
+            </>)
+        } else {
+            return (<>
+                <IconButton 
+                    aria-label="edit"
+                    onClick={() => onEdit(row)}>
+                    <EditIcon/>
+                </IconButton>
+
+                <IconButton 
+                    aria-label="delete"
+                    onClick={() => onDelete(row)}>
+                    <DeleteIcon/>
+                </IconButton>
+            </>)
+        }
     }
 
     return (
@@ -79,36 +115,12 @@ export const DataTable = (props: any) => {
                         {rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, rowIndex) => (
+
                             <TableRow hover role="checkbox" tabIndex={-1} key={"row" + rowIndex}>
                                 {headers.map((header, cellIndex) => (
                                 <TableCell key={"cell" + cellIndex}>
                                     {header.key === 'actions' ? (
-                                    /* Render content for 'actions' header */
-                                    <>
-                                        {props.actionsType === 'edit-delete' ? (
-                                            <>
-                                                <IconButton 
-                                                    aria-label="edit"
-                                                    onClick={() => onEdit(row)}>
-                                                    <EditIcon/>
-                                                </IconButton>
-
-                                                <IconButton 
-                                                    aria-label="delete"
-                                                    onClick={() => onDelete(row)}>
-                                                    <DeleteIcon/>
-                                                </IconButton>
-                                            </>
-                                            ) : (
-                                            <>
-                                                <IconButton 
-                                                    aria-label="show"
-                                                    onClick={() => onShow(row)}>
-                                                    <LaunchIcon/>
-                                                </IconButton>
-                                            </>
-                                        )}
-                                    </>
+                                        renderActions(row)
                                     ) : (
                                         /* Render regular cell content */
                                         row[header.key]
@@ -140,7 +152,8 @@ DataTable.defaultProps =
     actionsType: 'edit-delete',
     onEdit: function(){},
     onDelete: function(){},
-    onShow: function(){}
+    onShow: function(){},
+    onCancel: function(){}
 }
 
 DataTable.propTypes =
@@ -148,8 +161,8 @@ DataTable.propTypes =
     headers: PropTypes.array,
     /**
     headers = [
-        {title: "Header 1", key: header1},
-        {title: "Another Header", key: anotherHeader},
+        {label: "Header 1", key: "header1"},
+        {label: "Another Header", key: "anotherHeader"},
         ...
     ]
     */
@@ -164,10 +177,11 @@ DataTable.propTypes =
     */
 
     actions: PropTypes.bool,
-    actionsType: PropTypes.oneOf(['edit-delete', 'show']),
+    actionsType: PropTypes.oneOf(['edit-delete', 'show', 'cancel']),
     onEdit: PropTypes.func,
     onDelete: PropTypes.func,
-    onShow: PropTypes.func
+    onShow: PropTypes.func,
+    onCancel: PropTypes.func
 }
 
 
