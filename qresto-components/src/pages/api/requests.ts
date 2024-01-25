@@ -1,7 +1,9 @@
 import axios from "axios";
 import * as https from 'https';
 import { 
-    buildDish
+    buildDish,
+    buildTableGrid,
+    buildMenu
 } from "./utils";
 
 const url = "http://localhost:8000"
@@ -52,12 +54,25 @@ export async function getDish(id){
     return dish
 }
 
-export async function getDishes(restaurantId){
+export async function getDishes(){
     const headers = {
-        'restaurant-id': 1
+        'restaurant-id': restaurantId
     }
     const response = await axios.get<any>(url + '/dish/', {headers})
     return response.data
+}
+
+export async function getMenu(){
+    console.log(' ')
+    console.log('requests getMenu()')
+    
+    const headers = {
+        'restaurant-id': restaurantId
+    }
+    const response = await axios.get<any>(url + '/category/menu', {headers})
+    console.log('response: ', response)
+    const data = buildMenu(response.data)
+    return data
 }
 
 export async function postOrderDetail(orderDetail, tableCode){
@@ -77,7 +92,9 @@ export async function getTablesGrid(){
     }
     const response = await axios.get<any>(url + '/table/grid', {headers})
     console.log('response: ', response)
-    return response.data
+    const data = buildTableGrid(response.data)
+    console.log('data: ', data)
+    return data
 }
 
 export async function getTable(id){
