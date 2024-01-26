@@ -94,6 +94,10 @@ export const TableManager = (props: any) => {
     //     }
     // }, [props.sector])
 
+    useEffect(() => {
+
+    }, [props.menu])
+
     const onGenerateOrder = async () => {
         setLoading(true)
         const data = await props.onOpenOrderForm()
@@ -269,10 +273,11 @@ TableManager.defaultProps =
 {
     orders: [],
     table: null,
-    categories: [],
-    dishes: [],
-    sideDishes: [],
+    // categories: [],
+    // dishes: [],
+    // sideDishes: [],
     // sector: null,
+    menu: [],
     deleteTable: function(){},
     generateQR: function(){},
     onOpenOrderForm: function(){},
@@ -284,9 +289,10 @@ TableManager.propTypes =
 {
     orders: PropTypes.array,
     table: PropTypes.object,
-    categories: PropTypes.array,
-    dishes: PropTypes.array,
-    sideDishes: PropTypes.array,
+    menu: PropTypes.array,
+    // categories: PropTypes.array,
+    // dishes: PropTypes.array,
+    // sideDishes: PropTypes.array,
     // sector: PropTypes.string,
     onOpenOrderForm: PropTypes.func,
     deleteTable: PropTypes.func,

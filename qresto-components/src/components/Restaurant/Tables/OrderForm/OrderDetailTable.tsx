@@ -18,22 +18,31 @@ export const OrderDetailTable = (props: any) => {
         }
     }, [props.order])
 
-
     const createCustomerOrderDetailRow = (customerOrderDetail) => {
+        console.log(' ')
+        console.log('OrderDetailTable createCustomerOrderDetailRow (customerOrderDetail)')
+        console.log('customerOrderDetail: ', customerOrderDetail)
         const row = {
             customer: customerOrderDetail.customer,
             total: customerOrderDetail.customerTotal,
             orderDetails: customerOrderDetail.orderDetails.map(orderDetail => {
+                let sideDish = ''
+                let sideDishPrice = ''
+                if(orderDetail.sideDish !== null){
+                    sideDish = orderDetail.sideDish.name
+                    sideDishPrice = orderDetail.sideDish.extraPrice
+                }
                 return {
                     dish: orderDetail.dish.name,
                     amount: orderDetail.amount,
                     price: orderDetail.dish.price,
-                    sideDish: orderDetail.sideDish.name,
-                    sideDishPrice: orderDetail.sideDish.extraPrice,
-                    subtotal: orderDetail.subTotal
+                    sideDish: sideDish,
+                    sideDishPrice: sideDishPrice,
+                    subTotal: orderDetail.subTotal
                 }
             })
         }
+        console.log('row: ', row)
         return row
     }
 
@@ -53,7 +62,8 @@ export const OrderDetailTable = (props: any) => {
                         <OrderDetailTableRow 
                             key={customerOrderDetail.customer} 
                             customerOrderDetail={createCustomerOrderDetailRow(customerOrderDetail)}
-                            onAddOrderDetail={props.onAddOrderDetail}/>
+                            onAddOrderDetail={props.onAddOrderDetail}
+                            onEditOrderDetail={props.onEditOrderDetail}/>
                     )}
                 </TableBody>
             </Table>
@@ -64,13 +74,15 @@ export const OrderDetailTable = (props: any) => {
 OrderDetailTable.defaultProps =
 {
     order: null,
-    onAddOrderDetail: function(){}
+    onAddOrderDetail: function(){},
+    onEditOrderDetail: function(){}
 }
 
 OrderDetailTable.propTypes =
 {
     order: PropTypes.object,
-    onAddOrderDetail: PropTypes.func
+    onAddOrderDetail: PropTypes.func,
+    onEditOrderDetail: PropTypes.func
 }
 
 

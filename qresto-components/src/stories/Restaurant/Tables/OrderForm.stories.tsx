@@ -4,6 +4,7 @@ import {widths100} from "@/Stories/viewports";
 import { useState } from "react";
 import { Button} from '@mui/material'
 import { ordersDTO } from "@/Common/FakeData/OrdersData";
+import { menuData } from "@/Common/FakeData/Menu";
 
 export default {
     title: "components/Restaurant/Tables/OrderForm",
@@ -19,16 +20,16 @@ type Story = StoryObj<typeof OrderForm>;
 
 export const OrderFormMain: Story = {
     render: () =>{
-
-        const [open, setOpen] = useState(false);
+        console.log('menuData: ', menuData)
+        const [open, setOpen] = useState(false)
 
         const handleClickOpen = () => {
             setOpen(true);
-        };
+        }
       
         const handleClose = () => {
             setOpen(false);
-        };
+        }
         return(<>
             <Button variant="outlined" onClick={handleClickOpen}>
                 Abrir Order Form
@@ -36,34 +37,8 @@ export const OrderFormMain: Story = {
 
             <OrderForm
                 open={open}
-                onClose={handleClose}
-                order={ordersDTO[0]}/>
-        </>);
+                menu={menuData}
+                onClose={handleClose}/>
+        </>)
     } 
-};
-
-// export const OrderFormTableShowcase: Story = {
-//     render: () =>{
-//         return(<>
-//             {/* <OrderFormMobile mode={"portrait"}/> */}
-//         </>);
-//     } 
-// };
-
-// export const aspect2: Story = {
-//     render: () =>{
-//         return(<>
-//             
-//         </>);
-//     } 
-// };
-
-/**
-const onAction = () => {
-
 }
-
-console.log(": ", )
-
-*/
-

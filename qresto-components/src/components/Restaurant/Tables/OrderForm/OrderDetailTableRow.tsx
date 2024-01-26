@@ -22,20 +22,16 @@ export const OrderDetailTableRow = (props: any) => {
         props.onAddOrderDetail(props.customerOrderDetail)
     }
 
-    const onEditCustomerOrderDetail = () => {
+    const onEditOrderDetail = () => {
         console.log(' ')
         console.log('OrderDetailTableRow onEditCustomerOrderDetail()')
         console.log('props.customerOrderDetail: ', props.customerOrderDetail)
+        props.onEditOrderDetail(props.customerOrderDetail)
+
     }
 
     const onDeleteCustomerOrderDetail = () => {
 
-    }
-
-    const onEditOrderDetail = () => {
-        console.log(' ')
-        console.log('OrderDetailTableRow onEditOrderDetail()')
-        console.log('props.customerOrderDetail: ', props.customerOrderDetail)
     }
 
     const onDeleteOrderDetail = () => {
@@ -66,7 +62,7 @@ export const OrderDetailTableRow = (props: any) => {
                     </IconButton>
                     <IconButton 
                         aria-label="edit"
-                        onClick={onEditCustomerOrderDetail}>
+                        onClick={onEditOrderDetail}>
                         <EditIcon/>
                     </IconButton>
                     <IconButton 
@@ -105,7 +101,7 @@ export const OrderDetailTableRow = (props: any) => {
                                 <TableCell>${orderDetail.price}</TableCell>
                                 <TableCell>{orderDetail.sideDish}</TableCell>
                                 <TableCell>${orderDetail.sideDishPrice}</TableCell>
-                                <TableCell>{orderDetail.subtotal}</TableCell>
+                                <TableCell>{orderDetail.subTotal}</TableCell>
                                 <TableCell>
                                     <IconButton 
                                         aria-label="edit"
@@ -127,7 +123,7 @@ export const OrderDetailTableRow = (props: any) => {
                 </TableCell>
             </TableRow>
         </React.Fragment>
-    );
+    )
 }
 
 OrderDetailTableRow.defaultProps =
@@ -141,5 +137,5 @@ OrderDetailTableRow.propTypes =
 {
     customerOrderDetail: PropTypes.object,
     onAddOrderDetail: PropTypes.func,
-    onEditCustomerOrderDetail: PropTypes.func
+    onEditOrderDetail: PropTypes.func
 }

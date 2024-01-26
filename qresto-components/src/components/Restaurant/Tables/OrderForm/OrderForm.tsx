@@ -11,6 +11,8 @@ import { CustomerForm } from './CustomerForm';
 
 export const OrderForm = (props: any) => {
     const [orderDetailFormOpen, setOrderDetailFormOpen] = useState(false)
+    const [selectedOrderDetail, setSelectedOrderDetail] = useState(null)
+    const [isNewOrderDetail, setIsNewOrderDetail] = useState(false)
     const [customerFormOpen, setCustomerFormOpen] = useState(false)
     const [title, setTitle] = useState('Generar Orden')
     const [submitText, setSubmitText] = useState('Generar')
@@ -28,15 +30,6 @@ export const OrderForm = (props: any) => {
         }
     }, [props.isNew])
 
-    // useEffect(() => {
-    //     console.log(' ')
-    //     console.log('OrderForm useEffect props.order')
-    //     console.log('props.order: ', props.order)
-    //     // if(props.order !== null){
-    //     //     setOrder(props.order)
-    //     // }
-    // }, [props.order])
-
     const openCustomerForm = () => {
         setCustomerFormOpen(true)
     }   
@@ -46,7 +39,8 @@ export const OrderForm = (props: any) => {
     }
 
     const onAddOrderDetail = (customerOrderDetail) => {
-        setSelectedCustomer(customerOrderDetail)
+        setIsNewOrderDetail(true)
+        setSelectedCustomer(customerOrderDetail.customer)
         setOrderDetailFormOpen(true)
     }
 
@@ -76,9 +70,17 @@ export const OrderForm = (props: any) => {
         setCustomerFormOpen(false)
     }
 
-    const addNewDetail = (detail) => {
+    const onEditOrderDetail = (orderDetail) => {
         console.log(' ')
-        console.log('OrderForm addNewDetail(detail)')
+        console.log('OrderForm onEditOrderDetail(orderDetail)')
+        console.log('orderDetail: ', orderDetail)
+        setIsNewOrderDetail(false)
+        setOrderDetailFormOpen(true)
+    }
+
+    const createNewDetail = (detail) => {
+        console.log(' ')
+        console.log('OrderForm createNewDetail(detail)')
         console.log('detail: ', detail)
         orderToPost.push(detail)
         const index = order.customerOrderDetails.findIndex(customerOrderDetail => customerOrderDetail.customer === detail.customerName)
@@ -99,6 +101,7 @@ export const OrderForm = (props: any) => {
             <Grid container>
                 <OrderDetailTable 
                     order={order}
+                    onEditOrderDetail={onEditOrderDetail}
                     onAddOrderDetail={onAddOrderDetail}/>
             </Grid>
             <Grid>
@@ -107,8 +110,10 @@ export const OrderForm = (props: any) => {
 
             <OrderDetailForm 
                 menu={props.menu}
-                customer={selectedCustomer.toString()}
-                addNewDetail={addNewDetail}
+                isNew={isNewOrderDetail}
+                orderDetail={}
+                customer={selectedCustomer}
+                createNewDetail={createNewDetail}
                 open={orderDetailFormOpen}
                 onClose={closeOrderDetailForm}/>
 
