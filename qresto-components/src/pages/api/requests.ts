@@ -61,6 +61,7 @@ export async function getDishes(){
         'restaurant-id': restaurantId
     }
     const response = await axios.get<any>(url + '/dish/', {headers})
+    console.log("response: ", response)
     return response.data
 }
 

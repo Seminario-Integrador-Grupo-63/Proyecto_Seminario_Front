@@ -21,6 +21,7 @@ export const DishCard = (props: any) => {
 
     const onDelete = () => {
         props.onDelete(props.dish)
+        
     }
 
     return (

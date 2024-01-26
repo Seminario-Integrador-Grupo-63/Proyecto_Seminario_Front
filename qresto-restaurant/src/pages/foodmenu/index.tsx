@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, updateDishInfo, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes } from '@/requests';
+import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes } from '@/requests';
 import { triggerAsyncId } from 'async_hooks';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 
-export default function QRGeneratorPage() {
+export default function FoodMenuPage() {
     const [dishes, setDishes] = useState([]);
     const [sidedishes, setSideDishes] = useState([]);
     const router = useRouter();
@@ -73,6 +73,7 @@ export default function QRGeneratorPage() {
             if (result) {
                 await fetchDishes(); // Recargar la lista de platos después de eliminar uno
                 triggerFeedback(true, 'cancel-dish')
+                
             }
             else{
                 triggerFeedback(false, 'cancel-dish')

@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 import { DishForm } from './DishForm/DishForm'
 
+
 export const Dishes = (props: any) => {
     const [openDishForm, setOpenDishForm] = useState(false)
     const [isNewDishForm, setIsNewDishForm] = useState(false)
@@ -28,6 +29,7 @@ export const Dishes = (props: any) => {
 
     const onCloseDishForm = () => {
         setOpenDishForm(false)
+        
     }
 
     return (<>
@@ -72,13 +74,15 @@ export const Dishes = (props: any) => {
 Dishes.defaultProps =
 {
     dishes: [],
-    deleteDish:function(){}
+    deleteDish:function(){},
+    updateDish: function(){}
 }
 
 Dishes.propTypes = 
 {
     dishes: PropTypes.array,
-    deleteDish: PropTypes.func
+    deleteDish: PropTypes.func,
+    updateDish: PropTypes.func
 }
 
 
