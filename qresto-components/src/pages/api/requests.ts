@@ -4,7 +4,8 @@ import {
     buildDish,
     buildTableGrid,
     buildMenu,
-    buildSideDish
+    buildSideDish,
+    buildSimpleDish
 } from "./utils";
 
 const url = "http://localhost:8000"
@@ -56,13 +57,16 @@ export async function getOrders(tableCode){
 }*/
 
 export async function getDishes(){
-
+    console.log(' ')
+    console.log('requests getDishes()')
     const headers = {
         'restaurant-id': restaurantId
     }
     const response = await axios.get<any>(url + '/dish/', {headers})
-    console.log("response: ", response)
-    return response.data
+
+    const data = buildSimpleDish(response.data)
+    console.log("data: ", data)
+    return data
 }
 
 export async function getMenu(){
@@ -172,6 +176,7 @@ export async function deleteDish(dishId: number) {
         return true;
     } catch (error) {
         console.error(`Error al eliminar plato con ID ${dishId}:`, error.response?.data || error.message);
+        console.log('error.response: ', error.response)
         throw error;
     }
 }

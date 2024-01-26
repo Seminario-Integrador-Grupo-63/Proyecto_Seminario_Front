@@ -67,9 +67,12 @@ export default function FoodMenuPage() {
 
     //platos
 
-    const handleDeleteDish = async (dishId) => {
+    const handleDeleteDish = async (dish) => {
+        console.log(' ')
+        console.log('FoodMenuPage handleDeleteDish(dishId)')
+        console.log('dish: ',dish)
         try {
-            const result = await deleteDish(dishId);
+            const result = await deleteDish(dish.id);
             if (result) {
                 await fetchDishes(); // Recargar la lista de platos después de eliminar uno
                 triggerFeedback(true, 'cancel-dish')

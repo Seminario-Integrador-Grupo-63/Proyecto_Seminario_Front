@@ -6,6 +6,23 @@ export function buildDish(data){
     return dish
 }
 
+export function buildSimpleDish(data){
+    const dishes = data.map(dish => {
+        return {
+            id: dish.id,
+            name: dish.name,
+            description: dish.description,
+            isActive: dish.is_active,
+            preparationTime: dish.preparationTime,
+            price: dish.price,
+            restaurant: dish.restaurant,
+            category: dish.category,
+            image: dish.image,
+        }
+    })
+    return dishes
+}
+
 export function buildTableGrid(data){
     const sectors = data.map(s => {
         return {
@@ -53,8 +70,11 @@ export function buildMenu(data){
 export function buildSideDish(data){
     const sideDishes = data.map(sideDish => {
         return {
-            ...sideDish,
-            isActive: sideDish.is_active
+            id: sideDish.id,
+            name: sideDish.name,
+            description: sideDish.description,
+            isActive: sideDish.is_active,
+            restaurant: sideDish.restaurant
         }
     })
     return sideDishes
