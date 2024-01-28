@@ -3,9 +3,12 @@ import { Login } from '@/Restaurant/Login/Login'
 import {loginRestaurant} from "@/requests";
 import {useState} from "react";
 
+export const [rid, setRId] = useState(null)
+
 export default function Home() {
     const router = useRouter()
     const [userLogin, setUserLogin] = useState(null)
+
 
     // useEffect(() => {
     //     if (router.asPath === '/') {
@@ -17,9 +20,10 @@ export default function Home() {
         const result = await loginRestaurant(user)
         // Guardar en el use state el resultado
         setUserLogin(result)
-        // Si es rol admin va a users, si es employee a orders
+        // Pendiente bloquear urls
         if(userLogin != null){
-            await router.replace({pathname: "/tables"})
+            setRId(userLogin.restaurantId)
+            await router.replace({pathname: "/tables/", query: {restaurantId: user.restaurantId}})
 
             /*if(userLogin.role == "admin"){
                 await router.replace({

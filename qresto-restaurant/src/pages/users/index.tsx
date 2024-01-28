@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import { Users } from '@/Restaurant/Users/Users'
-import {getUsers} from "@/requests";
+import {deleteUser, getUsers, updateUser} from "@/requests";
 
 export default function UsersPage() {
     const [users, setUsers] = useState([])
@@ -25,10 +25,16 @@ export default function UsersPage() {
 
     }
     const putUser = async (user) => {
-
+        const editedUser = await updateUser(user)
+        const fetchedUsers = await getUsers(restaurantID)
+        setUsers(fetchedUsers)
+        return editedUser
     }
-    const deleteUser = async (userId) => {
-
+    const deleteU = async (userId) => {
+        const deletedUser = await deleteUser(userId)
+        const fetchedUsers = await getUsers(restaurantID)
+        setUsers(fetchedUsers)
+        return deletedUser
     }
 
     return (<>

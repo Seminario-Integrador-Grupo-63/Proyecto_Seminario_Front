@@ -5,6 +5,7 @@ import {
     buildTableGrid,
     buildMenu
 } from "./utils";
+import {headers} from "next/headers";
 
 const url = "http://localhost:8000"
 const restaurantId = 1
@@ -141,7 +142,7 @@ export async function loginRestaurant(user) {
         return response.data
 
     } catch (error){
-        return false
+        return null
     }
 }
 
@@ -151,6 +152,49 @@ export async function getUsers(restaurantId) {
         return response.data
     } catch (error) {
         return []
+    }
+}
+export async function updateUser(user) {
+    try {
+        const response = await axios.put(url + '/security/employees', user)
+        return response.data
+    } catch (error) {
+        return []
+    }
+}
+export async function deleteUser(userId):Promise<boolean> {
+    try {
+        const response = await axios.delete(url + `/security/employees/${userId}`)
+        return true
+    } catch (error) {
+        return false
+    }
+}
+export async function createUser(user, restaurantId) {
+    const data = {restaurant: restaurantId,user:user}
+    try {
+        const response = await axios.post(url + '/security/singup', data,
+            {headers: {restaurantId: restaurantId}})
+        return response.data
+    } catch (error) {
+        return null
+    }
+}
+
+export async function getUpdatedPrices(updateId) {
+    try {
+        const response = await axios.get(url + '/')
+        return response.data
+    } catch (error) {
+        return []
+    }
+}
+export async function confirmUpdatePrices(req) {
+    try {
+        const response = await axios.get(url + '/')
+        return response.data
+    } catch (error) {
+        return false
     }
 }
 
