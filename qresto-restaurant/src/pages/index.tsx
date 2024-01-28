@@ -2,10 +2,11 @@ import { useRouter } from 'next/router'
 import { Login } from '@/Restaurant/Login/Login'
 import {loginRestaurant} from "@/requests";
 import {useState} from "react";
+import {setCookie} from "@/pages/api/utils";
 
-export const [rid, setRId] = useState(null)
 
 export default function Home() {
+    const [rid, setRId] = useState(null)
     const router = useRouter()
     const [userLogin, setUserLogin] = useState(null)
 
@@ -18,23 +19,16 @@ export default function Home() {
 
     const singIn = async (user) => {
         const result = await loginRestaurant(user)
-        // Guardar en el use state el resultado
-        setUserLogin(result)
         // Pendiente bloquear urls
-        if(userLogin != null){
+        if(result.length == 1){
+            // Guardar en el use state el usuario
+            setUserLogin(result[0])
             setRId(userLogin.restaurantId)
+            setCookie("restaurantId", rid)
             await router.replace({pathname: "/tables/", query: {restaurantId: user.restaurantId}})
 
-            /*if(userLogin.role == "admin"){
-                await router.replace({
-                    pathname: "/users",
-                })
-            }
-            if(userLogin.role == "employee"){
-                await router.replace({
-                    pathname: "/orders",
-                })
-            }*/
+        } else {
+            // Mensaje de error o algo
         }
     }
 

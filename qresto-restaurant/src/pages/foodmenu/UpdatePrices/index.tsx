@@ -1,7 +1,6 @@
 import UpdatePrices from "@/Restaurant/UpdatePrices/UpdatePrices";
 import {useState} from "react";
 import {confirmUpdatePrices, getCategories, getUpdatedPrices} from "@/requests";
-import {rid} from "@/pages";
 
 
 export default function UpdatePricesPage() {

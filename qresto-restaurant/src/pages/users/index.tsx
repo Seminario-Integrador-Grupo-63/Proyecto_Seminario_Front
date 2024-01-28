@@ -4,7 +4,7 @@ import {deleteUser, getUsers, updateUser} from "@/requests";
 
 export default function UsersPage() {
     const [users, setUsers] = useState([])
-    const restaurantID =  null
+    const restaurantID =  1
 
     useEffect(() => {
         // Initial fetch
