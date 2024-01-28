@@ -16,7 +16,7 @@ export const Login = (props: any) => {
         const data = new FormData(event.currentTarget);
 
         props.onSignInSubmit({
-            username: data.get('username'),
+            user: data.get('username'),
             password: data.get('password'),
           })
     }

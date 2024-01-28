@@ -50,8 +50,8 @@ export const Common: Story = {
                       
             <UpdatePrices
             categoryOptions={categoryOptions}
-            actualizacionOpciones={actualizacionOpciones}
-            listaProducto={rows}
+            updateOptions={actualizacionOpciones}
+            productList={rows}
             />
         </>);
     } 

@@ -15,7 +15,7 @@ import Updatelist from './Updatelist';
 import PropTypes from 'prop-types';
 import { theme } from '@/Common/Theme/themes';
 
-function UpdatePrices({ categoryOptions, actualizacionOpciones, listaProducto }) {
+function UpdatePrices(props: any) {
     const [formData, setFormData] = useState({
         selectedOption: '',
         selectedCategory: '',
@@ -31,6 +31,7 @@ function UpdatePrices({ categoryOptions, actualizacionOpciones, listaProducto })
         setIsDialogOpen(false);
     };
     const handleUpdateClick = () => {
+        props.onSubmit()
         setIsDialogOpen(true);
     };
 
@@ -64,7 +65,7 @@ function UpdatePrices({ categoryOptions, actualizacionOpciones, listaProducto })
                         onChange={(e) => setFormData({ ...formData, selectedCategory: e.target.value })}
                         style={{ marginBottom: '1rem' }}
                     >
-                        {categoryOptions.map((category, index) => (
+                        {props.categoryOptions.map((category, index) => (
                             <MenuItem key={index} value={category}>
                                 {category}
                             </MenuItem>
@@ -94,7 +95,7 @@ function UpdatePrices({ categoryOptions, actualizacionOpciones, listaProducto })
                 onChange={(e) => setFormData({ ...formData, selectedActualizacion: e.target.value })}
                 style={{ marginBottom: '1rem' }}
             >
-                {actualizacionOpciones.map((Opc, index) => (
+                {props.updateOptions.map((Opc, index) => (
                 <MenuItem key={index} value={Opc}>
                     {Opc}
                 </MenuItem>
@@ -114,14 +115,33 @@ function UpdatePrices({ categoryOptions, actualizacionOpciones, listaProducto })
 
             {/* Ventana flotante */}
             <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-                <Updatelist open={isDialogOpen} onClose={handleCloseDialog} listaProducto={listaProducto} />
+                <Updatelist
+                    open={isDialogOpen}
+                    onClose={handleCloseDialog}
+                    productList={props.productList}
+                    onSubmit={props.onConfirm}
+                />
             </Dialog>
         </Container>
   );
 }
 
+
+UpdatePrices.defaultProps = {
+    title: 'Actualizar Precios',
+    onSubmit: function (){},
+    onConfirm: function () {},
+    categoryOptions: [],
+    updateOptions:[],
+    productList:[],
+}
 UpdatePrices.propTypes = {
     title: PropTypes.string,
+    onSubmit: PropTypes.func,
+    onConfirm: PropTypes.func,
+    categoryOptions: PropTypes.array,
+    updateOptions:PropTypes.array,
+    productList:PropTypes.array,
 
 };
 
