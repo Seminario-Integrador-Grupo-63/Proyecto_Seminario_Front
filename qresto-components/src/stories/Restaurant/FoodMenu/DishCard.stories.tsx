@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from "@storybook/react";
-//*import { DishCard } from '@/components/Restaurant/DishCard/DishCard.1';
 import {widths100} from "@/Stories/viewports";
 import { dishes } from "@/Common/FakeData/DishesData";
 import { DishCard } from "@/Restaurant/FoodMenu/Dishes/DishCard/DishCard";

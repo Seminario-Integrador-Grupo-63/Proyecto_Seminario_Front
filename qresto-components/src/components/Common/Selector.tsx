@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { Select, SelectChangeEvent} from '@mui/material'
 import { InputLabel} from '@mui/material'
@@ -7,9 +7,49 @@ import {MenuItem} from '@mui/material'
 
 export const Selector = (props: any) => {
     const [value, setValue] = useState('')
+    const [helperText, setHelperText] = useState('')
+    const [error, setError] = useState(false)
+    const [items, setItems] = useState([])
+
+    useEffect(() => {
+        setError(props.error)
+    }, [props.error])
+
+    useEffect(() => {
+        if(props.value === null){
+            setValue('')
+        } else {
+            setValue(props.value)
+        }
+    }, [props.value])
+
+    useEffect(() => {
+        if(props.items.length === 0){
+            if(value !== ''){
+                setValue('')
+            } else {
+                setItems(props.items)
+            }
+        } else {
+            if(value !== ''){
+                const valueIsInItems = props.items.some(item => item === value)
+                if(valueIsInItems){
+                    setItems(props.items)
+                } else {
+                    setValue('')
+                }
+            } else {
+                setItems(props.items)
+            }
+        }
+    }, [props.items, value])
+
+    useEffect(() => {
+        setHelperText(props.helperText)
+    }, [props.helperText])
 
     const handleSelector = (event: SelectChangeEvent) => {
-        setValue(event.target.value);
+        setValue(event.target.value)
         props.onChange(event.target.value)
     }
 
@@ -22,7 +62,9 @@ export const Selector = (props: any) => {
     }
 
     return (<>
-        <FormControl sx={{ minWidth: '100%' }}>
+        <FormControl 
+            error={error} 
+            sx={{ minWidth: '100%' }}>
             <InputLabel id="label">{props.label}</InputLabel>
             <Select 
                 label={props.label}
@@ -31,10 +73,11 @@ export const Selector = (props: any) => {
                 <MenuItem value="">
                     <em>{props.emptyOptionText}</em>
                 </MenuItem>
-                {props.items.map((item, index) => createItem(item, index))}
+                {items.map((item, index) => createItem(item, index))}
             </Select>
+            {error && <span style={{color: '#D32F2F'}}>{helperText}</span>}
         </FormControl>
-    </>);
+    </>)
 }
 
 Selector.defaultProps =
@@ -43,16 +86,21 @@ Selector.defaultProps =
     items: [],
     emptyOptionText: 'Seleccionar opción',
     onChange: function(){},
-    itemText: ''
+    itemText: '',
+    helperText: 'Error',
+    value: '',
+    error: false
 }
 
 Selector.propTypes = 
 {
     label: PropTypes.string,
     items: PropTypes.array,
+    value: PropTypes.any,
     emptyOptionText: PropTypes.string,
     onChange: PropTypes.func,
-    itemText: PropTypes.string
+    itemText: PropTypes.string,
+    error: PropTypes.bool,
+    helperText: PropTypes.string
 }
-
 

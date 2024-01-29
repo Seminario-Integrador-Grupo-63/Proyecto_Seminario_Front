@@ -9,8 +9,9 @@ import Paper from '@mui/material/Paper';
 import { Typography, Button, Dialog } from '@mui/material';
 import Confirmation from './Confirmation';
 import { theme } from '@/Common/Theme/themes';
+import PropTypes from "prop-types";
 
-export default function BasicTable({ open, onClose, listaProducto }) {
+export default function UpdateList(props: any) {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -64,7 +65,7 @@ export default function BasicTable({ open, onClose, listaProducto }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {listaProducto.map((row) => (
+            {props.productList.map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -93,7 +94,7 @@ export default function BasicTable({ open, onClose, listaProducto }) {
         <Button
           type="submit"
           variant="contained"
-          onClick={onClose}
+          onClick={props.onClose}
           sx={{
             backgroundColor: theme.palette.primary.main,
             margin: 1
@@ -104,8 +105,25 @@ export default function BasicTable({ open, onClose, listaProducto }) {
       </div>
 
       <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-        <Confirmation open={isDialogOpen} onClose={handleCloseDialog} />
+        <Confirmation
+            open={isDialogOpen}
+            onClose={handleCloseDialog}
+            onSubmit={props.onSubmit}
+        />
       </Dialog>
     </div>
   );
+}
+
+UpdateList.defaultProps = {
+    onSubmit: function () {},
+    open: false,
+    onClose: function () {},
+    productList: [],
+}
+UpdateList.propTypes = {
+    onSubmit: PropTypes.func,
+    open: PropTypes.bool,
+    onClose: PropTypes.func,
+    productList: PropTypes.array,
 }

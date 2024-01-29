@@ -23,15 +23,7 @@ export default {
 
 type Story = StoryObj<typeof DataTable>;
 
-export const DataTableMain: Story = {
-    // parameters: {
-    //     controls: {
-    //         actionsType: 'edit-delete'
-    //     }
-    // },
-    // args: {
-    //     actionsType: 'edit-delete'
-    // },
+export const DataTableShowIcon: Story = {
     render: (args) =>{
         const onEdit = (event) => {
             console.log(' ')
@@ -56,6 +48,38 @@ export const DataTableMain: Story = {
                 headers={dataHeaders}
                 rows={dataRows}
                 actionsType='show'
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onShow={onShow}/>
+        </>);
+    } 
+}
+
+export const DataTableCancelIcon: Story = {
+    render: (args) =>{
+        const onEdit = (event) => {
+            console.log(' ')
+            console.log('DataTable onEdit()')
+            console.log('event: ', event)
+        }
+
+        const onDelete = (event) => {
+            console.log(' ')
+            console.log('DataTable onDelete()')
+            console.log('event: ', event)
+        }
+
+        const onShow = (event) => {
+            console.log(' ')
+            console.log('DataTable onShow()')
+            console.log('event: ', event)
+        }
+
+        return(<>
+            <DataTable
+                headers={dataHeaders}
+                rows={dataRows}
+                actionsType='cancel'
                 onEdit={onEdit}
                 onDelete={onDelete}
                 onShow={onShow}/>

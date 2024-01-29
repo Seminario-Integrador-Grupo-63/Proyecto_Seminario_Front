@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Users } from "@/Restaurant/Users/Users";
-import {widths100} from "@/Stories/viewports";
+import {widths100} from "@/stories/viewports";
 
 export default {
     title: "components/Restaurant/Users",
@@ -17,14 +17,16 @@ export default {
 type Story = StoryObj<typeof Users>;
 
 export const UsersMain: Story = {
+
     render: () =>{
+        const user = [{user: "khdbahbcd"}]
 
         const myFunction = () => {
             
         }
 
         return(<>
-            <Users/>
+            <Users users={user}/>
         </>);
     } 
 };

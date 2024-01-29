@@ -1,7 +1,11 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Selector } from "@/Common/Selector";
 import {widths100} from "@/Stories/viewports";
-import {Container} from '@mui/material'
+import {
+    Container,
+    Button
+} from '@mui/material'
+import {useState} from 'react';
 
 export default {
     title: "components/Common/Selector",
@@ -41,28 +45,60 @@ export const SelectorMain: Story = {
     } 
 };
 
-// export const Aspect1: Story = {
-//     render: () =>{
-//         return(<>
-//             <SelectorMobile mode={"portrait"}/>
-//         </>);
-//     } 
-// };
+export const SelectorMainError: Story = {
+    render: () =>{
+        const [items, setItems] = useState([])
 
-// export const aspect2: Story = {
-//     render: () =>{
-//         return(<>
-//             
-//         </>);
-//     } 
-// };
+        const removeItems = () => {
+            setItems([])
+        }
 
-/**
-const onAction = () => {
+        const restoreItems = () => {
+            setItems([
+                'Hola',
+                'Nico',
+                'Como',
+                'Estas',
+                '?',
+            ])
+        }
 
+        return(<>
+            <Container
+                sx={{
+                    marginTop: '20px'
+                }}>
+                <Button onClick={removeItems}>Remove items</Button>
+                <Button onClick={restoreItems}>Restore items</Button>
+                <Selector items={items}/>
+            </Container>
+        </>)
+    } 
 }
 
-console.log(": ", )
+export const SelectorMainChangeItems: Story = {
+    render: () =>{
 
-*/
+        const items = [
+            'Hola',
+            'Nico',
+            'Como',
+            'Estas',
+            '?',
+        ]
+
+        return(<>
+            <Container
+                sx={{
+                    marginTop: '20px'
+                }}>
+                
+                <Selector 
+                    items={items}
+                    error={true}
+                    helperText="This is a helper text"/>
+            </Container>
+        </>);
+    } 
+}
 

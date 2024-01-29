@@ -1,9 +1,10 @@
 // Confirmation.js
 import React from 'react';
-import { Dialog, DialogTitle, DialogActions, Button, Typography } from '@mui/material';
+import { Dialog, DialogActions, Button, Typography } from '@mui/material';
 import { theme } from '@/Common/Theme/themes';
+import PropTypes from "prop-types";
 
-function Confirmation({ open, onClose }) {
+function Confirmation(props: any) {
   return (
     <div
       style={{
@@ -11,7 +12,7 @@ function Confirmation({ open, onClose }) {
         maxWidth: 200,
         maxHeight: 100, 
       }}>
-      <Dialog open={open} onClose={onClose}>
+      <Dialog open={props.open} onClose={props.onClose}>
         <Typography
           color="white"
           sx={{
@@ -33,7 +34,7 @@ function Confirmation({ open, onClose }) {
           <Button
             type="submit"
             variant="contained"
-            onClick={onClose}
+            onClick={props.onSubmit}
             sx={{
               backgroundColor: theme.palette.primary.main,
               margin: 1
@@ -45,7 +46,7 @@ function Confirmation({ open, onClose }) {
           <Button
             type="submit"
             variant="contained"
-            onClick={onClose}
+            onClick={props.onClose}
             sx={{
               backgroundColor: theme.palette.primary.main,
               margin: 1
@@ -60,3 +61,10 @@ function Confirmation({ open, onClose }) {
 }
 
 export default Confirmation;
+
+
+Confirmation.propTypes = {
+    onSubmit: PropTypes.func,
+    open: PropTypes.bool,
+    onClose: PropTypes.func,
+}

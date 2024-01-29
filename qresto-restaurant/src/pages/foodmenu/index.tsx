@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
 import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes } from '@/requests';
-import { triggerAsyncId } from 'async_hooks';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 
 export default function FoodMenuPage() {
@@ -67,7 +66,6 @@ export default function FoodMenuPage() {
     }
 
     //platos
-
     const handleDeleteDish = async (dish) => {
         console.log(' ')
         console.log('FoodMenuPage handleDeleteDish(dishId)')
@@ -101,7 +99,7 @@ export default function FoodMenuPage() {
             } catch (error) {
             console.error("Error al obtener información del plato:", error);
         }
-    };
+    }
 
     //guarnicion?
 
@@ -121,7 +119,7 @@ export default function FoodMenuPage() {
         } catch (error) {
             console.error("Error al eliminar guarnición:", error);
         }
-    };
+    }
 
     const handleEditSideDish = async (sideDishId) => {
         try {
@@ -136,7 +134,7 @@ export default function FoodMenuPage() {
         } catch (error) {
             console.error("Error al obtener información de la guarnición:", error);
         }
-    };
+    }
 
     const handleUpdateSideDishInfo = async (sideDishId, updatedInfo) => {
         try {
@@ -145,7 +143,7 @@ export default function FoodMenuPage() {
         } catch (error) {
             console.error("Error al actualizar información de la guarnición:", error);
         }
-    };
+    }
 
     return (<>
         <FoodMenu dishes={dishes} 

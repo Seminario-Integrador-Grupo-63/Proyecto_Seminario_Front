@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { ImageButton } from "@/components/Restaurant/ImageSelector/ImageButton";
-import { ImageSelector } from "@/components/Restaurant/ImageSelector/ImageSelector";
+import { ImageButton } from "@/Restaurant/ImageSelector/ImageButton";
+import { ImageSelector } from "@/Restaurant/ImageSelector/ImageSelector";
 import {widths100} from "@/Stories/viewports";
 import { imageDish1 } from "@/Common/FakeData/DefaultImagesDishes/imageDish1";
 import {useState} from 'react'

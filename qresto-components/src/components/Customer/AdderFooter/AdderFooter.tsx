@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {AppBar} from '@mui/material'
 import { Toolbar } from '@mui/material';
-import {theme, themeButton} from '@/Common/Theme/themes'
+import {theme, themeButtonWine} from '@/Common/Theme/themes'
 import { Grid } from '@mui/material'
 import {AddButton} from './AddButton'
 import { Adder} from '@/Common/Adder'
@@ -75,7 +75,7 @@ export const AdderFooter = (props: any) => {
                             alignItems: 'center',
                         }}>
                         <Adder 
-                            color={themeButton.palette.primary}
+                            color={themeButtonWine.palette.primary}
                             increase={increaseQuantity}
                             decrease={decreaseQuantity}
                             minValue={1}

@@ -41,16 +41,16 @@ export const Layout = (props: any) => {
         setMobileOpen(!mobileOpen);
     }
 
-    const onOrders = () => {
-        setTitle('Ordenes')
-    }
-
     const onTables = () => {
         setTitle('Mesas')
     }
 
     const onFoodMenu = () => {
         setTitle('Carta')
+    }
+
+    const onOrders = () => {
+        setTitle('Ordenes')
     }
 
     const onUsers = () => {
@@ -62,6 +62,7 @@ export const Layout = (props: any) => {
             <Toolbar />
             <Divider />
             <List>
+                <>
                 <ListItem key={"orders"}>
                     <Link href="/orders" style={{ textDecoration: 'none' }}>
                         <ListItemButton onClick={onOrders}>
@@ -70,8 +71,8 @@ export const Layout = (props: any) => {
                             </ListItemIcon>
                             <ListItemText
                                 primary={
-                                    <Typography 
-                                        variant="inherit" 
+                                    <Typography
+                                        variant="inherit"
                                         color="textPrimary">
                                         Ordenes
                                     </Typography>}/>
@@ -86,8 +87,8 @@ export const Layout = (props: any) => {
                             </ListItemIcon>
                             <ListItemText
                                 primary={
-                                    <Typography 
-                                        variant="inherit" 
+                                    <Typography
+                                        variant="inherit"
                                         color="textPrimary">
                                         Mesas
                                     </Typography>}/>
@@ -102,8 +103,8 @@ export const Layout = (props: any) => {
                             </ListItemIcon>
                             <ListItemText
                                 primary={
-                                    <Typography 
-                                        variant="inherit" 
+                                    <Typography
+                                        variant="inherit"
                                         color="textPrimary">
                                         Carta
                                     </Typography>}/>
@@ -118,14 +119,14 @@ export const Layout = (props: any) => {
                             </ListItemIcon>
                             <ListItemText
                                 primary={
-                                    <Typography 
-                                        variant="inherit" 
+                                    <Typography
+                                        variant="inherit"
                                         color="textPrimary">
                                         Usuarios
                                     </Typography>}/>
                         </ListItemButton>
                     </Link>
-                </ListItem>
+                </ListItem></>:<></>
             </List>
         </div>
     )
