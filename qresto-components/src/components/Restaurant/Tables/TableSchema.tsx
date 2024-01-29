@@ -86,7 +86,7 @@ TableSchema.defaultProps =
 TableSchema.propTypes =
 {
     sectors: PropTypes.array,
-    grid: [],
+    grid: PropTypes.array,
     onTableClick: PropTypes.func,
     createTable: PropTypes.func,
     restaurantId: PropTypes.number
