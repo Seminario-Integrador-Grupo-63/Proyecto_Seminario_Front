@@ -8,7 +8,8 @@ import {
     getTable,
     getQR,
     cancelOrder as cancelOrderRequest,
-    getMenu
+    getMenu,
+    postOrder
 } from '@/requests'
 import {FeedbackDialog} from '@/Common/FeedbackDialog/FeedbackDialog'
 import {PanLoader} from '@/Common/PanLoader/PanLoader'
@@ -22,16 +23,8 @@ export default function TableManagerPage() {
     const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false)
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
-    // const [sector, setSector] = useState(null)
     const router = useRouter()
     const searchParams = useSearchParams()
-
-    // useEffect(() => {
-    //     const sector = JSON.parse(searchParams.get('sector'))
-    //     setSector(sector)
-    //     setTable(sector.table)
-    //     // fetchTable(parseInt(tableId))
-    // }, [searchParams])
 
     useEffect(() => {
         const tableId = searchParams.get('tableId')
@@ -111,10 +104,16 @@ export default function TableManagerPage() {
         router.push({pathname: '/tables'})
     }
 
+    const createOrder = async (order) => {
+        const result = await postOrder(order, table.tableCode)
+        await fetchOrders()
+    }
+
     return (<>
         <TableManager
             table={table}
             orders={orders}
+            createOrder={createOrder}
             onOpenOrderForm={getDishes}
             deleteTable={deleteTable}
             cancelOrder={cancelOrder}

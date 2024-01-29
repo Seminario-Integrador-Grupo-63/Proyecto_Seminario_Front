@@ -9,6 +9,8 @@ import { FormDialog } from '@/Common/FormDialog'
 
 export const OrderDetailForm = (props: any) => {
     const [categories, setCategories] = useState([])
+    const [title, setTitle] = useState('')
+    const [submitText, setSubmitText] = useState('')
     const [categoryDishes, setCategoryDishes] = useState([])
     const [sideDishes, setSideDishes] = useState([])
     const [selectedSideDish, setSelectedSideDish] = useState(null)
@@ -34,10 +36,36 @@ export const OrderDetailForm = (props: any) => {
     }, [props.menu])
 
     useEffect(() => {
-        if(!props.isNew){
-            // set
+        if(!props.isNew && props.orderDetail !== null){
+            setupSelectedCategory(props.orderDetail)
+            setSelectedDish(props.orderDetail.dish)
+            setSelectedSideDish(props.orderDetail.sideDish)
+            setQuantity(props.orderDetail.amount)
+            setQuantityInput(props.orderDetail.amount.toString())
+            setObservation(props.orderDetail.observation)
+            setTitle("Editar Detalle de Orden")
+            setSubmitText("Actualizar")
+        } else {
+            setTitle("Crear Detalle de Orden")
+            setSubmitText("Crear")
+            setSelectedCategory(null)
+            setCategoryDishes([])
+            setSideDishes([])
+            setSelectedDish(null)
+            setSelectedSideDish(null)
+            setQuantity(1)
+            setQuantityInput('1')
+            setObservation('')
         }
-    }, [props.isNew])
+    }, [props.isNew, props.orderDetail])
+
+    const setupSelectedCategory = (orderDetail) => {
+        categories.forEach(category => {
+            if(category.dishes.some(dish => dish.id === orderDetail.dish.id)){
+                setSelectedCategory(category)
+            }
+        })
+    }
 
     const handleCategoryChange = (category) => {
         if(category === ''){
@@ -69,7 +97,7 @@ export const OrderDetailForm = (props: any) => {
         if(event.target.value === ''){
             setQuantityInput('')
             setQuantity(null)
-        } else if (!isNaN(event.target.value)){
+        } else if (isNaN(event.target.value)){
             setQuantityInput('1')
             setQuantity(1)
         }else if(event.target.value < 1){
@@ -81,7 +109,7 @@ export const OrderDetailForm = (props: any) => {
         }
     }
 
-    const addNewDetail = () => {
+    const submit = () => {
         if(verifySubmit()){
             let sideDishId = null
             let extraPrice = 0
@@ -97,11 +125,20 @@ export const OrderDetailForm = (props: any) => {
                 amount: quantity,
                 observation: observation
             }
-            setSelectedCategory(null)
-            setSelectedDish(null)
-            setQuantity(1)
-            props.createNewDetail(newDetail)
+            clearComponent()
+            props.submit(newDetail)
         } 
+    }
+
+    const clearComponent = () => {
+        setSelectedCategory(null)
+        setSelectedDish(null)
+        setCategoryDishes([])
+        setSideDishes([])
+        setQuantity(1)
+        setQuantityInput('1')
+        setObservation('')
+        setSelectedSideDish(null)
     }
 
     const verifySubmit = () => {
@@ -139,18 +176,25 @@ export const OrderDetailForm = (props: any) => {
         return (dish.price + extraPrice)*quantity
     }
 
+    const onClose = () => {
+        clearComponent()
+        props.onClose()
+    }
+
     return (<>
         <FormDialog 
             open={props.open}
-            submitText="Crear"
-            onSubmit={addNewDetail}
+            title={title}
+            submitText={submitText}
+            onSubmit={submit}
             closeText='Cancelar'
-            onClose={props.onClose}>
+            onClose={onClose}>
             <Grid container spacing={2}>
                 <Grid item xs={3}>
                     <Selector 
                         label="Categoría"
                         items={categories}
+                        value={selectedCategory}
                         error={errorCategorySelector}
                         helperText={helperTextCategorySelector}
                         itemText='name'
@@ -161,6 +205,7 @@ export const OrderDetailForm = (props: any) => {
                     <Selector 
                         label="Plato"
                         items={categoryDishes}
+                        value={selectedDish}
                         error={errorDishSelector}
                         helperText={helperTextDishSelector}
                         itemText={'name'}
@@ -170,6 +215,7 @@ export const OrderDetailForm = (props: any) => {
                 <Grid item xs={3}>
                     <Selector 
                         label="Guarnición"
+                        value={selectedSideDish}
                         items={sideDishes}
                         itemText={'name'}
                         onChange={handleSideDishChange}/>
@@ -186,14 +232,14 @@ export const OrderDetailForm = (props: any) => {
                         onChange={handleQuantityChange}/>
                 </Grid>
                 <Grid item xs={12}>
-                <TextField
-                    label={'Observaciones'}
-                    multiline
-                    fullWidth
-                    value={observation}
-                    maxRows={4}
-                    minRows={4}
-                    onChange={(e) => setObservation(e.target.value)}/>
+                    <TextField
+                        label={'Observaciones'}
+                        multiline
+                        fullWidth
+                        value={observation}
+                        maxRows={4}
+                        minRows={4}
+                        onChange={(e) => setObservation(e.target.value)}/>
                 </Grid>
             </Grid>
         </FormDialog>
@@ -207,8 +253,7 @@ OrderDetailForm.defaultProps =
     isNew: true,
     menu: [],
     dishChange: function(){},
-    addNewDetail: function(){},
-    createNewDetail: function(){},
+    submit: function(){},
     customer: '',
     orderDetail: null
 }
@@ -220,7 +265,7 @@ OrderDetailForm.propTypes =
     onClose: PropTypes.func,
     menu: PropTypes.array,
     dishChange: PropTypes.func,
-    createNewDetail: PropTypes.func,
+    submit: PropTypes.func,
     customer: PropTypes.string,
     orderDetail: PropTypes.object
 }

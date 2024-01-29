@@ -16,6 +16,14 @@ export const Selector = (props: any) => {
     }, [props.error])
 
     useEffect(() => {
+        if(props.value === null){
+            setValue('')
+        } else {
+            setValue(props.value)
+        }
+    }, [props.value])
+
+    useEffect(() => {
         if(props.items.length === 0){
             if(value !== ''){
                 setValue('')
@@ -80,6 +88,7 @@ Selector.defaultProps =
     onChange: function(){},
     itemText: '',
     helperText: 'Error',
+    value: '',
     error: false
 }
 
@@ -87,6 +96,7 @@ Selector.propTypes =
 {
     label: PropTypes.string,
     items: PropTypes.array,
+    value: PropTypes.any,
     emptyOptionText: PropTypes.string,
     onChange: PropTypes.func,
     itemText: PropTypes.string,

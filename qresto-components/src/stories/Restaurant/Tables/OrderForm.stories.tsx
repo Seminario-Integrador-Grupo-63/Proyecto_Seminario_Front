@@ -20,7 +20,6 @@ type Story = StoryObj<typeof OrderForm>;
 
 export const OrderFormMain: Story = {
     render: () =>{
-        console.log('menuData: ', menuData)
         const [open, setOpen] = useState(false)
 
         const handleClickOpen = () => {

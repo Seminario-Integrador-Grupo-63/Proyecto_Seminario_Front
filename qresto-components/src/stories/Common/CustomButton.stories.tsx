@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { CustomButton } from "@/Common/CustomButton";
 import {widths100} from "@/Stories/viewports";
-import {themeButton} from '@/Common/Theme/themes'
+import {themeButtonWine} from '@/Common/Theme/themes'
 import { Container } from "@mui/material";
 
 export default {
@@ -32,7 +32,7 @@ export const CustomButtonMain: Story = {
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}>
-                <CustomButton color={themeButton.palette.primary}>
+                <CustomButton color={themeButtonWine.palette.primary}>
                     My title
                 </CustomButton>
             </Container>

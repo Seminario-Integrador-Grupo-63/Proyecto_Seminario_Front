@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Adder } from "@/Common/Adder";
 import {widths100} from "@/Stories/viewports";
-import { themeButton } from "@/Common/Theme/themes";
+import { themeButtonWine } from "@/Common/Theme/themes";
 
 export default {
     title: "components/Common/Adder",
@@ -26,7 +26,7 @@ export const AdderMain: Story = {
 
         return(<>
             <Adder 
-                color={themeButton.palette.primary}/>
+                color={themeButtonWine.palette.primary}/>
         </>);
     } 
 };

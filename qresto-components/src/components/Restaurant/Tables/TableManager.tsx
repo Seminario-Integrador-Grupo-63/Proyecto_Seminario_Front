@@ -24,7 +24,6 @@ export const TableManager = (props: any) => {
     const [openTableForm, setOpenTableForm] = useState(false)
     const [loading, setLoading] = useState(false)
     const [table, setTable] = useState(null)
-    // const [sector, setSector] = useState(null)
     const [openMessageDialog, setOpenMessageDialog] = useState(false)
     const [titleMessageDialog, setTitleMessageDialog] = useState('')
     const [textMessageDialog, setTextMessageDialog] = useState('')
@@ -83,16 +82,13 @@ export const TableManager = (props: any) => {
     }, [props.orders])
 
     useEffect(() => {
+        console.log(' ')
+        console.log('TableManager useEffect props.table')
+        console.log('props.table: ',props.table )
         if(props.table !== null){
             setTable(props.table)
         }
     }, [props.table])
-
-    // useEffect(() => {
-    //     if(props.sector !== null){
-    //         setSector(props.sector)
-    //     }
-    // }, [props.sector])
 
     useEffect(() => {
 
@@ -210,6 +206,15 @@ export const TableManager = (props: any) => {
                         </Button>
                     </ThemeProvider>
                 </Grid>
+ 
+                {table !== null ? 
+                    <Grid item xs={3}>
+                        <Typography variant='h4'>Mesa {table.number}</Typography>
+                    </Grid>
+                :
+                    null
+                }
+
                 <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <ThemeProvider theme={themeButtonWine}>
                         <Button
@@ -247,7 +252,8 @@ export const TableManager = (props: any) => {
                 open={openOrderForm}
                 menu={menu}
                 isNew={orderFormIsNew}
-                onClose={onOrderFormClose}/>
+                onClose={onOrderFormClose}
+                onSubmit={props.createOrder}/>
 
             <TableForm
                 isNew={false}
@@ -273,16 +279,13 @@ TableManager.defaultProps =
 {
     orders: [],
     table: null,
-    // categories: [],
-    // dishes: [],
-    // sideDishes: [],
-    // sector: null,
     menu: [],
     deleteTable: function(){},
     generateQR: function(){},
     onOpenOrderForm: function(){},
     displayQR: function(){},
-    goBack: function(){}
+    goBack: function(){},
+    createOrder: function(){}
 }
 
 TableManager.propTypes =
@@ -290,13 +293,10 @@ TableManager.propTypes =
     orders: PropTypes.array,
     table: PropTypes.object,
     menu: PropTypes.array,
-    // categories: PropTypes.array,
-    // dishes: PropTypes.array,
-    // sideDishes: PropTypes.array,
-    // sector: PropTypes.string,
     onOpenOrderForm: PropTypes.func,
     deleteTable: PropTypes.func,
     cancelOrder: PropTypes.func,
     generateQR: PropTypes.func,
-    goBack: PropTypes.func
+    goBack: PropTypes.func,
+    createOrder: PropTypes.func
 }

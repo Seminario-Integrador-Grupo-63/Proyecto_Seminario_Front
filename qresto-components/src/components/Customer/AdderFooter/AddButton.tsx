@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { themeButton } from '@/Common/Theme/themes';
+import { themeButtonWine } from '@/Common/Theme/themes';
 import { CustomButton } from '@/Common/CustomButton';
 
 export const AddButton = (props: any) => {
     return (<>
         <CustomButton 
-            color={themeButton.palette.primary}
+            color={themeButtonWine.palette.primary}
             onClick={props.onClick}>
             <div>
                 {props.title}

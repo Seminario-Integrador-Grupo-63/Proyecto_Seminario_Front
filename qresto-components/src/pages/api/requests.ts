@@ -81,6 +81,15 @@ export async function postOrderDetail(orderDetail, tableCode){
     const response = await axios.post<any>(url + `/order/detail/${tableCode}`, orderDetail)
 }
 
+export async function postOrder(order, tableCode){
+    try{
+        const response = await axios.post(url + `/order/creation/${tableCode}`, order)
+        return true
+    } catch(error){
+        return false
+    }
+}
+
 export async function confirmOrder(customer, tableCode){
     const response = await axios.post<any>(url + `/order/${tableCode}?customer_name=${customer}`)
 }
@@ -89,14 +98,18 @@ export async function getTablesGrid(){
     console.log(' ')
     console.log('requests getTablesGrid()')
 
-    const headers = {
-        'restaurant-id': 1
+    try{
+        const headers = {
+            'restaurant-id': 1
+        }
+        const response = await axios.get<any>(url + '/table/grid', {headers})
+        console.log('response: ', response)
+        const data = buildTableGrid(response.data)
+        console.log('data: ', data)
+        return data
+    } catch(error) {
+        return []
     }
-    const response = await axios.get<any>(url + '/table/grid', {headers})
-    console.log('response: ', response)
-    const data = buildTableGrid(response.data)
-    console.log('data: ', data)
-    return data
 }
 
 export async function getTable(id){
@@ -109,6 +122,20 @@ export async function getTable(id){
         return response.data
     }catch {
         return false
+    }
+}
+
+export async function getSectors(restaurantId){
+    try{
+        const headers = {
+            'restaurant-id': restaurantId
+        }
+        const response = await axios.get<any>(url + '/table/sector', {headers})
+        console.log('response: ', response)
+        // console.log('data: ', data)
+        return response.data
+    } catch(error) {
+        return []
     }
 }
 
@@ -203,21 +230,21 @@ export async function confirmUpdatePrices(req) {
     }
 }
 
-// ---------------------------------------------------------------------------------------------------
-// export { getCategories } from "@/Common/FakeData/FakeRequests";
-// export { getCategory } from "@/Common/FakeData/FakeRequests";
-// export { postOrderDetail } from '@/Common/FakeData/FakeRequests';
-// export { postCustomer } from '@/Common/FakeData/FakeRequests';
-// export { getDishesByCategoryId } from "@/Common/FakeData/FakeRequests";
-// export { getOrders } from "@/Common/FakeData/FakeRequests";
-// export { getDish } from "@/Common/FakeData/FakeRequests";
-
 export async function cancelOrder(orderId){
     console.log(' ')
     console.log('requests cancelOrder(orderId)')
     console.log('orderId: ', orderId)
     try{
-        const response = await axios.post(url + `/ordercancelled/${orderId}`)
+        const response = await axios.post(url + `/order/cancelled/${orderId}`)
+        return true
+    } catch {
+        return false
+    }
+}
+
+export async function postTable(table){
+    try{
+        const response = await axios.post(url + `/table/`, table)
         return true
     } catch {
         return false
