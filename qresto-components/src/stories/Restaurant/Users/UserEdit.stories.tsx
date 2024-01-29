@@ -1,4 +1,4 @@
-import UserEdit from "@/components/Restaurant/Users/UserEdit";
+import UserEdit from "@/Restaurant/Users/UserEdit";
 import { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 

@@ -1,13 +1,15 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import Button from "@mui/material/Button";
-import UserList from "@/components/Restaurant/Users/UserList";
+import {UserList} from "@/Restaurant/Users/UserList";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {getUsers} from "@/pages/api/requests";
+import {Users} from "@/Restaurant/Users/Users";
 
 export default {
   title: "components/Restaurant/Users/UserList",
-  component: UserList,
+  component: Users,
   argTypes: {},
 } as Meta<typeof UserList>;
 
@@ -24,16 +26,11 @@ export const Common: Story = {
       return { nombre, permiso, crear, borrar };
     }
 
-    const ordenes = [
-      createData('Alguien', 'Admin', <CreateIcon />, <DeleteIcon />),
-      createData('Alguien2', 'Mozo', <CreateIcon />, <DeleteIcon />),
-      createData('Alguien3', 'Mozo', <CreateIcon />, <DeleteIcon />),
-    ];
 
   
     return (
       <>
-        <UserList OrdenList={ordenes} />
+        <UserList/>
       </>
     );
   },

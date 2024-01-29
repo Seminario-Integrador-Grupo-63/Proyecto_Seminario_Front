@@ -5,6 +5,8 @@ import {
     buildTableGrid,
     buildMenu
 } from "./utils";
+import {headers} from "next/headers";
+import * as objectorarray from "objectorarray";
 
 const url = "http://localhost:8000"
 const restaurantId = 1
@@ -86,7 +88,7 @@ export async function confirmOrder(customer, tableCode){
 export async function getTablesGrid(){
     console.log(' ')
     console.log('requests getTablesGrid()')
-    
+
     const headers = {
         'restaurant-id': 1
     }
@@ -134,6 +136,81 @@ export async function postDishes(restaurantId) {
 export async function deleteDishes(restaurantId) {
     const response = await axios.delete(url + '/dish/', )
 }
+export async function loginRestaurant(user):Promise<Array<any>> {
+    try{
+        const response = await axios.post<any>(url + `/security/login`, user)
+        // Guardar user data
+        console.log(user)
+        return response.data
+
+    } catch (error){
+        return []
+    }
+}
+
+export async function getUsers(restaurantId) {
+    const headers = {
+        'restaurant-id': restaurantId
+    }
+    try {
+        const response = await axios.get(url + '/security/employees', {headers})
+        return response.data
+    } catch (error) {
+        return []
+    }
+}
+export async function updateUser(user) {
+    try {
+        const response = await axios.put(url + '/security/employees', user)
+        return response.data
+    } catch (error) {
+        return []
+    }
+}
+export async function deleteUser(userId):Promise<boolean> {
+    try {
+        const response = await axios.delete(url + `/security/employees/${userId}`)
+        return true
+    } catch (error) {
+        return false
+    }
+}
+export async function createUser(user, restaurantId) {
+    const data = {restaurant: restaurantId,user:user}
+    try {
+        const response = await axios.post(url + '/security/singup', data,
+            {headers: {restaurantId: restaurantId}})
+        return response.data
+    } catch (error) {
+        return null
+    }
+}
+
+export async function getUpdatedPrices(updateId) {
+    try {
+        const response = await axios.get(url + '/')
+        return response.data
+    } catch (error) {
+        return []
+    }
+}
+export async function confirmUpdatePrices(req) {
+    try {
+        const response = await axios.get(url + '/')
+        return response.data
+    } catch (error) {
+        return false
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------
+// export { getCategories } from "@/Common/FakeData/FakeRequests";
+// export { getCategory } from "@/Common/FakeData/FakeRequests";
+// export { postOrderDetail } from '@/Common/FakeData/FakeRequests';
+// export { postCustomer } from '@/Common/FakeData/FakeRequests';
+// export { getDishesByCategoryId } from "@/Common/FakeData/FakeRequests";
+// export { getOrders } from "@/Common/FakeData/FakeRequests";
+// export { getDish } from "@/Common/FakeData/FakeRequests";
 
 export async function cancelOrder(orderId){
     console.log(' ')
