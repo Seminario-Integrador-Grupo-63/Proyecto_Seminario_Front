@@ -55,7 +55,8 @@ export const FoodMenu = (props: any) => {
                 <Dishes dishes={props.dishes} deleteDish={props.deleteDish}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-                <SideDishes sideDishes={props.sideDishes}/>
+                <SideDishes sideDishes={props.sideDishes}
+                deleteSideDish={props.deleteSideDish}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
                 Actualizar Precios
@@ -67,11 +68,13 @@ export const FoodMenu = (props: any) => {
 FoodMenu.defaultProps = {
     dishes: [],
     sideDishes: [],
-    deleteDish: function(){}
+    deleteDish: function(){},
+    deleteSideDish:function(){}
 }
 
 FoodMenu.propTypes = {
     dishes: PropTypes.array,
     sideDishes: PropTypes.array,
-    deleteDish: PropTypes.func
+    deleteDish: PropTypes.func,
+    deleteSideDish: PropTypes.func
 }

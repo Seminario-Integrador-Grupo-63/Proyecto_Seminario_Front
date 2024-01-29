@@ -35,6 +35,7 @@ export default function FoodMenuPage() {
     const fetchSideDishes = async () => {
         try {
             const result = await getSideDishes();
+            console.log('result: ', result)
             setSideDishes(result);
         } catch (error) {
             console.error("Error al obtener platos:", error);
@@ -44,19 +45,19 @@ export default function FoodMenuPage() {
     const triggerFeedback = (state,action) => {
         setPositiveFeedback(state)
         if(state){
-             if(actionFeedback === 'cancel-dish'){
-                setTextFeedback('El plato ha sido cancelado exitosamente')
+             if(actionFeedback === 'delete-dish'){
+                setTextFeedback('El plato ha sido eliminado exitosamente')
             }
-        } else if(actionFeedback === 'cancel-dish ')
+        } else if(actionFeedback === 'delete-dish ')
             {
-                setTextFeedback('No se ha podido cancelar el plato')
+                setTextFeedback('No se ha podido eliminar el plato')
             }
-            else if(actionFeedback === 'cancel-sidedish ')
+            else if(actionFeedback === 'delete-sidedish ')
             {
-                setTextFeedback('No se ha podido cancelar la guarnicion')
-            }else if(actionFeedback === 'cancel-sidedish ')
+                setTextFeedback('No se ha podido eliminar la guarnicion')
+            }else if(actionFeedback === 'delete-sidedish ')
             {
-                setTextFeedback('No se ha podido cancelar la guarnicion')
+                setTextFeedback('No se ha podido eliminar la guarnicion')
             }
             setOpenFeedbackDialog(true)
    }
@@ -73,13 +74,14 @@ export default function FoodMenuPage() {
         console.log('dish: ',dish)
         try {
             const result = await deleteDish(dish.id);
+            //console.log('resp handldeDeDish' + result)
             if (result) {
                 await fetchDishes(); // Recargar la lista de platos después de eliminar uno
-                triggerFeedback(true, 'cancel-dish')
+                triggerFeedback(true, 'delete-dish')
                 
             }
             else{
-                triggerFeedback(false, 'cancel-dish')
+                triggerFeedback(false, 'delete-dish')
             }
         } catch (error) {
             console.error("Error al eliminar plato:", error);
@@ -103,11 +105,18 @@ export default function FoodMenuPage() {
 
     //guarnicion?
 
-    const handleDeleteSideDish = async (sideDishId) => {
+    const handleDeleteSideDish = async (sideDish) => {
+        console.log(' ')
+        console.log('FoodMenuPage handleDeleteSideDish(sideDishId)')
+        console.log('sideDish: ', sideDish)
         try {
-            const result = await deleteSideDish(sideDishId);
+            const result = await deleteSideDish(sideDish.id);
+            console.log('resp handldeDSideD' + result)
             if (result) {
-                await fetchSideDishes();
+               await fetchSideDishes(); // Recargar la lista de guarniciones después de eliminar una
+                triggerFeedback(true, 'delete-sidedish'); 
+            } else {
+                triggerFeedback(false, 'delete-sidedish');
             }
         } catch (error) {
             console.error("Error al eliminar guarnición:", error);
@@ -140,15 +149,16 @@ export default function FoodMenuPage() {
 
     return (<>
         <FoodMenu dishes={dishes} 
-            deleteDish={handleDeleteDish} 
+            deleteDish={handleDeleteDish}
             sideDishes={sidedishes}
+            deleteSideDish={handleDeleteSideDish}
            // updateDish={handleEditDish} 
              />
 
         <FeedbackDialog
             open={openFeedbackDialog}
             positive={positiveFeedback}
-            text={textFeedback}
+            text={"Se ha eliminado con éxito"}
             onClose={closeFeedback}/>
      </>)
 } 

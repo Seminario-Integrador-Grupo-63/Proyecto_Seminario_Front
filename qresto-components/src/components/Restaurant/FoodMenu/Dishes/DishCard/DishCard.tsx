@@ -48,13 +48,13 @@ export const DishCard = (props: any) => {
                             variant="text" 
                             color="primary"
                             onClick={onEdit}>
-                            Edit
+                            Editar
                         </Button>
                         <Button 
                             variant="text" 
                             color="primary"
                             onClick={onDelete}>
-                            Delete
+                            Borrar
                         </Button>
                     </ThemeProvider>
                 </Grid>

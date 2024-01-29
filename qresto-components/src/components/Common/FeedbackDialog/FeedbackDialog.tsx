@@ -44,7 +44,7 @@ export const FeedbackDialog = (props: any) => {
                 <Button 
                     variant="contained"
                     color={setButtonColor()}
-                    onClick={props.onOk}>
+                    onClick={props.onClose}>
                     Aceptar
                 </Button>
             </div>

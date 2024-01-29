@@ -43,7 +43,7 @@ export const DataTable = (props: any) => {
             const hasActions = headers.some(header => header.key == 'actions')
             if(!hasActions){
                 let h = props.headers
-                h.push({label: 'Actions', key: 'actions'})
+                h.push({label: 'Acción', key: 'actions'})
                 setHeaders(h)
             }
         }
@@ -54,6 +54,7 @@ export const DataTable = (props: any) => {
     }
 
     const onDelete = (row) => {
+        //props.onDelete(props.sideDish(row))
         props.onDelete(row)
     }
 

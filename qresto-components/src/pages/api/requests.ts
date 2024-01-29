@@ -235,7 +235,7 @@ export async function getSideDish(sideDishId) {
 export async function deleteSideDish(sideDishId) {
     try {
         const response = await axios.delete(url + `/side-dish/${sideDishId}`);
-        return response.data;
+        return true;
     } catch (error) {
         console.error("Error al eliminar guarnición:", error.response?.data || error.message);
         throw error;
