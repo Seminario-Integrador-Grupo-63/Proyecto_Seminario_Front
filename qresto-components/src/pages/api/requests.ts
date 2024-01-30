@@ -185,7 +185,7 @@ export async function loginRestaurant(user):Promise<Array<any>> {
     try{
         const response = await axios.post<any>(url + `/security/login`, user)
         // Guardar user data
-        console.log(user)
+        console.log(response)
         return response.data
 
     } catch (error){

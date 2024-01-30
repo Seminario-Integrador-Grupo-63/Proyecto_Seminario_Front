@@ -9,6 +9,7 @@ export default function Home() {
     const [rid, setRId] = useState(null)
     const router = useRouter()
     const [userLogin, setUserLogin] = useState(null)
+    const [userRole, setUserRole] = useState()
 
 
     // useEffect(() => {
@@ -23,12 +24,14 @@ export default function Home() {
         if(result.length == 1){
             // Guardar en el use state el usuario
             setUserLogin(result[0])
-            setRId(userLogin.restaurantId)
+            setRId(result[0].restaurantId)
+            setUserRole(result[0].role)
             setCookie("restaurantId", rid)
+            setCookie("userRole", userRole)
             await router.replace({pathname: "/tables/", query: {restaurantId: user.restaurantId}})
 
         } else {
-            // Mensaje de error o algo
+            console.log("User not authenticated")
         }
     }
 
