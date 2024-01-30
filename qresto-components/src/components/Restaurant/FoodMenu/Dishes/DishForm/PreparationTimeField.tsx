@@ -4,22 +4,19 @@ import PropTypes from 'prop-types';
 import {TextField} from '@mui/material'
 
 export const PreparationTimeField = (props: any) => {
-    const [preparationTime, setPreparationTime] = useState('');
+    const [preparationTime, setPreparationTime] = useState(props.value || '');
 
     const handlePreparationTimeChange = (event) => {
         const newValue = event.target.value;
-    
+
         // Check if the entered value is a non-negative number
         if (/^\d+$/.test(newValue) || newValue === '') {
             setPreparationTime(newValue);
+            props.onChange(newValue);
         }
     };
 
-    useEffect(() => {
-        props.onChange(preparationTime)
-    }, [preparationTime])
-
-    return (<>
+    return (
         <TextField
             label={'Tiempo de Preparación (Minutos)'}
             type='number'
@@ -28,9 +25,11 @@ export const PreparationTimeField = (props: any) => {
             inputProps={{
                 min: 0,
             }}
-            fullWidth/>
-    </>);
+            fullWidth
+        />
+    );
 }
+
 
 PreparationTimeField.defaultProps =
 {
@@ -39,7 +38,8 @@ PreparationTimeField.defaultProps =
 
 PreparationTimeField.propTypes = 
 {
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    value: PropTypes.func
 }
 
 

@@ -22,14 +22,40 @@ import { Selector } from '@/Common/Selector';
 import { SelectorChips } from '@/Common/SelectorChips';
 
 export const DishFormContent = forwardRef((props: any, ref: any) => {
+
     const [image, setImage] = useState('')
     const marginBottom = '15px'
+    const [dish, setDish] = useState({
+        name: '',
+        description: '',
+        preparationTime: '',
+        price: '',
+        categories: null,
+        sideDishes: []
+    });
     
     useEffect(() => {
-        if(props.dish === null){
-            setImage('')
+        if (props.isNew) {
+            // Nuevo plato, establecer todos los valores en null o valores predeterminados
+            setImage('');
+            setDish({
+                name: '',
+                description: '',
+                preparationTime: '',
+                price: '',
+                categories: null, // Puedes establecer categorías en null o en un valor predeterminado
+                sideDishes: [] // Puedes establecer guarniciones en un valor predeterminado
+            });
+        } else {
+            // Edición de un plato existente, establecer valores según el plato
+            setImage(props.dish.image || '');
+            setDish({
+                ...props.dish
+            });
         }
-    }, [props.dish])
+    }, [props.dish, props.isNew]);
+    
+    
 
 
     const handlePreparationTimeChange = (preparationTime) => {
@@ -84,11 +110,13 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                         
                         <ImageButton 
                             onChange={onChangeImage}
+                            
                             image={image}/>
                     </Grid>
                     <Grid sx={{marginBottom: marginBottom}}>
                         <Selector
                             label={'Categorías'} 
+                            value={props.dish.categories}
                             items={loadCategories()}/>
                     </Grid>
                 </Grid>
@@ -102,23 +130,27 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                     <Grid sx={{marginBottom: marginBottom}}>
                         <TextField
                             label={'Nombre del Plato'}
+                            value={props.dish.name}
                             fullWidth/>
                     </Grid>
                     <Grid sx={{marginBottom: marginBottom}}>
                         <TextField
                             label={'Descripción'}
+                            value={props.dish.description}
                             multiline
                             fullWidth
                             maxRows={4}
                             minRows={4}/>
                     </Grid>
                     <Grid sx={{marginBottom: marginBottom}}>
-                        <PreparationTimeField onChange={handlePreparationTimeChange}/>
+                        <PreparationTimeField onChange={handlePreparationTimeChange}
+                        value={props.dish.preparationTime}/>
                     </Grid>
                     <Grid sx={{marginBottom: marginBottom}}>
                         <TextField
                             fullWidth
                             type='number'
+                            value={props.dish.price}
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>
                             }}/>
@@ -128,7 +160,7 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                 {/* --------------------------------------------------------- Parte de abajo */}
                 <Grid sx={{marginBottom: marginBottom}} item xs={12}>
                     <SelectorChips
-                        label={'Guarniciones'} 
+                        label={'Guarniciones'}                         
                         items={loadSideDishes()}/>
                 </Grid>
             </Grid>
@@ -151,5 +183,3 @@ DishFormContent.propTypes =
     categories: PropTypes.array,
     sideDishes: PropTypes.array
 }   
-
-

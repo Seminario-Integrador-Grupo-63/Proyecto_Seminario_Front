@@ -20,16 +20,17 @@ export const Dishes = (props: any) => {
         setIsNewDishForm(false)
     }
 
-    const onNewDish = () => {
-        setOpenDishForm(true)
-        setIsNewDishForm(false)
-    }
-
-    
+      
 
     const onCloseDishForm = () => {
         setOpenDishForm(false)
         
+    }
+
+    const onNewDish = () => {
+        setOpenDishForm(true);
+        setIsNewDishForm(true);
+        setSelectedDish(null); // Establecer selectedDish en null para indicar que es un nuevo plato
     }
 
     return (<>
@@ -63,10 +64,11 @@ export const Dishes = (props: any) => {
             </Grid>
 
             <DishForm
-                open={openDishForm}
-                onClose={onCloseDishForm}
-                dish={selectedDish}
-                isNew={isNewDishForm}/>
+    open={openDishForm}
+    onClose={onCloseDishForm}
+    dish={selectedDish || {}} // Pasar un objeto vacío si es un nuevo plato
+    isNew={isNewDishForm}
+/>
         </Container> 
     </>)
 }
