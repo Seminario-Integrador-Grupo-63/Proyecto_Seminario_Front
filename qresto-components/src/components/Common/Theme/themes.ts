@@ -24,7 +24,7 @@ export const theme = createTheme({
     },
 });
 
-export const themeButton = createTheme({
+export const themeButtonWine = createTheme({
     palette: {
         primary: {
             light: '#FFF2D9',
@@ -46,7 +46,7 @@ export const themeButton = createTheme({
             contrastText: '#000',
         },
     },
-});
+})
 
 
 

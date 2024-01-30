@@ -8,7 +8,7 @@ export const Table = (props: any) => {
 
     useEffect(() => {
         switch (props.table.state) {
-            case 'ocupied':
+            case 'occupied':
                 setTableColor('#FFD130') // Amarillo
                 break;
             case 'waiting':

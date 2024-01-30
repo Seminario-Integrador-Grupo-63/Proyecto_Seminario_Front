@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CustomButton } from '@/Common/CustomButton';
-import { theme, themeButton } from '@/Common/Theme/themes';
+import { theme, themeButtonWine } from '@/Common/Theme/themes';
 import { Box, Button, Grid } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 
@@ -21,6 +21,7 @@ export const DishCard = (props: any) => {
 
     const onDelete = () => {
         props.onDelete(props.dish)
+        
     }
 
     return (
@@ -42,18 +43,18 @@ export const DishCard = (props: any) => {
             </CardContent>
             <CardActions>
                 <Grid container justifyContent="flex-end">
-                    <ThemeProvider theme={themeButton}>
+                    <ThemeProvider theme={themeButtonWine}>
                         <Button 
                             variant="text" 
                             color="primary"
                             onClick={onEdit}>
-                            Edit
+                            Editar
                         </Button>
                         <Button 
                             variant="text" 
                             color="primary"
                             onClick={onDelete}>
-                            Delete
+                            Borrar
                         </Button>
                     </ThemeProvider>
                 </Grid>

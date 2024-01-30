@@ -1,110 +1,153 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
-    Container,
     Typography,
-    Button,
-    TextField,
-    Select,
-    MenuItem,
-    AppBar,
-    Toolbar,
-    Grid,
-    Accordion,
-    AccordionDetails,
     TableContainer,
     Table,
     TableHead,
     TableRow,
     TableCell,
-    Paper,
-    TableBody,
+    TableBody, TableFooter, Button, IconButton,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import PropTypes from 'prop-types';
-import { theme } from '@/components/Common/Theme/themes';
+import { theme } from '@/Common/Theme/themes';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {UserForm} from "@/Restaurant/Users/UserForm";
+import {DataTable} from "@/Common/DataTable";
 
-function UserList({ OrdenList }) {
-    const [] = useState({
-        selectedOption: '',
-        selectedCategory: '',
-        inputValueNombre: '',
-        inputValueUsuario: '',
-        selectedActualizacion: '',
-        inputValueContraseña: '',
-        inputValueDescripcion: '',
-    });
+export const UserList = (props:any) => {
 
-  
-    return (
-        <>
-            <AppBar
-                position="sticky"
-                sx={{
-                    width: { sm: `100%` },
-                    marginTop: 'auto',
-                    bottom: 0,
-                    backgroundColor: theme.palette.primary.main,
-                }}
-            >
-                <Toolbar>
-                    <Grid container justifyContent="left">
-                        <Grid xs={6} item>
-                            <TableHead >
-                                <TableRow>
-                                    <TableCell>
-                                        <Typography
+    const [open, setOpen] = useState(false);
+    const [userDet, setUserDet] = useState()
+    const [title, setTitle] = useState("Form")
+    const [readOnly, setReadonly] = useState(true)
 
-                                            sx={{
-                                                color: theme.palette.secondary.main,
-                                                marginLeft: '100px', // Añadidoara separar un poco de la celda siguiente
-                                                marginRight: '200px'
-                                            }}
-                                        >
-                                            {"Nombre"}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography
-                                            sx={{
-                                                color: theme.palette.secondary.main,
-                                                marginRight: '550px',
-                                            }}
-                                        >
-                                            {"Permisos"}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                        </Grid>
-                    </Grid>
-                </Toolbar>
-            </AppBar>
-            <Accordion>
-                <AccordionDetails >
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableBody >
-                                {OrdenList.map((row) => (
-                                    <TableRow key={row.dish} >
-                                        <TableCell>
-                                            {row.dish}
-                                        </TableCell>
-                                        <TableCell align="left">{row.nombre}</TableCell>
-                                        <TableCell align="left">{row.permiso}</TableCell>
-                                        <TableCell align="right">{row.crear}</TableCell>
-                                        <TableCell align="left">{row.borrar}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </AccordionDetails>
-            </Accordion>
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setUserDet(null);
+        setOpen(false);
+    };
+
+    const openForm = (event:React.MouseEvent<HTMLButtonElement>, id:number, readOnly:boolean, title:string) => {
+        setOpen(true)
+        setTitle(title)
+        setReadonly(readOnly)
+        setUserDet(userDet)
+    }
+
+/*
+    function editUser(user) {
+        handleClickOpen();
+        setUserDet(user);
+        openForm(false, "Editar Usuario");
+    }
+    function deleteUser(user) {
+        handleClickOpen();
+        setUserDet(user);
+        openForm(true, "Eliminar Usuario");
+    }
+    function newUser(){
+        handleClickOpen();
+        setUserDet(null);
+        openForm(false, "Nuevo Usuario");
+    }
+*/
+
+
+    return (<>
+
+
+
+
+        <React.Fragment>
+            <TableContainer >
+                <Table sx={{ minWidth: 650 }}>
+
+                    <TableHead sx={{backgroundColor: theme.palette.primary.main,}} >
+                        <TableRow>
+                            <TableCell align={"center"}>
+                                <Typography sx={{color: theme.palette.secondary.main,}}>
+                                    Nombre
+                                </Typography>
+                            </TableCell>
+                            <TableCell align={"center"}>
+                                <Typography sx={{color: theme.palette.secondary.main}}>
+                                    Rol
+                                </Typography>
+                            </TableCell>
+                            <TableCell align={"center"}>
+                                <Typography sx={{color: theme.palette.secondary.main}}>
+                                    Acciones
+                                </Typography>
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody >
+                        {props.users.map((row) => (
+                            <TableRow key={row.id}>
+                                <TableCell align="center">{row.user}</TableCell>
+                                <TableCell align="center">{row.role}</TableCell>
+                                <TableCell aria-label={"user-buttons"} align="center">
+                                    <IconButton
+                                        onClick={(event) =>
+                                        openForm(event, row.id, false, "Editar Usuario")}
+                                    >
+                                        <EditIcon/>
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={(event) =>
+                                            openForm(event, row.id, true, "Eliminar Usuario")
+                                    }>
+                                        <DeleteIcon/>
+                                    </IconButton>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+
+                    <TableFooter>
+                        <TableRow>
+                            <TableCell>
+                                <Button
+                                    startIcon={<AddIcon/>}
+                                    onClick={handleClickOpen}
+                                    /*onClick={(event) =>
+                                        openForm(event, null, false, "Nuevo Usuario")}*/
+                                >
+                                    Nuevo usuario
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    </TableFooter>
+
+                </Table>
+            </TableContainer>
+
+            <UserForm
+            open={open}
+/*
+            user={userDet}
+*/
+            onClose={handleClose}
+            readOnly={readOnly}
+            title={title}
+            />
+        </React.Fragment>
         </>
+
     );
 }
 
+UserList.defaultProps = {
+    title: "Form",
+    users: [],
+}
 UserList.propTypes = {
     title: PropTypes.string,
+    users: PropTypes.array,
 };
 
-export default UserList;

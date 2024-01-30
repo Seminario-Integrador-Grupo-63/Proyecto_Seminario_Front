@@ -18,25 +18,6 @@ export const OrderDetailTable = (props: any) => {
         }
     }, [props.order])
 
-
-    const createCustomerOrderDetailRow = (customerOrderDetail) => {
-        const row = {
-            customer: customerOrderDetail.customer,
-            total: customerOrderDetail.customerTotal,
-            orderDetails: customerOrderDetail.orderDetails.map(orderDetail => {
-                return {
-                    dish: orderDetail.dish.name,
-                    amount: orderDetail.amount,
-                    price: orderDetail.dish.price,
-                    sideDish: orderDetail.sideDish.name,
-                    sideDishPrice: orderDetail.sideDish.extraPrice,
-                    subtotal: orderDetail.subTotal
-                }
-            })
-        }
-        return row
-    }
-
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -52,8 +33,12 @@ export const OrderDetailTable = (props: any) => {
                     {customerOrderDetails.map((customerOrderDetail) => 
                         <OrderDetailTableRow 
                             key={customerOrderDetail.customer} 
-                            customerOrderDetail={createCustomerOrderDetailRow(customerOrderDetail)}
-                            onAddOrderDetail={props.onAddOrderDetail}/>
+                            customerOrderDetail={customerOrderDetail}
+                            onAddOrderDetail={props.onAddOrderDetail}
+                            onEditCustomer={props.onEditCustomer}
+                            onEditOrderDetail={props.onEditOrderDetail}
+                            onDeleteCustomerOrderDetail={props.onDeleteCustomerOrderDetail}
+                            onDeleteOrderDetail={props.onDeleteOrderDetail}/>
                     )}
                 </TableBody>
             </Table>
@@ -64,13 +49,19 @@ export const OrderDetailTable = (props: any) => {
 OrderDetailTable.defaultProps =
 {
     order: null,
-    onAddOrderDetail: function(){}
+    onAddOrderDetail: function(){},
+    onEditOrderDetail: function(){},
+    onEditCustomer: function(){},
+    onDeleteCustomerOrderDetail: function(){},
+    onDeleteOrderDetail: function(){}
 }
 
 OrderDetailTable.propTypes =
 {
     order: PropTypes.object,
-    onAddOrderDetail: PropTypes.func
+    onAddOrderDetail: PropTypes.func,
+    onEditOrderDetail: PropTypes.func,
+    onEditCustomer: PropTypes.func,
+    onDeleteCustomerOrderDetail: PropTypes.func,
+    onDeleteOrderDetail: PropTypes.func
 }
-
-

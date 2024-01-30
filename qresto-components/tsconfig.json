@@ -4,6 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "noImplicitAny": false,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -20,7 +21,8 @@
       "@/Customer/*": ["./src/components/Customer/*"],
       "@/Restaurant/*": ["./src/components/Restaurant/*"],
       "@/Common/*": ["./src/components/Common/*"],
-      "@/Stories/*": ["./src/stories/*"]
+      "@/Stories/*": ["./src/stories/*"],
+      "@/requests": ["../qresto-components/src/pages/api/requests"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/blog/second.js"],

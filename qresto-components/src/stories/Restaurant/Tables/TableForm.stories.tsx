@@ -4,6 +4,7 @@ import {widths100} from "@/Stories/viewports";
 import { Button } from  '@mui/material'
 import {useState} from 'react'
 import {Orders} from "@/Restaurant/Orders/Orders";
+import {sectors} from '@/Common/FakeData/SectorsData'
 
 export default {
     title: "components/Restaurant/Tables/TableForm",
@@ -18,9 +19,8 @@ export default {
 
 type Story = StoryObj<typeof TableForm>;
 
-export const TableFormMain: Story = {
+export const TableFormCreate: Story = {
     render: () =>{
-
         const [open, setOpen] = useState(false);
 
         const handleClickOpen = () => {
@@ -31,18 +31,24 @@ export const TableFormMain: Story = {
             setOpen(false)
         }
         
+        const submit = (table) => {
+            console.log(' ')
+            console.log('TableForm.stories submit(table)')
+            console.log('table: ', table)
+            
+        }
 
         return(<>
             <Button variant="outlined" onClick={handleClickOpen}>
                 Abrir TableForm
             </Button>
 
-            <TableForm 
+            <TableForm
                 open={open}
-                onClose={handleClose}
-                table={
-                    {id: 1,
-                     section: 2}}/>
+                isNew={true}
+                onSubmit={submit}
+                sectors = {sectors}
+                onClose={handleClose}/>
         </>);
     } 
 }

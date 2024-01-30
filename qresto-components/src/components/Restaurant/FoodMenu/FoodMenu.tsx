@@ -8,32 +8,31 @@ import {
 } from '@mui/material';
 import { CustomTabPanel } from '@/Common/CustomTabPanel';
 import { Dishes } from './Dishes/Dishes';
-import { SideDishes } from './SideDishes';
+import { SideDishes } from './SideDishes/SideDishes';
 import { Categories } from '../Categories/Categories';
 
 export const FoodMenu = (props: any) => {
     const [value, setValue] = useState(0);
-    const [containerHeight, setContainerHeight] = useState('85vh');
+    const [containerHeight, setContainerHeight] = useState('85vh')
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+        setValue(newValue)
+    }
 
     const handleScroll = () => {
-        const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-        const newHeight = window.innerHeight - scrollPosition;
-        setContainerHeight(`${newHeight}px`);
+        const scrollPosition = window.scrollY || document.documentElement.scrollTop
+        const newHeight = window.innerHeight - scrollPosition
+        setContainerHeight(`${newHeight}px`)
     };
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll)
         return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
 
-    return (
-        <>
+    return (<>
         <Container
             maxWidth={false}
             sx={{
@@ -54,27 +53,31 @@ export const FoodMenu = (props: any) => {
                 <Categories categories={props.categories}></Categories>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <Dishes dishes={props.dishes} />
+                <Dishes dishes={props.dishes} deleteDish={props.deleteDish}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-                <SideDishes sideDishes={props.sideDishes}/>
+                <SideDishes sideDishes={props.sideDishes}
+                deleteSideDish={props.deleteSideDish}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
                 Actualizar Precios
             </CustomTabPanel>
         </Container>
-        </>
-    );
-};
+    </>)
+}
 
 FoodMenu.defaultProps = {
     dishes: [],
     sideDishes: [],
-    categories: []
+    categories: [],
+    deleteDish: function(){},
+    deleteSideDish:function(){}
 }
 
 FoodMenu.propTypes = {
     dishes: PropTypes.array,
     sideDishes: PropTypes.array,
-    categories: PropTypes.array
+    categories: PropTypes.array,
+    deleteDish: PropTypes.func,
+    deleteSideDish: PropTypes.func
 }

@@ -4,24 +4,28 @@ import {
     Container, 
     Grid, 
     Button, 
-    Typography
+    Typography,
+    IconButton,
+    ThemeProvider
 } from '@mui/material'
 import { DataTable } from '@/Common/DataTable'
 import { OrderForm } from './OrderForm/OrderForm'
 import { TableForm } from './TableForm'
 import { MessageDialog } from '@/Common/MessageDialog'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {themeButtonWine, theme} from '@/Common/Theme/themes'
+import { PanLoader } from '@/Common/PanLoader/PanLoader';
+import {QRDisplay} from './QRDisplay/QRDisplay'
 
 export const TableManager = (props: any) => {
     const [orderRows, setOrderRows] = useState([])
     const [openOrderForm, setOpenOrderForm] = useState(false)
+    const [menu, setMenu] = useState(null)
     const [orderFormIsNew, setOrderFormIsNew] = useState(true)
-    const [orderFormEntity, setOrderFormEntity] = useState(null)
-    const [dishes, setDishes] = useState([])
-    const [categories, setCategories] = useState([])
-    const [sideDishes, setSideDishes] = useState([])
     const [openTableForm, setOpenTableForm] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [table, setTable] = useState(null)
-    // const [sector, setSector] = useState(null)
+    const [uuidCode, setUuidCode] = useState('')
     const [openMessageDialog, setOpenMessageDialog] = useState(false)
     const [titleMessageDialog, setTitleMessageDialog] = useState('')
     const [textMessageDialog, setTextMessageDialog] = useState('')
@@ -30,6 +34,8 @@ export const TableManager = (props: any) => {
     const [textSubmitButtonMessageDialog, setTextSubmitButtonMessageDialog] = useState('Confirmar')
     const [allowDeleteTable, setAllowDeleteTable] = useState(true)
     const [selectedOrder, setSelectedOrder] = useState(null)
+    const [openQRDisplay, setOpenQRDisplay] = useState(false)
+    const [qrCode, setQRcode] = useState('')
 
     const orderHeaders = [
         {label: 'Total comensales', key: 'totalCustomers'},
@@ -80,51 +86,22 @@ export const TableManager = (props: any) => {
     }, [props.orders])
 
     useEffect(() => {
-        setDishes(props.dishes)
-    }, [props.dishes])
-
-    useEffect(() => {
-        setCategories(props.categories)
-    }, [props.categories])
-
-    useEffect(() => {
-        setSideDishes(props.sideDishes)
-    }, [props.sidedishes])
-
-    useEffect(() => {
         if(props.table !== null){
             setTable(props.table)
         }
     }, [props.table])
 
-    // useEffect(() => {
-    //     if(props.sector !== null){
-    //         setSector(props.sector)
-    //     }
-    // }, [props.sector])
+    useEffect(() => {
 
-    const onGenerateOrder = () => {
+    }, [props.menu])
+
+    const onGenerateOrder = async () => {
+        setLoading(true)
+        const data = await props.onOpenOrderForm()
+        setLoading(false)
+        setMenu(data)
         setOpenOrderForm(true)
         setOrderFormIsNew(true)
-    }
-
-    const showCannotModifyOrder = () => {
-        setTitleMessageDialog('Modificar orden')
-        setTextMessageDialog('No se puede modificar order en el estado actual')
-        setOpenMessageDialog(true)
-    }
-
-    const onEditOrder = (order) => {
-        const orderIndex = props.orders.findIndex(o => o.id === order.id)
-        const selectedOrder = props.orders[orderIndex]
-        if(selectedOrder.state === 'processing' || selectedOrder.state === 'waiting'){
-            let orderEntity = searchOrder(order.id)
-            setOrderFormEntity(orderEntity)
-            setOpenOrderForm(true)
-            setOrderFormIsNew(false)
-        } else {
-            showCannotModifyOrder()
-        }
     }
 
     const onEditTable = () => {
@@ -191,7 +168,8 @@ export const TableManager = (props: any) => {
     }
 
     const cancelOrder = () => {
-        props.cancelOrder(selectedOrder)
+        props.cancelOrder(selectedOrder.id)
+        setOpenMessageDialog(false)
     }
 
     const onOrderFormClose = () => {
@@ -203,6 +181,23 @@ export const TableManager = (props: any) => {
         return props.orders[index]
     }
 
+    const onGenerateQR = async () => {
+        const result = await props.generateQR(table.id)
+        if(result !== null){
+            setQRcode(result.qrCode)
+            setUuidCode(result.uuidCode)
+            setOpenQRDisplay(true)
+        }
+    }
+
+    const onQRDownload = () => {
+        props.onQRDownload(table.id, uuidCode)
+    }
+
+    const onQRDisplayClose = () => {
+        setOpenQRDisplay(false)
+    }
+
     return (
         <Container maxWidth={false}>
             <Grid 
@@ -210,58 +205,86 @@ export const TableManager = (props: any) => {
                 justifyContent="space-between" 
                 spacing={2}>
                 <Grid item xs={3}>
-                    <Button 
-                        variant="contained"
-                        onClick={onGenerateOrder}>
-                        Generar Orden
-                    </Button>
+                    <IconButton
+                        sx={{
+                            marginRight: '20px'
+                        }}
+                        onClick={props.goBack}>
+                        <ArrowBackIcon 
+                            fontSize='large'
+                            sx={{
+                                color: theme.palette.primary.main,
+                            }}/>
+                    </IconButton>
+                    <ThemeProvider theme={themeButtonWine}>
+                        <Button 
+                            variant="contained"
+                            onClick={onGenerateOrder}>
+                            Generar Orden
+                        </Button>
+                    </ThemeProvider>
                 </Grid>
+ 
+                {table !== null ? 
+                    <Grid item xs={3}>
+                        <Typography variant='h4'>Mesa {table.number}</Typography>
+                    </Grid>
+                :
+                    null
+                }
+
                 <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button
-                        sx={{ marginRight: '5px', marginLeft: '5px' }}
-                        variant="contained"
-                        onClick={onEditTable}>
-                        Editar
-                    </Button>
-                    <Button
-                        sx={{ marginRight: '5px', marginLeft: '5px' }}
-                        variant="contained"
-                        onClick={props.generateQR}>
-                        Generar QR
-                    </Button>
-                    <Button
-                        sx={{ marginRight: '5px', marginLeft: '5px' }}
-                        variant="contained"
-                        onClick={onConfirmDeleteTable}
-                        disabled={!allowDeleteTable}>
-                        Eliminar
-                    </Button>
+                    <ThemeProvider theme={themeButtonWine}>
+                        <Button
+                            sx={{ marginRight: '5px', marginLeft: '5px' }}
+                            variant='contained'
+                            onClick={onEditTable}>
+                            Editar
+                        </Button>
+                        <Button
+                            sx={{ marginRight: '5px', marginLeft: '5px' }}
+                            variant="contained"
+                            onClick={onGenerateQR}>
+                            Generar QR
+                        </Button>
+                        <Button
+                            sx={{ marginRight: '5px', marginLeft: '5px' }}
+                            variant="contained"
+                            onClick={onConfirmDeleteTable}
+                            disabled={!allowDeleteTable}>
+                            Eliminar
+                        </Button>
+                    </ThemeProvider>
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="h6">Ordenes</Typography>
                     <DataTable 
                         headers={orderHeaders}
                         rows={orderRows}
-                        actionsType='edit-delete'
-                        onEdit={onEditOrder}
-                        onDelete={onCancelOrder}/>
+                        actionsType={'show-cancel'}
+                        onCancel={onCancelOrder}/>
                 </Grid>
             </Grid>
 
             <OrderForm 
                 open={openOrderForm}
-                dishes={dishes}
-                categories={categories}
-                sideDishes={sideDishes}
+                menu={menu}
                 isNew={orderFormIsNew}
                 onClose={onOrderFormClose}
-                order={orderFormEntity}/>
+                onSubmit={props.createOrder}/>
 
             <TableForm
                 isNew={false}
                 table={table}
                 open={openTableForm}
                 onClose={onCloseTableForm}/>
+
+
+            <QRDisplay
+                open={openQRDisplay}
+                qrcode={qrCode}
+                onDownload={onQRDownload}
+                onClose={onQRDisplayClose}/>
 
             <MessageDialog
                 open={openMessageDialog}
@@ -271,6 +294,8 @@ export const TableManager = (props: any) => {
                 cancelButtonVisible={cancelButtonVisibleMessageDialog}
                 onSubmit={onSubmitMessageDialog}
                 onClose={onCloseMessageDialog}/>
+
+            <PanLoader open={loading}/>
         </Container>
     )
 }
@@ -279,26 +304,26 @@ TableManager.defaultProps =
 {
     orders: [],
     table: null,
-    categories: [],
-    dishes: [],
-    sideDishes: [],
-    // sector: null,
+    menu: [],
     deleteTable: function(){},
     generateQR: function(){},
-    displayQR: function(){}
+    onQRDownload: function(){},
+    onOpenOrderForm: function(){},
+    displayQR: function(){},
+    goBack: function(){},
+    createOrder: function(){}
 }
 
 TableManager.propTypes =
 {
     orders: PropTypes.array,
     table: PropTypes.object,
-    categories: PropTypes.array,
-    dishes: PropTypes.array,
-    sideDishes: PropTypes.array,
-    // sector: PropTypes.string,
+    menu: PropTypes.array,
+    onOpenOrderForm: PropTypes.func,
     deleteTable: PropTypes.func,
     cancelOrder: PropTypes.func,
     generateQR: PropTypes.func,
+    onQRDownload: PropTypes.func,
+    goBack: PropTypes.func,
+    createOrder: PropTypes.func
 }
-
-

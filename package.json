@@ -20,5 +20,8 @@
         "dayjs": "^1.11.10",
         "html-to-pdfmake": "^2.5.1",
         "pdfmake": "^0.2.9"
+    },
+    "devDependencies": {
+        "@types/html-to-pdfmake": "^2.4.4"
     }
 }

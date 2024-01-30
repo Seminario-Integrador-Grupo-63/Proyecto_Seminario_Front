@@ -1,11 +1,9 @@
-import styles from './Categories.module.scss';
 import {Grid} from '@mui/material'
 import { useState } from 'react';
 import { ButtonCategory } from '../../Customer/MenuCategories/ButtonCategory'
 import { CategoriesForm } from './CategoriesForm';
- 
 import PropTypes from 'prop-types';
-import {theme, themeButton} from '@/Common/Theme//themes'
+import {theme, themeButtonWine} from '@/Common/Theme/themes'
 
 export const Categories = (props: any) => {
     // En esta parte van las funciones

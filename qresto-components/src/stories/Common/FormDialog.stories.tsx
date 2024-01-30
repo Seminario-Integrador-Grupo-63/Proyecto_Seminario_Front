@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { FormDialog } from "@/Common/FunctionalTemplates/FormDialog";
+import { FormDialog } from "@/components/Common/FormDialog";
 import {widths100} from "@/Stories/viewports";
 import { Button } from  '@mui/material'
 import {useState} from 'react'
 
 export default {
-    title: "components/Common/FunctionalTemplates/FormDialog",
+    title: "components/Common/FormDialog",
     component: FormDialog ,
     argTypes: {},
     parameters: {
@@ -18,7 +18,6 @@ type Story = StoryObj<typeof FormDialog>;
 
 export const FormDialogMain: Story = {
     render: () =>{
-
         const [open, setOpen] = useState(false);
 
         const handleClickOpen = () => {

@@ -2,9 +2,8 @@ import { Meta, StoryObj } from "@storybook/react"
 import { TableManager } from "@/Restaurant/Tables/TableManager"
 import {widths100} from "@/Stories/viewports"
 import { ordersDTO } from "@/Common/FakeData/OrdersData"
-import { dishes } from "@/Common/FakeData/DishesData"
-import {categories} from "@/Common/FakeData/CategoriesData"
 import { sectors2 } from "@/Common/FakeData/Tables"
+import { menuData } from "@/Common/FakeData/Menu"
 
 export default {
     title: "components/Restaurant/Tables/TableManager",
@@ -20,12 +19,16 @@ type Story = StoryObj<typeof TableManager>
 
 export const TableManagerWithOrders: Story = {
     render: () =>{
+
+        const onOpenOrderForm = () => {
+            return menuData
+        }
         return(<>
             <TableManager 
                 table={sectors2[0].tables[0]}
-                orders={ordersDTO}
-                dishes={dishes}
-                categories={categories}/>
+                onOpenOrderForm={onOpenOrderForm}
+                menu={menuData}
+                orders={ordersDTO}/>
         </>)
     } 
 }
@@ -35,9 +38,7 @@ export const TableManagerWithoutOrders: Story = {
         return(<>
             <TableManager 
                 table={sectors2[0].tables[0]}
-                orders={[]}
-                dishes={dishes}
-                categories={categories}/>
+                orders={[]}/>
         </>)
     } 
 }
