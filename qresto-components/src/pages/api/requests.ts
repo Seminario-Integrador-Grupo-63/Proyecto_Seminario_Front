@@ -7,8 +7,6 @@ import {
     buildSideDish,
     buildSimpleDish
 } from "./utils";
-import {headers} from "next/headers";
-import * as objectorarray from "objectorarray";
 
 const url = "http://localhost:8000"
 const restaurantId = 1
@@ -16,6 +14,15 @@ const restaurantId = 1
 export async function getQR(tableId){
     const response = await axios.get(url + `/table/${tableId}/qrcode`)
     return response.data
+}
+
+export async function postQR(tableId, uuidCode){
+    try{
+        await axios.post(url + `/table/${tableId}/qrcode?uuid_code=${uuidCode}`)
+        return true
+    } catch (error){
+        return false
+    }
 }
 
 export async function postCustomer(customer, tableCode){
@@ -52,11 +59,11 @@ export async function getOrders(tableCode){
     return response.data
 }
 
-/*export async function getDish(id){
+export async function getDish(id){
     const responseDish = await axios.get<any>(url + `/dish/${id}`)
     const dish = buildDish(responseDish)
     return dish
-}*/
+}
 
 export async function getDishes(){
     console.log(' ')
@@ -89,6 +96,10 @@ export async function postOrderDetail(orderDetail, tableCode){
 }
 
 export async function postOrder(order, tableCode){
+    console.log(' ')
+    console.log('requests postOrder(order, tableCode)')
+    console.log('order: ', order)
+    console.log('tableCode: ', tableCode)
     try{
         const response = await axios.post(url + `/order/creation/${tableCode}`, order)
         return true
@@ -250,23 +261,15 @@ export async function cancelOrder(orderId){
 }
 
 export async function postTable(table){
+    console.log(' ')
+    console.log('requests postTable(table)')
+    console.log('table: ', table)
     try{
         const response = await axios.post(url + `/table/`, table)
+        console.log('response: ', response)
         return true
     } catch {
         return false
-    }
-}
-
-// 
-
-export async function getDish(dishId: number) {
-    try {
-        const response = await axios.get<any>(`${url}/dish/${dishId}`);
-        return response.data;
-    } catch (error) {
-        console.error(`Error al obtener información del plato con ID ${dishId}:`, error.response?.data || error.message);
-        throw error;
     }
 }
 
@@ -305,8 +308,10 @@ export async function updateDishInfo(dishId: number, updatedInfo: any) {
     }
 }
 
-//guarnicion?
 export async function getSideDishes() {
+    /**
+    Guarniciones
+    */
     console.log(' ')
     console.log('requests getSideDishes()')
     
@@ -320,8 +325,6 @@ export async function getSideDishes() {
         console.log('data: ', data)
         return data
     } catch (error) {
-        console.log(error.response)
-        console.error("Error al obtener guarniciones:", error.response?.data || error.message);
         throw error;
     }
 }
