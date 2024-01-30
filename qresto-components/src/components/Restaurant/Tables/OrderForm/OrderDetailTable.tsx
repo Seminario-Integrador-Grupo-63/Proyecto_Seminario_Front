@@ -15,6 +15,8 @@ export const OrderDetailTable = (props: any) => {
     useEffect(() => {
         if(props.order !== null){
             setCustomerOrderDetails(props.order.customerOrderDetails)
+        } else {
+            setCustomerOrderDetails([])
         }
     }, [props.order])
 
@@ -26,7 +28,11 @@ export const OrderDetailTable = (props: any) => {
                         <TableCell />
                         <TableCell>Comensal</TableCell>
                         <TableCell align="center">Total</TableCell>
-                        <TableCell align="center">Acciones</TableCell>
+                        {props.actions ?
+                            <TableCell align="center">Acciones</TableCell>
+                        :
+                            null
+                        }
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -36,6 +42,7 @@ export const OrderDetailTable = (props: any) => {
                             customerOrderDetail={customerOrderDetail}
                             onAddOrderDetail={props.onAddOrderDetail}
                             onEditCustomer={props.onEditCustomer}
+                            actions={props.actions}
                             onEditOrderDetail={props.onEditOrderDetail}
                             onDeleteCustomerOrderDetail={props.onDeleteCustomerOrderDetail}
                             onDeleteOrderDetail={props.onDeleteOrderDetail}/>
@@ -53,7 +60,8 @@ OrderDetailTable.defaultProps =
     onEditOrderDetail: function(){},
     onEditCustomer: function(){},
     onDeleteCustomerOrderDetail: function(){},
-    onDeleteOrderDetail: function(){}
+    onDeleteOrderDetail: function(){},
+    actions: true
 }
 
 OrderDetailTable.propTypes =
@@ -63,5 +71,6 @@ OrderDetailTable.propTypes =
     onEditOrderDetail: PropTypes.func,
     onEditCustomer: PropTypes.func,
     onDeleteCustomerOrderDetail: PropTypes.func,
-    onDeleteOrderDetail: PropTypes.func
+    onDeleteOrderDetail: PropTypes.func,
+    actions: PropTypes.bool
 }

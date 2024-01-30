@@ -2,8 +2,9 @@ import { Meta, StoryObj } from "@storybook/react"
 import { TableManager } from "@/Restaurant/Tables/TableManager"
 import {widths100} from "@/Stories/viewports"
 import { ordersDTO } from "@/Common/FakeData/OrdersData"
-import { sectors2 } from "@/Common/FakeData/Tables"
+import { grid } from "@/Common/FakeData/Tables"
 import { menuData } from "@/Common/FakeData/Menu"
+import { sectors } from "@/Common/FakeData/SectorsData"
 
 export default {
     title: "components/Restaurant/Tables/TableManager",
@@ -25,7 +26,8 @@ export const TableManagerWithOrders: Story = {
         }
         return(<>
             <TableManager 
-                table={sectors2[0].tables[0]}
+                table={grid[0].tables[0]}
+                sectors={sectors}
                 onOpenOrderForm={onOpenOrderForm}
                 menu={menuData}
                 orders={ordersDTO}/>
@@ -37,7 +39,7 @@ export const TableManagerWithoutOrders: Story = {
     render: () =>{
         return(<>
             <TableManager 
-                table={sectors2[0].tables[0]}
+                table={grid[0].tables[0]}
                 orders={[]}/>
         </>)
     } 

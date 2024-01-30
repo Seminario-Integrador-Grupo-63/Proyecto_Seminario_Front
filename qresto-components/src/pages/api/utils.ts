@@ -25,6 +25,7 @@ export function buildSimpleDish(data){
 
 export function buildTableGrid(data){
     const sectors = data.map(s => {
+        s.tables.sort((a, b) => a.number - b.number);
         return {
             id: s.sector.id,
             isActive: s.sector.is_active,

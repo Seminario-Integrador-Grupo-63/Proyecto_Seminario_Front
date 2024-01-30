@@ -2,16 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
     TextField,
-    Grid,
-    InputLabel,
+    Grid
 } from '@mui/material'
 import { Selector } from '@/Common/Selector';
 import { FormDialog } from '@/Common/FormDialog';
 import { useState, useEffect } from 'react';
 
 export const TableForm = (props: any) => {
-    // const [tableNumber, setTableNumber] = useState('')
-    // const [tableSector, setTableSector] = useState('')
     const [sectors, setSectors] = useState([])
     const [selectedSector, setSelectedSector] = useState(null)
     const [errorSectorSelector, setErrorSectorSelector] = useState(false)
@@ -22,16 +19,21 @@ export const TableForm = (props: any) => {
     const [numberInput, setNumberInput] = useState('')
 
     useEffect(() =>{
-        console.log(' ')
-        console.log('TableForm useEffect')
-        console.log('props.table: ', props.table)
+        if (props.sectors !== null){
+            setSectors(props.sectors)
+        }
+
         if(props.table != null){
             if(props.isNew == false){
                 setNumberInput(props.table.number)
-                setSelectedSector(props.table.sector)
+                setNumber(props.table.number)
+                if(sectors.length > 0){
+                    const index = sectors.findIndex(s => s.id === props.table.sector)
+                    setSelectedSector(sectors[index])
+                }
             }
         }
-    },[props.table, props.isNew])
+    },[props.table, props.isNew, sectors])
 
     useEffect(() => {
         if (props.sectors !== null){
@@ -39,19 +41,7 @@ export const TableForm = (props: any) => {
         }
     }, [props.sectors])
 
-    // const loadSections = () => {
-    //     let sectionsList = []
-    //     props.sections.forEach(section => {
-    //         sectionsList.push(section.id)
-    //     })
-    //     return sectionsList
-    // }
-
-
     const handleNumberChange = (event) => {
-        console.log(' ')
-        console.log('TableForm ')
-        console.log(': ', )
         if(event.target.value === ''){
             setNumberInput('')
             setNumber(null)
@@ -67,38 +57,16 @@ export const TableForm = (props: any) => {
         }
     }
 
-    // const handleNumber=(event)=>{
-    //     setTableNumber(event.target.value)
-    // }
-    // const handleSection=(event)=>{
-    //     setTableSector(event.target.value)
-    // }
-    // const deleteCategory=()=>{
-    //     props.onDelete(props.table.id)
-    // }
-    // const updateCategory=()=>{
-    //     let table = null
-    //     if (props.isNew){
-    //         table = {
-    //             section: tableSector
-    //         }
-    //     }
-    //     else{
-    //         table = {
-    //             id: props.table.id,
-    //             section: tableSector
-    //         }
-    //     }
-    //     props.onUpdate(table)
-    // }
-
     const handleSectorChange = (sector) => {
-        setSelectedSector(sector)
+        if(sector === ''){
+            setSelectedSector(null)
+        } else {
+            setSelectedSector(sector)
+        }
     }
 
     const verifySubmit = () => {
         let isReady = true
-
         if(number === null){
             isReady = false
             setErrorNumber(true)

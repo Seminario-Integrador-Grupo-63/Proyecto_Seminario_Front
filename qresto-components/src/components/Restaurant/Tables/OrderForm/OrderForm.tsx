@@ -2,17 +2,23 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { 
     Grid,
-    Button 
+    Button,
+    ThemeProvider,
+    Typography
 } from '@mui/material'
 import { FormDialog } from '@/Common/FormDialog';
 import { OrderDetailForm } from './OrderDetailForm';
 import {OrderDetailTable} from './OrderDetailTable'
 import { CustomerForm } from './CustomerForm';
 import { MessageDialog } from '@/Common/MessageDialog'
+import { themeButtonWine } from '@/Common/Theme/themes';
 
 export const OrderForm = (props: any) => {
     const [orderDetailFormOpen, setOrderDetailFormOpen] = useState(false)
+    const [stateButtonText, setStateButtonText] = useState('')
+    const [stateButtonVisible, setStateButtonVisible] = useState(false)
     const [selectedOrderDetail, setSelectedOrderDetail] = useState(null)
+    const [currentState, setCurrentState] = useState('En espera')
     const [isNewOrderDetail, setIsNewOrderDetail] = useState(false)
     const [customerFormOpen, setCustomerFormOpen] = useState(false)
     const [title, setTitle] = useState('Generar Orden')
@@ -24,21 +30,62 @@ export const OrderForm = (props: any) => {
     const [titleMessageDialog, setTitleMessageDialog] = useState('')
     const [descriptionMessageDialog, setDescriptionMessageDialog] = useState('')
     const [actionMessageDialog, setActionMessageDialog] = useState('')
+    const [closeText, setCloseText] = useState('Cancelar')
+    const [submitButtonVisible, setSubmitButtonVisible] = useState(true)
     const messageDialogActions = {
         deleteCustomerOrderDetail: 'delete-customer-order-detail',
         deleteOrderDetail: 'delete-order-detail'
     }
+    const stateButtonTexts = {
+        processing: 'Confirmar orden',
+        waiting: 'Orden en preparación',
+        preparation: 'Orden entregada',
+        delivered: 'Cerrar orden',
+    }
+
+    const states = {
+        processing: 'En Armado',
+        waiting: 'En Espera',
+        preparation: 'En Preparación',
+        delivered: 'Entregada',
+        // close: 'Cerrada'
+    }
+
     const [orderToPost, setOrderToPost] = useState([])
 
     useEffect(() => {
+        console.log(' ')
+        console.log('OrderForm useEffect props.order')
+        console.log('props.order: ', props.order)
         if(props.isNew){
+            clear()
+            setSubmitButtonVisible(true)
+            
+            setCloseText('Cancelar')
             setTitle('Generar Orden')
             setSubmitText('Generar')
         } else {
             setTitle('Ver Orden')
-            // setSubmitText('Actualizar')
+            setSubmitButtonVisible(false)
+            setCloseText('Cerrar')
+            if(props.order !== null){
+                setOrder(props.order)
+                if(props.order.state === 'waiting'){
+                    setStateButtonText(stateButtonTexts.waiting)
+                    setCurrentState("En espera")
+                } else if (props.order.state === 'preparation'){
+                    setStateButtonText(stateButtonTexts.preparation)
+                    setCurrentState("En preparación")
+                } else if (props.order.state === 'delivered'){
+                    setStateButtonText(stateButtonTexts.delivered)
+                    setCurrentState("Entregada")
+                } else if (props.order.state === 'processing'){
+                    setCurrentState("En Armado")
+                    setStateButtonText(stateButtonTexts.processing)
+                }
+            }
         }
-    }, [props.isNew])
+    }, [props.isNew, props.order])
 
     const onAddCustomer = () => {
         setIsNewCustomer(true)
@@ -251,27 +298,90 @@ export const OrderForm = (props: any) => {
         props.onSubmit(orderToPost)
     }
 
+    const clear = () => {
+        setOrder(null)
+    }
+
+    const changeState = async () => {
+        console.log(' ')
+        console.log('OrderForm changeState()')
+        console.log('order: ', order)
+
+        if(order.state === 'waiting'){
+            const result = await props.onOrderPreparation(order.id)
+            console.log('result: ', result)
+            if(result){
+                order.state = 'preparation'
+                setOrder(order)
+                setStateButtonText(stateButtonTexts.preparation)
+                setCurrentState(states.preparation)
+            }
+        } else if (order.state === 'preparation'){
+            const result = await props.onOrderDelivered(order.id)
+            if(result){
+                order.state = 'delivered'
+                setOrder(order)
+                setStateButtonText(stateButtonTexts.delivered)
+                setCurrentState(states.delivered)
+            }
+        } else if (order.state === 'delivered'){
+            const result = await props.onOrderClosed()
+            if(result){
+                setStateButtonVisible(false)
+            }
+        }
+    }
+
     return (<>
         <FormDialog 
             open={props.open}
             title={title}
             submitText={submitText}
             onSubmit={submit}
-            closeText='Cancelar'
+            closeText={closeText}
+            submitVisible={submitButtonVisible}
             maxWidth='lg'
             onClose={props.onClose}>
-            <Grid container>
-                <OrderDetailTable 
-                    order={order}
-                    onEditOrderDetail={onEditOrderDetail}
-                    onEditCustomer={onEditCustomer}
-                    onDeleteCustomerOrderDetail={onDeleteCustomerOrderDetail}
-                    onDeleteOrderDetail={onDeleteOrderDetail}
-                    onAddOrderDetail={onAddOrderDetail}/>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <OrderDetailTable 
+                        order={order}
+                        onEditOrderDetail={onEditOrderDetail}
+                        onEditCustomer={onEditCustomer}
+                        actions={props.actions}
+                        onDeleteCustomerOrderDetail={onDeleteCustomerOrderDetail}
+                        onDeleteOrderDetail={onDeleteOrderDetail}
+                        onAddOrderDetail={onAddOrderDetail}/>
+                </Grid>
+                {/* {props.isNew === false?
+                    <Grid item>
+                        <ThemeProvider theme={themeButtonWine}>
+                            <Button
+                                variant={'contained'}
+                                onClick={changeState}>
+                                {stateButtonText}
+                            </Button>   
+                        </ThemeProvider>
+                    </Grid>
+                    <Grid item >
+                        <Typography 
+                            variant={'subtitle1'}
+                            sx={{paddingTop: '5px', fontWeight: 'bold'}}>
+                            Estado actual: {currentState}
+                        </Typography>
+                    </Grid>
+                :
+                    null
+                } */}
+
             </Grid>
-            <Grid>
-                <Button onClick={onAddCustomer}>Agregar Comensal</Button>
-            </Grid>
+            {props.actions ? 
+                <Grid>
+                    <Button onClick={onAddCustomer}>Agregar Comensal</Button>
+                </Grid>
+            :
+                null
+            }
 
             <OrderDetailForm 
                 menu={props.menu}
@@ -307,6 +417,11 @@ OrderForm.defaultProps =
     isNew: true,
     orderFormData: null,
     menu: [],
+    actions: true,
+    order: null,
+    onOrderPreparation: function(){},
+    onOrderDelivered: function(){},
+    onOrderClosed: function(){}
 }
 
 OrderForm.propTypes = 
@@ -316,4 +431,9 @@ OrderForm.propTypes =
     onClose: PropTypes.func,
     isNew: PropTypes.bool,
     menu: PropTypes.array,
+    actions: PropTypes.bool,
+    order: PropTypes.object,
+    onOrderPreparation: PropTypes.func,
+    onOrderDelivered: PropTypes.func,
+    onOrderClosed: PropTypes.func
 }

@@ -19,7 +19,10 @@ import {QRDisplay} from './QRDisplay/QRDisplay'
 
 export const TableManager = (props: any) => {
     const [orderRows, setOrderRows] = useState([])
+    const [orders, setOrders] = useState([])
     const [openOrderForm, setOpenOrderForm] = useState(false)
+    const [orderFormActions, setOrderFormActions] = useState(true)
+    // const [orderToShow, setOrderToShow] = useState(null)
     const [menu, setMenu] = useState(null)
     const [orderFormIsNew, setOrderFormIsNew] = useState(true)
     const [openTableForm, setOpenTableForm] = useState(false)
@@ -44,12 +47,34 @@ export const TableManager = (props: any) => {
     ]
 
     useEffect(() => {
+        console.log(' ')
+        console.log('TableManager useEffect props.orders')
+        console.log('props.orders: ', props.orders)
         if(props.orders.length > 0){
             setAllowDeleteTable(false)
         } else {
             setAllowDeleteTable(true)
         }
 
+        setupOrders()
+    
+    }, [props.orders])
+
+    useEffect(() => {
+        if(props.table !== null){
+            setTable(props.table)
+        }
+    }, [props.table])
+
+    useEffect(() => {
+
+    }, [props.menu])
+
+
+    const setupOrders = () => {
+        console.log(' ')
+        console.log('TableManager setupOrders()')
+        
         let rows = props.orders.map(order => {
             let state = 'Armando'
             switch (order.state) {
@@ -82,18 +107,17 @@ export const TableManager = (props: any) => {
                 total: order.total
             }
         })
+        console.log('selectedOrder: ', selectedOrder)
+        setOrders(props.orders)
         setOrderRows(rows)
-    }, [props.orders])
 
-    useEffect(() => {
-        if(props.table !== null){
-            setTable(props.table)
+        if(selectedOrder !== null){
+            const index = props.orders.findIndex(o => o.id === selectedOrder.id)
+            if(index !== -1){
+                setSelectedOrder(props.orders[index])
+            }
         }
-    }, [props.table])
-
-    useEffect(() => {
-
-    }, [props.menu])
+    }
 
     const onGenerateOrder = async () => {
         setLoading(true)
@@ -102,6 +126,7 @@ export const TableManager = (props: any) => {
         setMenu(data)
         setOpenOrderForm(true)
         setOrderFormIsNew(true)
+        setOrderFormActions(true)
     }
 
     const onEditTable = () => {
@@ -198,6 +223,22 @@ export const TableManager = (props: any) => {
         setOpenQRDisplay(false)
     }
 
+    const showOrder = (order) => {
+        const index = orders.findIndex(o => o.id === order.id)
+
+        if(index !== -1){
+            setOrderFormActions(false)
+            setOrderFormIsNew(false)
+            // setOrderToShow(orders[index])
+            setSelectedOrder(orders[index])
+            setOpenOrderForm(true)
+        }
+    }
+
+    const onOrderClosed = () => {
+        props.onOrderClosed(table.tableCode)
+    }
+
     return (
         <Container maxWidth={false}>
             <Grid 
@@ -227,7 +268,11 @@ export const TableManager = (props: any) => {
  
                 {table !== null ? 
                     <Grid item xs={3}>
-                        <Typography variant='h4'>Mesa {table.number}</Typography>
+                        <Typography 
+                            textAlign={'center'}
+                            variant='h4'>
+                            Mesa {table.number}
+                        </Typography>
                     </Grid>
                 :
                     null
@@ -261,6 +306,7 @@ export const TableManager = (props: any) => {
                     <DataTable 
                         headers={orderHeaders}
                         rows={orderRows}
+                        onShow={showOrder}
                         actionsType={'show-cancel'}
                         onCancel={onCancelOrder}/>
                 </Grid>
@@ -269,16 +315,23 @@ export const TableManager = (props: any) => {
             <OrderForm 
                 open={openOrderForm}
                 menu={menu}
+                // order={orderToShow}
+                order={selectedOrder}
+                actions={orderFormActions}
                 isNew={orderFormIsNew}
                 onClose={onOrderFormClose}
-                onSubmit={props.createOrder}/>
+                onSubmit={props.createOrder}
+                onOrderPreparation={props.onOrderPreparation}
+                onOrderDelivered={props.onOrderDelivered}
+                onOrderClosed={onOrderClosed}/>
 
             <TableForm
                 isNew={false}
+                sectors={props.sectors}
                 table={table}
+                onSubmit={props.updateTable}
                 open={openTableForm}
                 onClose={onCloseTableForm}/>
-
 
             <QRDisplay
                 open={openQRDisplay}
@@ -303,6 +356,7 @@ export const TableManager = (props: any) => {
 TableManager.defaultProps =
 {
     orders: [],
+    sectors: [],
     table: null,
     menu: [],
     deleteTable: function(){},
@@ -311,13 +365,19 @@ TableManager.defaultProps =
     onOpenOrderForm: function(){},
     displayQR: function(){},
     goBack: function(){},
-    createOrder: function(){}
+    createOrder: function(){},
+    updateTable: function(){},
+    onOrderPreration: function(){},
+    onOrderDelivered: function(){},
+    onOrderClosed: function(){}
+
 }
 
 TableManager.propTypes =
 {
     orders: PropTypes.array,
     table: PropTypes.object,
+    sectors: PropTypes.array,
     menu: PropTypes.array,
     onOpenOrderForm: PropTypes.func,
     deleteTable: PropTypes.func,
@@ -325,5 +385,9 @@ TableManager.propTypes =
     generateQR: PropTypes.func,
     onQRDownload: PropTypes.func,
     goBack: PropTypes.func,
-    createOrder: PropTypes.func
+    createOrder: PropTypes.func,
+    updateTable: PropTypes.func,
+    onOrderPreparation: PropTypes.func,
+    onOrderDelivered: PropTypes.func,
+    onOrderClosed: PropTypes.func
 }

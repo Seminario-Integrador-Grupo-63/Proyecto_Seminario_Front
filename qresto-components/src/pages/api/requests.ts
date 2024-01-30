@@ -59,6 +59,74 @@ export async function getOrders(tableCode){
     return response.data
 }
 
+export async function postOrderDetail(orderDetail, tableCode){
+    const response = await axios.post<any>(url + `/order/detail/${tableCode}`, orderDetail)
+}
+
+export async function postOrder(order, tableCode){
+    console.log(' ')
+    console.log('requests postOrder(order, tableCode)')
+    console.log('order: ', order)
+    console.log('tableCode: ', tableCode)
+    try{
+        const response = await axios.post(url + `/order/creation/${tableCode}`, order)
+        return true
+    } catch(error){
+        return false
+    }
+}
+
+export async function deleteOrderDetail(tableCode, orderDetail){
+    const response = await axios.delete<any>(url + `/order/detail/${tableCode}`, {data: orderDetail})
+}
+
+export async function cancelOrder(orderId){
+    console.log(' ')
+    console.log('requests cancelOrder(orderId)')
+    console.log('orderId: ', orderId)
+    try{
+        const response = await axios.post(url + `/order/cancelled/${orderId}`)
+        return true
+    } catch {
+        return false
+    }
+}
+
+export async function confirmOrder(customer, tableCode){
+    try{
+        await axios.post<any>(url + `/order/${tableCode}?customer_name=${customer}`)
+        return true
+    }catch (error){
+        return false
+    }
+}
+
+export async function postOrderPreparation(orderId){
+    try{
+        await axios.post(url + `/order/preparation/${orderId}`)
+        return true
+    }catch(error) {
+        return false
+    }
+}
+
+export async function postOrderDelivered(orderId){
+    try{
+        await axios.post(url + `/order/deliverd/${orderId}`)
+        return true
+    }catch(error) {
+        return false
+    }
+}
+
+export async function postOrderClosed(tableCode){
+    try{
+        await axios.post(url + `/table/${tableCode}/bill`)
+        return true
+    }catch (error){
+        return false
+    }
+}
 export async function getDish(id){
     const responseDish = await axios.get<any>(url + `/dish/${id}`)
     const dish = buildDish(responseDish)
@@ -91,37 +159,15 @@ export async function getMenu(){
     return data
 }
 
-export async function postOrderDetail(orderDetail, tableCode){
-    const response = await axios.post<any>(url + `/order/detail/${tableCode}`, orderDetail)
-}
-
-export async function postOrder(order, tableCode){
-    console.log(' ')
-    console.log('requests postOrder(order, tableCode)')
-    console.log('order: ', order)
-    console.log('tableCode: ', tableCode)
-    try{
-        const response = await axios.post(url + `/order/creation/${tableCode}`, order)
-        return true
-    } catch(error){
-        return false
-    }
-}
-
-export async function confirmOrder(customer, tableCode){
-    const response = await axios.post<any>(url + `/order/${tableCode}?customer_name=${customer}`)
-}
-
 export async function getTablesGrid(){
     console.log(' ')
     console.log('requests getTablesGrid()')
-
+    
     try{
         const headers = {
             'restaurant-id': 1
         }
         const response = await axios.get<any>(url + '/table/grid', {headers})
-        console.log('response: ', response)
         const data = buildTableGrid(response.data)
         console.log('data: ', data)
         return data
@@ -131,12 +177,8 @@ export async function getTablesGrid(){
 }
 
 export async function getTable(id){
-    console.log(' ')
-    console.log('requests getTable(id)')
-    console.log('id: ', id)
     try{
         const response = await axios.get(url + `/table/${id}`)
-        console.log('response: ', response)
         return response.data
     }catch {
         return false
@@ -149,8 +191,6 @@ export async function getSectors(restaurantId){
             'restaurant-id': restaurantId
         }
         const response = await axios.get<any>(url + '/table/sector', {headers})
-        console.log('response: ', response)
-        // console.log('data: ', data)
         return response.data
     } catch(error) {
         return []
@@ -158,12 +198,8 @@ export async function getSectors(restaurantId){
 }
 
 export async function getBill(tableCode){
-    const response = await axios.get<any>(url + `/table/${tableCode}/bill`)
+    const response = await axios.get(url + `/table/${tableCode}/bill`)
     return response.data
-}
-
-export async function deleteOrderDetail(tableCode, orderDetail){
-    const response = await axios.delete<any>(url + `/order/detail/${tableCode}`, {data: orderDetail})
 }
 
 export async function updateDishPrice(restaurantId, dishId, percentage) {
@@ -187,7 +223,6 @@ export async function loginRestaurant(user):Promise<Array<any>> {
         // Guardar user data
         console.log(user)
         return response.data
-
     } catch (error){
         return []
     }
@@ -244,18 +279,6 @@ export async function confirmUpdatePrices(req) {
         const response = await axios.get(url + '/')
         return response.data
     } catch (error) {
-        return false
-    }
-}
-
-export async function cancelOrder(orderId){
-    console.log(' ')
-    console.log('requests cancelOrder(orderId)')
-    console.log('orderId: ', orderId)
-    try{
-        const response = await axios.post(url + `/order/cancelled/${orderId}`)
-        return true
-    } catch {
         return false
     }
 }

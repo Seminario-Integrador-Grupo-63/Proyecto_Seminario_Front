@@ -144,411 +144,475 @@ export const sectors1 = [
     },
 ]
 
-export const sectors2 = [
+export const grid = [
     {
-      "sector": "1",
+      "sector": {
+        "id": 1,
+        "name": "Planta Baja",
+        "restaurant": 1,
+        "is_active": true
+      },
       "tables": [
         {
-          "id": 1,
-          "tableCode": "0ab9f8b9-d5a8-42a0-863b-e03373d43bbb",
+          "id": 2,
+          "tableCode": "5a4df26a-7dbc-4b66-90d2-3050fdf57958",
           "restaurant": 1,
           "sector": 1,
           "state": "free",
-          "number": 1
+          "number": 2,
+          "is_active": true
         },
         {
           "id": 3,
-          "tableCode": "d6457acd-627b-4bb6-99e6-2a5c6f011958",
+          "tableCode": "b5c9d5a7-2036-4e2b-8bb1-b464299e5cd8",
           "restaurant": 1,
           "sector": 1,
           "state": "free",
-          "number": 3
+          "number": 3,
+          "is_active": true
         },
         {
           "id": 4,
-          "tableCode": "01fd81d8-d148-4877-a60c-7e9a29c031bc",
+          "tableCode": "a1357900-7161-4393-85c7-3179208c243e",
           "restaurant": 1,
           "sector": 1,
           "state": "free",
-          "number": 4
-        },
-        {
-          "id": 6,
-          "tableCode": "6abdc5eb-c64c-482d-a9a4-bab5d16a2695",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "free",
-          "number": 6
+          "number": 4,
+          "is_active": true
         },
         {
           "id": 7,
-          "tableCode": "77fe2097-e696-47eb-b83c-dfde5dcb6a5f",
+          "tableCode": "57f9ace9-b233-48a8-94ba-2c21aa04132f",
           "restaurant": 1,
           "sector": 1,
           "state": "free",
-          "number": 7
-        },
-        {
-          "id": 8,
-          "tableCode": "c80dc780-7685-4fe0-ac25-3636f03a4387",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "free",
-          "number": 8
-        },
-        {
-          "id": 10,
-          "tableCode": "c5d6d39e-8d73-4d51-8aa5-1806da6154d4",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "free",
-          "number": 10
-        },
-        {
-          "id": 11,
-          "tableCode": "6f79bfae-2101-47b5-aa95-0d1df87234a1",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "free",
-          "number": 11
-        },
-        {
-          "id": 12,
-          "tableCode": "b16455b4-32ed-411f-9c10-b546dcda4c50",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "free",
-          "number": 12
-        },
-        {
-          "id": 13,
-          "tableCode": "bc8555bd-be4c-4af8-9324-1cd930207a4c",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "free",
-          "number": 13
-        },
-        {
-          "id": 14,
-          "tableCode": "355aba33-a86b-484b-a2f1-262896254440",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "free",
-          "number": 14
-        },
-        {
-          "id": 15,
-          "tableCode": "b17eda01-081e-4e0d-ae86-6a47255726c1",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "free",
-          "number": 15
-        },
-        {
-          "id": 16,
-          "tableCode": "e87648ef-d496-4bab-b91e-6147f31dadc9",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "free",
-          "number": 16
-        },
-        {
-          "id": 2,
-          "tableCode": "0a7b663a-ff7c-4a68-bc08-3b95e2b4655f",
-          "restaurant": 1,
-          "sector": 1,
-          "state": "waiting",
-          "number": 2
+          "number": 7,
+          "is_active": true
         },
         {
           "id": 9,
-          "tableCode": "19f60ab5-f85d-47b1-93c2-5a76440f9f36",
+          "tableCode": "040526d3-5866-4848-8a32-82a3d668402c",
           "restaurant": 1,
           "sector": 1,
-          "state": "waiting",
-          "number": 9
+          "state": "free",
+          "number": 9,
+          "is_active": true
+        },
+        {
+          "id": 11,
+          "tableCode": "3b021b0b-6842-467a-a8f5-444d0cf9d3e8",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "free",
+          "number": 11,
+          "is_active": true
+        },
+        {
+          "id": 12,
+          "tableCode": "f3a4d098-cf24-4f1e-bdcf-59ff6dfd9abd",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "free",
+          "number": 12,
+          "is_active": true
+        },
+        {
+          "id": 14,
+          "tableCode": "f1f5d5b1-c30e-4e65-afb8-7aee758a7c22",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "free",
+          "number": 14,
+          "is_active": true
+        },
+        {
+          "id": 15,
+          "tableCode": "c287eb5b-9dbe-40fc-8455-5e02993a9eff",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "free",
+          "number": 15,
+          "is_active": true
+        },
+        {
+          "id": 10,
+          "tableCode": "e7bfbf8a-5ca0-46a1-b105-aa69e83d7407",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "occupied",
+          "number": 10,
+          "is_active": true
+        },
+        {
+          "id": 13,
+          "tableCode": "7497c3f2-ca3f-4836-aa26-0a1e20b4c68c",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "occupied",
+          "number": 13,
+          "is_active": true
         },
         {
           "id": 5,
-          "tableCode": "edd2360a-bb84-454d-9e90-2674abefa6bc",
+          "tableCode": "c6ae7eb7-70e0-40e9-9679-2fea37fdb86d",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "occupied",
+          "number": 5,
+          "is_active": true
+        },
+        {
+          "id": 8,
+          "tableCode": "a1413de9-57a7-4732-b022-a0c04b0cb6c8",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "occupied",
+          "number": 8,
+          "is_active": true
+        },
+        {
+          "id": 16,
+          "tableCode": "4068ac45-3785-485a-932d-cbf930804c58",
           "restaurant": 1,
           "sector": 1,
           "state": "payment_ready",
-          "number": 5
-        }
-      ]
-    },
-    {
-      "sector": "2",
-      "tables": [
-        {
-          "id": 17,
-          "tableCode": "72145de2-bb3f-4e53-bdd8-54922bb9c3ad",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 1
-        },
-        {
-          "id": 19,
-          "tableCode": "359857b3-f974-4fb2-8f6d-73dc63fec96d",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 3
-        },
-        {
-          "id": 20,
-          "tableCode": "901c6a09-9a9d-411f-ba23-cf85f569d310",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 4
-        },
-        {
-          "id": 21,
-          "tableCode": "2d167857-a601-44a6-8cd0-7ed3b4e488bb",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 5
-        },
-        {
-          "id": 23,
-          "tableCode": "f6cfaae8-5995-4fc1-825d-f9ed875b829a",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 7
-        },
-        {
-          "id": 24,
-          "tableCode": "da9dd40a-241d-4fc2-8e85-36039ec0e41b",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 8
-        },
-        {
-          "id": 25,
-          "tableCode": "b6145616-0580-491c-b949-76a4f4206a09",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 9
-        },
-        {
-          "id": 26,
-          "tableCode": "8eb917f7-2275-4a79-917c-a42143f403eb",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 10
-        },
-        {
-          "id": 27,
-          "tableCode": "bcdb1f07-0b0e-4f08-8743-84050dd819cb",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 11
-        },
-        {
-          "id": 29,
-          "tableCode": "a2003188-02b9-43dd-b12f-fa521ac453d1",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 13
-        },
-        {
-          "id": 31,
-          "tableCode": "f5b53032-b8da-4bde-818c-614e5ba24262",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 15
-        },
-        {
-          "id": 32,
-          "tableCode": "aa6bdcd2-e60e-48de-93f3-b572fb180fe4",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "free",
-          "number": 16
-        },
-        {
-          "id": 30,
-          "tableCode": "08ed4636-0468-4f50-a2e1-cffd85512480",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "waiting",
-          "number": 14
-        },
-        {
-          "id": 18,
-          "tableCode": "6d4918f7-9626-49db-8228-5b8ddf6d99ee",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "waiting",
-          "number": 2
-        },
-        {
-          "id": 22,
-          "tableCode": "01c23d47-5165-43ea-b2c7-b008e8c9b1a5",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "waiting",
-          "number": 6
-        },
-        {
-          "id": 28,
-          "tableCode": "b7f72a58-7352-49d2-92d9-1e886b62378f",
-          "restaurant": 1,
-          "sector": 2,
-          "state": "payment_ready",
-          "number": 12
+          "number": 16,
+          "is_active": true
         },
         {
           "id": 49,
           "tableCode": "a",
           "restaurant": 1,
-          "sector": 2,
+          "sector": 1,
           "state": "free",
-          "number": 55555
+          "number": 55555,
+          "is_active": true
+        },
+        {
+          "id": 1,
+          "tableCode": "991e69c8-f1e6-4e39-b43a-89cfcdf6b8ac",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "occupied",
+          "number": 1,
+          "is_active": true
+        },
+        {
+          "id": 6,
+          "tableCode": "12466f76-cfe5-4f79-a499-e2c41cecd889",
+          "restaurant": 1,
+          "sector": 1,
+          "state": "occupied",
+          "number": 6,
+          "is_active": true
         }
       ]
     },
     {
-      "sector": "3",
+      "sector": {
+        "id": 2,
+        "name": "Primer piso",
+        "restaurant": 1,
+        "is_active": true
+      },
+      "tables": [
+        {
+          "id": 22,
+          "tableCode": "7beb8a46-824f-4f5e-834d-2f59f8e7ae0b",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "free",
+          "number": 6,
+          "is_active": true
+        },
+        {
+          "id": 23,
+          "tableCode": "da401a25-1829-40dd-927f-73b80826bf97",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "free",
+          "number": 7,
+          "is_active": true
+        },
+        {
+          "id": 24,
+          "tableCode": "f5d424c7-e027-4181-acc6-e506706c536e",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "free",
+          "number": 8,
+          "is_active": true
+        },
+        {
+          "id": 25,
+          "tableCode": "4946a6da-aba7-482f-97e9-fd6db2819020",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "free",
+          "number": 9,
+          "is_active": true
+        },
+        {
+          "id": 26,
+          "tableCode": "eb003bb1-fdad-4c72-af65-89dc5b4b2aa8",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "free",
+          "number": 10,
+          "is_active": true
+        },
+        {
+          "id": 27,
+          "tableCode": "7e01cb54-25ae-4a08-9c7c-9396341cf982",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "free",
+          "number": 11,
+          "is_active": true
+        },
+        {
+          "id": 28,
+          "tableCode": "e8aa214d-068b-4f2a-8e2f-d2c7c7030b23",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "free",
+          "number": 12,
+          "is_active": true
+        },
+        {
+          "id": 32,
+          "tableCode": "6be7d7f8-2a54-40b7-8481-09fdead30dd0",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "free",
+          "number": 16,
+          "is_active": true
+        },
+        {
+          "id": 20,
+          "tableCode": "7fae20aa-6a26-4e7c-8d24-8488862fd40d",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "occupied",
+          "number": 4,
+          "is_active": true
+        },
+        {
+          "id": 30,
+          "tableCode": "f6821496-1325-47ee-bbf6-b16e1fc13ebf",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "occupied",
+          "number": 14,
+          "is_active": true
+        },
+        {
+          "id": 18,
+          "tableCode": "b957d8bc-deb4-472f-9f5a-5544c62e2532",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "occupied",
+          "number": 2,
+          "is_active": true
+        },
+        {
+          "id": 29,
+          "tableCode": "52bde714-a7d9-436c-9eba-0a00a0e4685f",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "occupied",
+          "number": 13,
+          "is_active": true
+        },
+        {
+          "id": 31,
+          "tableCode": "a7da9b68-c21b-4263-a7bb-2db06a0651e8",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "waiting",
+          "number": 15,
+          "is_active": true
+        },
+        {
+          "id": 21,
+          "tableCode": "ca3c1496-7c41-4269-8e03-b945a8b98090",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "occupied",
+          "number": 5,
+          "is_active": true
+        },
+        {
+          "id": 19,
+          "tableCode": "bf9858f0-d3a8-47c2-8e1c-1638b16ba2cb",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "payment_ready",
+          "number": 3,
+          "is_active": true
+        },
+        {
+          "id": 17,
+          "tableCode": "39e53212-7760-4057-a21e-ea7b86390a76",
+          "restaurant": 1,
+          "sector": 2,
+          "state": "payment_ready",
+          "number": 1,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "sector": {
+        "id": 3,
+        "name": "Patio",
+        "restaurant": 1,
+        "is_active": true
+      },
       "tables": [
         {
           "id": 33,
-          "tableCode": "3270a7cc-7e03-453f-8fad-5f53253e8386",
+          "tableCode": "6ec4732b-f4c3-40f8-b433-207a1234878f",
           "restaurant": 1,
           "sector": 3,
           "state": "free",
-          "number": 1
-        },
-        {
-          "id": 34,
-          "tableCode": "2fc6e915-725e-4c5f-a07c-883085546821",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 2
+          "number": 1,
+          "is_active": true
         },
         {
           "id": 35,
-          "tableCode": "f119ebea-c80d-468d-9d4c-edd7ae671237",
+          "tableCode": "3aa7dc2d-72a9-4183-9393-ba1b66564077",
           "restaurant": 1,
           "sector": 3,
           "state": "free",
-          "number": 3
+          "number": 3,
+          "is_active": true
         },
         {
           "id": 36,
-          "tableCode": "0483b05a-b368-4d47-8e27-571726b01483",
+          "tableCode": "f595d0f7-26d4-4d31-9e6e-9fda91df7036",
           "restaurant": 1,
           "sector": 3,
           "state": "free",
-          "number": 4
+          "number": 4,
+          "is_active": true
         },
         {
           "id": 37,
-          "tableCode": "33356b54-ffb9-4bde-9cc9-6353d3225813",
+          "tableCode": "bc19f0ae-c196-424a-8af3-f174c6aff3ca",
           "restaurant": 1,
           "sector": 3,
           "state": "free",
-          "number": 5
+          "number": 5,
+          "is_active": true
         },
         {
           "id": 38,
-          "tableCode": "1b5b6416-2d7a-40f9-bd38-f6fa7c0b51ca",
+          "tableCode": "b835c7b7-606b-4f7a-83c0-40d3bfaa5319",
           "restaurant": 1,
           "sector": 3,
           "state": "free",
-          "number": 6
-        },
-        {
-          "id": 39,
-          "tableCode": "93040324-6f96-41f0-ab17-377ce036df0b",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 7
-        },
-        {
-          "id": 40,
-          "tableCode": "348f3299-2333-4682-951e-b11bf299865c",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 8
-        },
-        {
-          "id": 41,
-          "tableCode": "7cb4f4fc-171f-43d1-9ef0-f376dbd8184d",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 9
-        },
-        {
-          "id": 42,
-          "tableCode": "6a9c0852-eb38-43c4-b86f-5cb3b451b9d1",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 10
-        },
-        {
-          "id": 43,
-          "tableCode": "1e668c7a-d5f0-4eee-bf5a-e926ac37a2c4",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 11
-        },
-        {
-          "id": 44,
-          "tableCode": "659bfc52-787a-4605-a189-09b3c81d8ea4",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 12
-        },
-        {
-          "id": 46,
-          "tableCode": "7aa3e060-3e22-40cf-b8dc-15d569d9e89b",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 14
-        },
-        {
-          "id": 47,
-          "tableCode": "e24154ad-d768-4c60-b851-558e6ad676f3",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 15
-        },
-        {
-          "id": 48,
-          "tableCode": "48cd3e63-f3fe-4745-8b6f-21dde642a866",
-          "restaurant": 1,
-          "sector": 3,
-          "state": "free",
-          "number": 16
+          "number": 6,
+          "is_active": true
         },
         {
           "id": 45,
-          "tableCode": "86cb4f71-f4de-40c0-9ebb-866a7938fc95",
+          "tableCode": "88d6a7f2-b6f7-4489-a39d-2fdb424a4216",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "free",
+          "number": 13,
+          "is_active": true
+        },
+        {
+          "id": 47,
+          "tableCode": "e0f0da99-0d19-4e67-8efa-90221c4ca4a0",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "free",
+          "number": 15,
+          "is_active": true
+        },
+        {
+          "id": 48,
+          "tableCode": "786b98b5-7a0e-4141-a021-36c0b4901f48",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "free",
+          "number": 16,
+          "is_active": true
+        },
+        {
+          "id": 43,
+          "tableCode": "b394b13a-4499-4757-a2b8-e7377536687b",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "occupied",
+          "number": 11,
+          "is_active": true
+        },
+        {
+          "id": 34,
+          "tableCode": "c977e06f-9990-436d-8b87-478cb4e162ba",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "waiting",
+          "number": 2,
+          "is_active": true
+        },
+        {
+          "id": 46,
+          "tableCode": "c0a2a198-04b2-4a6d-960d-ad67cafd2abb",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "waiting",
+          "number": 14,
+          "is_active": true
+        },
+        {
+          "id": 40,
+          "tableCode": "02858d2c-d875-4668-b48b-15b934cbdc13",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "occupied",
+          "number": 8,
+          "is_active": true
+        },
+        {
+          "id": 42,
+          "tableCode": "26151344-358c-4396-ba4f-a98570f04f12",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "waiting",
+          "number": 10,
+          "is_active": true
+        },
+        {
+          "id": 44,
+          "tableCode": "f8323f94-ba50-44f9-9f27-0fdc6d50b20a",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "occupied",
+          "number": 12,
+          "is_active": true
+        },
+        {
+          "id": 39,
+          "tableCode": "f7dc9b92-9e30-47fc-befe-ebdf1a78510c",
           "restaurant": 1,
           "sector": 3,
           "state": "payment_ready",
-          "number": 13
+          "number": 7,
+          "is_active": true
+        },
+        {
+          "id": 41,
+          "tableCode": "7812c1d3-fdf6-4ca5-84d4-debf2d4f65c1",
+          "restaurant": 1,
+          "sector": 3,
+          "state": "payment_ready",
+          "number": 9,
+          "is_active": true
         }
       ]
     }

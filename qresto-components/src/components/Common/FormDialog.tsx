@@ -47,10 +47,15 @@ export const FormDialog = (props: any) => {
                         :
                             null
                         }
-                        <Button onClick={props.onSubmit}
+                        {props.submitVisible?
+                            <Button 
+                                onClick={props.onSubmit}
                                 color='primary'>
-                            {props.submitText}
-                        </Button>
+                                {props.submitText}
+                            </Button>
+                        :
+                            null
+                        }
                     </ThemeProvider>
                     <Button onClick={props.onClose} autoFocus
                             sx={{color: 'black'}}>
@@ -74,7 +79,8 @@ FormDialog.defaultProps =
     maxWidth: 'md',
     action1Visible: false,
     action1Text: 'Action 1',
-    onAction1: function(){}
+    onAction1: function(){},
+    submitVisible: true
 }
 
 FormDialog.propTypes = 
@@ -89,5 +95,6 @@ FormDialog.propTypes =
     maxWidth: PropTypes.string,
     action1Visible: PropTypes.bool,
     action1Text: PropTypes.string,
-    onAction1: PropTypes.func
+    onAction1: PropTypes.func,
+    submitVisible: PropTypes.bool
 }

@@ -10,7 +10,10 @@ import {
     cancelOrder as cancelOrderRequest,
     getMenu,
     postOrder,
-    postQR
+    postQR,
+    postOrderPreparation,
+    postOrderClosed,
+    postOrderDelivered
 } from '@/requests'
 import {FeedbackDialog} from '@/Common/FeedbackDialog/FeedbackDialog'
 import {PanLoader} from '@/Common/PanLoader/PanLoader'
@@ -64,12 +67,16 @@ export default function TableManagerPage() {
         setPositiveFeedback(state)
         if(state){
             if(action === 'cancel-order'){
-                setTextFeedback('La order ha sido cancelada exitosamente')
+                setTextFeedback('La orden ha sido cancelada exitosamente')
+            } else if (action === 'order-state'){
+                setTextFeedback('El estado de la orden ha sido actualizado exitosamente')
             }
 
         } else {
             if(action === 'cancel-order'){
                 setTextFeedback('No se ha podido cancelar la orden')
+            } else if (action === 'order-state'){
+                setTextFeedback('No se ha podido actualizar el estado de la orden')
             }
         }
         setOpenFeedbackDialog(true)
@@ -112,6 +119,48 @@ export default function TableManagerPage() {
         await fetchOrders()
     }
 
+    const updateTable = async (table) => {
+        console.log(' ')
+        console.log('TableManagerPage updateTable(table)')
+        console.log('table: ', table)
+    }
+
+    const onOrderDelivered = async (orderId) => {
+        console.log(' ')
+        console.log('TableManagerPage onOrderDelivered (orderId)')
+        setLoading(true)
+        const result = await postOrderDelivered(orderId)
+        console.log('result: ', result)
+        if(result){
+            await fetchOrders()
+        }
+        triggerFeedback(result, 'order-state')
+        setLoading(false)
+        return result
+    }
+
+    const onOrderPreparation = async (orderId) => {
+        setLoading(true)
+        const result = await postOrderPreparation(orderId)
+        if(result){
+            await fetchOrders()
+        }
+        triggerFeedback(result, 'order-state')
+        setLoading(false)
+        return result
+    }
+
+    const onOrderClosed = async (tableCode) => {
+        setLoading(true)
+        const result = await postOrderClosed(tableCode)
+        if(result){
+            await fetchOrders()
+        }
+        triggerFeedback(result, 'order-state')
+        setLoading(false)
+        return result
+    }
+
     return (<>
         <TableManager
             table={table}
@@ -122,7 +171,11 @@ export default function TableManagerPage() {
             cancelOrder={cancelOrder}
             onQRDownload={onQRDownload}
             goBack={goBack}
-            generateQR={generateQR}/>
+            generateQR={generateQR}
+            updateTable={updateTable}
+            onOrderDelivered={onOrderDelivered}
+            onOrderPreparation={onOrderPreparation}
+            onOrderClosed={onOrderClosed}/>
 
         <PanLoader open={loading}/>
 

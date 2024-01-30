@@ -71,23 +71,28 @@ export const OrderDetailTableRow = (props: any) => {
                     {props.customerOrderDetail.customer}
                 </TableCell>
                 <TableCell align="center">${props.customerOrderDetail.customerTotal}</TableCell>
-                <TableCell align="center">
-                    <IconButton 
-                        aria-label="add"
-                        onClick={onAddOrderDetail}>
-                        <AddCircleIcon/>
-                    </IconButton>
-                    <IconButton 
-                        aria-label="edit"
-                        onClick={onEditCustomer}>
-                        <EditIcon/>
-                    </IconButton>
-                    <IconButton 
-                        aria-label="delete"
-                        onClick={onDeleteCustomerOrderDetail}>
-                        <DeleteIcon/>
-                    </IconButton>
-                </TableCell>
+                {props.actions?
+                    <TableCell align="center">
+                        <IconButton 
+                            aria-label="add"
+                            onClick={onAddOrderDetail}>
+                            <AddCircleIcon/>
+                        </IconButton>
+                        <IconButton 
+                            aria-label="edit"
+                            onClick={onEditCustomer}>
+                            <EditIcon/>
+                        </IconButton>
+                        <IconButton 
+                            aria-label="delete"
+                            onClick={onDeleteCustomerOrderDetail}>
+                            <DeleteIcon/>
+                        </IconButton>
+                    </TableCell>
+                :
+                    null
+                }
+
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -106,7 +111,7 @@ export const OrderDetailTableRow = (props: any) => {
                                     <TableCell>Precio Guarnición</TableCell>
                                     <TableCell>Subtotal</TableCell>
                                     <TableCell>Observaciones</TableCell>
-                                    <TableCell>Acciones</TableCell>
+                                    {props.actions?<TableCell>Acciones</TableCell>:null}
                                 </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -116,18 +121,22 @@ export const OrderDetailTableRow = (props: any) => {
                                                 {orderDetail.dish.name}
                                             </TableCell>
                                             {renderSubRow(orderDetail)}
-                                            <TableCell>
-                                                <IconButton 
-                                                    aria-label="edit"
-                                                    onClick={() => onEditOrderDetail(orderDetail)}>
-                                                    <EditIcon/>
-                                                </IconButton>
-                                                <IconButton 
-                                                    aria-label="delete"
-                                                    onClick={() => onDeleteOrderDetail(orderDetail)}>
-                                                    <DeleteIcon/>
-                                                </IconButton>
-                                            </TableCell>
+                                            {props.actions?
+                                                <TableCell>
+                                                    <IconButton 
+                                                        aria-label="edit"
+                                                        onClick={() => onEditOrderDetail(orderDetail)}>
+                                                        <EditIcon/>
+                                                    </IconButton>
+                                                    <IconButton 
+                                                        aria-label="delete"
+                                                        onClick={() => onDeleteOrderDetail(orderDetail)}>
+                                                        <DeleteIcon/>
+                                                    </IconButton>
+                                                </TableCell>
+                                            :
+                                                null
+                                            }
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -147,7 +156,8 @@ OrderDetailTableRow.defaultProps =
     onEditCustomerOrderDetail: function(){},
     onEditCustomer: function(){},
     onDeleteCustomerOrderDetail: function(){},
-    onDeleteOrderDetail: function(){}
+    onDeleteOrderDetail: function(){},
+    actions: true
 }
 
 OrderDetailTableRow.propTypes = 
@@ -157,5 +167,6 @@ OrderDetailTableRow.propTypes =
     onEditOrderDetail: PropTypes.func,
     onEditCustomer: PropTypes.func,
     onDeleteCustomerOrderDetail: PropTypes.func,
-    onDeleteOrderDetail: PropTypes.func
+    onDeleteOrderDetail: PropTypes.func,
+    actions: PropTypes.bool
 }
