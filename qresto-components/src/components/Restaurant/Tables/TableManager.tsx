@@ -15,6 +15,7 @@ import { MessageDialog } from '@/Common/MessageDialog'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {themeButtonWine, theme} from '@/Common/Theme/themes'
 import { PanLoader } from '@/Common/PanLoader/PanLoader';
+import {QRDisplay} from './QRDisplay/QRDisplay'
 
 export const TableManager = (props: any) => {
     const [orderRows, setOrderRows] = useState([])
@@ -24,6 +25,7 @@ export const TableManager = (props: any) => {
     const [openTableForm, setOpenTableForm] = useState(false)
     const [loading, setLoading] = useState(false)
     const [table, setTable] = useState(null)
+    const [uuidCode, setUuidCode] = useState('')
     const [openMessageDialog, setOpenMessageDialog] = useState(false)
     const [titleMessageDialog, setTitleMessageDialog] = useState('')
     const [textMessageDialog, setTextMessageDialog] = useState('')
@@ -32,6 +34,8 @@ export const TableManager = (props: any) => {
     const [textSubmitButtonMessageDialog, setTextSubmitButtonMessageDialog] = useState('Confirmar')
     const [allowDeleteTable, setAllowDeleteTable] = useState(true)
     const [selectedOrder, setSelectedOrder] = useState(null)
+    const [openQRDisplay, setOpenQRDisplay] = useState(false)
+    const [qrCode, setQRcode] = useState('')
 
     const orderHeaders = [
         {label: 'Total comensales', key: 'totalCustomers'},
@@ -82,9 +86,6 @@ export const TableManager = (props: any) => {
     }, [props.orders])
 
     useEffect(() => {
-        console.log(' ')
-        console.log('TableManager useEffect props.table')
-        console.log('props.table: ',props.table )
         if(props.table !== null){
             setTable(props.table)
         }
@@ -180,6 +181,23 @@ export const TableManager = (props: any) => {
         return props.orders[index]
     }
 
+    const onGenerateQR = async () => {
+        const result = await props.generateQR(table.id)
+        if(result !== null){
+            setQRcode(result.qrCode)
+            setUuidCode(result.uuidCode)
+            setOpenQRDisplay(true)
+        }
+    }
+
+    const onQRDownload = () => {
+        props.onQRDownload(table.id, uuidCode)
+    }
+
+    const onQRDisplayClose = () => {
+        setOpenQRDisplay(false)
+    }
+
     return (
         <Container maxWidth={false}>
             <Grid 
@@ -226,7 +244,7 @@ export const TableManager = (props: any) => {
                         <Button
                             sx={{ marginRight: '5px', marginLeft: '5px' }}
                             variant="contained"
-                            onClick={props.generateQR}>
+                            onClick={onGenerateQR}>
                             Generar QR
                         </Button>
                         <Button
@@ -243,7 +261,7 @@ export const TableManager = (props: any) => {
                     <DataTable 
                         headers={orderHeaders}
                         rows={orderRows}
-                        actionsType='cancel'
+                        actionsType={'show-cancel'}
                         onCancel={onCancelOrder}/>
                 </Grid>
             </Grid>
@@ -260,6 +278,13 @@ export const TableManager = (props: any) => {
                 table={table}
                 open={openTableForm}
                 onClose={onCloseTableForm}/>
+
+
+            <QRDisplay
+                open={openQRDisplay}
+                qrcode={qrCode}
+                onDownload={onQRDownload}
+                onClose={onQRDisplayClose}/>
 
             <MessageDialog
                 open={openMessageDialog}
@@ -282,6 +307,7 @@ TableManager.defaultProps =
     menu: [],
     deleteTable: function(){},
     generateQR: function(){},
+    onQRDownload: function(){},
     onOpenOrderForm: function(){},
     displayQR: function(){},
     goBack: function(){},
@@ -297,6 +323,7 @@ TableManager.propTypes =
     deleteTable: PropTypes.func,
     cancelOrder: PropTypes.func,
     generateQR: PropTypes.func,
+    onQRDownload: PropTypes.func,
     goBack: PropTypes.func,
     createOrder: PropTypes.func
 }

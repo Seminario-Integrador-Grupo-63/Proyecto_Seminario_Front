@@ -75,12 +75,26 @@ export const DataTable = (props: any) => {
         } else if(props.actionsType === 'cancel'){
             return(<>
                 <IconButton 
-                    aria-label="show"
+                    aria-label="cancel"
                     onClick={() => onCancel(row)}>
                     <CancelIcon/>
                 </IconButton>
             </>)
-        } else {
+        } else if (props.actionsType === 'show-cancel'){
+            return(<>
+                <IconButton 
+                    aria-label="show"
+                    onClick={() => onShow(row)}>
+                    <LaunchIcon/>
+                </IconButton>
+
+                <IconButton 
+                    aria-label="cancel"
+                    onClick={() => onCancel(row)}>
+                    <CancelIcon/>
+                </IconButton>
+            </>)
+        }else {
             return (<>
                 <IconButton 
                     aria-label="edit"
@@ -177,7 +191,7 @@ DataTable.propTypes =
     */
 
     actions: PropTypes.bool,
-    actionsType: PropTypes.oneOf(['edit-delete', 'show', 'cancel']),
+    actionsType: PropTypes.oneOf(['edit-delete', 'show', 'cancel', 'show-cancel']),
     onEdit: PropTypes.func,
     onDelete: PropTypes.func,
     onShow: PropTypes.func,

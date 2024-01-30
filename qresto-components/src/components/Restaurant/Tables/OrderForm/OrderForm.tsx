@@ -35,8 +35,8 @@ export const OrderForm = (props: any) => {
             setTitle('Generar Orden')
             setSubmitText('Generar')
         } else {
-            setTitle('Editar Orden')
-            setSubmitText('Actualizar')
+            setTitle('Ver Orden')
+            // setSubmitText('Actualizar')
         }
     }, [props.isNew])
 
@@ -248,10 +248,6 @@ export const OrderForm = (props: any) => {
     }
 
     const submit = () => {
-        console.log(' ')
-        console.log('OrderForm submit()')
-        console.log('order: ', order)
-        console.log('orderToPost: ', orderToPost)
         props.onSubmit(orderToPost)
     }
 

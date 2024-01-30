@@ -9,11 +9,18 @@ import {
 import { Sector } from "./Sector";
 import { themeButtonWine } from "@/Common/Theme/themes";
 import { TableForm } from "./TableForm";
+import { PanLoader as Loader} from '@/Common/PanLoader/PanLoader'
+import { FeedbackDialog } from "@/Common/FeedbackDialog/FeedbackDialog";
+
 const restaurantId = 1
 
 export const TableSchema = ( props: any ) => {
     const [openTableForm, setOpenTableForm] = useState(false)
     const [sectors, setSectors] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false)
+    const [positiveFeedback, setPositiveFeedback] = useState(false)
+    const [textFeedback, setTextFeedback] = useState('')
 
     useEffect(() => {
         setSectors(props.sectors)
@@ -26,6 +33,33 @@ export const TableSchema = ( props: any ) => {
     const onNewSector = () => {
 
     }
+
+    const createTable = async (table) => {
+        setLoading(true)
+        const result = await props.createTable(table)
+        setLoading(false)
+        triggerFeedback(result, 'create-table')
+        setOpenTableForm(false)
+    }
+
+    const triggerFeedback = (state, operation) => {
+        setPositiveFeedback(state)
+        if(state){
+            if(operation === 'create-table'){
+                setTextFeedback('La mesa ha sido creada exitosamente')
+            }
+        } else {
+            if(operation === 'create-table'){
+                setTextFeedback('No se pudo crear la mesa. Por favor, intente de nuevo')
+            }
+        }
+        setOpenFeedbackDialog(true)
+    }
+
+    const closeFeedback = () => {
+        setOpenFeedbackDialog(false)
+    }
+
 
     return (<>
         <Container maxWidth={false}>
@@ -67,8 +101,17 @@ export const TableSchema = ( props: any ) => {
                 sectors={sectors}
                 restaurantId={props.restaurantId}
                 onClose={() => setOpenTableForm(false)}
-                onSubmit={props.createTable}
+                onSubmit={createTable}
                 isNew={true}/>
+
+            <Loader open={loading}/>
+
+            <FeedbackDialog
+                open={openFeedbackDialog}
+                positive={positiveFeedback}
+                text={textFeedback}
+                onClose={closeFeedback}/>
+
         </Container>
     </>)
 }
@@ -80,7 +123,6 @@ TableSchema.defaultProps =
     onTableClick: function(){},
     createTable: function(){},
     restaurantId: 0
-
 }
 
 TableSchema.propTypes =

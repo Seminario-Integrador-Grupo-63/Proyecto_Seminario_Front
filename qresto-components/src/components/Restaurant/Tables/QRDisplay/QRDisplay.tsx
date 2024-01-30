@@ -11,6 +11,7 @@ export const QRDisplay = (props: any) => {
 
     const download = () => {
         helper.generatePDF(props.qrcode)
+        props.onDownload()
     }
 
     return (<>

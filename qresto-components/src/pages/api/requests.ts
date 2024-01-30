@@ -3,10 +3,10 @@ import * as https from 'https';
 import { 
     buildDish,
     buildTableGrid,
-    buildMenu
+    buildMenu,
+    buildSideDish,
+    buildSimpleDish
 } from "./utils";
-import {headers} from "next/headers";
-import * as objectorarray from "objectorarray";
 
 const url = "http://localhost:8000"
 const restaurantId = 1
@@ -14,6 +14,15 @@ const restaurantId = 1
 export async function getQR(tableId){
     const response = await axios.get(url + `/table/${tableId}/qrcode`)
     return response.data
+}
+
+export async function postQR(tableId, uuidCode){
+    try{
+        await axios.post(url + `/table/${tableId}/qrcode?uuid_code=${uuidCode}`)
+        return true
+    } catch (error){
+        return false
+    }
 }
 
 export async function postCustomer(customer, tableCode){
@@ -82,6 +91,10 @@ export async function postOrderDetail(orderDetail, tableCode){
 }
 
 export async function postOrder(order, tableCode){
+    console.log(' ')
+    console.log('requests postOrder(order, tableCode)')
+    console.log('order: ', order)
+    console.log('tableCode: ', tableCode)
     try{
         const response = await axios.post(url + `/order/creation/${tableCode}`, order)
         return true
@@ -243,10 +256,100 @@ export async function cancelOrder(orderId){
 }
 
 export async function postTable(table){
+    console.log(' ')
+    console.log('requests postTable(table)')
+    console.log('table: ', table)
     try{
         const response = await axios.post(url + `/table/`, table)
+        console.log('response: ', response)
         return true
     } catch {
         return false
+    }
+}
+
+export async function deleteDish(dishId: number) {
+    console.log("requests deleteDish(dishId)")
+    console.log("dishId: ", dishId)
+    
+    try {
+        const response = await axios.delete<any>(`${url}/dish/${dishId}`);
+        console.log("response: ", response) 
+        return true;
+    } catch (error) {
+        console.error(`Error al eliminar plato con ID ${dishId}:`, error.response?.data || error.message);
+        console.log('error.response: ', error.response)
+        throw error;
+    }
+}
+
+export async function updateDish(dishId: number, updatedDish: any) {
+    try {
+        const response = await axios.put(`${url}/dish/${dishId}`, updatedDish);
+        return response.data;
+    } catch (error) {
+        console.error(`Error al actualizar plato con ID ${dishId}:`, error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function updateDishInfo(dishId: number, updatedInfo: any) {
+    try {
+        const response = await axios.patch<any>(`${url}/dish/${dishId}`, updatedInfo);
+        return response.data;
+    } catch (error) {
+        console.error(`Error al actualizar información del plato con ID ${dishId}:`, error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function getSideDishes() {
+    /**
+    Guarniciones
+    */
+    console.log(' ')
+    console.log('requests getSideDishes()')
+    
+    try {
+        const headers = {
+            'restaurant-id': restaurantId
+        }
+        const response = await axios.get(url + '/side-dish/', {headers});
+        console.log('response: ', response)
+        const data = buildSideDish(response.data)
+        console.log('data: ', data)
+        return data
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function getSideDish(sideDishId) {
+    try {
+        const response = await axios.get(url + `/side-dish/${sideDishId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener información de guarnición:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function deleteSideDish(sideDishId) {
+    try {
+        const response = await axios.delete(url + `/side-dish/${sideDishId}`);
+        return true;
+    } catch (error) {
+        console.error("Error al eliminar guarnición:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function updateSideDishInfo(sideDishId, updatedInfo) {
+    try {
+        const response = await axios.put(url + `/side-dish/${sideDishId}`, updatedInfo);
+        return response.data;
+    } catch (error) {
+        console.error("Error al actualizar información de guarnición:", error.response?.data || error.message);
+        throw error;
     }
 }

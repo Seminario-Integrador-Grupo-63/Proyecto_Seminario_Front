@@ -9,7 +9,8 @@ import {
     getQR,
     cancelOrder as cancelOrderRequest,
     getMenu,
-    postOrder
+    postOrder,
+    postQR
 } from '@/requests'
 import {FeedbackDialog} from '@/Common/FeedbackDialog/FeedbackDialog'
 import {PanLoader} from '@/Common/PanLoader/PanLoader'
@@ -55,6 +56,10 @@ export default function TableManagerPage() {
 
     }
 
+    const onQRDownload = async (tableId, uuidCode) => {
+        await postQR(tableId, uuidCode)
+    }
+
     const triggerFeedback = (state, action) => {
         setPositiveFeedback(state)
         if(state){
@@ -74,16 +79,14 @@ export default function TableManagerPage() {
         setOpenFeedbackDialog(false)
     }
 
-    const generateQR = async () => {
+    const generateQR = async (tableId) => {
         setLoading(true)
-        const result = await getQR(table.id)
-        setQrcode(result.qrCode)
-        setOpenQRDisplay(true)
+        const result = await getQR(tableId)
         setLoading(false)
-    }
-
-    const onQRDisplayClose = () => {
-        setOpenQRDisplay(false)
+        return {
+            qrCode: result.qrCode,
+            uuidCode: result.uuidCode
+        }
     }
 
     const cancelOrder = async (orderId) => {
@@ -117,13 +120,9 @@ export default function TableManagerPage() {
             onOpenOrderForm={getDishes}
             deleteTable={deleteTable}
             cancelOrder={cancelOrder}
+            onQRDownload={onQRDownload}
             goBack={goBack}
             generateQR={generateQR}/>
-            
-        <QRDisplay
-            open={openQRDisplay}
-            qrcode={qrcode}
-            onClose={onQRDisplayClose}/>
 
         <PanLoader open={loading}/>
 

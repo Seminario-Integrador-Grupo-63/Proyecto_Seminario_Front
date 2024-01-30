@@ -49,10 +49,11 @@ export default function TablesPage() {
     }
 
     const createTable = async (table) => {
-        console.log(' ')
-        console.log('TablesPage createTable(table)')
-        console.log('table: ', table)
-        await postTable(table)
+        setLoading(true)
+        const result = await postTable(table)
+        await fetchGrid()
+        setLoading(false)
+        return result
     }
 
     return (<>
