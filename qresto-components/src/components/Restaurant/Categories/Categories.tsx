@@ -1,10 +1,7 @@
 import styles from './Categories.module.scss';
-import {Grid, 
-        Card,
-    } from '@mui/material'
+import {Grid} from '@mui/material'
 import { useState } from 'react';
 import { ButtonCategory } from '../../Customer/MenuCategories/ButtonCategory'
-import { Layout } from '../Layout/Layout';
 import { CategoriesForm } from './CategoriesForm';
  
 import PropTypes from 'prop-types';

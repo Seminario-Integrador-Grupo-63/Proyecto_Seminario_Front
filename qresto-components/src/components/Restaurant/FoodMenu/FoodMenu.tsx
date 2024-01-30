@@ -9,6 +9,8 @@ import {
 import { CustomTabPanel } from '@/Common/CustomTabPanel';
 import { Dishes } from './Dishes/Dishes';
 import { SideDishes } from './SideDishes';
+import { Categories } from '../Categories/Categories';
+import { categories } from '@/components/Common/FakeData/CategoriesData';
 
 export const FoodMenu = (props: any) => {
     const [value, setValue] = useState(0);
@@ -50,7 +52,7 @@ export const FoodMenu = (props: any) => {
                 <Tab label="Actualizar Precios" />
             </Tabs>
             <CustomTabPanel value={value} index={0}>
-                Categorías
+                <Categories categories={categories}></Categories>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 <Dishes dishes={props.dishes} />
@@ -68,10 +70,12 @@ export const FoodMenu = (props: any) => {
 
 FoodMenu.defaultProps = {
     dishes: [],
-    sideDishes: []
+    sideDishes: [],
+    categories: []
 }
 
 FoodMenu.propTypes = {
     dishes: PropTypes.array,
-    sideDishes: PropTypes.array
+    sideDishes: PropTypes.array,
+    categories: PropTypes.array
 }
