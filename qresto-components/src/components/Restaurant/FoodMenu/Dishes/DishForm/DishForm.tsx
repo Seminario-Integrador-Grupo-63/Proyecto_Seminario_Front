@@ -27,11 +27,12 @@ export const DishForm = (props: any) => {
                 onClose={props.onClose}
                 title={props.isNew ? 'Agregar Plato' : 'Editar Plato'}>
                 <DishFormContent
-                    ref={contentRef}
-                    categories={props.categories}
-                    sideDishes={props.sideDishes}
-                    dish={props.dish}
-                    isNew={props.isNew} />
+    ref={contentRef}
+    categories={props.categories}
+    sideDishes={props.sideDishes}
+    dish={props.dish}
+    isNew={props.isNew}
+/>
             </FormDialog>
         </>
     );

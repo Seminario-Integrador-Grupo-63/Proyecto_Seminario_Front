@@ -86,5 +86,6 @@ SelectorChips.propTypes =
 {
     label: PropTypes.string,
     items: PropTypes.array,
+    onChange: PropTypes.func
 
 }   

@@ -25,6 +25,7 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
 
     const [image, setImage] = useState('')
     const marginBottom = '15px'
+
     const [dish, setDish] = useState({
         name: '',
         description: '',
@@ -33,29 +34,24 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
         categories: null,
         sideDishes: []
     });
-    
+
     useEffect(() => {
         if (props.isNew) {
-            // Nuevo plato, establecer todos los valores en null o valores predeterminados
-            setImage('');
             setDish({
                 name: '',
                 description: '',
                 preparationTime: '',
                 price: '',
-                categories: null, // Puedes establecer categorías en null o en un valor predeterminado
-                sideDishes: [] // Puedes establecer guarniciones en un valor predeterminado
+                categories: null,
+                sideDishes: []
             });
         } else {
-            // Edición de un plato existente, establecer valores según el plato
-            setImage(props.dish.image || '');
-            setDish({
-                ...props.dish
-            });
+            setDish({ ...props.dish });
         }
-    }, [props.dish, props.isNew]);
-    
-    
+    }, [props.isNew, props.dish]);
+
+
+
 
 
     const handlePreparationTimeChange = (preparationTime) => {
@@ -63,7 +59,7 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
     }
 
     useImperativeHandle(ref, () => ({
-        verifyFields(){
+        verifyFields() {
             let isReady = false
             return true
         }
@@ -95,29 +91,29 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
         <Container>
             <Grid container spacing={2}>
                 {/* -----------------------------------------------------Lado izquierdo */}
-                <Grid item xs={6} 
+                <Grid item xs={6}
                     sx={{
                         display: 'flex',
                         flexDirection: 'column'
                     }}>
-                    <Grid 
+                    <Grid
                         sx={{
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'center',
                             marginBottom: marginBottom
                         }}>
-                        
-                        <ImageButton 
+
+                        <ImageButton
                             onChange={onChangeImage}
-                            
-                            image={image}/>
+
+                            image={image} />
                     </Grid>
-                    <Grid sx={{marginBottom: marginBottom}}>
+                    <Grid sx={{ marginBottom: marginBottom }}>
                         <Selector
-                            label={'Categorías'} 
+                            label={'Categorías'}
                             value={props.dish.categories}
-                            items={loadCategories()}/>
+                            items={loadCategories()} />
                     </Grid>
                 </Grid>
 
@@ -127,41 +123,45 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                         display: 'flex',
                         flexDirection: 'column'
                     }}>
-                    <Grid sx={{marginBottom: marginBottom}}>
+                    <Grid sx={{ marginBottom: marginBottom }}>
                         <TextField
                             label={'Nombre del Plato'}
-                            value={props.dish.name}
-                            fullWidth/>
+                            value={dish.name}
+                            fullWidth
+                            onChange={(event) => setDish({ ...dish, name: event.target.value })}
+                        />
                     </Grid>
-                    <Grid sx={{marginBottom: marginBottom}}>
+                    <Grid sx={{ marginBottom: marginBottom }}>
                         <TextField
                             label={'Descripción'}
-                            value={props.dish.description}
+                            value={dish.description}
                             multiline
                             fullWidth
                             maxRows={4}
-                            minRows={4}/>
+                            minRows={4}
+                            onChange={(event) => setDish({ ...dish, description: event.target.value })}
+                        />
                     </Grid>
-                    <Grid sx={{marginBottom: marginBottom}}>
+                    <Grid sx={{ marginBottom: marginBottom }}>
                         <PreparationTimeField onChange={handlePreparationTimeChange}
-                        value={props.dish.preparationTime}/>
+                            value={props.dish.preparationTime} />
                     </Grid>
-                    <Grid sx={{marginBottom: marginBottom}}>
+                    <Grid sx={{ marginBottom: marginBottom }}>
                         <TextField
                             fullWidth
                             type='number'
                             value={props.dish.price}
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>
-                            }}/>
+                            }} />
                     </Grid>
                 </Grid>
-                
+
                 {/* --------------------------------------------------------- Parte de abajo */}
-                <Grid sx={{marginBottom: marginBottom}} item xs={12}>
+                <Grid sx={{ marginBottom: marginBottom }} item xs={12}>
                     <SelectorChips
-                        label={'Guarniciones'}                         
-                        items={loadSideDishes()}/>
+                        label={'Guarniciones'}
+                        items={loadSideDishes()} />
                 </Grid>
             </Grid>
         </Container>
@@ -176,7 +176,7 @@ DishFormContent.defaultProps =
     sideDishes: []
 }
 
-DishFormContent.propTypes = 
+DishFormContent.propTypes =
 {
     dish: PropTypes.object,
     isNew: PropTypes.bool,
