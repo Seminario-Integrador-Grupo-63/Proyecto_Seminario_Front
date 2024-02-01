@@ -52,21 +52,13 @@ export default function App({ Component, pageProps, router }: AppProps) {
 
         const publicPaths = ['/'];
         const path = url.split('?')[0];
-        /*
-        // If already logged in and on login path
-        if (rid && publicPaths.includes(path)) {
-            router.replace({
-                pathname: "/tables/",
-                query: {restaurantId: user.restaurantId}})
-        }*/
+        console.log("Check cookie",getCookie("restaurantId"))
 
-        console.log(rid)
         // redirect to login page if accessing a private page and not logged in
-        if (!rid && !publicPaths.includes(path)) {
+        if (!getCookie("restaurantId") && !publicPaths.includes(path)) {
             setAuthorized(false);
             router.push({
                 pathname: '/',
-                query: { returnUrl: router.asPath }
             });
         } else {
             setAuthorized(true);

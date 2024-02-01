@@ -32,12 +32,15 @@ export default function Home() {
         // If authenticated, save rid, userRole and redirect
         if(result.length == 1){
             // Guardar en el use state el usuario
+            setCookie("restaurantId", result[0].restaurant)
+            setCookie("userRole", result[0].role)
+
             setUserLogin(result[0])
             setRid(result[0].restaurant)
             setUserRole(result[0].role)
-            await router.replace({
-                pathname: "/tables/",
-                query: {restaurantId: user.restaurantId}})
+            console.log(getCookie("restaurantId"))
+            console.log(getCookie("userRole"))
+            await router.replace({pathname: "/tables/",})
 
         } else {
             console.log("User not authenticated")
