@@ -15,6 +15,7 @@ export default function FoodMenuPage() {
     const [actionFeedback, setActionFeedback] = useState('')
 
     useEffect(() => {
+        fetchCategories();
         fetchDishes();
         fetchSideDishes();
     }, []);
