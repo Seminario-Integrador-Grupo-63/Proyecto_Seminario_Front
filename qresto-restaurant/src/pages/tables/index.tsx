@@ -5,8 +5,12 @@ import { TableSchema } from '@/Restaurant/Tables/TableSchema'
 import { PanLoader as Loader} from '@/Common/PanLoader/PanLoader'
 import {
     postTable,
-    getSectors
+    getSectors,
+    postSector,
+    putSector,
+    deleteSector as deleteSectorRequest
 } from '@/requests'
+import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 
 const restaurantId = 1
 
@@ -15,6 +19,9 @@ export default function TablesPage() {
     const [grid, setGrid] = useState([])
     const [sectors, setSectors] = useState([])
     const [loading, setLoading] = useState(false)
+    const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false)
+    const [positiveFeedback, setPositiveFeedback] = useState(false)
+    const [textFeedback, setTextFeedback] = useState('')
 
     useEffect(() => {
         fetchData()
@@ -56,13 +63,76 @@ export default function TablesPage() {
         return result
     }
 
+    const createSector = async (sector) => {
+        setLoading(true)
+        const result = await postSector(sector)
+        if(result){
+            await fetchData()
+        }
+        triggerFeedback(result, 'create-sector')
+        setLoading(false)
+        return result
+    }
+
+    const updateSector = async (sector) => {
+        setLoading(true)
+        const result = await putSector(sector)
+        if(result){
+            await fetchData()
+        }
+        setLoading(false)
+        return result
+    }
+
+    const deleteSector = async (sectorId) => {
+        setLoading(true)
+        const result = await deleteSectorRequest(sectorId)
+        if(result){
+            await fetchData()
+        }
+        triggerFeedback(result, 'delete-sector')
+        setLoading(false)
+    }
+
+    const triggerFeedback = (state, action) => {
+        setPositiveFeedback(state)
+        if(state){
+            if(action === 'create-sector'){
+                setTextFeedback('El sector se ha creado exitosamente')
+            } else if (action === 'delete-sector'){
+                setTextFeedback('El sector se ha eliminado exitosamente')
+            }
+        } else {
+            if(action === 'create-sector'){
+                setTextFeedback('No se ha podido crear el sector')
+            } else if (action === 'delete-sector'){
+                setTextFeedback('No se ha podido eliminar el sector')
+            }
+        }
+        setOpenFeedbackDialog(true)
+    }
+
+    const closeFeedback = () => {
+        setOpenFeedbackDialog(false)
+    }
+
     return (<>
         <TableSchema 
             grid={grid}
             sectors={sectors}
             restaurantId={restaurantId}
             onTableClick={onTableClick}
-            createTable={createTable}/>
+            createTable={createTable}
+            createSector={createSector}
+            updateSector={updateSector}
+            deleteSector={deleteSector}/>
+
         <Loader open={loading}/>
+        
+        <FeedbackDialog
+            open={openFeedbackDialog}
+            positive={positiveFeedback}
+            text={textFeedback}
+            onClose={closeFeedback}/>
     </>)
 }

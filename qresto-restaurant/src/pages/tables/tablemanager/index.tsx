@@ -9,24 +9,29 @@ import {
     getQR,
     cancelOrder as cancelOrderRequest,
     getMenu,
+    getSectors,
     postOrder,
     postQR,
     postOrderPreparation,
     postOrderClosed,
-    postOrderDelivered
+    postOrderDelivered,
+    putTable,
+    deleteTable as deleteTableRequest
 } from '@/requests'
 import {FeedbackDialog} from '@/Common/FeedbackDialog/FeedbackDialog'
 import {PanLoader} from '@/Common/PanLoader/PanLoader'
 
+const restaurantId = 1
+
 export default function TableManagerPage() {
     const [table, setTable] = useState(null)
     const [orders, setOrders] = useState([])
-    const [openQRDisplay, setOpenQRDisplay] = useState(false)
-    const [qrcode, setQrcode] = useState('')
+    const [sectors, setSectors] = useState([])
     const [loading, setLoading] = useState(false)
     const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false)
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
+    const [closeFeedbackAction, setCloseFeedbackAction] = useState('')
     const router = useRouter()
     const searchParams = useSearchParams()
 
@@ -41,9 +46,18 @@ export default function TableManagerPage() {
         }
     }, [table])
 
+    useEffect(() => {
+        fetchSectors()
+    }, [])
+
     const fetchTable = async (tableId) => {
         const table = await getTable(tableId)
         setTable(table)
+    }
+
+    const fetchSectors = async () => {
+        const result = await getSectors(restaurantId)
+        setSectors(result)
     }
 
     const fetchOrders = async () => {
@@ -55,8 +69,11 @@ export default function TableManagerPage() {
         return await getMenu()
     }
 
-    const deleteTable = async () => {
-
+    const deleteTable = async (tableId) => {
+        setLoading(true)
+        const result = await deleteTableRequest(tableId)
+        setLoading(false)
+        triggerFeedback(result, 'delete-table')
     }
 
     const onQRDownload = async (tableId, uuidCode) => {
@@ -70,20 +87,33 @@ export default function TableManagerPage() {
                 setTextFeedback('La orden ha sido cancelada exitosamente')
             } else if (action === 'order-state'){
                 setTextFeedback('El estado de la orden ha sido actualizado exitosamente')
+            } else if (action === 'update-table'){
+                setTextFeedback('La mesa ha sido actualizada exitosamente')
+            } else if (action === 'delete-table'){
+                setTextFeedback('La mesa ha sido eliminada exitosamente')
+                setCloseFeedbackAction('go-back')
             }
-
         } else {
             if(action === 'cancel-order'){
                 setTextFeedback('No se ha podido cancelar la orden')
             } else if (action === 'order-state'){
                 setTextFeedback('No se ha podido actualizar el estado de la orden')
+            } else if (action === 'update-table'){
+                setTextFeedback('No se ha podido actualizar la mesa')
+            }else if (action === 'delete-table'){
+                setTextFeedback('No se ha podido eliminar la mesa')
             }
         }
         setOpenFeedbackDialog(true)
     }
 
     const closeFeedback = () => {
-        setOpenFeedbackDialog(false)
+        if(closeFeedbackAction === ''){
+            setOpenFeedbackDialog(false)
+        } else if (closeFeedbackAction === 'go-back'){
+            setOpenFeedbackDialog(false)
+            goBack()
+        }
     }
 
     const generateQR = async (tableId) => {
@@ -119,18 +149,18 @@ export default function TableManagerPage() {
         await fetchOrders()
     }
 
-    const updateTable = async (table) => {
-        console.log(' ')
-        console.log('TableManagerPage updateTable(table)')
-        console.log('table: ', table)
+    const updateTable = async (tableToUpdate) => {
+        const result = await putTable(tableToUpdate)
+        if(result){
+            await fetchTable(table.id)
+        }
+        triggerFeedback(result, 'update-table')
+        return result
     }
 
     const onOrderDelivered = async (orderId) => {
-        console.log(' ')
-        console.log('TableManagerPage onOrderDelivered (orderId)')
         setLoading(true)
         const result = await postOrderDelivered(orderId)
-        console.log('result: ', result)
         if(result){
             await fetchOrders()
         }
@@ -164,6 +194,7 @@ export default function TableManagerPage() {
     return (<>
         <TableManager
             table={table}
+            sectors={sectors}
             orders={orders}
             createOrder={createOrder}
             onOpenOrderForm={getDishes}

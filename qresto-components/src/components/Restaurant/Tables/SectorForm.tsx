@@ -3,31 +3,20 @@ import PropTypes from 'prop-types';
 import { Grid, TextField } from '@mui/material'
 import { FormDialog } from '@/Common/FormDialog';
 
-export const CustomerForm = (props: any) => {
+export const SectorForm = (props: any) => {
     const [input, setInput] = useState('');
-    const [submitText, setSubmitText] = useState('')
-    const [title, setTitle] = useState('')
+    // const [submitText, setSubmitText] = useState('')
+    // const [title, setTitle] = useState('')
 
-    const handleComensalChange = (event) => {
+    const handleSectorChange = (event) => {
         setInput(event.target.value)
     }
 
-    useEffect(() => {
-        setInput(props.customer)
-    }, [props.customer])
-
-    useEffect(() => {
-        if(props.isNew){
-            setTitle("Crear comensal")
-            setSubmitText("Crear")
-        } else {
-            setTitle("Editar comensal")
-            setSubmitText("Actualizar")
-        }
-    }, [props.isNew])
-
     const onSubmit = () => {
-        props.onSubmit(input)
+        props.onSubmit({
+            name: input,
+            restaurant: props.restaurantId
+        })
         setInput('')
     }
 
@@ -35,37 +24,35 @@ export const CustomerForm = (props: any) => {
         <FormDialog 
             open={props.open}
             maxWidth='sm'
-            title={title}
-            submitText={submitText}
+            title={'Crear sector'}
+            submitText={'Crear'}
             onClose={props.onClose}
             onSubmit={onSubmit}
             closeText='Cancelar'>
             <Grid container alignItems="center" justifyContent="center">
                 <Grid item>
                     <TextField 
-                        label="Comensal"
+                        label="Nombre"
                         value={input}
-                        onChange={handleComensalChange}/>
+                        onChange={handleSectorChange}/>
                 </Grid>
             </Grid>
         </FormDialog>
     </>)
 }
 
-CustomerForm.defaultProps =
+SectorForm.defaultProps =
 {
     open: false,
-    isNew: true,
     onSubmit: function(){},
     onClose: function(){},
-    customer: ''
+    restaurantId: 0
 }
 
-CustomerForm.propTypes =
+SectorForm.propTypes =
 {
     open: PropTypes.bool,
-    isNew: PropTypes.bool,
     onSubmit: PropTypes.func,
     onClose: PropTypes.func,
-    customer: PropTypes.string,
+    restaurantId: PropTypes.number
 }

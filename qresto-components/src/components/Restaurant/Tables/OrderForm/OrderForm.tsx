@@ -16,7 +16,7 @@ import { themeButtonWine } from '@/Common/Theme/themes';
 export const OrderForm = (props: any) => {
     const [orderDetailFormOpen, setOrderDetailFormOpen] = useState(false)
     const [stateButtonText, setStateButtonText] = useState('')
-    const [stateButtonVisible, setStateButtonVisible] = useState(false)
+    // const [stateButtonVisible, setStateButtonVisible] = useState(false)
     const [selectedOrderDetail, setSelectedOrderDetail] = useState(null)
     const [currentState, setCurrentState] = useState('En espera')
     const [isNewOrderDetail, setIsNewOrderDetail] = useState(false)
@@ -26,15 +26,17 @@ export const OrderForm = (props: any) => {
     const [order, setOrder] = useState(null)
     const [selectedCustomer, setSelectedCustomer] = useState('')
     const [isNewCustomer, setIsNewCustomer] = useState(true)
-    const [openMessageDialog, setOpenMessageDialog] = useState(false)
     const [titleMessageDialog, setTitleMessageDialog] = useState('')
     const [descriptionMessageDialog, setDescriptionMessageDialog] = useState('')
     const [actionMessageDialog, setActionMessageDialog] = useState('')
     const [closeText, setCloseText] = useState('Cancelar')
     const [submitButtonVisible, setSubmitButtonVisible] = useState(true)
+    const [openMessageDialog, setOpenMessageDialog] = useState(false)
+    const [submitTextMessageDialog, setSubmitTextMessageDialog] = useState('Confirmar')
+    const [cancelButtonVisibleMessageDialog, setCancelButtonVisibleMessageDialog] = useState(true)
     const messageDialogActions = {
         deleteCustomerOrderDetail: 'delete-customer-order-detail',
-        deleteOrderDetail: 'delete-order-detail'
+        deleteOrderDetail: 'delete-order-detail',
     }
     const stateButtonTexts = {
         processing: 'Confirmar orden',
@@ -222,11 +224,34 @@ export const OrderForm = (props: any) => {
     }
 
     const detailsAreEqual = (d1, d2) => {
+        console.log(' ')
+        console.log('OrderForm detailsAreEqual(d1, d2)')
+        console.log('d1: ', d1)
+        console.log('d2: ', d2)
+
+        if ( typeof d1.dish === 'number' && typeof d2.dish === 'number' ){
+            if(d1.dish !== d2.dish) {
+                return false
+            }
+        } else if ( typeof d1.dish === 'number' && typeof d2.dish === 'object' ){
+            if(d1.dish !== d2.dish.id) {
+                return false
+            }
+        } else if ( typeof d1.dish === 'object' && typeof d2.dish === 'number' ){
+            if(d1.dish.id !== d2.dish) {
+                return false
+            }
+        } else {
+            if(d1.dish.id !== d2.dish.id){
+                return false
+            }
+        }
+
         if(d1.customerName !== d2.customerName){
             return false
         } else if (d1.amount !== d2.amount){
             return false
-        } else if(d1.dish.id !== d2.dish.id){
+        } else if(d1.observation !== d2.observation){
             return false
         } else if (d1.sideDish === null){
             if (d1.sideDish !== d2.sideDish){
@@ -235,8 +260,6 @@ export const OrderForm = (props: any) => {
         } else if(d2.sideDish === null){
             return false
         } else if(d1.sideDish.id !== d2.sideDish.id){
-            return false
-        } else if(d1.observation !== d2.observation){
             return false
         }
         return true
@@ -260,6 +283,7 @@ export const OrderForm = (props: any) => {
 
     const deleteCustomerOrderDetail = () => {
         const index = order.customerOrderDetails.findIndex(customerOrderDetail => customerOrderDetail.customer === selectedCustomer)
+
         if(index !== -1){
             order.customerOrderDetails.splice(index, 1)
             let ord = orderToPost.map(detail => {
@@ -272,17 +296,26 @@ export const OrderForm = (props: any) => {
     }
 
     const deleteOrderDetail = () => {
+        console.log(' ')
+        console.log('OrderForm deleteOrderDetail()')
+        console.log('selectedOrderDetail: ', selectedOrderDetail)
         const i = getOrderDetailIndexes(selectedOrderDetail)
+        console.log('i: ', i)
+
         if(i.customerOrderDetailIndex !== -1 && i.orderDetailIndex !== -1){
             order.customerOrderDetails[i.customerOrderDetailIndex].orderDetails.splice(i.orderDetailIndex, 1)
             let customerTotal = calculateCustomerTotal(order.customerOrderDetails[i.customerOrderDetailIndex].orderDetails)
             order.customerOrderDetails[i.customerOrderDetailIndex].customerTotal = customerTotal
             const index = orderToPost.findIndex(detail => detailsAreEqual(detail, selectedOrderDetail))
+            console.log('index: ', index)
             if(index !== -1){
                 orderToPost.splice(index, 1)
                 setOrderToPost(orderToPost)
             }
         }
+
+        console.log('order: ', order)
+        console.log('orderToPost: ', orderToPost)
     }
 
     const submitMessageDialog = () => {
@@ -292,10 +325,23 @@ export const OrderForm = (props: any) => {
             deleteOrderDetail()
         }
         setOpenMessageDialog(false)
+        setCancelButtonVisibleMessageDialog(true)
+        setSubmitTextMessageDialog('Confirmar')
     }
 
     const submit = () => {
-        props.onSubmit(orderToPost)
+        console.log(' ')
+        console.log('OrderForm submit()')
+        console.log('orderToPost: ', orderToPost)
+        if(orderToPost.length > 0){
+            props.onSubmit(orderToPost)
+        } else {
+            setTitleMessageDialog('No se puede generar la orden')
+            setDescriptionMessageDialog('Debe definir los detalles de su orden para poder generarla')
+            setCancelButtonVisibleMessageDialog(false)
+            setSubmitTextMessageDialog('Aceptar')
+            setOpenMessageDialog(true)
+        }
     }
 
     const clear = () => {
@@ -303,9 +349,6 @@ export const OrderForm = (props: any) => {
     }
 
     const changeState = async () => {
-        console.log(' ')
-        console.log('OrderForm changeState()')
-        console.log('order: ', order)
 
         if(order.state === 'waiting'){
             const result = await props.onOrderPreparation(order.id)
@@ -326,9 +369,9 @@ export const OrderForm = (props: any) => {
             }
         } else if (order.state === 'delivered'){
             const result = await props.onOrderClosed()
-            if(result){
-                setStateButtonVisible(false)
-            }
+            // if(result){
+            //     setStateButtonVisible(false)
+            // }
         }
     }
 
@@ -353,27 +396,28 @@ export const OrderForm = (props: any) => {
                         onDeleteOrderDetail={onDeleteOrderDetail}
                         onAddOrderDetail={onAddOrderDetail}/>
                 </Grid>
-                {/* {props.isNew === false?
-                    <Grid item>
-                        <ThemeProvider theme={themeButtonWine}>
-                            <Button
-                                variant={'contained'}
-                                onClick={changeState}>
-                                {stateButtonText}
-                            </Button>   
-                        </ThemeProvider>
-                    </Grid>
-                    <Grid item >
-                        <Typography 
-                            variant={'subtitle1'}
-                            sx={{paddingTop: '5px', fontWeight: 'bold'}}>
-                            Estado actual: {currentState}
-                        </Typography>
-                    </Grid>
+                {props.isNew === false?
+                    <>
+                        <Grid item>
+                            <ThemeProvider theme={themeButtonWine}>
+                                <Button
+                                    variant={'contained'}
+                                    onClick={changeState}>
+                                    {stateButtonText}
+                                </Button>   
+                            </ThemeProvider>
+                        </Grid>
+                        <Grid item >
+                            <Typography 
+                                variant={'subtitle1'}
+                                sx={{paddingTop: '5px', fontWeight: 'bold'}}>
+                                Estado actual: {currentState}
+                            </Typography>
+                        </Grid>
+                    </>
                 :
                     null
-                } */}
-
+                }
             </Grid>
             {props.actions ? 
                 <Grid>
@@ -401,6 +445,8 @@ export const OrderForm = (props: any) => {
 
             <MessageDialog 
                 open={openMessageDialog}
+                submitButtonText={submitTextMessageDialog}
+                cancelButtonVisible={cancelButtonVisibleMessageDialog}
                 title={titleMessageDialog}
                 onSubmit={submitMessageDialog}
                 description={descriptionMessageDialog}

@@ -11,6 +11,8 @@ import { themeButtonWine } from "@/Common/Theme/themes";
 import { TableForm } from "./TableForm";
 import { PanLoader as Loader} from '@/Common/PanLoader/PanLoader'
 import { FeedbackDialog } from "@/Common/FeedbackDialog/FeedbackDialog";
+import { SectorForm } from "./SectorForm";
+
 
 const restaurantId = 1
 
@@ -21,6 +23,7 @@ export const TableSchema = ( props: any ) => {
     const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false)
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
+    const [openSectorForm, setOpenSectorForm] = useState(false)
 
     useEffect(() => {
         setSectors(props.sectors)
@@ -31,7 +34,7 @@ export const TableSchema = ( props: any ) => {
     }
 
     const onNewSector = () => {
-
+        setOpenSectorForm(true)
     }
 
     const createTable = async (table) => {
@@ -60,6 +63,13 @@ export const TableSchema = ( props: any ) => {
         setOpenFeedbackDialog(false)
     }
 
+    const onDeleteSector = (sector) => {
+        const hasOrders = props.grid.some(s => {
+            if(s.id === sector.id){
+                return s.tables.some(t => t.state !== 'free')
+            }
+        })
+    }
 
     return (<>
         <Container maxWidth={false}>
@@ -90,7 +100,9 @@ export const TableSchema = ( props: any ) => {
                 {props.grid.map((sector, index) => (
                     <Grid item key={index} xs={12}>
                         <Sector 
-                            sector={sector} 
+                            sector={sector}
+                            onUpdate={props.updateSector}
+                            onDelete={onDeleteSector}
                             onTableClick={props.onTableClick}/>
                     </Grid>
                 ))}
@@ -103,6 +115,12 @@ export const TableSchema = ( props: any ) => {
                 onClose={() => setOpenTableForm(false)}
                 onSubmit={createTable}
                 isNew={true}/>
+
+            <SectorForm
+                open={openSectorForm}
+                restaurantId={props.restaurantId}
+                onClose={() => setOpenSectorForm(false)}
+                onSubmit={props.createSector}/>
 
             <Loader open={loading}/>
 
@@ -122,7 +140,10 @@ TableSchema.defaultProps =
     grid: [],
     onTableClick: function(){},
     createTable: function(){},
-    restaurantId: 0
+    restaurantId: 0,
+    createSector: function(){},
+    updateSector: function(){},
+    deleteSector: function(){}
 }
 
 TableSchema.propTypes =
@@ -131,5 +152,8 @@ TableSchema.propTypes =
     grid: PropTypes.array,
     onTableClick: PropTypes.func,
     createTable: PropTypes.func,
-    restaurantId: PropTypes.number
+    restaurantId: PropTypes.number,
+    createSector: PropTypes.func,
+    updateSector: PropTypes.func,
+    deleteSector: PropTypes.func
 }

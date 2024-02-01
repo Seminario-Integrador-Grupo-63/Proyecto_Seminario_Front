@@ -33,7 +33,12 @@ export function buildTableGrid(data){
             restaurant: s.sector.restaurant,
             tables: s.tables.map(table => {
                 return {
-                    ...table,
+                    id: table.id,
+                    tableCode: table.tableCode,
+                    restaurant: table.restaurant,
+                    sector: table.sector,
+                    state: table.state,
+                    number: table.number,
                     isActive: table.is_active
                 }
             })

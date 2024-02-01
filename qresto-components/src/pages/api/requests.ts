@@ -197,6 +197,34 @@ export async function getSectors(restaurantId){
     }
 }
 
+export async function postTable(table){
+    try{
+        const response = await axios.post(url + `/table/`, table)
+        return true
+    } catch {
+        return false
+    }
+}
+
+export async function putTable(table){
+    try{
+        const response = await axios.put(url + `/table/`, table)
+        return true
+    } catch {
+        return false
+    }
+}
+
+export async function deleteTable(tableId){
+    try{
+        const response = await axios.delete(url + `/table/${tableId}`)
+        return true
+    } catch {
+        return false
+    }
+}
+
+
 export async function getBill(tableCode){
     const response = await axios.get(url + `/table/${tableCode}/bill`)
     return response.data
@@ -279,19 +307,6 @@ export async function confirmUpdatePrices(req) {
         const response = await axios.get(url + '/')
         return response.data
     } catch (error) {
-        return false
-    }
-}
-
-export async function postTable(table){
-    console.log(' ')
-    console.log('requests postTable(table)')
-    console.log('table: ', table)
-    try{
-        const response = await axios.post(url + `/table/`, table)
-        console.log('response: ', response)
-        return true
-    } catch {
         return false
     }
 }
@@ -379,5 +394,35 @@ export async function updateSideDishInfo(sideDishId, updatedInfo) {
     } catch (error) {
         console.error("Error al actualizar información de guarnición:", error.response?.data || error.message);
         throw error;
+    }
+}
+
+export async function postSector(sector){
+    console.log(' ')
+    console.log('requests postSector(sector)')
+    console.log('sector: ', sector)
+    try{
+        const response = await axios.post(url + '/table/sector', sector)
+        return true
+    }catch(error){
+        return false
+    }
+}
+
+export async function putSector(sector){
+    try{
+        const response = await axios.put(url + '/table/sector', sector)
+        return true
+    }catch(error){
+        return false
+    }
+}
+
+export async function deleteSector(sectorId){
+    try{
+        const response = await axios.delete(url + `/table/sector/${sectorId}`)
+        return true
+    }catch(error){
+        return false
     }
 }

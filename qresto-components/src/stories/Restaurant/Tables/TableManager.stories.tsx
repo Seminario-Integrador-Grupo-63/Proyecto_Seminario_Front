@@ -24,9 +24,17 @@ export const TableManagerWithOrders: Story = {
         const onOpenOrderForm = () => {
             return menuData
         }
+
+        const createOrder = (order) => {
+            console.log(' ')
+            console.log('TableManager.stories createOrder(order)')
+            console.log('order: ', order)
+        }
+
         return(<>
             <TableManager 
                 table={grid[0].tables[0]}
+                createOrder={createOrder}
                 sectors={sectors}
                 onOpenOrderForm={onOpenOrderForm}
                 menu={menuData}
