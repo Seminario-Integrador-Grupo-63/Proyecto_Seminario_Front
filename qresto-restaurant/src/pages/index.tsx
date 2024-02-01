@@ -1,16 +1,24 @@
 import { useRouter } from 'next/router'
 import { Login } from '@/Restaurant/Login/Login'
 import {loginRestaurant} from "@/requests";
-import {useState} from "react";
-import {setCookie} from "@/pages/api/utils";
+import {useEffect, useState} from "react";
+import {getCookie, setCookie} from "cookies-next";
 
 
 export default function Home() {
-    const [rid, setRId] = useState(null)
+    const [rid, setRid] = useState()
     const router = useRouter()
-    const [userLogin, setUserLogin] = useState(null)
+    const [userLogin, setUserLogin] = useState()
     const [userRole, setUserRole] = useState()
 
+
+    // UseEffect que setean cookies al cambiar los UseState correspondientes
+    useEffect(() => {
+        setCookie("restaurantId", rid)
+    }, [rid]);
+    useEffect(() => {
+        setCookie("userRole", userRole)
+    }, [userRole]);
 
     // useEffect(() => {
     //     if (router.asPath === '/') {
@@ -19,16 +27,17 @@ export default function Home() {
     // }, []);
 
     const singIn = async (user) => {
+        // Request login
         const result = await loginRestaurant(user)
-        // Pendiente bloquear urls
+        // If authenticated, save rid, userRole and redirect
         if(result.length == 1){
             // Guardar en el use state el usuario
             setUserLogin(result[0])
-            setRId(result[0].restaurantId)
+            setRid(result[0].restaurant)
             setUserRole(result[0].role)
-            setCookie("restaurantId", rid)
-            setCookie("userRole", userRole)
-            await router.replace({pathname: "/tables/", query: {restaurantId: user.restaurantId}})
+            await router.replace({
+                pathname: "/tables/",
+                query: {restaurantId: user.restaurantId}})
 
         } else {
             console.log("User not authenticated")

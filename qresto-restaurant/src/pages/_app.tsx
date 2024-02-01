@@ -3,27 +3,41 @@ import type { AppProps } from 'next/app'
 import { Layout } from '@/Restaurant/Layout/Layout'
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import {getCookie} from "qresto-components/src/pages/api/utils";
+import {getCookie} from "cookies-next";
+/*
+import { getCookie, setCookie, deleteCookie } from 'qresto-components/src/pages/api/utils';
+*/
+
 
 export default function App({ Component, pageProps, router }: AppProps) {
 
 
-    const router2 = useRouter();
-    const [restaurantId, setRestaurantId] = useState(null);
+    // UseState con el id de Restaurant y rol de usuario
+    const [rid, setRid] = useState(null);
+    const [role, setRole] = useState(null);
+    // const router = useRouter();
     const [authorized, setAuthorized] = useState(false);
 
+    // Función que lee los RId y Role desde el localStorage
+     function readUser() {
+         const restaurantId = getCookie("restaurantId")
+         const userRol = getCookie("UserRole")
+         if (restaurantId) { setRid(restaurantId); }
+         if (userRol) { setRole(userRol); }
+    }
+
     useEffect(() => {
-        // on initial load - run auth check
+        // On initial load - run authCheck
         authCheck(router.asPath);
 
-        // on route change start - hide page content by setting authorized to false
+        // On route change start - hide page content by setting authorized to false
         const hideContent = () => setAuthorized(false);
         router.events.on('routeChangeStart', hideContent);
 
-        // on route change complete - run auth check
+        // On route change complete - run auth check
         router.events.on('routeChangeComplete', authCheck)
 
-        // unsubscribe from events in useEffect return function
+        // Unsubscribe from events in useEffect return function
         return () => {
             router.events.off('routeChangeStart', hideContent);
             router.events.off('routeChangeComplete', authCheck);
@@ -33,13 +47,22 @@ export default function App({ Component, pageProps, router }: AppProps) {
     }, []);
 
     function authCheck(url) {
-        const log = getCookie("restaurantId")
-        // redirect to login page if accessing a private page and not logged in
-        setRestaurantId(log);
+        // On execution - readUser
+        readUser()
+
         const publicPaths = ['/'];
         const path = url.split('?')[0];
-        console.log(restaurantId)
-        if (!restaurantId && !publicPaths.includes(path)) {
+        /*
+        // If already logged in and on login path
+        if (rid && publicPaths.includes(path)) {
+            router.replace({
+                pathname: "/tables/",
+                query: {restaurantId: user.restaurantId}})
+        }*/
+
+        console.log(rid)
+        // redirect to login page if accessing a private page and not logged in
+        if (!rid && !publicPaths.includes(path)) {
             setAuthorized(false);
             router.push({
                 pathname: '/',

@@ -17,7 +17,7 @@ export default function UpdatePricesPage() {
         setCategoryOptions(fetchedCategories)
     }
     const updatePricesPreview = async (rid, req) => {
-        const updatePreview = await getUpdatedPrices(req)
+        const updatePreview = await getUpdatedPrices(req, rid)
         setUpdateConfirmId(updatePreview.prices_code)
         setProductList(updatePreview.dishPrices)
     }
@@ -32,6 +32,8 @@ export default function UpdatePricesPage() {
             categoryOptions={categoryOptions}
             updateOptions={updateOptions}
             productList={productList}
+            onSubmit={updatePricesPreview}
+            onConfirm={confirmUpdate}
 
         />
 

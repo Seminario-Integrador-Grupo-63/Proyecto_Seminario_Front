@@ -1,3 +1,6 @@
+import {router} from "next/client";
+
+
 export function buildDish(data){
     const dish = {
         ...data.data.dish,
@@ -79,10 +82,10 @@ export function buildSideDish(data){
     })
     return sideDishes
 }
-
 /*
+/!*
  * General utils for managing cookies in Typescript.
- */
+ *!/
 export function setCookie(name: string, val: string) {
     const date = new Date();
     const value = val;
@@ -111,4 +114,24 @@ export function deleteCookie(name: string) {
 
     // Set it
     document.cookie = name+"=; expires="+date.toUTCString()+"; path=/";
+}*/
+
+// Set cookie
+/*
+export const setCookie = (key:string, value:string) => {
+    cookies().set(key, value, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7,
+    })
+};
+// Get cookie
+export const getCookie = (name:string) => {
+    return cookies().get(name)
 }
+
+// Delete cookie
+export const deleteCookie = (name:string) => {
+    cookies().delete(name)
+};
+*/
+
