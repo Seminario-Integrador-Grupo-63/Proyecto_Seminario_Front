@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes } from '@/requests';
+import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories } from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 
 export default function FoodMenuPage() {
+    const [categories, setCategories] = useState([]);
     const [dishes, setDishes] = useState([]);
     const [sidedishes, setSideDishes] = useState([]);
     const router = useRouter();
@@ -17,6 +18,20 @@ export default function FoodMenuPage() {
         fetchDishes();
         fetchSideDishes();
     }, []);
+
+    const fetchCategories = async () => {
+        console.log(' ')
+        console.log('index fetchCategories()')
+        console.log(': ', )
+        try {
+            const result = await getCategories();
+            console.log('result: ', result)
+            setCategories(result);
+        } catch (error) {
+            console.error("Error al obtener categorias:", error);
+        }
+    };
+
 
     const fetchDishes = async () => {
         console.log(' ')
@@ -146,7 +161,9 @@ export default function FoodMenuPage() {
     }
 
     return (<>
-        <FoodMenu dishes={dishes} 
+        <FoodMenu
+            dishes={dishes}
+            categories={categories}
             deleteDish={handleDeleteDish}
             sideDishes={sidedishes}
             deleteSideDish={handleDeleteSideDish}
