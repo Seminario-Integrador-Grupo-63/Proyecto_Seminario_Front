@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories, deleteCategory } from '@/requests';
+import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories, deleteCategory, updateCategory, createCategory } from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 
 export default function FoodMenuPage() {
@@ -56,6 +56,25 @@ export default function FoodMenuPage() {
 
         }
     };
+
+    const handleUpdateCategory = async (category) => {
+        try {
+            await updateCategory(category);
+            await fetchCategories();
+        } catch (error) {
+            console.error("Error al actualizar información de la categoria:", error);
+        }
+    }
+
+    const handleCreateCategory = async (category) => {
+        //console.log('debug create category')
+        try {
+            await createCategory(category);
+            await fetchCategories();
+        } catch (error) {
+            console.error("Error al crear la nueva categoria:", error);
+        }
+    }
 
     const fetchDishes = async () => {
         console.log(' ')
@@ -193,6 +212,8 @@ export default function FoodMenuPage() {
             deleteSideDish={handleDeleteSideDish}
            // updateDish={handleEditDish} 
             deleteCategory={handleDeleteCategory}
+            createCategory={handleCreateCategory}
+            updateCategory={handleUpdateCategory}
              />
 
         <FeedbackDialog

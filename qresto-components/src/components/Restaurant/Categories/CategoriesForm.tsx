@@ -37,7 +37,7 @@ export const CategoriesForm = (props: any) => {
         setCategoryName(event.target.value)
     }
     const deleteCategory=()=>{
-        console.log('debug categoriesForm')
+        //console.log('debug delete category')
         props.onDelete(props.category)
         props.onClose()
     }
@@ -48,6 +48,8 @@ export const CategoriesForm = (props: any) => {
                 name: categoryName,
                 image: categoryImage
             }
+            props.onCreate(category)
+            //console.log('debug create category')
         }
         else{
             category = {
@@ -55,8 +57,12 @@ export const CategoriesForm = (props: any) => {
                 name: categoryName,
                 image: categoryImage
             }
+            props.onUpdate(category)
+            //console.log('debug update category')
         }
-        props.onUpdate(category)
+        setCategoryName(null)
+        setCategoryImage(null)
+        props.onClose()
     }
     return (<>
         <FormDialog 
@@ -64,8 +70,8 @@ export const CategoriesForm = (props: any) => {
             open={props.open}
             closeText='Cerrar'
             onClose={props.onClose}
-            submitText='Actualizar'
-            onSubmit={props.onUpdate}
+            submitText={props.isNew ? "Crear" : "Actualizar"}
+            onSubmit={updateCategory}
             maxWidth='sm'
             action1Visible
             action1Text= 'Eliminar'
@@ -120,9 +126,10 @@ CategoriesForm.defaultProps =
 {
     isNew: true,
     open: false,
+    onCreate: function(){},
     onUpdate: function(){},
-    onClose: function(){},
     onDelete: function(){},
+    onClose: function(){},
     category: null,
 }
 
@@ -130,8 +137,9 @@ CategoriesForm.propTypes =
 {
     isNew: PropTypes.bool,
     open: PropTypes.bool,
+    onCreate: PropTypes.func,
     onUpdate: PropTypes.func,
-    onClose: PropTypes.func,
     onDelete: PropTypes.func,
+    onClose: PropTypes.func,
     category: PropTypes.object,
 }

@@ -379,12 +379,43 @@ export async function updateSideDishInfo(sideDishId, updatedInfo) {
     }
 }
 
-export async function deleteCategory(categoryId) {
+export async function deleteCategory(categoryId: number) {
     try {
         const response = await axios.delete(url + `/category/${categoryId}`);
         return true;
     } catch (error) {
         console.error("Error al eliminar categoria:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function updateCategory(updatedCategory: any) {
+    try {
+        const body = {
+            "id": updatedCategory.id,
+            "name": updatedCategory.name,
+            "image": updatedCategory.image,
+            "restaurant": restaurantId
+          }
+        const response = await axios.put(url + '/category/', body);
+        return response.data;
+    } catch (error) {
+        console.error(`Error al actualizar categoria con ID ${updatedCategory.id}:`, error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function createCategory(newCategory: any) {
+    try {
+        const body = {
+            "name": newCategory.name,
+            "image": newCategory.image,
+            "restaurant": restaurantId
+            }
+        const response = await axios.post(url + '/category/', body);
+        return response.data;
+    } catch (error) {
+        console.error(`Error al crear la nueva categoria:`, error.response?.data || error.message);
         throw error;
     }
 }

@@ -50,7 +50,12 @@ export const FoodMenu = (props: any) => {
                 <Tab label="Actualizar Precios" />
             </Tabs>
             <CustomTabPanel value={value} index={0}>
-                <Categories categories={props.categories} onDelete={props.deleteCategory}/>
+                <Categories
+                    categories={props.categories}
+                    onDelete={props.deleteCategory}
+                    onUpdate={props.updateCategory}
+                    onCreate={props.createCategory}
+                    />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 <Dishes dishes={props.dishes} deleteDish={props.deleteDish}/>
@@ -71,8 +76,10 @@ FoodMenu.defaultProps = {
     sideDishes: [],
     categories: [],
     deleteDish: function(){},
-    deleteSideDish:function(){},
-    deleteCategory:function(){}
+    deleteSideDish: function(){},
+    deleteCategory: function(){},
+    crateCategory: function(){},
+    updatecategory: function(){}
 }
 
 FoodMenu.propTypes = {
@@ -81,5 +88,7 @@ FoodMenu.propTypes = {
     categories: PropTypes.array,
     deleteDish: PropTypes.func,
     deleteSideDish: PropTypes.func,
-    deleteCategory: PropTypes.func
+    deleteCategory: PropTypes.func,
+    createCategory: PropTypes.func,
+    updateCategory: PropTypes.func
 }

@@ -66,6 +66,7 @@ export const Categories = (props: any) => {
                     isNew={isNew}
                     open={open}
                     onClose={handleClose}
+                    onCreate={props.onCreate}
                     onUpdate={props.onUpdate}
                     onDelete={props.onDelete}
                     category={selectedCategory}/>
@@ -76,6 +77,7 @@ Categories.defaultProps =
 {
     categories: [],
     // onClickCategory: function(){},
+    onCreate: function(){},
     onUpdate: function(){},
     onDelete: function(){}
   // Acá van los valores por default de los atributos en caso de que no se pasen desde el pader
@@ -85,6 +87,7 @@ Categories.propTypes =
 {
     categories: PropTypes.array,
     // onClickCategory: PropTypes.func,
+    onCreate: PropTypes.func,
     onUpdate: PropTypes.func,
     onDelete: PropTypes.func
   // Acá se definen los atributos o propiedades que que se le pasan al componente desde el padre
