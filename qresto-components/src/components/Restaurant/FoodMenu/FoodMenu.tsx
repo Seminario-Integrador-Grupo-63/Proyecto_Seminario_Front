@@ -50,8 +50,7 @@ export const FoodMenu = (props: any) => {
                 <Tab label="Actualizar Precios" />
             </Tabs>
             <CustomTabPanel value={value} index={0}>
-                <Categories categories={props.categories} onDelete={props.deleteCategory}>
-                </Categories>
+                <Categories categories={props.categories} onDelete={props.deleteCategory}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 <Dishes dishes={props.dishes} deleteDish={props.deleteDish}/>
