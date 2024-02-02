@@ -39,6 +39,7 @@ export default function FoodMenuPage() {
         console.log(' ')
         console.log('FoodMenuPage handleDeleteCategory(categoryId)')
         console.log('category: ',category)
+
         try {
             const result = await deleteCategory(category.id);
             //console.log('resp handldeDeCategory' + result)
@@ -191,7 +192,7 @@ export default function FoodMenuPage() {
             sideDishes={sidedishes}
             deleteSideDish={handleDeleteSideDish}
            // updateDish={handleEditDish} 
-            deleteCategory={deleteCategory}
+            deleteCategory={handleDeleteCategory}
              />
 
         <FeedbackDialog
