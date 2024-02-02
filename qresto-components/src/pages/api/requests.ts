@@ -1,12 +1,13 @@
 import axios from "axios";
 import * as https from 'https';
-import { 
+import {
     buildDish,
     buildTableGrid,
     buildMenu,
     buildSideDish,
-    buildSimpleDish
+    buildSimpleDish, getCookieRId
 } from "./utils";
+import {getCookie} from "cookies-next";
 
 const url = "http://localhost:8000"
 const restaurantId = 1
@@ -35,8 +36,11 @@ export async function postCustomer(customer, tableCode){
 }
 
 export async function getCategories(){
-    const headers = {'restaurant-id': restaurantId}
+    // Create header
+    const headers = {'restaurant-id': getCookieRId()}
+    // Hit the endpoint
     const response = await axios.get<any>(url + '/category/', {headers})
+    // Return the data
     return response.data
 }
 
@@ -232,10 +236,8 @@ export async function createUser(user, restaurantId) {
     }
 }
 
-export async function getUpdatedPrices(body:any, restaurantId:number) {
-    const headers = {
-        'restaurant-id': restaurantId
-    }
+export async function getUpdatedPrices(body:any) {
+    const headers = {'restaurant-id': getCookieRId()}
 
 /*    if (t == true) {
         const body = {

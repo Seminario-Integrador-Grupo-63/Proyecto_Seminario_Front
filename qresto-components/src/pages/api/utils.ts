@@ -1,4 +1,4 @@
-import {router} from "next/client";
+import {getCookie} from "cookies-next";
 
 
 export function buildDish(data){
@@ -82,56 +82,11 @@ export function buildSideDish(data){
     })
     return sideDishes
 }
-/*
-/!*
- * General utils for managing cookies in Typescript.
- *!/
-export function setCookie(name: string, val: string) {
-    const date = new Date();
-    const value = val;
 
-    // Set it expire in 7 days
-    date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-
-    // Set it
-    document.cookie = name+"="+value+"; expires="+date.toUTCString()+"; path=/";
+export function getCookieRId() {
+    // On exec get restaurantId from Cookies
+    const ridCookie = getCookie("restaurantId")
+    // Convert string to number and return
+    return +ridCookie
 }
-
-export function getCookie(name: string) {
-    const value = "; " + document.cookie;
-    const parts = value.split("; " + name + "=");
-
-    if (parts.length == 2) {
-        return parts.pop().split(";").shift();
-    }
-}
-
-export function deleteCookie(name: string) {
-    const date = new Date();
-
-    // Set it expire in -1 days
-    date.setTime(date.getTime() + (-1 * 24 * 60 * 60 * 1000));
-
-    // Set it
-    document.cookie = name+"=; expires="+date.toUTCString()+"; path=/";
-}*/
-
-// Set cookie
-/*
-export const setCookie = (key:string, value:string) => {
-    cookies().set(key, value, {
-        path: '/',
-        maxAge: 60 * 60 * 24 * 7,
-    })
-};
-// Get cookie
-export const getCookie = (name:string) => {
-    return cookies().get(name)
-}
-
-// Delete cookie
-export const deleteCookie = (name:string) => {
-    cookies().delete(name)
-};
-*/
 

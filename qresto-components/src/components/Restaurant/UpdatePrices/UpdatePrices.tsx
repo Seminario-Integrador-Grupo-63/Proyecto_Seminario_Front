@@ -115,15 +115,7 @@ function UpdatePrices(props: any) {
                 </Button>
             </div>
 
-            {/* Ventana flotante */}
-            <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-                <Updatelist
-                    open={isDialogOpen}
-                    onClose={handleCloseDialog}
-                    productList={productList}
-                    onSubmit={props.onConfirm}
-                />
-            </Dialog>
+
         </Container>
   );
 }

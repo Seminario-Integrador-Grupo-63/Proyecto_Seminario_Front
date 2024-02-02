@@ -104,13 +104,7 @@ export default function UpdateList(props: any) {
         </Button>
       </div>
 
-      <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-        <Confirmation
-            open={isDialogOpen}
-            onClose={handleCloseDialog}
-            onSubmit={props.onSubmit}
-        />
-      </Dialog>
+
     </div>
   );
 }
