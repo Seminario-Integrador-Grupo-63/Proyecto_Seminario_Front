@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories } from '@/requests';
+import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories, deleteCategory } from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 
 export default function FoodMenuPage() {
@@ -20,6 +20,8 @@ export default function FoodMenuPage() {
         fetchSideDishes();
     }, []);
 
+    //categorias
+
     const fetchCategories = async () => {
         console.log(' ')
         console.log('index fetchCategories()')
@@ -33,6 +35,26 @@ export default function FoodMenuPage() {
         }
     };
 
+    const handleDeleteCategory = async (category) => {
+        console.log(' ')
+        console.log('FoodMenuPage handleDeleteCategory(categoryId)')
+        console.log('category: ',category)
+        try {
+            const result = await deleteCategory(category.id);
+            //console.log('resp handldeDeCategory' + result)
+            if (result) {
+                await fetchCategories(); // Recargar la lista de categorias después de eliminar una
+                triggerFeedback(true, 'delete-category')
+                
+            }
+            else{
+                triggerFeedback(false, 'delete-category')
+            }
+        } catch (error) {
+            console.error("Error al eliminar categoria:", error);
+
+        }
+    };
 
     const fetchDishes = async () => {
         console.log(' ')
@@ -99,7 +121,7 @@ export default function FoodMenuPage() {
             }
         } catch (error) {
             console.error("Error al eliminar plato:", error);
-           
+
         }
     };
 

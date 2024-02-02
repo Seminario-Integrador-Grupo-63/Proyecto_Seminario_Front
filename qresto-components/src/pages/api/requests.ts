@@ -181,6 +181,7 @@ export async function postDishes(restaurantId) {
 export async function deleteDishes(restaurantId) {
     const response = await axios.delete(url + '/dish/', )
 }
+
 export async function loginRestaurant(user):Promise<Array<any>> {
     try{
         const response = await axios.post<any>(url + `/security/login`, user)
@@ -355,6 +356,16 @@ export async function updateSideDishInfo(sideDishId, updatedInfo) {
         return response.data;
     } catch (error) {
         console.error("Error al actualizar información de guarnición:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function deleteCategory(categoryId) {
+    try {
+        const response = await axios.delete(url + `/category/${categoryId}`);
+        return true;
+    } catch (error) {
+        console.error("Error al eliminar categoria:", error.response?.data || error.message);
         throw error;
     }
 }

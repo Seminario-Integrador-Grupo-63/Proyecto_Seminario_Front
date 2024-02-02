@@ -67,7 +67,7 @@ export const CategoriesForm = (props: any) => {
             maxWidth='sm'
             action1Visible
             action1Text= 'Eliminar'
-            onAction1={props.onDelete}>
+            onAction1={deleteCategory}>
             <Grid 
                 sx={{
                     display: 'grid',
