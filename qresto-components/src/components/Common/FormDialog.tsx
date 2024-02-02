@@ -40,7 +40,7 @@ export const FormDialog = (props: any) => {
                 <DialogActions>
                     <ThemeProvider theme={theme}>
                         {props.action1Visible?
-                            <Button onClick={props.onaction1}
+                            <Button onClick={props.onAction1}
                                     color='primary'>
                                 {props.action1Text}
                             </Button>

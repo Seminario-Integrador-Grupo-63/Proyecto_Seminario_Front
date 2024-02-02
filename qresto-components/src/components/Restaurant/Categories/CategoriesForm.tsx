@@ -37,7 +37,9 @@ export const CategoriesForm = (props: any) => {
         setCategoryName(event.target.value)
     }
     const deleteCategory=()=>{
+        console.log('debug categoriesForm')
         props.onDelete(props.category)
+        props.onClose()
     }
     const updateCategory=()=>{
         let category = null
