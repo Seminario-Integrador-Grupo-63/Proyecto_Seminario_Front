@@ -191,6 +191,7 @@ export default function FoodMenuPage() {
             sideDishes={sidedishes}
             deleteSideDish={handleDeleteSideDish}
            // updateDish={handleEditDish} 
+            deleteCategory={deleteCategory}
              />
 
         <FeedbackDialog
