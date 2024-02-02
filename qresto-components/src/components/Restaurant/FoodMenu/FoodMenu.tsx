@@ -9,6 +9,9 @@ import {
 import { CustomTabPanel } from '@/Common/CustomTabPanel';
 import { Dishes } from './Dishes/Dishes';
 import { SideDishes } from './SideDishes/SideDishes';
+import { Categories } from '../Categories/Categories';
+
+
 
 export const FoodMenu = (props: any) => {
     const [value, setValue] = useState(0);
@@ -49,14 +52,16 @@ export const FoodMenu = (props: any) => {
                 <Tab label="Actualizar Precios" />
             </Tabs>
             <CustomTabPanel value={value} index={0}>
-                Categorías
+                Categorias
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <Dishes dishes={props.dishes} deleteDish={props.deleteDish}/>
+                <Dishes dishes={props.dishes} deleteDish={props.deleteDish}
+                sideDishes={props.sideDishes} categories={props.categories}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                 <SideDishes sideDishes={props.sideDishes}
-                deleteSideDish={props.deleteSideDish}/>
+                deleteSideDish={props.deleteSideDish}
+                />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
                 Actualizar Precios
@@ -65,9 +70,12 @@ export const FoodMenu = (props: any) => {
     </>)
 }
 
+
+
 FoodMenu.defaultProps = {
     dishes: [],
     sideDishes: [],
+    categories: [],
     deleteDish: function(){},
     deleteSideDish:function(){}
 }
@@ -75,6 +83,7 @@ FoodMenu.defaultProps = {
 FoodMenu.propTypes = {
     dishes: PropTypes.array,
     sideDishes: PropTypes.array,
+    categories: PropTypes.array,
     deleteDish: PropTypes.func,
     deleteSideDish: PropTypes.func
 }

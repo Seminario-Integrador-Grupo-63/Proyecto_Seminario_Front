@@ -1,3 +1,4 @@
+
 import styles from './DishForm.module.scss';
 import React, {
     useState,
@@ -22,18 +23,18 @@ import { Selector } from '@/Common/Selector';
 import { SelectorChips } from '@/Common/SelectorChips';
 
 export const DishFormContent = forwardRef((props: any, ref: any) => {
-
-    const [image, setImage] = useState('')
-    const marginBottom = '15px'
+    const marginBottom = '15px';
 
     const [dish, setDish] = useState({
         name: '',
         description: '',
         preparationTime: '',
         price: '',
-        categories: null,
-        sideDishes: []
+        categories: [],
+        sideDishes: [],
     });
+
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     useEffect(() => {
         if (props.isNew) {
@@ -42,87 +43,70 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                 description: '',
                 preparationTime: '',
                 price: '',
-                categories: null,
-                sideDishes: []
+                categories: [],
+                sideDishes: [],
             });
         } else {
             setDish({ ...props.dish });
         }
     }, [props.isNew, props.dish]);
 
-
-
-
-
     const handlePreparationTimeChange = (preparationTime) => {
-
-    }
+        // Handle preparation time change logic
+    };
 
     useImperativeHandle(ref, () => ({
         verifyFields() {
-            let isReady = false
-            return true
-        }
-    }))
+            // Your verification logic
+            return true;
+        },
+    }));
 
-    const loadCategories = () => {
-        let categories = []
-        props.categories.forEach(category => {
-            categories.push(category.name)
-        })
-        return categories
-    }
-
-    const loadSideDishes = () => {
-        let sideDishes = []
-        props.sideDishes.forEach(sideDish => {
-            sideDishes.push(sideDish.name)
-        })
-        return sideDishes
-    }
+    const loadCategories = () => props.categories.map((category) => category.name);
+    const loadSideDishes = () => props.sideDishes.map((sideDish) => sideDish.name);
 
     const onChangeImage = () => {
-        console.log(' ')
-        console.log('DishFormContent onChangeImage()')
-        // console.log(': ', )
-    }
+        console.log(' ');
+        console.log('DishFormContent onChangeImage()');
+        // Handle image change logic
+    };
 
-    return (<>
+    return (
         <Container>
             <Grid container spacing={2}>
                 {/* -----------------------------------------------------Lado izquierdo */}
-                <Grid item xs={6}
+                <Grid
+                    item
+                    xs={6}
                     sx={{
                         display: 'flex',
-                        flexDirection: 'column'
-                    }}>
+                        flexDirection: 'column',
+                    }}
+                >
                     <Grid
                         sx={{
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'center',
-                            marginBottom: marginBottom
-                        }}>
-
-                        <ImageButton
-                            onChange={onChangeImage}
-
-                            image={image} />
+                            marginBottom: marginBottom,
+                        }}
+                    >
+                        <ImageButton onChange={onChangeImage} image={props.dish.image} />
                     </Grid>
                     <Grid sx={{ marginBottom: marginBottom }}>
-                        <Selector
-                            label={'Categorías'}
-                            value={props.dish.categories}
-                            items={loadCategories()} />
+                        <Selector label="Categoría" items={loadCategories()} value={selectedCategory} />
                     </Grid>
                 </Grid>
 
                 {/* --------------------------------------------------------- Lado derecho */}
-                <Grid item xs={6}
+                <Grid
+                    item
+                    xs={6}
                     sx={{
                         display: 'flex',
-                        flexDirection: 'column'
-                    }}>
+                        flexDirection: 'column',
+                    }}
+                >
                     <Grid sx={{ marginBottom: marginBottom }}>
                         <TextField
                             label={'Nombre del Plato'}
@@ -143,43 +127,39 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                         />
                     </Grid>
                     <Grid sx={{ marginBottom: marginBottom }}>
-                        <PreparationTimeField onChange={handlePreparationTimeChange}
-                            value={props.dish.preparationTime} />
+                        <PreparationTimeField onChange={handlePreparationTimeChange} value={props.dish.preparationTime} />
                     </Grid>
                     <Grid sx={{ marginBottom: marginBottom }}>
                         <TextField
                             fullWidth
-                            type='number'
+                            type="number"
                             value={props.dish.price}
                             InputProps={{
-                                startAdornment: <InputAdornment position="start">$</InputAdornment>
-                            }} />
+                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                            }}
+                        />
                     </Grid>
                 </Grid>
 
                 {/* --------------------------------------------------------- Parte de abajo */}
                 <Grid sx={{ marginBottom: marginBottom }} item xs={12}>
-                    <SelectorChips
-                        label={'Guarniciones'}
-                        items={loadSideDishes()} />
+                    <SelectorChips label={'Guarniciones'} items={loadSideDishes()} />
                 </Grid>
             </Grid>
         </Container>
-    </>);
+    );
 });
 
-DishFormContent.defaultProps =
-{
+DishFormContent.defaultProps = {
     dish: null,
     isNew: true,
     categories: [],
-    sideDishes: []
-}
+    sideDishes: [],
+};
 
-DishFormContent.propTypes =
-{
+DishFormContent.propTypes = {
     dish: PropTypes.object,
     isNew: PropTypes.bool,
     categories: PropTypes.array,
-    sideDishes: PropTypes.array
-}   
+    sideDishes: PropTypes.array,
+};

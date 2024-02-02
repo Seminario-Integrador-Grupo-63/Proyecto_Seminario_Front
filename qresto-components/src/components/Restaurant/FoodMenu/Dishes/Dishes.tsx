@@ -64,18 +64,25 @@ export const Dishes = (props: any) => {
             </Grid>
 
             <DishForm
-    open={openDishForm}
-    onClose={onCloseDishForm}
-    dish={selectedDish || {}} // Pasar un objeto vacío si es un nuevo plato
-    isNew={isNewDishForm}
-/>
+                 open={openDishForm}
+                 onClose={onCloseDishForm}
+                 dish={selectedDish || {}} // Pasar un objeto vacío si es un nuevo plato
+                 isNew={isNewDishForm}
+                 categories={props.categories} // Asegúrate de pasar las categorías como props
+                 sideDishes={props.sideDishes}
+                />
         </Container> 
+        
     </>)
+    
 }
+
 
 Dishes.defaultProps =
 {
     dishes: [],
+    sideDishes: [],
+    categories: [],
     deleteDish:function(){},
     updateDish: function(){}
 }
@@ -83,6 +90,8 @@ Dishes.defaultProps =
 Dishes.propTypes = 
 {
     dishes: PropTypes.array,
+    sideDishes: PropTypes.array,
+    categories: PropTypes.array,
     deleteDish: PropTypes.func,
     updateDish: PropTypes.func
 }

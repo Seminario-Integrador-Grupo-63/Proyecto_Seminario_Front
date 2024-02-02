@@ -1,12 +1,15 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes } from '@/requests';
+import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories } from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
+import { SideDishes } from '@/Restaurant/FoodMenu/SideDishes/SideDishes';
+import { Categories } from '@/Restaurant/Categories/Categories';
 
 export default function FoodMenuPage() {
     const [dishes, setDishes] = useState([]);
     const [sidedishes, setSideDishes] = useState([]);
+    const [categories, setCategories] = useState([]);
     const router = useRouter();
     const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false)
     const [positiveFeedback, setPositiveFeedback] = useState(false)
@@ -14,10 +17,19 @@ export default function FoodMenuPage() {
     const [actionFeedback, setActionFeedback] = useState('')
 
     useEffect(() => {
+        fetchCategories(); // Agrega una función para cargar categorías
         fetchDishes();
         fetchSideDishes();
-    }, []);
-
+      }, []);
+      
+      const fetchCategories = async () => {
+        try {
+          const result = await getCategories(); // Ajusta esto según cómo obtienes las categorías
+          setCategories(result);
+        } catch (error) {
+          console.error("Error al obtener categorías:", error);
+        }
+      };
     const fetchDishes = async () => {
         console.log(' ')
         console.log('index fetchDishes()')
@@ -149,6 +161,7 @@ export default function FoodMenuPage() {
         <FoodMenu dishes={dishes} 
             deleteDish={handleDeleteDish}
             sideDishes={sidedishes}
+            categories={categories}
             deleteSideDish={handleDeleteSideDish}
            // updateDish={handleEditDish} 
              />
