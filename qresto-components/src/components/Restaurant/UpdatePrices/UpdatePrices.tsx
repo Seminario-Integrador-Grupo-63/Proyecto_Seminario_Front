@@ -24,6 +24,7 @@ function UpdatePrices(props: any) {
     });
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [productList, setProductList] = useState([])
 
 
 
@@ -32,6 +33,7 @@ function UpdatePrices(props: any) {
     };
     const handleUpdateClick = () => {
         props.onSubmit()
+        setProductList(props.productList)
         setIsDialogOpen(true);
     };
 
@@ -118,7 +120,7 @@ function UpdatePrices(props: any) {
                 <Updatelist
                     open={isDialogOpen}
                     onClose={handleCloseDialog}
-                    productList={props.productList}
+                    productList={productList}
                     onSubmit={props.onConfirm}
                 />
             </Dialog>
