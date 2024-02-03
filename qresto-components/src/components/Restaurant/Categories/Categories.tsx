@@ -20,13 +20,13 @@ export const Categories = (props: any) => {
         setSelectedCategory(category)
         setOpen(true)
         setIsNew(false)
-        console.log(`categoria: ${category} categoria seleccionada ${selectedCategory}`);
+        //console.log(`categoria: ${category} categoria seleccionada ${selectedCategory}`);
     }
     const onClickNew = (category) => {
         setSelectedCategory(category)
         setOpen(true)
         setIsNew(true)
-        console.log(`categoria: ${category} categoria seleccionada ${selectedCategory}`);
+        //console.log(`categoria: ${category} categoria seleccionada ${selectedCategory}`);
     }
 
     const createCategory = (category) => {

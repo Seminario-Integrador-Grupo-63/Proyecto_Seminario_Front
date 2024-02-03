@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 
 export const CategoriesForm = (props: any) => {
 
+    const [openImgSelector, setOpenImgSelector] = useState <boolean>(false);
     const [categoryName, setCategoryName] = useState('')
     const [categoryImage, setCategoryImage] = useState('')
 
@@ -64,6 +65,20 @@ export const CategoriesForm = (props: any) => {
         setCategoryImage(null)
         props.onClose()
     }
+    const onClickButtonCategory=()=>{
+        setOpenImgSelector(true)
+    }
+    const handleClose = () => {
+        setOpenImgSelector(false)
+    };
+    const handleSelecImage = (image) => {
+        if (image != ''){
+            setCategoryImage(image)
+            //console.log('debug imagen actualizada: ' + image)
+        }
+        setOpenImgSelector(false)
+    };
+
     return (<>
         <FormDialog 
             title={props.isNew ? "Nueva categoría" : "Editar categoría"}
@@ -114,11 +129,14 @@ export const CategoriesForm = (props: any) => {
                         <ImageButton
                             // image='https://img.freepik.com/foto-gratis/pizza-salami-champinones_140725-1070.jpg?w=740&t=st=1698324798~exp=1698325398~hmac=6fc9c714ea627800fcbfc90c22a99085d3551074c6f5e674ba92fbd2f076a427'
                             image={categoryImage}
-                            buttonText={props.isNew ? "Agregar imagen" : "Cambiar"}/>
+                            buttonText={props.isNew ? "Agregar imagen" : "Cambiar"}
+                            onChange={onClickButtonCategory}                            
+                            />
                     </Grid>
                 </Card>
             </Grid>
         </FormDialog>
+        <ImageSelector open={openImgSelector} onClose={handleClose} onSubmit={handleSelecImage}/>
     </>)
 }
 
