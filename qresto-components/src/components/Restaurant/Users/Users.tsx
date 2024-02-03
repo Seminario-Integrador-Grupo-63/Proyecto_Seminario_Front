@@ -48,21 +48,27 @@ export const Users = (props: any) => {
         setReadonly(false)
         setTitle("Crear Usuario")
         // No selected User
+/*
         setOnSubmit(props.onCreate)
+*/
     }
     const editForm = (row) => {
         setOpen(true)
         setReadonly(false)
         setTitle("Editar Usuario")
         setSelectedUser(row)
+/*
         setOnSubmit(props.onEdit)
+*/
     }
     const deleteForm = (row) => {
         setOpen(true)
         setReadonly(true)
         setTitle("Eliminar Usuario")
         setSelectedUser(row)
+/*
         setOnSubmit(props.onDelete)
+*/
     }
 
 
@@ -79,8 +85,11 @@ export const Users = (props: any) => {
             user={selectedUser}
             onClose={handleClose}
             onSubmit={onSubmit}
+            onEdit={props.onEdit}
+            onDelete={props.onDelete}
             readOnly={readOnly}
             title={title}
+            formAction={1}
         />
     </>;
 }
