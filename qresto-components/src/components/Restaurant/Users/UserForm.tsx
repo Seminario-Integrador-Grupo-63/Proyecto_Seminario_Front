@@ -52,8 +52,10 @@ export  const UserForm = (props: any) => {
     const handleSubmit = () => {
         console.log(userData)
         if (props.formAction == 1) {
-            props.onEdit(userData)
+            props.onCreate()
         } else if (props.formAction == 2) {
+            props.onEdit(userData)
+        } else if (props.formAction ==3) {
             props.onDelete(userData.id)
         }
 /*
@@ -171,6 +173,8 @@ UserForm.defaultProps = {
     formAction: 1,
     onEdit: function () {},
     onDelete: function () {},
+    onCreate: function () {},
+
 
 
 }
@@ -187,6 +191,8 @@ UserForm.propTypes = {
     formAction: PropTypes.number,
     onEdit: PropTypes.func,
     onDelete: PropTypes.func,
+    onCreate: PropTypes.func,
+
 
 }
 

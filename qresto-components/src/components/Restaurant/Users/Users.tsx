@@ -10,6 +10,7 @@ export const Users = (props: any) => {
     const [readOnly, setReadonly] = useState(true)
     const [selectedUser, setSelectedUser] = useState()
     const [onSubmit, setOnSubmit] = useState()
+    const [formAction, setFormAction] = useState(0)
 
 
     const handleClose = () => {
@@ -50,15 +51,18 @@ export const Users = (props: any) => {
         setReadonly(false)
         setTitle("Crear Usuario")
         // No selected User
-/*
-        setOnSubmit(props.onCreate)
-*/
+        setFormAction(1)
+
+        /*
+                setOnSubmit(props.onCreate)
+        */
     }
     const editForm = (row) => {
         setOpen(true)
         setReadonly(false)
         setTitle("Editar Usuario")
         setSelectedUser(row)
+        setFormAction(2)
 /*
         setOnSubmit(props.onEdit)
 */
@@ -68,6 +72,7 @@ export const Users = (props: any) => {
         setReadonly(true)
         setTitle("Eliminar Usuario")
         setSelectedUser(row)
+        setFormAction(3)
 /*
         setOnSubmit(props.onDelete)
 */
@@ -89,9 +94,10 @@ export const Users = (props: any) => {
             onSubmit={onSubmit}
             onEdit={props.onEdit}
             onDelete={props.onDelete}
+            onCreate={props.onCreate}
             readOnly={readOnly}
             title={title}
-            formAction={1}
+            formAction={formAction}
         />
     </>;
 }
