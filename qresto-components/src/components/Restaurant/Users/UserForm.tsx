@@ -50,6 +50,7 @@ export  const UserForm = (props: any) => {
         restaurant: 0
     })
     const handleSubmit = () => {
+        console.log(userData)
         if (props.formAction == 1) {
             props.onEdit(userData)
         } else if (props.formAction == 2) {

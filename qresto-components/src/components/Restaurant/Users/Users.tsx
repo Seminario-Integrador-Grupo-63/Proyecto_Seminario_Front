@@ -37,8 +37,10 @@ export const Users = (props: any) => {
             return {
                 id: u.id,
                 user: u.user,
-                email: u.email,
                 password: u.password,
+                email: u.email,
+                role: u.role,
+                restaurant: u.restaurant
             }
         })
     }
