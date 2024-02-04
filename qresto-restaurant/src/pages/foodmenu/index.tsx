@@ -1,14 +1,8 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
+import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories } from '@/requests';
 import {
-    getDishes,
-    deleteDish,
-    getDish,
-    deleteSideDish,
-    getSideDish,
-    updateSideDishInfo,
-    getSideDishes,
     getUpdatedPrices, confirmUpdatePrices
 } from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
@@ -17,6 +11,7 @@ import UpdateList from "@/Restaurant/UpdatePrices/Updatelist";
 import Confirmation from "@/Restaurant/UpdatePrices/Confirmation";
 
 export default function FoodMenuPage() {
+    const [categories, setCategories] = useState([]);
     const [dishes, setDishes] = useState([]);
     const [sidedishes, setSideDishes] = useState([]);
     const router = useRouter();
@@ -65,9 +60,66 @@ export default function FoodMenuPage() {
     }
 
     useEffect(() => {
+        fetchCategories();
         fetchDishes();
         fetchSideDishes();
     }, []);
+
+    //categorias
+
+    const fetchCategories = async () => {
+        console.log(' ')
+        console.log('index fetchCategories()')
+        console.log(': ', )
+        try {
+            const result = await getCategories();
+            console.log('result: ', result)
+            setCategories(result);
+        } catch (error) {
+            console.error("Error al obtener categorias:", error);
+        }
+    };
+
+    const handleDeleteCategory = async (category) => {
+        console.log(' ')
+        console.log('FoodMenuPage handleDeleteCategory(categoryId)')
+        console.log('category: ',category)
+
+        try {
+            const result = await deleteCategory(category.id);
+            //console.log('resp handldeDeCategory' + result)
+            if (result) {
+                await fetchCategories(); // Recargar la lista de categorias después de eliminar una
+                triggerFeedback(true, 'delete-category')
+
+            }
+            else{
+                triggerFeedback(false, 'delete-category')
+            }
+        } catch (error) {
+            console.error("Error al eliminar categoria:", error);
+
+        }
+    };
+
+    const handleUpdateCategory = async (category) => {
+        try {
+            await updateCategory(category);
+            await fetchCategories();
+        } catch (error) {
+            console.error("Error al actualizar información de la categoria:", error);
+        }
+    }
+
+    const handleCreateCategory = async (category) => {
+        //console.log('debug create category')
+        try {
+            await createCategory(category);
+            await fetchCategories();
+        } catch (error) {
+            console.error("Error al crear la nueva categoria:", error);
+        }
+    }
 
     const fetchDishes = async () => {
         console.log(' ')
@@ -134,7 +186,7 @@ export default function FoodMenuPage() {
             }
         } catch (error) {
             console.error("Error al eliminar plato:", error);
-           
+
         }
     };
 
@@ -199,10 +251,17 @@ export default function FoodMenuPage() {
 
 
     return (<>
-        <FoodMenu dishes={dishes} 
+        <FoodMenu
+            dishes={dishes}
+            categories={categories}
             deleteDish={handleDeleteDish}
             sideDishes={sidedishes}
             deleteSideDish={handleDeleteSideDish}
+           // updateDish={handleEditDish} 
+            deleteCategory={handleDeleteCategory}
+            createCategory={handleCreateCategory}
+            updateCategory={handleUpdateCategory}
+             />
            // updateDish={handleEditDish}
             handleUpdatePrices={handleListOpen}
         />

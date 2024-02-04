@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 
 export const CategoriesForm = (props: any) => {
 
+    const [openImgSelector, setOpenImgSelector] = useState <boolean>(false);
     const [categoryName, setCategoryName] = useState('')
     const [categoryImage, setCategoryImage] = useState('')
 
@@ -37,7 +38,9 @@ export const CategoriesForm = (props: any) => {
         setCategoryName(event.target.value)
     }
     const deleteCategory=()=>{
-        props.onDelete(props.category.id)
+        //console.log('debug delete category')
+        props.onDelete(props.category)
+        props.onClose()
     }
     const updateCategory=()=>{
         let category = null
@@ -46,6 +49,8 @@ export const CategoriesForm = (props: any) => {
                 name: categoryName,
                 image: categoryImage
             }
+            props.onCreate(category)
+            //console.log('debug create category')
         }
         else{
             category = {
@@ -53,21 +58,39 @@ export const CategoriesForm = (props: any) => {
                 name: categoryName,
                 image: categoryImage
             }
+            props.onUpdate(category)
+            //console.log('debug update category')
         }
-        props.onUpdate(category)
+        setCategoryName(null)
+        setCategoryImage(null)
+        props.onClose()
     }
+    const onClickButtonCategory=()=>{
+        setOpenImgSelector(true)
+    }
+    const handleClose = () => {
+        setOpenImgSelector(false)
+    };
+    const handleSelecImage = (image) => {
+        if (image != ''){
+            setCategoryImage(image)
+            //console.log('debug imagen actualizada: ' + image)
+        }
+        setOpenImgSelector(false)
+    };
+
     return (<>
         <FormDialog 
             title={props.isNew ? "Nueva categoría" : "Editar categoría"}
             open={props.open}
             closeText='Cerrar'
             onClose={props.onClose}
-            submitText='Actualizar'
-            onSubmit={props.onUpdate}
+            submitText={props.isNew ? "Crear" : "Actualizar"}
+            onSubmit={updateCategory}
             maxWidth='sm'
             action1Visible
             action1Text= 'Eliminar'
-            onAction1={props.onDelete}>
+            onAction1={deleteCategory}>
             <Grid 
                 sx={{
                     display: 'grid',
@@ -106,11 +129,14 @@ export const CategoriesForm = (props: any) => {
                         <ImageButton
                             // image='https://img.freepik.com/foto-gratis/pizza-salami-champinones_140725-1070.jpg?w=740&t=st=1698324798~exp=1698325398~hmac=6fc9c714ea627800fcbfc90c22a99085d3551074c6f5e674ba92fbd2f076a427'
                             image={categoryImage}
-                            buttonText={props.isNew ? "Agregar imagen" : "Cambiar"}/>
+                            buttonText={props.isNew ? "Agregar imagen" : "Cambiar"}
+                            onChange={onClickButtonCategory}                            
+                            />
                     </Grid>
                 </Card>
             </Grid>
         </FormDialog>
+        <ImageSelector open={openImgSelector} onClose={handleClose} onSubmit={handleSelecImage}/>
     </>)
 }
 
@@ -118,9 +144,10 @@ CategoriesForm.defaultProps =
 {
     isNew: true,
     open: false,
+    onCreate: function(){},
     onUpdate: function(){},
-    onClose: function(){},
     onDelete: function(){},
+    onClose: function(){},
     category: null,
 }
 
@@ -128,8 +155,9 @@ CategoriesForm.propTypes =
 {
     isNew: PropTypes.bool,
     open: PropTypes.bool,
+    onCreate: PropTypes.func,
     onUpdate: PropTypes.func,
-    onClose: PropTypes.func,
     onDelete: PropTypes.func,
+    onClose: PropTypes.func,
     category: PropTypes.object,
 }
