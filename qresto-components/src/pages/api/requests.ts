@@ -346,12 +346,23 @@ export async function deleteSideDish(sideDishId) {
     }
 }
 
-export async function updateSideDishInfo(sideDishId, updatedInfo) {
+export async function updateSideDishInfo(updatedInfo) {
     try {
-        const response = await axios.put(url + `/side-dish/${sideDishId}`, updatedInfo);
+        console.log(updatedInfo)
+        const response = await axios.put(url + `/side-dish/`, updatedInfo);
         return response.data;
     } catch (error) {
         console.error("Error al actualizar información de guarnición:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function createSideDish(sideDishData) {
+    try {
+        const response = await axios.post(url + `/side-dish/`, sideDishData);
+        return response.data;
+    } catch (error) {
+        console.error("Error al crear la guarnicion:", error.response?.data || error.message);
         throw error;
     }
 }

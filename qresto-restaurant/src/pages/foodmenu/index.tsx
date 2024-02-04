@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories } from '@/requests';
+import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories, createSideDish } from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 import { SideDishes } from '@/Restaurant/FoodMenu/SideDishes/SideDishes';
 import { Categories } from '@/Restaurant/Categories/Categories';
@@ -133,6 +133,22 @@ export default function FoodMenuPage() {
         }
     }
 
+    const handleCreateSideDish = async (sideDish) => {
+        console.log('sideDish: ', sideDish)
+        try{
+            const result = await createSideDish(sideDish)
+            console.log('resp handldeDSideC' + result)
+            if (result) {
+                await fetchSideDishes(); // Recargar la lista de guarniciones después de eliminar una
+                 triggerFeedback(true, 'create-sidedish'); 
+             } else {
+                 triggerFeedback(false, 'create-sidedish');
+             }
+        }catch (error) {
+            console.error("Error al crear guarnición:", error);
+        }
+    }
+
     const handleEditSideDish = async (sideDishId) => {
         try {
             const sideDishToUpdateIndex = sideDishId.findIndex((sideDish) => sideDish.id === sideDishId);
@@ -148,9 +164,9 @@ export default function FoodMenuPage() {
         }
     }
 
-    const handleUpdateSideDishInfo = async (sideDishId, updatedInfo) => {
+    const handleUpdateSideDishInfo = async (updatedInfo) => {
         try {
-            await updateSideDishInfo(sideDishId, updatedInfo);
+            await updateSideDishInfo(updatedInfo);
             await fetchSideDishes();
         } catch (error) {
             console.error("Error al actualizar información de la guarnición:", error);
@@ -164,6 +180,8 @@ export default function FoodMenuPage() {
             categories={categories}
             deleteSideDish={handleDeleteSideDish}
            // updateDish={handleEditDish} 
+            createSideDish={handleCreateSideDish}
+            updateSideDishes={handleUpdateSideDishInfo}
              />
 
         <FeedbackDialog
