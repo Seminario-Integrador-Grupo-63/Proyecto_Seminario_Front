@@ -1,12 +1,13 @@
 import axios from "axios";
 import * as https from 'https';
-import { 
+import {
     buildDish,
     buildTableGrid,
     buildMenu,
     buildSideDish,
-    buildSimpleDish
+    buildSimpleDish, getCookieRId
 } from "./utils";
+import {getCookie} from "cookies-next";
 
 const url = "http://localhost:8000"
 const restaurantId = 1
@@ -35,8 +36,11 @@ export async function postCustomer(customer, tableCode){
 }
 
 export async function getCategories(){
-    const headers = {'restaurant-id': restaurantId}
+    // Create header
+    const headers = {'restaurant-id': getCookieRId()}
+    // Hit the endpoint
     const response = await axios.get<any>(url + '/category/', {headers})
+    // Return the data
     return response.data
 }
 
@@ -245,11 +249,12 @@ export async function postDishes(restaurantId) {
 export async function deleteDishes(restaurantId) {
     const response = await axios.delete(url + '/dish/', )
 }
+
 export async function loginRestaurant(user):Promise<Array<any>> {
     try{
         const response = await axios.post<any>(url + `/security/login`, user)
         // Guardar user data
-        console.log(user)
+        console.log(response)
         return response.data
     } catch (error){
         return []
@@ -284,30 +289,47 @@ export async function deleteUser(userId):Promise<boolean> {
     }
 }
 export async function createUser(user, restaurantId) {
-    const data = {restaurant: restaurantId,user:user}
+    const headers = {
+        'restaurant-id': restaurantId
+    }
     try {
-        const response = await axios.post(url + '/security/singup', data,
-            {headers: {restaurantId: restaurantId}})
+        const response = await axios.post(url + '/security/signup', user, {headers})
         return response.data
     } catch (error) {
         return null
     }
 }
 
-export async function getUpdatedPrices(updateId) {
+export async function getUpdatedPrices(body:any) {
+    const headers = {'restaurant-id': getCookieRId()}
+
+/*    if (t == true) {
+        const body = {
+            "percentage": data[0],
+            "categoryId": data[1],
+            "action": data[2]
+        }
+    } else {
+        const body = {
+            "percentage": data[0],
+            "action": data[1]
+        }
+
+    }*/
+
     try {
-        const response = await axios.get(url + '/')
+        const response = await axios.post(url + '/dish/update_prices', body, {headers})
         return response.data
     } catch (error) {
         return []
     }
 }
-export async function confirmUpdatePrices(req) {
+export async function confirmUpdatePrices(uuid:string) {
     try {
-        const response = await axios.get(url + '/')
+        const response = await axios.get(url + `/dish/update_prices/${uuid}`)
         return response.data
     } catch (error) {
-        return false
+        return []
     }
 }
 

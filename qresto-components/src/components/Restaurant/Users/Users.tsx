@@ -10,6 +10,7 @@ export const Users = (props: any) => {
     const [readOnly, setReadonly] = useState(true)
     const [selectedUser, setSelectedUser] = useState()
     const [onSubmit, setOnSubmit] = useState()
+    const [formAction, setFormAction] = useState(0)
 
 
     const handleClose = () => {
@@ -37,8 +38,10 @@ export const Users = (props: any) => {
             return {
                 id: u.id,
                 user: u.user,
-                email: u.email,
                 password: u.password,
+                email: u.email,
+                role: u.role,
+                restaurant: u.restaurant
             }
         })
     }
@@ -48,21 +51,31 @@ export const Users = (props: any) => {
         setReadonly(false)
         setTitle("Crear Usuario")
         // No selected User
-        setOnSubmit(props.onCreate)
+        setFormAction(1)
+
+        /*
+                setOnSubmit(props.onCreate)
+        */
     }
     const editForm = (row) => {
         setOpen(true)
         setReadonly(false)
         setTitle("Editar Usuario")
         setSelectedUser(row)
+        setFormAction(2)
+/*
         setOnSubmit(props.onEdit)
+*/
     }
     const deleteForm = (row) => {
         setOpen(true)
         setReadonly(true)
         setTitle("Eliminar Usuario")
         setSelectedUser(row)
+        setFormAction(3)
+/*
         setOnSubmit(props.onDelete)
+*/
     }
 
 
@@ -79,8 +92,12 @@ export const Users = (props: any) => {
             user={selectedUser}
             onClose={handleClose}
             onSubmit={onSubmit}
+            onEdit={props.onEdit}
+            onDelete={props.onDelete}
+            onCreate={props.onCreate}
             readOnly={readOnly}
             title={title}
+            formAction={formAction}
         />
     </>;
 }
