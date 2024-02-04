@@ -18,7 +18,7 @@ import { theme } from '@/Common/Theme/themes';
 function UpdatePrices(props: any) {
     const [formData, setFormData] = useState({
         selectedOption: '',
-        selectedCategory: '',
+        selectedCategory: '0',
         inputValue: '',
         selectedActualizacion: '',
     });
@@ -30,12 +30,12 @@ function UpdatePrices(props: any) {
     const [reqData, setReqData] = useState({
         percentage: 0,
         categoryId: 0,
-        action: '',
+        action: 'increase',
     })
     useEffect(() => {
         setReqData({
             percentage: +formData.inputValue,
-            categoryId: 0,
+            categoryId: +formData.selectedCategory,
             action: formData.selectedActualizacion
         })
     }, [formData]);
@@ -67,11 +67,10 @@ function UpdatePrices(props: any) {
 
             {formData.selectedOption === 'ActualizarPorCategoria' && (
                 <div>
-                    <Typography variant="h6" gutterBottom>
-                        Categoría
-                    </Typography>
-                    <Select
-                        label="Categoría"
+
+                    <TextField
+                        select
+                        label="Aplicar a "
                         name="selectedCategory"
                         variant="outlined"
                         fullWidth
@@ -79,42 +78,42 @@ function UpdatePrices(props: any) {
                         onChange={(e) => setFormData({ ...formData, selectedCategory: e.target.value })}
                         style={{ marginBottom: '1rem' }}
                     >
-                        {props.categoryOptions.map((category, index) => (
-                            <MenuItem key={index} value={category}>
-                                {category}
+                        <MenuItem value={"0"}>Todos los Productos</MenuItem>
+                        {props.categories.map((category:any, index:number) => (
+                            <MenuItem key={index} value={category.id}>
+                                Categoría: {category.name}
                             </MenuItem>
                         ))}
-                    </Select>
+                    </TextField>
+
                 </div>
             )}
-            <Typography variant="h4" gutterBottom>
-                Taza
-            </Typography>
+
             <TextField
                 label="Porcentaje %"
                 name="inputValue"
                 variant="outlined"
                 fullWidth
+                type={"percentage"}
                 value={formData.inputValue}
                 onChange={(e) => setFormData({ ...formData, inputValue: e.target.value })}
                 style={{ marginBottom: '1rem' }}
             />
 
-            <Typography variant="h6" gutterBottom>
-                Actualización
-            </Typography>
-            <Select
+            <TextField
+                select
+                label="Actualización"
+                variant="outlined"
+                margin={"dense"}
                 fullWidth
                 value={formData.selectedActualizacion}
-                onChange={(e) => setFormData({ ...formData, selectedActualizacion: e.target.value })}
-                style={{ marginBottom: '1rem' }}
+                onChange={(e) =>
+                    setFormData({ ...formData, selectedActualizacion: e.target.value })}
             >
-                {props.updateOptions.map((Opc, index) => (
-                <MenuItem key={index} value={Opc}>
-                    {Opc}
-                </MenuItem>
-                ))}
-            </Select>
+                <MenuItem value={"increase"}>Aumentar</MenuItem>
+                <MenuItem value={"decrease"}>Disminuir</MenuItem>
+            </TextField>
+
             <div style={{ display: 'flex', marginTop: '10px', justifyContent: 'space-between' }}>
                 <Button
                     type="submit"
@@ -137,7 +136,7 @@ UpdatePrices.defaultProps = {
     title: 'Actualizar Precios',
     onSubmit: function (){},
     onConfirm: function () {},
-    categoryOptions: [],
+    categories: [],
     updateOptions:["increase", "decrease"],
     productList:[],
 }
@@ -145,7 +144,7 @@ UpdatePrices.propTypes = {
     title: PropTypes.string,
     onSubmit: PropTypes.func,
     onConfirm: PropTypes.func,
-    categoryOptions: PropTypes.array,
+    categories: PropTypes.array,
     updateOptions:PropTypes.array,
     productList:PropTypes.array,
 
