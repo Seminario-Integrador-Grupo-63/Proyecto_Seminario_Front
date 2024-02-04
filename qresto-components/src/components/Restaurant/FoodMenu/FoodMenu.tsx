@@ -68,6 +68,7 @@ export const FoodMenu = (props: any) => {
             <CustomTabPanel value={value} index={3}>
                 <UpdatePrices
                     onSubmit={props.handleUpdatePrices}
+                    categories={props.categories}
                 />
             </CustomTabPanel>
         </Container>

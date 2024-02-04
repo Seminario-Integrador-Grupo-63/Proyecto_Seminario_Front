@@ -62,7 +62,7 @@ export default function UpdatePricesPage() {
 
     return (<>
             <UpdatePrices
-                categoryOptions={categoryOptions}
+                categories={categoryOptions}
                 updateOptions={updateOptions}
                 onSubmit={handleListOpen}
             />
