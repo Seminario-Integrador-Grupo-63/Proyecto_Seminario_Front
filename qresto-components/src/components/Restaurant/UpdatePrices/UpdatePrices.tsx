@@ -88,7 +88,7 @@ function UpdatePrices(props: any) {
                 </div>
             )}
             <Typography variant="h4" gutterBottom>
-                Taza
+                Tasa
             </Typography>
             <TextField
                 label="Porcentaje %"

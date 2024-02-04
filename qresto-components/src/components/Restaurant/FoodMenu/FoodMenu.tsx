@@ -45,7 +45,7 @@ export const FoodMenu = (props: any) => {
                 value={value}
                 onChange={handleChange}
                 aria-label="basic tabs example">
-                <Tab label="Categorias" />
+                <Tab label="Categorías" />
                 <Tab label="Platos" />
                 <Tab label="Guarniciones" />
                 <Tab label="Actualizar Precios" />
