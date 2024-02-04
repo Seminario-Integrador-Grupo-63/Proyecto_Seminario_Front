@@ -68,10 +68,6 @@ export async function postOrderDetail(orderDetail, tableCode){
 }
 
 export async function postOrder(order, tableCode){
-    console.log(' ')
-    console.log('requests postOrder(order, tableCode)')
-    console.log('order: ', order)
-    console.log('tableCode: ', tableCode)
     try{
         const response = await axios.post(url + `/order/creation/${tableCode}`, order)
         return true
@@ -85,9 +81,6 @@ export async function deleteOrderDetail(tableCode, orderDetail){
 }
 
 export async function cancelOrder(orderId){
-    console.log(' ')
-    console.log('requests cancelOrder(orderId)')
-    console.log('orderId: ', orderId)
     try{
         const response = await axios.post(url + `/order/cancelled/${orderId}`)
         return true
@@ -230,8 +223,13 @@ export async function deleteTable(tableId){
 
 
 export async function getBill(tableCode){
-    const response = await axios.get(url + `/table/${tableCode}/bill`)
-    return response.data
+    try{
+        const response = await axios.get(url + `/table/${tableCode}/bill`)
+        return response.data
+    } catch(error) {
+        return false
+    }
+
 }
 
 export async function updateDishPrice(restaurantId, dishId, percentage) {

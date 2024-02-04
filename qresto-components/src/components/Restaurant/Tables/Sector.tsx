@@ -51,8 +51,7 @@ export const Sector = (props: any) => {
     }
 
     const onDelete = () => {
-        const hasOrders = props.sector.tables.some(s => t => t.state !== 'free')
-        
+        const hasOrders = props.sector.tables.some(t => t.state !== 'free')
         if(!hasOrders){
             setActionMessageDialog('delete-sector')
             setTitleMessageDialog("Este sector se eliminará")
@@ -72,7 +71,7 @@ export const Sector = (props: any) => {
 
     const submitMessageDialog = () => {
         if(actionMessageDialog === 'delete-sector'){
-            props.delete(props.sector.id)
+            props.onDelete(props.sector.id)
         } else if (actionMessageDialog === 'close'){
             setOpenMessageDialog(false)
         }

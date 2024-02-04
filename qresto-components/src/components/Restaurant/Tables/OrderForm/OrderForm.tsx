@@ -16,7 +16,7 @@ import { themeButtonWine } from '@/Common/Theme/themes';
 export const OrderForm = (props: any) => {
     const [orderDetailFormOpen, setOrderDetailFormOpen] = useState(false)
     const [stateButtonText, setStateButtonText] = useState('')
-    // const [stateButtonVisible, setStateButtonVisible] = useState(false)
+    const [paymentReady, setPaymentReady] = useState(false)
     const [selectedOrderDetail, setSelectedOrderDetail] = useState(null)
     const [currentState, setCurrentState] = useState('En espera')
     const [isNewOrderDetail, setIsNewOrderDetail] = useState(false)
@@ -30,6 +30,7 @@ export const OrderForm = (props: any) => {
     const [descriptionMessageDialog, setDescriptionMessageDialog] = useState('')
     const [actionMessageDialog, setActionMessageDialog] = useState('')
     const [closeText, setCloseText] = useState('Cancelar')
+    const [orderToPost, setOrderToPost] = useState([])
     const [submitButtonVisible, setSubmitButtonVisible] = useState(true)
     const [openMessageDialog, setOpenMessageDialog] = useState(false)
     const [submitTextMessageDialog, setSubmitTextMessageDialog] = useState('Confirmar')
@@ -42,7 +43,8 @@ export const OrderForm = (props: any) => {
         processing: 'Confirmar orden',
         waiting: 'Orden en preparación',
         preparation: 'Orden entregada',
-        delivered: 'Cerrar orden',
+        delivered: 'Cuenta pedida',
+        billRequest: 'Cerrar Orden'
     }
 
     const states = {
@@ -50,15 +52,11 @@ export const OrderForm = (props: any) => {
         waiting: 'En Espera',
         preparation: 'En Preparación',
         delivered: 'Entregada',
+        billRequest: 'Entregada / Cuenta pedida'
         // close: 'Cerrada'
     }
 
-    const [orderToPost, setOrderToPost] = useState([])
-
     useEffect(() => {
-        console.log(' ')
-        console.log('OrderForm useEffect props.order')
-        console.log('props.order: ', props.order)
         if(props.isNew){
             clear()
             setSubmitButtonVisible(true)
@@ -74,20 +72,29 @@ export const OrderForm = (props: any) => {
                 setOrder(props.order)
                 if(props.order.state === 'waiting'){
                     setStateButtonText(stateButtonTexts.waiting)
-                    setCurrentState("En espera")
+                    setCurrentState(states.waiting)
                 } else if (props.order.state === 'preparation'){
                     setStateButtonText(stateButtonTexts.preparation)
-                    setCurrentState("En preparación")
+                    setCurrentState(states.preparation)
                 } else if (props.order.state === 'delivered'){
-                    setStateButtonText(stateButtonTexts.delivered)
-                    setCurrentState("Entregada")
+                    if(paymentReady){
+                        setStateButtonText(stateButtonTexts.billRequest)
+                        setCurrentState(states.billRequest)
+                    } else {
+                        setStateButtonText(stateButtonTexts.delivered)
+                        setCurrentState(states.delivered)
+                    }
                 } else if (props.order.state === 'processing'){
-                    setCurrentState("En Armado")
+                    setCurrentState(states.processing)
                     setStateButtonText(stateButtonTexts.processing)
                 }
             }
         }
-    }, [props.isNew, props.order])
+    }, [props.isNew, props.order, paymentReady])
+
+    useEffect(() => {
+        setPaymentReady(props.paymentReady)
+    }, [props.paymentReady])
 
     const onAddCustomer = () => {
         setIsNewCustomer(true)
@@ -156,15 +163,6 @@ export const OrderForm = (props: any) => {
         setSelectedCustomer(customer)
     }
 
-    const submitOrderDetailForm = (detail) => {
-        if(isNewOrderDetail){
-            createOrderDetail(detail)
-        } else {
-            updateOrderDetail(detail)
-        }
-        setOrderDetailFormOpen(false)
-    }
-
     const createOrderDetail = (detail) => {
         let sideDishId = null
         if (detail.sideDish !== null){
@@ -183,13 +181,14 @@ export const OrderForm = (props: any) => {
         }
 
         setOrderToPost(orderToPost)
+        setOrderDetailFormOpen(false)
     }
 
     const updateOrderDetail = (detail) => {
-        const detailToPostIndex = orderToPost.findIndex(d => detailsAreEqual(d, detail))
-        orderToPost[detailToPostIndex] = detail
+        const detailToUpdateIndex = orderToPost.findIndex(d => detailsAreEqual(d, selectedOrderDetail))
+        orderToPost[detailToUpdateIndex] = detail
 
-        const i = getOrderDetailIndexes(detail)
+        const i = getOrderDetailIndexes(selectedOrderDetail)
         if(i.customerOrderDetailIndex !== -1 && i.orderDetailIndex !== -1){
             order.customerOrderDetails[i.customerOrderDetailIndex].orderDetails[i.orderDetailIndex] = detail
             let customerTotal = calculateCustomerTotal(order.customerOrderDetails[i.customerOrderDetailIndex].orderDetails)
@@ -199,8 +198,9 @@ export const OrderForm = (props: any) => {
         setOrderToPost(orderToPost)
         setSelectedOrderDetail(null)
         setSelectedCustomer('')
+        setOrderDetailFormOpen(false)
     }
-    
+
     const getOrderDetailIndexes = (detail) => {
         let indexOrderDetail = -1
         const indexCustomerOrderDetail = order.customerOrderDetails.findIndex(customerOrderDetail => customerOrderDetail.customer === detail.customerName)
@@ -224,11 +224,7 @@ export const OrderForm = (props: any) => {
     }
 
     const detailsAreEqual = (d1, d2) => {
-        console.log(' ')
-        console.log('OrderForm detailsAreEqual(d1, d2)')
-        console.log('d1: ', d1)
-        console.log('d2: ', d2)
-
+        // debugger
         if ( typeof d1.dish === 'number' && typeof d2.dish === 'number' ){
             if(d1.dish !== d2.dish) {
                 return false
@@ -266,6 +262,7 @@ export const OrderForm = (props: any) => {
     }
 
     const onDeleteCustomerOrderDetail = (customer) => {
+
         setSelectedCustomer(customer)
         setTitleMessageDialog('Se eliminará el comensal')
         setActionMessageDialog(messageDialogActions.deleteCustomerOrderDetail)
@@ -283,39 +280,31 @@ export const OrderForm = (props: any) => {
 
     const deleteCustomerOrderDetail = () => {
         const index = order.customerOrderDetails.findIndex(customerOrderDetail => customerOrderDetail.customer === selectedCustomer)
-
         if(index !== -1){
             order.customerOrderDetails.splice(index, 1)
-            let ord = orderToPost.map(detail => {
+            let ord = []
+            orderToPost.forEach(detail => {
                 if(detail.customerName !== selectedCustomer){
-                    return detail
+                    ord.push(detail)
                 }
             })
-            setOrderToPost(ord)
+            setOrderToPost(ord)    
         }
     }
 
     const deleteOrderDetail = () => {
-        console.log(' ')
-        console.log('OrderForm deleteOrderDetail()')
-        console.log('selectedOrderDetail: ', selectedOrderDetail)
         const i = getOrderDetailIndexes(selectedOrderDetail)
-        console.log('i: ', i)
-
+        
         if(i.customerOrderDetailIndex !== -1 && i.orderDetailIndex !== -1){
             order.customerOrderDetails[i.customerOrderDetailIndex].orderDetails.splice(i.orderDetailIndex, 1)
             let customerTotal = calculateCustomerTotal(order.customerOrderDetails[i.customerOrderDetailIndex].orderDetails)
             order.customerOrderDetails[i.customerOrderDetailIndex].customerTotal = customerTotal
             const index = orderToPost.findIndex(detail => detailsAreEqual(detail, selectedOrderDetail))
-            console.log('index: ', index)
             if(index !== -1){
                 orderToPost.splice(index, 1)
                 setOrderToPost(orderToPost)
             }
         }
-
-        console.log('order: ', order)
-        console.log('orderToPost: ', orderToPost)
     }
 
     const submitMessageDialog = () => {
@@ -329,10 +318,7 @@ export const OrderForm = (props: any) => {
         setSubmitTextMessageDialog('Confirmar')
     }
 
-    const submit = () => {
-        console.log(' ')
-        console.log('OrderForm submit()')
-        console.log('orderToPost: ', orderToPost)
+    const submit = async () => {
         if(orderToPost.length > 0){
             props.onSubmit(orderToPost)
         } else {
@@ -349,30 +335,17 @@ export const OrderForm = (props: any) => {
     }
 
     const changeState = async () => {
-
         if(order.state === 'waiting'){
-            const result = await props.onOrderPreparation(order.id)
-            console.log('result: ', result)
-            if(result){
-                order.state = 'preparation'
-                setOrder(order)
-                setStateButtonText(stateButtonTexts.preparation)
-                setCurrentState(states.preparation)
-            }
+            await props.onOrderPreparation(order.id)
         } else if (order.state === 'preparation'){
-            const result = await props.onOrderDelivered(order.id)
-            if(result){
-                order.state = 'delivered'
-                setOrder(order)
-                setStateButtonText(stateButtonTexts.delivered)
-                setCurrentState(states.delivered)
-            }
+            await props.onOrderDelivered(order.id)
         } else if (order.state === 'delivered'){
-            const result = await props.onOrderClosed()
-            // if(result){
-            //     setStateButtonVisible(false)
-            // }
-        }
+            if(paymentReady){
+                props.onOrderClosed()
+            } else {
+                await props.onBillRequest()
+            }
+        } 
     }
 
     return (<>
@@ -432,7 +405,8 @@ export const OrderForm = (props: any) => {
                 isNew={isNewOrderDetail}
                 orderDetail={selectedOrderDetail}
                 customer={selectedCustomer}
-                submit={submitOrderDetailForm}
+                onCreate={createOrderDetail}
+                onUpdate={updateOrderDetail}
                 open={orderDetailFormOpen}
                 onClose={closeOrderDetailForm}/>
 
@@ -467,7 +441,9 @@ OrderForm.defaultProps =
     order: null,
     onOrderPreparation: function(){},
     onOrderDelivered: function(){},
-    onOrderClosed: function(){}
+    onBillRequest: function(){},
+    onOrderClosed: function(){},
+    paymentReady: false
 }
 
 OrderForm.propTypes = 
@@ -481,5 +457,7 @@ OrderForm.propTypes =
     order: PropTypes.object,
     onOrderPreparation: PropTypes.func,
     onOrderDelivered: PropTypes.func,
-    onOrderClosed: PropTypes.func
+    onBillRequest: PropTypes.func,
+    onOrderClosed: PropTypes.func,
+    paymentReady: PropTypes.bool
 }

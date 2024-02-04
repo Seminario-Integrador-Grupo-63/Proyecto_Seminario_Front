@@ -12,7 +12,7 @@ import { TableForm } from "./TableForm";
 import { PanLoader as Loader} from '@/Common/PanLoader/PanLoader'
 import { FeedbackDialog } from "@/Common/FeedbackDialog/FeedbackDialog";
 import { SectorForm } from "./SectorForm";
-
+import { TablesLegend } from "./TablesLegend/TablesLegend";
 
 const restaurantId = 1
 
@@ -63,33 +63,37 @@ export const TableSchema = ( props: any ) => {
         setOpenFeedbackDialog(false)
     }
 
-    const onDeleteSector = (sector) => {
-        const hasOrders = props.grid.some(s => {
-            if(s.id === sector.id){
-                return s.tables.some(t => t.state !== 'free')
-            }
-        })
-    }
-
     return (<>
         <Container maxWidth={false}>
-            <Grid container spacing={2}>
+            <Grid 
+                container 
+                spacing={2} 
+                sx={{ 
+                    alignItems: 'center',
+                }}>
                 <ThemeProvider theme={themeButtonWine}>
-                    <Grid item sx={{marginTop: '5px', marginBottom: '5px'}}>
+                    <Grid item xs={6}>
                         <Button 
+                            sx={{margin: '5px'}}
                             variant={'contained'}
                             onClick={onNewSector}>
                             + Sector
                         </Button>
-                    </Grid>
-                    <Grid item sx={{marginTop: '5px', marginBottom: '5px'}}>
+
                         <Button
+                            sx={{margin: '5px'}}
                             variant={'contained'}
                             onClick={onNewTable}>
                             + Mesa
                         </Button>
                     </Grid>
                 </ThemeProvider>
+                <Grid 
+                    item 
+                    xs={6} 
+                    sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                    <TablesLegend/>
+                </Grid>
             </Grid>
             <Grid 
                 container
@@ -102,7 +106,7 @@ export const TableSchema = ( props: any ) => {
                         <Sector 
                             sector={sector}
                             onUpdate={props.updateSector}
-                            onDelete={onDeleteSector}
+                            onDelete={props.deleteSector}
                             onTableClick={props.onTableClick}/>
                     </Grid>
                 ))}

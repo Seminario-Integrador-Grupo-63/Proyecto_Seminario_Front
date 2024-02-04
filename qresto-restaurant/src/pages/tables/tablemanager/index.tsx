@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react'
 import { useRouter } from 'next/router'
 import { TableManager } from '@/Restaurant/Tables/TableManager'
-import { QRDisplay} from '@/Restaurant/Tables/QRDisplay/QRDisplay'
 import { useSearchParams} from 'next/navigation'
 import { 
     getOrders, 
@@ -16,6 +15,7 @@ import {
     postOrderClosed,
     postOrderDelivered,
     putTable,
+    getBill,
     deleteTable as deleteTableRequest
 } from '@/requests'
 import {FeedbackDialog} from '@/Common/FeedbackDialog/FeedbackDialog'
@@ -92,6 +92,8 @@ export default function TableManagerPage() {
             } else if (action === 'delete-table'){
                 setTextFeedback('La mesa ha sido eliminada exitosamente')
                 setCloseFeedbackAction('go-back')
+            } else if (action === 'create-order'){
+                setTextFeedback('La orden ha sido generada exitosamente')
             }
         } else {
             if(action === 'cancel-order'){
@@ -100,8 +102,10 @@ export default function TableManagerPage() {
                 setTextFeedback('No se ha podido actualizar el estado de la orden')
             } else if (action === 'update-table'){
                 setTextFeedback('No se ha podido actualizar la mesa')
-            }else if (action === 'delete-table'){
+            } else if (action === 'delete-table'){
                 setTextFeedback('No se ha podido eliminar la mesa')
+            } else if(action === 'create-order'){
+                setTextFeedback('No se pudo generar la orden')
             }
         }
         setOpenFeedbackDialog(true)
@@ -145,8 +149,15 @@ export default function TableManagerPage() {
     }
 
     const createOrder = async (order) => {
+        setLoading(true)
         const result = await postOrder(order, table.tableCode)
-        await fetchOrders()
+
+        setLoading(false)
+        if(result){
+            await fetchOrders()
+        } 
+        triggerFeedback(result, 'create-order')
+        return result
     }
 
     const updateTable = async (tableToUpdate) => {
@@ -191,6 +202,24 @@ export default function TableManagerPage() {
         return result
     }
 
+    const onBillRequest = async () => {
+        setLoading(true)
+        const result = await getBill(table.tableCode)
+        setLoading(false)
+        if(result !== false){
+            triggerFeedback(true, 'order-state')
+            await Promise.all([
+                fetchOrders(),
+                fetchTable(table.id)
+            ])
+
+            return true
+        } else {
+            triggerFeedback(false, 'order-state')
+            return false
+        }
+    }
+
     return (<>
         <TableManager
             table={table}
@@ -201,6 +230,7 @@ export default function TableManagerPage() {
             deleteTable={deleteTable}
             cancelOrder={cancelOrder}
             onQRDownload={onQRDownload}
+            onBillRequest={onBillRequest}
             goBack={goBack}
             generateQR={generateQR}
             updateTable={updateTable}

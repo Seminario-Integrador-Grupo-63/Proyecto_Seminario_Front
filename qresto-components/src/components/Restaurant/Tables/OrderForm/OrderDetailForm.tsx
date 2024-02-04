@@ -26,53 +26,104 @@ export const OrderDetailForm = (props: any) => {
     const [helperTextQuantity, setHelperTextQuantity] = useState('')
     const [quantityInput, setQuantityInput] = useState('')
     const [customer, setCustomer] = useState('')
+    const [initialized, setInitialized] = useState(false)
 
     useEffect(() => {
         setCustomer(props.customer)
     }, [props.customer])
 
     useEffect(() => {
-        setCategories(props.menu)
-    }, [props.menu])
+        setupEditForm()
+    }, 
+    [
+        props.isNew, 
+        props.orderDetail, 
+        categories, 
+        props.menu,
+        selectedDish,
+        categoryDishes,
+        sideDishes,
+        selectedCategory,
+        selectedSideDish
+    ])
 
-    useEffect(() => {
-        if(!props.isNew && props.orderDetail !== null){
-            setupSelectedCategory(props.orderDetail)
-            setSelectedDish(props.orderDetail.dish)
-            setSelectedSideDish(props.orderDetail.sideDish)
-            setQuantity(props.orderDetail.amount)
-            setQuantityInput(props.orderDetail.amount.toString())
-            setObservation(props.orderDetail.observation)
-            setTitle("Editar Detalle de Orden")
-            setSubmitText("Actualizar")
-        } else {
-            setTitle("Crear Detalle de Orden")
-            setSubmitText("Crear")
-            setSelectedCategory(null)
-            setCategoryDishes([])
-            setSideDishes([])
-            setSelectedDish(null)
-            setSelectedSideDish(null)
-            setQuantity(1)
-            setQuantityInput('1')
-            setObservation('')
+    const setupEditForm = () => {
+        if(!initialized){ // Si el componente todavía no está inicializado
+            setCategories(props.menu)
+            if(!props.isNew){ // Si se abre para editar un detalle
+                setTitle("Editar Detalle de Orden")
+                setSubmitText("Actualizar")
+                if(props.orderDetail !== null){ // Si se pasó un detalle de orden
+                    setQuantity(props.orderDetail.amount)
+                    setQuantityInput(props.orderDetail.amount.toString())
+                    setObservation(props.orderDetail.observation)
+                    if(selectedCategory === null){ // Si aún no se seleccionó la categoría
+                        if(categories.length > 0){
+                            setupSelectedCategory(props.orderDetail.dish)
+                        }
+                    } else if (selectedDish === null){ // Si todavía no se selecció un plato
+                        if(categoryDishes.length > 0){ // Si ya hay platos cargados en el selector
+                            setSelectedDish(props.orderDetail.dish)
+                        } else { // Si no hay platos cargados en el selector
+                            setupCategoryDishes()
+                        }
+                    } else if (sideDishes.length === 0){ // Si todavía no se seleccionó una guarnición
+                        if(selectedDish.sideDishes.length > 0){ // Si hay guarniciones cargadas en el selector
+                            setSideDishes(selectedDish.sideDishes)
+                        }
+                    } else if (props.orderDetail.sideDish !== null){ // Si el detalle incluye una guarnición
+                        if(selectedSideDish === null){ // Si la guarnición seleccionada todavía no se seteó
+                            setSelectedSideDish(props.orderDetail.sideDish)
+                        } else { // Si ya se cargó todo
+                            setInitialized(true)
+                        }
+                    }
+                }
+            } else { // Si se abre para crear un detalle
+                setTitle("Crear Detalle de Orden")
+                setSubmitText("Crear")
+            }
         }
-    }, [props.isNew, props.orderDetail])
+    }
 
-    const setupSelectedCategory = (orderDetail) => {
+    const setupSelectedCategory = (dish) => {
         categories.forEach(category => {
-            if(category.dishes.some(dish => dish.id === orderDetail.dish.id)){
+            if(category.dishes.some(d => d.id === dish.id)){
                 setSelectedCategory(category)
             }
         })
     }
 
+    const setupCategoryDishes = () => {
+        /**
+        Se cargan en el selector los platos de la categoría seleccionada
+        Si no hay categoría seleccionada no se carga nada
+        */
+        const index = categories.findIndex(c => c.id === selectedCategory.id )
+        if(index !== -1){
+            setCategoryDishes(categories[index].dishes)
+        }
+    }
+
+    // const setupCreateDetail = () => {
+    //     setTitle("Crear Detalle de Orden")
+    //     setSubmitText("Crear")
+    //     setSelectedCategory(null)
+    //     setCategoryDishes([])
+    //     setSideDishes([])
+    //     setSelectedDish(null)
+    //     setSelectedSideDish(null)
+    //     setQuantity(1)
+    //     setQuantityInput('1')
+    //     setObservation('')
+    // }
+
     const handleCategoryChange = (category) => {
+        setSideDishes([])
         if(category === ''){
             setSelectedDish(null)
             setSelectedCategory(null)
             setCategoryDishes([])
-            setSideDishes([])
             setSelectedSideDish(null)
         } else {
             setCategoryDishes(category.dishes)
@@ -110,6 +161,9 @@ export const OrderDetailForm = (props: any) => {
     }
 
     const submit = () => {
+        console.log(' ')
+        console.log('OrderDetailForm submit()')
+        console.log('selectedSideDish: ', selectedSideDish)
         if(verifySubmit()){
             let sideDishId = null
             let extraPrice = 0
@@ -117,7 +171,7 @@ export const OrderDetailForm = (props: any) => {
                 sideDishId = selectedSideDish.id
                 extraPrice = selectedSideDish.extraPrice
             }
-            const newDetail = {
+            const detail = {
                 dish: selectedDish,
                 sideDish: selectedSideDish,
                 customerName: customer,
@@ -126,7 +180,12 @@ export const OrderDetailForm = (props: any) => {
                 observation: observation
             }
             clearComponent()
-            props.submit(newDetail)
+            if(props.isNew){
+                props.onCreate(detail)
+            } else {
+                props.onUpdate(detail)
+            }
+            // props.submit(detail)
         } 
     }
 
@@ -139,6 +198,8 @@ export const OrderDetailForm = (props: any) => {
         setQuantityInput('1')
         setObservation('')
         setSelectedSideDish(null)
+        setInitialized(false)
+        
     }
 
     const verifySubmit = () => {
@@ -253,7 +314,9 @@ OrderDetailForm.defaultProps =
     isNew: true,
     menu: [],
     dishChange: function(){},
-    submit: function(){},
+    // submit: function(){},
+    onCreate: function(){},
+    onUpdate: function(){},
     customer: '',
     orderDetail: null
 }
@@ -265,7 +328,9 @@ OrderDetailForm.propTypes =
     onClose: PropTypes.func,
     menu: PropTypes.array,
     dishChange: PropTypes.func,
-    submit: PropTypes.func,
+    // submit: PropTypes.func,
+    onCreate: PropTypes.func,
+    onUpdate: PropTypes.func,
     customer: PropTypes.string,
     orderDetail: PropTypes.object
 }

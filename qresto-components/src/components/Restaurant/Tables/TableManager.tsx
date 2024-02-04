@@ -24,6 +24,7 @@ export const TableManager = (props: any) => {
     const [openOrderForm, setOpenOrderForm] = useState(false)
     const [orderFormActions, setOrderFormActions] = useState(true)
     const [menu, setMenu] = useState(null)
+    const [paymentReady, setPaymentReady] = useState(false)
     const [orderFormIsNew, setOrderFormIsNew] = useState(true)
     const [openTableForm, setOpenTableForm] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -60,6 +61,13 @@ export const TableManager = (props: any) => {
     useEffect(() => {
         if(props.table !== null){
             setTable(props.table)
+
+            if(props.table.state === 'payment_ready'){
+                setPaymentReady(true)
+            } else {
+                setPaymentReady(false)
+            }
+    
             if(props.table.tableCode !== ''){
                 setHasTableCode(true)
             } else {
@@ -67,11 +75,6 @@ export const TableManager = (props: any) => {
             }
         }
     }, [props.table])
-
-    useEffect(() => {
-
-    }, [props.menu])
-
 
     const setupOrders = () => {
         let rows = props.orders.map(order => {
@@ -246,8 +249,18 @@ export const TableManager = (props: any) => {
         }
     }
 
-    const onOrderClosed = () => {
-        props.onOrderClosed(table.tableCode)
+    const onOrderClosed = async () => {
+        const result = await props.onOrderClosed(table.tableCode)
+        if(result){
+            setOpenOrderForm(false)
+        }
+    }
+    
+    const createOrder = async (order) => {
+        const result = await props.createOrder(order)
+        if(result){
+            setOpenOrderForm(false)
+        }
     }
 
     return (
@@ -337,13 +350,15 @@ export const TableManager = (props: any) => {
             <OrderForm 
                 open={openOrderForm}
                 menu={menu}
+                paymentReady={paymentReady}
                 order={selectedOrder}
                 actions={orderFormActions}
                 isNew={orderFormIsNew}
                 onClose={onOrderFormClose}
-                onSubmit={props.createOrder}
+                onSubmit={createOrder}
                 onOrderPreparation={props.onOrderPreparation}
                 onOrderDelivered={props.onOrderDelivered}
+                onBillRequest={props.onBillRequest}
                 onOrderClosed={onOrderClosed}/>
 
             <TableForm
@@ -390,8 +405,8 @@ TableManager.defaultProps =
     updateTable: function(){},
     onOrderPreration: function(){},
     onOrderDelivered: function(){},
+    onBillRequest: function(){},
     onOrderClosed: function(){}
-
 }
 
 TableManager.propTypes =
@@ -410,5 +425,6 @@ TableManager.propTypes =
     updateTable: PropTypes.func,
     onOrderPreparation: PropTypes.func,
     onOrderDelivered: PropTypes.func,
+    onBillRequest: PropTypes.func,
     onOrderClosed: PropTypes.func
 }
