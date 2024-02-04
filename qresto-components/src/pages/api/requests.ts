@@ -314,7 +314,7 @@ export async function getUpdatedPrices(body:any) {
 }
 export async function confirmUpdatePrices(uuid:string) {
     try {
-        const response = await axios.get(url + `/dish/update_prices/${uuid}`)
+        const response = await axios.post(url + `/dish/update_prices/${uuid}`)
         return response.data
     } catch (error) {
         return []

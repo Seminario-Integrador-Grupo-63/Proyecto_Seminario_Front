@@ -104,7 +104,7 @@ export default function UpdateList(props: any) {
         <Button
           type="submit"
           variant="contained"
-          onClick={handleClickOpen}
+          onClick={props.onSubmit}
           sx={{
             backgroundColor: theme.palette.primary.main,
             margin: 1
