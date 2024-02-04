@@ -1,7 +1,17 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories } from '@/requests';
+import {
+    getDishes,
+    deleteDish,
+    getDish,
+    deleteSideDish,
+    getSideDish,
+    updateSideDishInfo,
+    getSideDishes,
+    getCategories,
+    deleteCategory, updateCategory, createCategory
+} from '@/requests';
 import {
     getUpdatedPrices, confirmUpdatePrices
 } from '@/requests';
@@ -9,6 +19,8 @@ import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 import {Dialog} from "@mui/material";
 import UpdateList from "@/Restaurant/UpdatePrices/Updatelist";
 import Confirmation from "@/Restaurant/UpdatePrices/Confirmation";
+import {useField} from "@mui/x-date-pickers/internals";
+import {DataTable} from "@/Common/DataTable";
 
 export default function FoodMenuPage() {
     const [categories, setCategories] = useState([]);
@@ -21,42 +33,37 @@ export default function FoodMenuPage() {
     const [actionFeedback, setActionFeedback] = useState('')
 
     // Necesarios para el updatePrices
-    const [productList, setProductList] = useState([])
-    const [updateConfirmId, setUpdateConfirmId] = useState()
+    const [dishList, setDishList] = useState([])
+    const [updateConfirmId, setUpdateConfirmId] = useState('')
     const [updateListOpen, setUpdateListOpen] = useState(false)
     const [confirmationOpen, setConfirmationOpen] = useState(false)
-    const handleListOpen = async (req) => {
-        console.log("testing update req", req)
-        // Debo probar que el .then funcione como creo que funciona
-        const response = await updatePricesPreview(req)
-        console.log("respuesta: ", response)
-        setUpdateListOpen(true)
-        // @ts-ignore
-        setProductList(response.dishPrices)
-        // @ts-ignore
-        const uuid = response.prices_code
-    }
 
+    // Handle list of dishes to update
+    const handleListOpen = async (req: any) => {
+
+        // Request
+        const updatePreview = await getUpdatedPrices(req)
+        // Setting UseState
+        setUpdateConfirmId(updatePreview.prices_code)
+        setDishList(updatePreview.dishPrices)
+        // Opening List
+        setUpdateListOpen(true)
+    }
     const handleListClose = () => {
         setUpdateListOpen(false)
     }
+
+    //Handle Confirmation Dialog
     const handleConfirmationOpen = () => {
         setConfirmationOpen(true)
     }
     const handleConfirmationClose = () => {
         setConfirmationOpen(false)
     }
-    const updatePricesPreview = async (req) => {
-        const updatePreview = await getUpdatedPrices(req)
-        console.log("updatePreview", updatePreview)
-        console.log("pricesCode", updatePreview.prices_code)
-        console.log("DishPrices", updatePreview.dishPrices)
 
-        setUpdateConfirmId(updatePreview.prices_code)
-        setProductList(updatePreview.dishPrices)
-    }
+    // Confirm Update Prices and close dialog
     const confirmUpdate = async () => {
-        const updateConfirmation = await confirmUpdatePrices(updateConfirmId)
+        confirmUpdatePrices(updateConfirmId).then(handleConfirmationClose)
     }
 
     useEffect(() => {
@@ -261,10 +268,10 @@ export default function FoodMenuPage() {
             deleteCategory={handleDeleteCategory}
             createCategory={handleCreateCategory}
             updateCategory={handleUpdateCategory}
-             />
-           // updateDish={handleEditDish}
+/*            updateDish={handleEditDish}*/
             handleUpdatePrices={handleListOpen}
-        />
+             />
+
 
         <FeedbackDialog
             open={openFeedbackDialog}
@@ -275,11 +282,13 @@ export default function FoodMenuPage() {
 
 
         <Dialog open={updateListOpen} onClose={handleListClose}>
+
             <UpdateList
                 open={updateListOpen}
                 onClose={handleListClose}
-                productList={productList}
+                productList={dishList}
                 onSubmit={handleConfirmationOpen}
+                dishList={dishList}
             />
         </Dialog>
         <Dialog open={confirmationOpen} onClose={handleConfirmationClose}>
