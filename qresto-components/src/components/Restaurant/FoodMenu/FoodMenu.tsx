@@ -10,6 +10,7 @@ import { CustomTabPanel } from '@/Common/CustomTabPanel';
 import { Dishes } from './Dishes/Dishes';
 import { SideDishes } from './SideDishes/SideDishes';
 import { Categories } from '../Categories/Categories';
+import UpdatePrices from "@/Restaurant/UpdatePrices/UpdatePrices";
 
 export const FoodMenu = (props: any) => {
     const [value, setValue] = useState(0);
@@ -60,7 +61,9 @@ export const FoodMenu = (props: any) => {
                 deleteSideDish={props.deleteSideDish}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
-                Actualizar Precios
+                <UpdatePrices
+                    onSubmit={props.handleUpdatePrices}
+                />
             </CustomTabPanel>
         </Container>
     </>)
@@ -71,7 +74,8 @@ FoodMenu.defaultProps = {
     sideDishes: [],
     categories: [],
     deleteDish: function(){},
-    deleteSideDish:function(){}
+    deleteSideDish:function(){},
+    handleUpdatePrices: function () {},
 }
 
 FoodMenu.propTypes = {
@@ -79,5 +83,6 @@ FoodMenu.propTypes = {
     sideDishes: PropTypes.array,
     categories: PropTypes.array,
     deleteDish: PropTypes.func,
-    deleteSideDish: PropTypes.func
+    deleteSideDish: PropTypes.func,
+    handleUpdatePrices: PropTypes.func,
 }

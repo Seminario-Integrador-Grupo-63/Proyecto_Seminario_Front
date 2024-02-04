@@ -1,8 +1,20 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes } from '@/requests';
+import {
+    getDishes,
+    deleteDish,
+    getDish,
+    deleteSideDish,
+    getSideDish,
+    updateSideDishInfo,
+    getSideDishes,
+    getUpdatedPrices, confirmUpdatePrices
+} from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
+import {Dialog} from "@mui/material";
+import UpdateList from "@/Restaurant/UpdatePrices/Updatelist";
+import Confirmation from "@/Restaurant/UpdatePrices/Confirmation";
 
 export default function FoodMenuPage() {
     const [dishes, setDishes] = useState([]);
@@ -12,6 +24,45 @@ export default function FoodMenuPage() {
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
     const [actionFeedback, setActionFeedback] = useState('')
+
+    // Necesarios para el updatePrices
+    const [productList, setProductList] = useState([])
+    const [updateConfirmId, setUpdateConfirmId] = useState()
+    const [updateListOpen, setUpdateListOpen] = useState(false)
+    const [confirmationOpen, setConfirmationOpen] = useState(false)
+    const handleListOpen = async (req) => {
+        console.log("testing update req", req)
+        // Debo probar que el .then funcione como creo que funciona
+        const response = await updatePricesPreview(req)
+        console.log("respuesta: ", response)
+        setUpdateListOpen(true)
+        // @ts-ignore
+        setProductList(response.dishPrices)
+        // @ts-ignore
+        const uuid = response.prices_code
+    }
+
+    const handleListClose = () => {
+        setUpdateListOpen(false)
+    }
+    const handleConfirmationOpen = () => {
+        setConfirmationOpen(true)
+    }
+    const handleConfirmationClose = () => {
+        setConfirmationOpen(false)
+    }
+    const updatePricesPreview = async (req) => {
+        const updatePreview = await getUpdatedPrices(req)
+        console.log("updatePreview", updatePreview)
+        console.log("pricesCode", updatePreview.prices_code)
+        console.log("DishPrices", updatePreview.dishPrices)
+
+        setUpdateConfirmId(updatePreview.prices_code)
+        setProductList(updatePreview.dishPrices)
+    }
+    const confirmUpdate = async () => {
+        const updateConfirmation = await confirmUpdatePrices(updateConfirmId)
+    }
 
     useEffect(() => {
         fetchDishes();
@@ -59,7 +110,7 @@ export default function FoodMenuPage() {
                 setTextFeedback('No se ha podido eliminar la guarnicion')
             }
             setOpenFeedbackDialog(true)
-   }
+    }
        
         const closeFeedback = () => {
         setOpenFeedbackDialog(false)
@@ -135,7 +186,6 @@ export default function FoodMenuPage() {
             console.error("Error al obtener información de la guarnición:", error);
         }
     }
-
     const handleUpdateSideDishInfo = async (sideDishId, updatedInfo) => {
         try {
             await updateSideDishInfo(sideDishId, updatedInfo);
@@ -145,18 +195,40 @@ export default function FoodMenuPage() {
         }
     }
 
+
+
+
     return (<>
         <FoodMenu dishes={dishes} 
             deleteDish={handleDeleteDish}
             sideDishes={sidedishes}
             deleteSideDish={handleDeleteSideDish}
-           // updateDish={handleEditDish} 
-             />
+           // updateDish={handleEditDish}
+            handleUpdatePrices={handleListOpen}
+        />
 
         <FeedbackDialog
             open={openFeedbackDialog}
             positive={positiveFeedback}
             text={"Se ha eliminado con éxito"}
-            onClose={closeFeedback}/>
+            onClose={closeFeedback}
+        />
+
+
+        <Dialog open={updateListOpen} onClose={handleListClose}>
+            <UpdateList
+                open={updateListOpen}
+                onClose={handleListClose}
+                productList={productList}
+                onSubmit={handleConfirmationOpen}
+            />
+        </Dialog>
+        <Dialog open={confirmationOpen} onClose={handleConfirmationClose}>
+            <Confirmation
+                open={confirmationOpen}
+                onClose={handleConfirmationClose}
+                onSubmit={confirmUpdate}
+            />
+        </Dialog>
      </>)
 } 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Container,
   Typography,
@@ -27,12 +27,24 @@ function UpdatePrices(props: any) {
     const [productList, setProductList] = useState([])
 
 
+    const [reqData, setReqData] = useState({
+        percentage: 0,
+        categoryId: 0,
+        action: '',
+    })
+    useEffect(() => {
+        setReqData({
+            percentage: +formData.inputValue,
+            categoryId: 0,
+            action: formData.selectedActualizacion
+        })
+    }, [formData]);
 
     const handleCloseDialog = () => {
         setIsDialogOpen(false);
     };
     const handleUpdateClick = () => {
-        props.onSubmit()
+        props.onSubmit(reqData)
         setProductList(props.productList)
         setIsDialogOpen(true);
     };
@@ -126,7 +138,7 @@ UpdatePrices.defaultProps = {
     onSubmit: function (){},
     onConfirm: function () {},
     categoryOptions: [],
-    updateOptions:[],
+    updateOptions:["increase", "decrease"],
     productList:[],
 }
 UpdatePrices.propTypes = {

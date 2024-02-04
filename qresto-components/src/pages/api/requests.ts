@@ -300,26 +300,15 @@ export async function createUser(user, restaurantId) {
 
 export async function getUpdatedPrices(body:any) {
     const headers = {'restaurant-id': getCookieRId()}
-
-/*    if (t == true) {
-        const body = {
-            "percentage": data[0],
-            "categoryId": data[1],
-            "action": data[2]
-        }
-    } else {
-        const body = {
-            "percentage": data[0],
-            "action": data[1]
-        }
-
-    }*/
-
     try {
+        // Esto está andando bien
         const response = await axios.post(url + '/dish/update_prices', body, {headers})
         return response.data
     } catch (error) {
-        return []
+        return {
+            prices_code: '',
+            dishPrices: []
+        }
     }
 }
 export async function confirmUpdatePrices(uuid:string) {
