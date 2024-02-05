@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories, createSideDish } from '@/requests';
+import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories, createSideDish, createDish } from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 import { SideDishes } from '@/Restaurant/FoodMenu/SideDishes/SideDishes';
 import { Categories } from '@/Restaurant/Categories/Categories';
@@ -99,20 +99,31 @@ export default function FoodMenuPage() {
         }
     };
 
-    const handleEditDish = async (dishId) => {
-        try {
-            const dishToUpdateIndex = dishes.findIndex((dish) => dish.id === dishId);
-            if (dishToUpdateIndex !== -1) {
-                const updatedDish = await getDish(dishId);
-                const updatedDishes = [...dishes];
-                updatedDishes[dishToUpdateIndex] = updatedDish;
-                setDishes(updatedDishes);
+    const handleCreateDish = async (dish) => {
+        console.log('ddddish: ', dish)
+        try{
+            const result = await createDish(dish)
+            console.log('resp handldeDSideC' + result)
+            if (result) {
+                await fetchDishes(); // Recargar la lista de guarniciones después de eliminar una
+                 triggerFeedback(true, 'create-sidedish'); 
+             } else {
+                 triggerFeedback(false, 'create-sidedish');
              }
-            } catch (error) {
-            console.error("Error al obtener información del plato:", error);
+        }catch (error) {
+            console.error("Error al crear el plato:", error);
         }
     }
 
+    const handleUpdateDishInfo = async (updatedInfo) => {
+        try {
+            await createDish(updatedInfo);
+            await fetchDishes();
+        } catch (error) {
+            console.error("Error al actualizar información del plato:", error);
+        }
+    }
+    
     //guarnicion?
 
     const handleDeleteSideDish = async (sideDish) => {
@@ -149,21 +160,6 @@ export default function FoodMenuPage() {
         }
     }
 
-    const handleEditSideDish = async (sideDishId) => {
-        try {
-            const sideDishToUpdateIndex = sideDishId.findIndex((sideDish) => sideDish.id === sideDishId);
-            if (sideDishToUpdateIndex !== -1) {
-                const updatedSideDish = await getSideDish(sideDishId);
-                const updatedSideDishes = [...sideDishId];
-                updatedSideDishes[sideDishToUpdateIndex] = updatedSideDish;
-                setSideDishes(updatedSideDishes);
-            }
-           
-        } catch (error) {
-            console.error("Error al obtener información de la guarnición:", error);
-        }
-    }
-
     const handleUpdateSideDishInfo = async (updatedInfo) => {
         try {
             await updateSideDishInfo(updatedInfo);
@@ -174,12 +170,13 @@ export default function FoodMenuPage() {
     }
 
     return (<>
-        <FoodMenu dishes={dishes} 
-            deleteDish={handleDeleteDish}
+        <FoodMenu dishes={dishes}             
             sideDishes={sidedishes}
             categories={categories}
             deleteSideDish={handleDeleteSideDish}
-           // updateDish={handleEditDish} 
+            deleteDish={handleDeleteDish}
+            createDish={handleCreateDish}
+            updateDish={handleUpdateDishInfo} 
             createSideDish={handleCreateSideDish}
             updateSideDishes={handleUpdateSideDishInfo}
              />

@@ -285,12 +285,23 @@ export async function deleteDish(dishId: number) {
     }
 }
 
-export async function updateDish(dishId: number, updatedDish: any) {
+export async function updateDish(dishData: any) {
     try {
-        const response = await axios.put(`${url}/dish/${dishId}`, updatedDish);
+        let body={
+            "id": dishData.id,
+            "name": dishData.name,
+            "description": dishData.description,
+            "image": dishData.image,
+            "preparationTime": dishData.preparationTime,
+            "category": dishData.category,
+            "price": dishData.price,
+            "restaurant": restaurantId
+            
+          }
+        const response = await axios.put(`${url}/dish/`, body);
         return response.data;
     } catch (error) {
-        console.error(`Error al actualizar plato con ID ${dishId}:`, error.response?.data || error.message);
+        console.error(`Error al actualizar plato con ID ${dishData}:`, error.response?.data || error.message);
         throw error;
     }
 }
@@ -363,6 +374,27 @@ export async function createSideDish(sideDishData) {
         return response.data;
     } catch (error) {
         console.error("Error al crear la guarnicion:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export async function createDish(dishData) {
+    try {
+        let body={
+            
+            "name": dishData.name,
+            "description": dishData.description,
+            "image": dishData.image,
+            "preparationTime": dishData.preparationTime,
+            "category": dishData.category,
+            "price": dishData.price,
+            "restaurant": restaurantId
+            
+          }
+        const response = await axios.post(url + `/dish/`, body);
+        return response.data;
+    } catch (error) {
+        console.error("Error al crear el plato:", error.response?.data || error.message);
         throw error;
     }
 }

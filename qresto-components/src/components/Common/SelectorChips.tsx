@@ -34,6 +34,7 @@ export const SelectorChips = (props: any) => {
     const [selectedItem, setSelectedItem] = useState<string[]>([]);
 
     const handleChange = (event: SelectChangeEvent<typeof selectedItem>) => {
+        console.log('SC'+ event.target.value)
         const {
         target: { value },
         } = event;
@@ -41,6 +42,7 @@ export const SelectorChips = (props: any) => {
         // On autofill we get a stringified value.
         typeof value === 'string' ? value.split(',') : value,
         );
+        
     };
 
     return (

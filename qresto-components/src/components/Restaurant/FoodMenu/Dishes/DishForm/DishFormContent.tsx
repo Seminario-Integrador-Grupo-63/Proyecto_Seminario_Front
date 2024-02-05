@@ -51,10 +51,7 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
         }
     }, [props.isNew, props.dish]);
 
-    const handlePreparationTimeChange = (preparationTime) => {
-        // Handle preparation time change logic
-    };
-
+    
     useImperativeHandle(ref, () => ({
         verifyFields() {
             // Your verification logic
@@ -62,8 +59,8 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
         },
     }));
 
-    const loadCategories = () => props.categories.map((category) => category.name);
-    const loadSideDishes = () => props.sideDishes.map((sideDish) => sideDish.name);
+    const loadCategories = () => props.categories.map((category) => category);
+    const loadSideDishes = () => props.sideDishes.map((sideDish) => sideDish.name); //si no mandamos sideDish.name salta un error, en SelectorChips haria falta un value com en Selector
 
     const onChangeImage = () => {
         console.log(' ');
@@ -91,10 +88,15 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                             marginBottom: marginBottom,
                         }}
                     >
-                        <ImageButton onChange={onChangeImage} image={props.dish.image} />
+                        <ImageButton onChange={(e) =>
+                        props.setImage(e.target.value )} image={props.image} /> 
                     </Grid>
+                    {/* si pongo props.dish.image aparece la imagen cuando oprimo editar, sino No*/ }
                     <Grid sx={{ marginBottom: marginBottom }}>
-                        <Selector label="Categoría" items={loadCategories()} value={selectedCategory} />
+                        <Selector label="Categoría" items={loadCategories()} value={props.category}
+                        itemText= "name"
+                        onChange={(e) =>{
+                        props.setCategory(e.target.value ); console.log(e)}} />
                     </Grid>
                 </Grid>
 
@@ -110,44 +112,53 @@ export const DishFormContent = forwardRef((props: any, ref: any) => {
                     <Grid sx={{ marginBottom: marginBottom }}>
                         <TextField
                             label={'Nombre del Plato'}
-                            value={dish.name}
+                            value={props.name}
                             fullWidth
-                            onChange={(event) => setDish({ ...dish, name: event.target.value })}
+                            onChange={(e) =>
+                                props.setName(e.target.value )}
                         />
                     </Grid>
                     <Grid sx={{ marginBottom: marginBottom }}>
                         <TextField
                             label={'Descripción'}
-                            value={dish.description}
+                            value={props.description}
                             multiline
                             fullWidth
                             maxRows={4}
                             minRows={4}
-                            onChange={(event) => setDish({ ...dish, description: event.target.value })}
+                            onChange={(e) =>
+                                props.setDescription(e.target.value )}
                         />
                     </Grid>
                     <Grid sx={{ marginBottom: marginBottom }}>
-                        <PreparationTimeField onChange={handlePreparationTimeChange} value={props.dish.preparationTime} />
+                        <PreparationTimeField onChange={(e) =>
+                        props.setPreparationTime(e.target.value )} value={props.preparationTime}
+                         />
                     </Grid>
                     <Grid sx={{ marginBottom: marginBottom }}>
                         <TextField
                             fullWidth
                             type="number"
-                            value={props.dish.price}
+                            value={props.price}
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>,
                             }}
+                            onChange={(e) =>
+                                props.setPrice(e.target.value )}
                         />
                     </Grid>
                 </Grid>
 
                 {/* --------------------------------------------------------- Parte de abajo */}
                 <Grid sx={{ marginBottom: marginBottom }} item xs={12}>
-                    <SelectorChips label={'Guarniciones'} items={loadSideDishes()} />
+                    <SelectorChips label={'Guarniciones'} items={loadSideDishes()} 
+                    onChange={(e) =>{
+                        props.setOptions(e.target.value ); console.log(e.target.value)}}/>
                 </Grid>
             </Grid>
         </Container>
     );
+    // solo esta guardando el nombre y descripcion.. el respo aparece como undefined
 });
 
 DishFormContent.defaultProps = {

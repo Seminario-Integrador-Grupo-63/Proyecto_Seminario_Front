@@ -70,6 +70,8 @@ export const Dishes = (props: any) => {
                  isNew={isNewDishForm}
                  categories={props.categories} // Asegúrate de pasar las categorías como props
                  sideDishes={props.sideDishes}
+                 onSubmit={props.createDish}
+                 onUpdate={props.updateDish}
                 />
         </Container> 
         
@@ -84,7 +86,8 @@ Dishes.defaultProps =
     sideDishes: [],
     categories: [],
     deleteDish:function(){},
-    updateDish: function(){}
+    updateDish: function(){},
+    createDish: function(){},
 }
 
 Dishes.propTypes = 
@@ -93,7 +96,8 @@ Dishes.propTypes =
     sideDishes: PropTypes.array,
     categories: PropTypes.array,
     deleteDish: PropTypes.func,
-    updateDish: PropTypes.func
+    updateDish: PropTypes.func,
+    createDish: PropTypes.func,
 }
 
 

@@ -16,6 +16,7 @@ export const DishCard = (props: any) => {
     }
 
     const onEdit = () => {
+        console.log('debug este es DishCard')
         props.onEdit(props.dish)
     }
 
