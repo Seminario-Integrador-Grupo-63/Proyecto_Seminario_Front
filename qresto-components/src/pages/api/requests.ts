@@ -262,7 +262,7 @@ export async function loginRestaurant(user):Promise<Array<any>> {
 
 export async function getUsers(restaurantId) {
     const headers = {
-        'restaurant-id': restaurantId
+        'restaurant-id': getCookieRId()
     }
     try {
         const response = await axios.get(url + '/security/employees', {headers})
@@ -271,7 +271,7 @@ export async function getUsers(restaurantId) {
         return []
     }
 }
-export async function updateUser(user) {
+export async function putUser(user) {
     try {
         const response = await axios.put(url + '/security/employees', user)
         return response.data
@@ -287,9 +287,9 @@ export async function deleteUser(userId):Promise<boolean> {
         return false
     }
 }
-export async function createUser(user, restaurantId) {
+export async function postUser(user) {
     const headers = {
-        'restaurant-id': restaurantId
+        'restaurant-id': getCookieRId()
     }
     try {
         const response = await axios.post(url + '/security/signup', user, {headers})

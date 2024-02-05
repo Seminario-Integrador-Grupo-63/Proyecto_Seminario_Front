@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import { Users } from '@/Restaurant/Users/Users'
-import {deleteUser, getUsers, updateUser} from "@/requests";
+import {deleteUser, getUsers, postUser, putUser,} from "@/requests";
 
 export default function UsersPage() {
     const [users, setUsers] = useState([])
@@ -21,28 +21,31 @@ export default function UsersPage() {
         const fetchedUsers = await getUsers(restaurantID)
         setUsers(fetchedUsers)
     }
-    const postUser = async (user) => {
-
+    const createUser = async (user) => {
+        const createdUser = await postUser(user)
+        const fetchedUsers = await getUsers(restaurantID)
+        setUsers(fetchedUsers)
+        return createdUser
     }
-    const putUser = async (user) => {
-        const editedUser = await updateUser(user)
+    const updateUser = async (user) => {
+        const editedUser = await putUser(user)
         const fetchedUsers = await getUsers(restaurantID)
         setUsers(fetchedUsers)
         return editedUser
     }
-    const deleteU = async (userId) => {
-        const deletedUser = await deleteUser(userId)
+    const removeUser = async (userId) => {
+        const removedUser = await deleteUser(userId)
         const fetchedUsers = await getUsers(restaurantID)
         setUsers(fetchedUsers)
-        return deletedUser
+        return removedUser
     }
 
     return (<>
         <Users
             users={users}
-            onCreate={postUser}
-            onEdit={putUser}
-            onDelete={deleteUser}
+            onCreate={createUser}
+            onEdit={updateUser}
+            onDelete={removeUser}
 
         />
     </>)

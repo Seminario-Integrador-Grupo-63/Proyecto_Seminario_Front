@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {FormDialog} from "@/Common/FormDialog";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {getCookieRId} from "@/pages/api/utils";
 
 
 export  const UserForm = (props: any) => {
@@ -42,12 +43,12 @@ export  const UserForm = (props: any) => {
     }, [props.user]);
 
     const [userData, setUserData] = useState({
-        id: 0,
+        id: null,
         user: '',
         password: '',
         email: '',
-        role: '',
-        restaurant: 0
+        role: 'mozo',
+        restaurant: getCookieRId()
     })
     const handleSubmit = () => {
         console.log(userData)
