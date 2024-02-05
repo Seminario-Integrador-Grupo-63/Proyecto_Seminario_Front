@@ -4,7 +4,7 @@ import { useSearchParams} from 'next/navigation'
 import {MenuCategories} from '@/Customer/MenuCategories/MenuCategories'
 import {
     getCategories,
-    getOrders
+    getTableOrders
 } from '@/requests'
 import { tableCode } from '@/Common/FakeData/Tables'
 
@@ -43,7 +43,7 @@ export default function MenuCategoriesPage() {
     }
 
     const fetchOrders = async () => {
-        const fetchedOrders = await getOrders(tableCode)
+        const fetchedOrders = await getTableOrders(tableCode)
         setOrders(fetchedOrders)
     }
 

@@ -60,7 +60,6 @@ export const OrderForm = (props: any) => {
         if(props.isNew){
             clear()
             setSubmitButtonVisible(true)
-            
             setCloseText('Cancelar')
             setTitle('Generar Orden')
             setSubmitText('Generar')
@@ -262,7 +261,6 @@ export const OrderForm = (props: any) => {
     }
 
     const onDeleteCustomerOrderDetail = (customer) => {
-
         setSelectedCustomer(customer)
         setTitleMessageDialog('Se eliminará el comensal')
         setActionMessageDialog(messageDialogActions.deleteCustomerOrderDetail)
@@ -369,7 +367,7 @@ export const OrderForm = (props: any) => {
                         onDeleteOrderDetail={onDeleteOrderDetail}
                         onAddOrderDetail={onAddOrderDetail}/>
                 </Grid>
-                {props.isNew === false?
+                {props.isNew === false && props.stateActions?
                     <>
                         <Grid item>
                             <ThemeProvider theme={themeButtonWine}>
@@ -380,6 +378,7 @@ export const OrderForm = (props: any) => {
                                 </Button>   
                             </ThemeProvider>
                         </Grid>
+
                         <Grid item >
                             <Typography 
                                 variant={'subtitle1'}
@@ -438,6 +437,7 @@ OrderForm.defaultProps =
     orderFormData: null,
     menu: [],
     actions: true,
+    stateActions: true,
     order: null,
     onOrderPreparation: function(){},
     onOrderDelivered: function(){},
@@ -454,6 +454,7 @@ OrderForm.propTypes =
     isNew: PropTypes.bool,
     menu: PropTypes.array,
     actions: PropTypes.bool,
+    stateActions: PropTypes.bool,
     order: PropTypes.object,
     onOrderPreparation: PropTypes.func,
     onOrderDelivered: PropTypes.func,

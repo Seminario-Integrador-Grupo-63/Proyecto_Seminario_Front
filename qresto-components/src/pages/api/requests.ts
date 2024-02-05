@@ -59,9 +59,34 @@ export async function getDishesByCategoryId(categoryId){
     return response.data
 }
 
-export async function getOrders(tableCode){
+export async function getTableOrders(tableCode){
     const response = await axios.get(url + `/table/${tableCode}/orders/`)
     return response.data
+}
+
+export async function getOrders(restaurantId, startDate = null, endDate = null){
+    let params = ''
+    if(startDate !== null){
+        params = '?date_from=' + startDate
+        if (endDate !== null){
+            params += '&date_to=' + endDate
+        }
+    } else {
+        if (endDate !== null){
+            params += '?date_to=' + endDate
+        }
+    }
+
+    const headers = {
+        'restaurant-id': restaurantId
+    }
+
+    try {
+        const response = await axios.get(url + '/order/' + params, {headers})
+        return response.data
+    } catch (error){
+        return []
+    }
 }
 
 export async function postOrderDetail(orderDetail, tableCode){
@@ -222,7 +247,6 @@ export async function deleteTable(tableId){
     }
 }
 
-
 export async function getBill(tableCode){
     try{
         const response = await axios.get(url + `/table/${tableCode}/bill`)
@@ -230,7 +254,15 @@ export async function getBill(tableCode){
     } catch(error) {
         return false
     }
+}
 
+export async function cancelTable(tableCode){
+    try{
+        const response = await axios.post(url + `/table/${tableCode}/cancell`)
+        return true
+    } catch(error) {
+        return false
+    }
 }
 
 export async function updateDishPrice(restaurantId, dishId, percentage) {

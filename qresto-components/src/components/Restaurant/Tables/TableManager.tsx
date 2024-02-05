@@ -263,13 +263,40 @@ export const TableManager = (props: any) => {
         }
     }
 
+    const setTableFree = () => {
+        console.log(' ')
+        console.log('TableManager setTableFree')
+        console.log('orders: ', orders)
+        console.log('table: ', table)
+        if(verifyFreeTable()){
+            props.onSetTableFree(table.tableCode)
+        } else {
+            setTitleMessageDialog('No se puede liberar la mesa')
+            setTextMessageDialog('No puede liberar mesas que tienen ordenes en estado "Entregado"')
+            setActionMessageDialog('accept')
+            setCancelButtonVisibleMessageDialog(false)
+            setOpenMessageDialog(true)
+        }
+    }
+
+    const verifyFreeTable = () => {
+        let isReady = true
+        for(let i = 0; i < orders.length; i++){
+            if(orders[i].state === 'delivered'){
+                isReady = false
+                break
+            }
+        }   
+        return isReady
+    }
+
     return (
         <Container maxWidth={false}>
             <Grid 
                 container 
                 justifyContent="space-between" 
                 spacing={2}>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                     <IconButton
                         sx={{
                             marginRight: '20px'
@@ -285,8 +312,15 @@ export const TableManager = (props: any) => {
                         <Button 
                             variant="contained"
                             disabled={!hasTableCode}
+                            sx={{marginRight: '5px'}}
                             onClick={onGenerateOrder}>
                             Generar Orden
+                        </Button>
+                        <Button 
+                            variant="contained"
+                            sx = {{marginLeft: '5px'}}
+                            onClick={setTableFree}>
+                            Liberar Mesa
                         </Button>
                     </ThemeProvider>
                 </Grid>

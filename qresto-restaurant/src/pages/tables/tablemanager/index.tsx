@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { TableManager } from '@/Restaurant/Tables/TableManager'
 import { useSearchParams} from 'next/navigation'
 import { 
-    getOrders, 
+    getTableOrders, 
     getTable,
     getQR,
     cancelOrder as cancelOrderRequest,
@@ -16,7 +16,8 @@ import {
     postOrderDelivered,
     putTable,
     getBill,
-    deleteTable as deleteTableRequest
+    deleteTable as deleteTableRequest,
+    cancelTable
 } from '@/requests'
 import {FeedbackDialog} from '@/Common/FeedbackDialog/FeedbackDialog'
 import {PanLoader} from '@/Common/PanLoader/PanLoader'
@@ -61,7 +62,7 @@ export default function TableManagerPage() {
     }
 
     const fetchOrders = async () => {
-        let ords = await getOrders(table.tableCode)
+        let ords = await getTableOrders(table.tableCode)
         setOrders(ords)
     }
 
@@ -220,6 +221,15 @@ export default function TableManagerPage() {
         }
     }
 
+    const setFreeTable = async (table) => {
+        setLoading(true)
+        const result = await cancelTable(tableCode)
+        setLoading(false)
+        if(result){
+
+        }
+    }
+
     return (<>
         <TableManager
             table={table}
@@ -232,6 +242,7 @@ export default function TableManagerPage() {
             onQRDownload={onQRDownload}
             onBillRequest={onBillRequest}
             goBack={goBack}
+            setFreeTable={}
             generateQR={generateQR}
             updateTable={updateTable}
             onOrderDelivered={onOrderDelivered}

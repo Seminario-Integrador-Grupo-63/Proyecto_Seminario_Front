@@ -38,8 +38,8 @@ export async function getDishesByCategoryId(categoryId){
     return dishesCategory
 }
 
-export async function getOrders(tableCode){
-    return await fakeBackend.getOrders(tableCode)
+export async function getTableOrders(tableCode){
+    return await fakeBackend.getTableOrders(tableCode)
 }
 
 export async function getDish(id){

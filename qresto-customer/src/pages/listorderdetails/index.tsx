@@ -5,7 +5,7 @@ import { ListOrderDetails } from '@/Customer/ListOrderDetails/ListOrderDetails';
 import {
     confirmOrder as confirmOrderRequest,
     deleteOrderDetail as deleteOrderDetailRequest,
-    getOrders
+    getTableOrders
 } from '@/requests';
 import { tableCode } from '@/Common/FakeData/Tables';
 

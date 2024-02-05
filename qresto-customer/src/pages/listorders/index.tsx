@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import {useEffect, useState} from 'react'
 import { useSearchParams} from 'next/navigation'
-import {getOrders} from '@/requests'
+import {getTableOrders} from '@/requests'
 import { tableCode} from '@/Common/FakeData/Tables'
 import {ListOrders} from '@/Customer/ListOrders/ListOrders'
 
@@ -27,7 +27,7 @@ export default function ListOrdersPage() {
     }, []);
 
     const fetchOrders = async () => {
-        const fetchedOrders = await getOrders(tableCode)
+        const fetchedOrders = await getTableOrders(tableCode)
         setOrders(fetchedOrders)
     }
 
