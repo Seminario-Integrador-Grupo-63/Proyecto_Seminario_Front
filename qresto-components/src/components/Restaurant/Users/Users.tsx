@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from "prop-types";
 import {DataTable} from "@/Common/DataTable";
 import {UserForm} from "@/Restaurant/Users/UserForm";
+import {Button, IconButton} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 export const Users = (props: any) => {
 
@@ -80,6 +82,13 @@ export const Users = (props: any) => {
 
 
     return <>
+        <Button
+            startIcon={<AddIcon/>}
+            onClick={createForm}
+        >
+            Nuevo usuario
+        </Button>
+
         <DataTable headers={createHeaders()}
                    rows={createRows(users)}
                    onEdit={editForm}

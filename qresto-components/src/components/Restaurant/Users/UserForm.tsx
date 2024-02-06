@@ -3,11 +3,23 @@ import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {FormDialog} from "@/Common/FormDialog";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {getCookie} from "cookies-next";
+
+function getCookieRId() {
+    // On exec get restaurantId from Cookies
+    const ridCookie = getCookie("restaurantId")
+    // Convert string to number and return
+    return +ridCookie
+}
 
 
 export  const UserForm = (props: any) => {
 
     const [showPassword, setShowPassword] = React.useState(false);
+    const [open, setOpen] = useState(false)
+    useEffect(() => {
+        setOpen(props.open)
+    }, [props.open]);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -42,22 +54,23 @@ export  const UserForm = (props: any) => {
     }, [props.user]);
 
     const [userData, setUserData] = useState({
-        id: 0,
+        id: null,
         user: '',
         password: '',
         email: '',
-        role: '',
-        restaurant: 0
+        role: 'employee',
+        restaurant: getCookieRId(),
     })
     const handleSubmit = () => {
         console.log(userData)
         if (props.formAction == 1) {
-            props.onCreate()
+            props.onCreate(userData)
         } else if (props.formAction == 2) {
             props.onEdit(userData)
         } else if (props.formAction ==3) {
             props.onDelete(userData.id)
         }
+        //setOpen(false)
 /*
         props.onSubmit(userData)
 */
@@ -147,7 +160,7 @@ export  const UserForm = (props: any) => {
                         onChange={(e) =>
                             setFormData({ ...formData, inputSelectedRole: e.target.value })}
                     >
-                        <MenuItem value={"mozo"}>Mozo</MenuItem>
+                        <MenuItem value={"employee"}>Mozo</MenuItem>
                         <MenuItem value={"admin"}>Admin</MenuItem>
                     </TextField>
                 </Grid>
