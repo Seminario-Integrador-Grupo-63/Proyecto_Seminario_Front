@@ -11,7 +11,7 @@ export default function UsersPage() {
         fetchUsers();
 
         // Fetch users every 10 seconds
-        const intervalId = setInterval(fetchUsers, 10000);
+        const intervalId = setInterval(fetchUsers, 100000);
 
         // Clean up the interval when the component is unmounted
         return () => clearInterval(intervalId);
@@ -22,6 +22,7 @@ export default function UsersPage() {
         setUsers(fetchedUsers)
     }
     const createUser = async (user) => {
+        console.log("Usuario?", user)
         const createdUser = await postUser(user)
         const fetchedUsers = await getUsers(restaurantID)
         setUsers(fetchedUsers)
