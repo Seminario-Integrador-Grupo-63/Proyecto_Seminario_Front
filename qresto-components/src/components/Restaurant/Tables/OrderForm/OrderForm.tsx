@@ -53,7 +53,6 @@ export const OrderForm = (props: any) => {
         preparation: 'En Preparación',
         delivered: 'Entregada',
         billRequest: 'Entregada / Cuenta pedida'
-        // close: 'Cerrada'
     }
 
     useEffect(() => {

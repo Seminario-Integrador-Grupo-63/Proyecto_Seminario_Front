@@ -77,10 +77,6 @@ export default function TableManagerPage() {
         triggerFeedback(result, 'delete-table')
     }
 
-    const onQRDownload = async (tableId, uuidCode) => {
-        await postQR(tableId, uuidCode)
-    }
-
     const triggerFeedback = (state, action) => {
         setPositiveFeedback(state)
         if(state){
@@ -95,18 +91,24 @@ export default function TableManagerPage() {
                 setCloseFeedbackAction('go-back')
             } else if (action === 'create-order'){
                 setTextFeedback('La orden ha sido generada exitosamente')
+            } else if (action === 'free-table'){
+                setTextFeedback('La mesa se ha liberado exitosamente')
             }
         } else {
             if(action === 'cancel-order'){
-                setTextFeedback('No se ha podido cancelar la orden')
+                setTextFeedback('No se ha podido cancelar la orden. Por favor, intente más tarde')
             } else if (action === 'order-state'){
-                setTextFeedback('No se ha podido actualizar el estado de la orden')
+                setTextFeedback('No se ha podido actualizar el estado de la orden. Por favor, intente más tarde')
             } else if (action === 'update-table'){
-                setTextFeedback('No se ha podido actualizar la mesa')
+                setTextFeedback('No se ha podido actualizar la mesa. Por favor, intente más tarde')
             } else if (action === 'delete-table'){
-                setTextFeedback('No se ha podido eliminar la mesa')
+                setTextFeedback('No se ha podido eliminar la mesa. Por favor, intente más tarde')
             } else if(action === 'create-order'){
-                setTextFeedback('No se pudo generar la orden')
+                setTextFeedback('No se pudo generar la orden. Por favor, intente más tarde')
+            } else if(action === 'table-free'){
+                setTextFeedback('No se pudo liberar la mesa. Por favor, intente más tarde')
+            } else if (action === 'generate-qr'){
+                setTextFeedback('No se pudo generar el QR. Por favor, intente más tarde')
             }
         }
         setOpenFeedbackDialog(true)
@@ -123,12 +125,20 @@ export default function TableManagerPage() {
 
     const generateQR = async (tableId) => {
         setLoading(true)
-        const result = await getQR(tableId)
+        const resultGet = await getQR(tableId)
         setLoading(false)
-        return {
-            qrCode: result.qrCode,
-            uuidCode: result.uuidCode
+        if(resultGet !== false){
+            const resultPost = await postQR(tableId, resultGet.uuidCode)
+            if (resultPost){
+                await fetchTable(tableId)
+                return {
+                    qrCode: resultGet.qrCode,
+                    uuidCode: resultGet.uuidCode
+                }
+            } 
         }
+        triggerFeedback(false, 'generate-qr')
+        return null
     }
 
     const cancelOrder = async (orderId) => {
@@ -152,7 +162,7 @@ export default function TableManagerPage() {
     const createOrder = async (order) => {
         setLoading(true)
         const result = await postOrder(order, table.tableCode)
-
+        
         setLoading(false)
         if(result){
             await fetchOrders()
@@ -163,8 +173,12 @@ export default function TableManagerPage() {
 
     const updateTable = async (tableToUpdate) => {
         const result = await putTable(tableToUpdate)
+
         if(result){
-            await fetchTable(table.id)
+            await Promise.all([
+                fetchTable(table.id),
+                fetchOrders()
+            ])
         }
         triggerFeedback(result, 'update-table')
         return result
@@ -221,13 +235,14 @@ export default function TableManagerPage() {
         }
     }
 
-    const setFreeTable = async (table) => {
+    const setTableFree = async (table) => {
         setLoading(true)
-        const result = await cancelTable(tableCode)
+        const result = await cancelTable(table.tableCode)
         setLoading(false)
         if(result){
-
+            await fetchTable(table.id)
         }
+        triggerFeedback(result, 'free-table')
     }
 
     return (<>
@@ -239,10 +254,9 @@ export default function TableManagerPage() {
             onOpenOrderForm={getDishes}
             deleteTable={deleteTable}
             cancelOrder={cancelOrder}
-            onQRDownload={onQRDownload}
             onBillRequest={onBillRequest}
             goBack={goBack}
-            setFreeTable={}
+            setTableFree={setTableFree}
             generateQR={generateQR}
             updateTable={updateTable}
             onOrderDelivered={onOrderDelivered}

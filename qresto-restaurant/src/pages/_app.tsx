@@ -10,8 +10,6 @@ import { getCookie, setCookie, deleteCookie } from 'qresto-components/src/pages/
 
 
 export default function App({ Component, pageProps, router }: AppProps) {
-
-
     // UseState con el id de Restaurant y rol de usuario
     const [rid, setRid] = useState(null);
     const [role, setRole] = useState(null);
@@ -65,16 +63,28 @@ export default function App({ Component, pageProps, router }: AppProps) {
         }
     }
 
-
     // Check if the current page is the home page ('/')
     const isHomePage = router.pathname === '/'
+    const isTablesPage = router.pathname === '/tables'
+    const isOrdersPage = router.pathname === '/orders'
+    const isFoodmenuPage = router.pathname === '/foodmenu'
+    const isUsersPage = router.pathname === '/users'
 
     // Use Layout component for all pages except the home page
     if (isHomePage) {
         return <Component {...pageProps} />
     } else {
+        let title = 'Mesas'
+        if (isOrdersPage){
+            title = 'Ordenes'
+        } else if (isFoodmenuPage){
+            title = 'Carta'
+        } else if (isUsersPage){
+            title = 'Usuarios'
+        }
+
         return (
-        <Layout>
+        <Layout title={title}>
             <Component {...pageProps} />
         </Layout>
         );
