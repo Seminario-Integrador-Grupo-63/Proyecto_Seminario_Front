@@ -55,7 +55,7 @@ export const Users = (props: any) => {
         setOpen(true)
         setReadonly(false)
         setTitle("Crear Usuario")
-        // No selected User
+        setSelectedUser(null)
         setFormAction(1)
 
         /*

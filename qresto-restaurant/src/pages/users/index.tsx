@@ -8,15 +8,14 @@ export default function UsersPage() {
     const [userFormOpen, setUserFormOpen] = useState(false)
 
     useEffect(() => {
-        // Initial fetch
-        fetchUsers();
+        fetchUsers()
 
         // Fetch users every 10 seconds
         const intervalId = setInterval(fetchUsers, 100000);
 
         // Clean up the interval when the component is unmounted
         return () => clearInterval(intervalId);
-    })
+    }, []);
 
     const fetchUsers = async () => {
         const fetchedUsers = await getUsers(restaurantID)

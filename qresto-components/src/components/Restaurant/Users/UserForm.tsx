@@ -50,6 +50,16 @@ export  const UserForm = (props: any) => {
                     inputSelectedRole: props.user.role
                 }
             )*/
+        } else if (props.user == null) {
+            setUserData({
+                id: null,
+                user: '',
+                password: '',
+                email: '',
+                role: 'employee',
+                restaurant: getCookieRId(),
+            })
+
         }
     }, [props.user]);
 
