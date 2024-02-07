@@ -42,6 +42,9 @@ export default function TableManagerPage() {
     }, [searchParams])
 
     useEffect(() => {
+        console.log(' ')
+        console.log('TableManagerPage useEffect table')
+        console.log('table: ', table)
         if(table !== null){
             fetchOrders()
         }

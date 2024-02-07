@@ -19,6 +19,10 @@ export const PreparationTimeField = (props: any) => {
         props.onChange(preparationTime)
     }, [preparationTime])
 
+    useEffect(() => {
+        setPreparationTime(props.value)
+    }, [props.value])
+
     return (<>
         <TextField
             label={'Tiempo de Preparación (Minutos)'}
@@ -34,12 +38,14 @@ export const PreparationTimeField = (props: any) => {
 
 PreparationTimeField.defaultProps =
 {
-    onChange: function(){}
+    onChange: function(){},
+    value: 0
 }
 
 PreparationTimeField.propTypes = 
 {
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    value: PropTypes.number
 }
 
 

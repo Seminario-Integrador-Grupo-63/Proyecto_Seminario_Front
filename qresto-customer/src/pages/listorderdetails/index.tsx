@@ -7,25 +7,28 @@ import {
     deleteOrderDetail as deleteOrderDetailRequest,
     getTableOrders
 } from '@/requests';
-import { tableCode } from '@/Common/FakeData/Tables';
+// import { tableCode } from '@/Common/FakeData/Tables';
 
 export default function ListOrderDetailsPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [order, setOrder] = useState(null)
     const [customer, setCustomer] = useState('')
+    const [tableCode, setTableCode] = useState('')
 
     useEffect(() => {
         setOrder(JSON.parse(searchParams.get('order')))
         let customer = searchParams.get('customer')
         setCustomer(customer)
+        setTableCode(searchParams.get('tableCode'))
     }, [searchParams])
 
     const goBack = () => {
         router.replace({
             pathname: '/listorders',
             query: {
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }
@@ -35,7 +38,8 @@ export default function ListOrderDetailsPage() {
         router.replace({
             pathname: '/listorders',
             query: {
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }
@@ -44,7 +48,8 @@ export default function ListOrderDetailsPage() {
         router.replace({
             pathname: '/billcheckout',
             query: {
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }
@@ -54,7 +59,8 @@ export default function ListOrderDetailsPage() {
         router.replace({
             pathname: '/listorders',
             query: {
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }

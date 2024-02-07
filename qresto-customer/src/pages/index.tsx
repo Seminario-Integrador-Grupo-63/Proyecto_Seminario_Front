@@ -24,7 +24,8 @@ export default function Home() {
                 router.replace({
                     pathname: "/menucategories",
                     query: {
-                        customer: name
+                        customer: name,
+                        tableCode: tableCode
                     }
                 })
             }
@@ -32,7 +33,11 @@ export default function Home() {
     }
 
     useEffect(() => {
-        const tc = searchParams.get('tableCode')
+        console.log(' ')
+        console.log('Home useEffect searchParams')
+        
+        const tc = searchParams.get('table_code')
+        console.log('tc: ', tc)
         setTableCode(tc)
     }, [searchParams])
 

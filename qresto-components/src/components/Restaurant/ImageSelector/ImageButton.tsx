@@ -1,27 +1,37 @@
-// import styles from './ImageButton.module.scss';
-import React from 'react';
+import React, { useEffect} from 'react';
 import PropTypes from 'prop-types';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import {
+    Box,
+    Card,
+    CardActions,
+    CardMedia,
+    Button
+} from '@mui/material'
 
 export const ImageButton = (props: any) => {
+    // useEffect(() => {
+    //     console.log(' ')
+    //     console.log('ImageButton useEffect props.image')
+    //     console.log('props.image: ', props.image)
+    // }, [props.image])
+
     return (<>
         <Card 
             sx={{ 
                 width: '100%',
                 height: 266,
             }}>
-            <CardMedia
-                sx={{ 
-                    height: 226,
-                    width: '100%'
-                }}
-                image={props.image}
-                title="imagen"/>
+            {props.image !== '' ?
+                <CardMedia
+                    sx={{ 
+                        height: 226,
+                        width: '100%'
+                    }}
+                    image={props.image}
+                    title="imagen"/>
+            :
+                <Box sx={{ height: 226, width: '100%'}}></Box>
+            }
 
             <CardActions
                 sx={{

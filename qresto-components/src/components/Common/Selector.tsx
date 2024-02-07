@@ -75,7 +75,7 @@ export const Selector = (props: any) => {
                 </MenuItem>
                 {items.map((item, index) => createItem(item, index))}
             </Select>
-            {error && <span style={{color: '#D32F2F'}}>{helperText}</span>}
+            {error && <span style={{color: '#D32F2F', fontSize: '12px'}}>{helperText}</span>}
         </FormControl>
     </>)
 }

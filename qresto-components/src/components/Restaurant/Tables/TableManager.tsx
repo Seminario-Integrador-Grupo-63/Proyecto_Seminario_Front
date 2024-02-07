@@ -375,7 +375,7 @@ export const TableManager = (props: any) => {
                         onCancel={onCancelOrder}/>
                 </Grid>
             </Grid>
-git stat
+
             <OrderForm 
                 open={openOrderForm}
                 menu={menu}

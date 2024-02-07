@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { DishCard } from '../Dishes/DishCard/DishCard'
 import {
@@ -12,6 +12,16 @@ export const Dishes = (props: any) => {
     const [openDishForm, setOpenDishForm] = useState(false)
     const [isNewDishForm, setIsNewDishForm] = useState(false)
     const [selectedDish, setSelectedDish] = useState(null)
+    const [menu, setMenu] = useState([])
+    const [sideDishes, setSideDishes] = useState()
+
+    useEffect(() => {
+        setMenu(props.menu)
+    }, [props.menu])
+
+    useEffect(() => {
+        setSideDishes(props.sideDishes)
+    }, [props.sideDishes])
 
     const onEdit = (dish) => {
         setSelectedDish(dish)
@@ -21,12 +31,27 @@ export const Dishes = (props: any) => {
 
     const onNewDish = () => {
         setOpenDishForm(true)
-        setIsNewDishForm(false)
+        setIsNewDishForm(true)
     }
 
     const onCloseDishForm = () => {
         setOpenDishForm(false)
     }
+
+    const onCreate = async (object) => {
+        const result = await props.createDish(object)
+        if(result){
+            setOpenDishForm(false)
+        }
+    }
+
+    const onUpdate = async (object) => {
+        const result = props.updateDish(object)
+        if(result){
+            setOpenDishForm(false)
+        }
+    }
+
 
     return (<>
         <Container 
@@ -47,20 +72,26 @@ export const Dishes = (props: any) => {
                         width: '100%'
                     }}
                     spacing={2}>
-                    {props.dishes.map((dish, index) => (
-                        <Grid item key={index} xs={4} sm={4} md={4} lg={4}>
-                            <DishCard 
-                                dish={dish} 
-                                onEdit={onEdit}
-                                onDelete={props.deleteDish}/>
-                        </Grid>
-                    ))}
+                    {props.menu.map(category =>{
+                        return category.dishes.map((dish, index) => (
+                            <Grid item key={index} xs={12} sm={12} md={6} lg={4}>
+                                <DishCard 
+                                    dish={dish} 
+                                    onEdit={onEdit}
+                                    onDelete={props.deleteDish}/>
+                            </Grid>
+                        ))}
+                    )}
                 </Grid>
             </Grid>
 
             <DishForm
                 open={openDishForm}
                 onClose={onCloseDishForm}
+                onCreate={onCreate}
+                onUpdate={onUpdate}
+                sideDishes={sideDishes}
+                categories={props.menu}
                 dish={selectedDish}
                 isNew={isNewDishForm}/>
         </Container> 
@@ -69,16 +100,22 @@ export const Dishes = (props: any) => {
 
 Dishes.defaultProps =
 {
-    dishes: [],
+    // dishes: [],
+    sideDishes: [],
     deleteDish:function(){},
-    updateDish: function(){}
+    updateDish: function(){},
+    createDish: function(){},
+    menu: [],
+    categories: []
 }
 
 Dishes.propTypes = 
 {
-    dishes: PropTypes.array,
+    // dishes: PropTypes.array,
     deleteDish: PropTypes.func,
-    updateDish: PropTypes.func
+    createDish: PropTypes.func,
+    updateDish: PropTypes.func,
+    categories: PropTypes.array,
+    menu: PropTypes.array,
+    sideDishes: PropTypes.array
 }
-
-

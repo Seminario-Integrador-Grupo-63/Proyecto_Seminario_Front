@@ -57,8 +57,8 @@ export const SideDishes = (props: any) => {
             rows={props.sideDishes} // se pasan todas las guarniciones
             actionsType='edit-delete'
             onEdit={onEditSideDish}
-            onDelete={props.deleteSideDish}  // Aquí se pasa el método deleteSideDish
-/>
+            onDelete={props.deleteSideDish}/>
+
         <DishForm
                 open={openSideDishForm}
                 onClose={onCloseDishForm}

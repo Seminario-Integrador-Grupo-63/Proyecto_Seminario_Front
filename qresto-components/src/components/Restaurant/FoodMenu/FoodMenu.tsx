@@ -55,30 +55,37 @@ export const FoodMenu = (props: any) => {
                     categories={props.categories}
                     onDelete={props.deleteCategory}
                     onUpdate={props.updateCategory}
-                    onCreate={props.createCategory}
-                    />
+                    onCreate={props.createCategory}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <Dishes dishes={props.dishes} deleteDish={props.deleteDish}/>
+                <Dishes 
+                    menu={props.menu}
+                    createDish={props.createDish}
+                    updateDish={props.updateDish}
+                    categories={props.categories}
+                    sideDishes={props.sideDishes}
+                    deleteDish={props.deleteDish}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-                <SideDishes sideDishes={props.sideDishes}
-                deleteSideDish={props.deleteSideDish}/>
+                <SideDishes 
+                    sideDishes={props.sideDishes}
+                    deleteSideDish={props.deleteSideDish}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
                 <UpdatePrices
                     onSubmit={props.handleUpdatePrices}
-                    categories={props.categories}
-                />
+                    categories={props.categories}/>
             </CustomTabPanel>
         </Container>
     </>)
 }
 
 FoodMenu.defaultProps = {
-    dishes: [],
     sideDishes: [],
     categories: [],
+    menu: [],
+    createDish: function(){},
+    updateDish: function(){},
     deleteDish: function(){},
     deleteSideDish: function(){},
     deleteCategory: function(){},
@@ -88,13 +95,15 @@ FoodMenu.defaultProps = {
 }
 
 FoodMenu.propTypes = {
-    dishes: PropTypes.array,
     sideDishes: PropTypes.array,
     categories: PropTypes.array,
+    createDish: PropTypes.func,
+    updateDish: PropTypes.func,
     deleteDish: PropTypes.func,
     deleteSideDish: PropTypes.func,
     deleteCategory: PropTypes.func,
     createCategory: PropTypes.func,
     updateCategory: PropTypes.func,
     handleUpdatePrices: PropTypes.func,
+    menu: PropTypes.array
 }

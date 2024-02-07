@@ -7,7 +7,6 @@ import {
     postOrderDetail,
     getTableOrders
 } from '@/requests'
-import { tableCode} from '@/Common/FakeData/Tables'
 
 export default function DishOrderingPage() {
     const router = useRouter()
@@ -15,6 +14,7 @@ export default function DishOrderingPage() {
     const [dish, setDish] = useState(null)
     const [category, setCategory] = useState(null)
     const [customer, setCustomer] = useState('')
+    const [tableCode, setTableCode] = useState('')
 
     useEffect(() => {
         const dishId = searchParams.get('dishId')
@@ -23,8 +23,8 @@ export default function DishOrderingPage() {
         }
         setCategory(JSON.parse(searchParams.get('category')))
         let customer = searchParams.get('customer')
-
         setCustomer(customer)
+        setTableCode(searchParams.get('tableCode'))
     }, [searchParams])
 
     const fecthDish = async (id) => {
@@ -37,7 +37,8 @@ export default function DishOrderingPage() {
             pathname: '/menudishes',
             query: {
                 category: JSON.stringify(category),
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }
@@ -49,7 +50,8 @@ export default function DishOrderingPage() {
         router.replace({
             pathname: '/menucategories',
             query: {
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }

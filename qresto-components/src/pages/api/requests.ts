@@ -20,7 +20,6 @@ export async function getQR(tableId){
     } catch(error){
         return false
     }
-
 }
 
 export async function postQR(tableId, uuidCode){
@@ -188,8 +187,6 @@ export async function getMenu(){
 }
 
 export async function getTablesGrid(){
-    console.log(' ')
-    console.log('requests getTablesGrid()')
 
     try{
         const headers = {
@@ -197,7 +194,6 @@ export async function getTablesGrid(){
         }
         const response = await axios.get<any>(url + '/table/grid', {headers})
         const data = buildTableGrid(response.data)
-        console.log('data: ', data)
         return data
     } catch(error) {
         return []
@@ -274,12 +270,25 @@ export async function updateDishPrice(restaurantId, dishId, percentage) {
     const response = await axios.put(url + '/dish/update_prices', )
 }
 
-export async function putDishes(restaurantId) {
-    const response = await axios.put(url + '/dish/', )
+export async function putDish(object) {
+    try{
+        const response = await axios.put(url + '/dish/', object)
+        return true
+    } catch(error){
+        return false
+    }
 }
 
-export async function postDishes(restaurantId) {
-    const response = await axios.post(url + '/dish/', )
+export async function postDish(object) {
+    console.log(' ')
+    console.log('requests postDish(object)')
+    console.log('object: ', object)
+    try{
+        const response = await axios.post(url + '/dish/', object)
+        return true
+    } catch(error){
+        return false
+    }
 }
 
 export async function deleteDishes(restaurantId) {
@@ -410,7 +419,7 @@ export async function getSideDishes() {
         console.log('data: ', data)
         return data
     } catch (error) {
-        throw error;
+        return []
     }
 }
 
