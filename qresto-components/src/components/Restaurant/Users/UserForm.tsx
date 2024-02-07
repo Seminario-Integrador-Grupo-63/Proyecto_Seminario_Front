@@ -61,14 +61,17 @@ export  const UserForm = (props: any) => {
         role: 'employee',
         restaurant: getCookieRId(),
     })
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(userData)
         if (props.formAction == 1) {
-            props.onCreate(userData)
+            await props.onCreate(userData)
+            props.onClose()
         } else if (props.formAction == 2) {
-            props.onEdit(userData)
+            await props.onEdit(userData)
+            props.onClose()
         } else if (props.formAction ==3) {
-            props.onDelete(userData.id)
+            await props.onDelete(userData.id)
+            props.onClose()
         }
         //setOpen(false)
 /*

@@ -5,6 +5,7 @@ import {deleteUser, getUsers, postUser, putUser,} from "@/requests";
 export default function UsersPage() {
     const [users, setUsers] = useState([])
     const restaurantID =  1
+    const [userFormOpen, setUserFormOpen] = useState(false)
 
     useEffect(() => {
         // Initial fetch
@@ -47,6 +48,9 @@ export default function UsersPage() {
             onCreate={createUser}
             onEdit={updateUser}
             onDelete={removeUser}
+/*
+            userFormOpen={}
+*/
 
         />
     </>)

@@ -14,6 +14,9 @@ export const Users = (props: any) => {
     const [onSubmit, setOnSubmit] = useState()
     const [formAction, setFormAction] = useState(0)
 
+    useEffect(() => {
+        setOpen(props.userFormOpen)
+    }, [props.userFormOpen]);
 
     const handleClose = () => {
         setTitle(" ")
@@ -117,6 +120,7 @@ Users.defaultProps =
     onDelete: function (){},
     onEdit: function () {},
     onCreate: function () {},
+    userFormOpen: false,
 }
 
 Users.propTypes = 
@@ -125,4 +129,5 @@ Users.propTypes =
     onDelete: PropTypes.func,
     onEdit: PropTypes.func,
     onCreate: PropTypes.func,
+    userFormOpen: PropTypes.bool,
 }
