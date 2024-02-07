@@ -17,7 +17,7 @@ import { theme } from '@/Common/Theme/themes';
 
 function UpdatePrices(props: any) {
     const [formData, setFormData] = useState({
-        selectedOption: '',
+        selectedOption: 'ActualizarPorCategoria',
         selectedCategory: '0',
         inputValue: '',
         selectedActualizacion: '',
@@ -55,6 +55,7 @@ function UpdatePrices(props: any) {
                   Actualizar Platos
             </Typography>
 
+{/*
             <RadioGroup
                 aria-label="Opciones"
                 name="selectedOption"
@@ -64,6 +65,7 @@ function UpdatePrices(props: any) {
                 <FormControlLabel value="ActualizarTodos" control={<Radio />} label="Actualizar Todos los Productos" />
                 <FormControlLabel value="ActualizarPorCategoria" control={<Radio />} label="Actualizar por Categoría" />
             </RadioGroup>
+*/}
 
             {formData.selectedOption === 'ActualizarPorCategoria' && (
                 <div>
