@@ -48,7 +48,8 @@ export const FormDialog = (props: any) => {
                             null
                         }
                         {props.submitVisible?
-                            <Button 
+                            <Button
+                                disabled={props.isInvalid}
                                 onClick={props.onSubmit}
                                 color='primary'>
                                 {props.submitText}
@@ -80,7 +81,8 @@ FormDialog.defaultProps =
     action1Visible: false,
     action1Text: 'Action 1',
     onAction1: function(){},
-    submitVisible: true
+    submitVisible: true,
+    isInvalid: false
 }
 
 FormDialog.propTypes = 
@@ -96,5 +98,6 @@ FormDialog.propTypes =
     action1Visible: PropTypes.bool,
     action1Text: PropTypes.string,
     onAction1: PropTypes.func,
-    submitVisible: PropTypes.bool
+    submitVisible: PropTypes.bool,
+    isInvalid: PropTypes.bool
 }
