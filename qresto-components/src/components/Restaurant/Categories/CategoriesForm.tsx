@@ -15,6 +15,7 @@ export const CategoriesForm = (props: any) => {
     const [openImgSelector, setOpenImgSelector] = useState <boolean>(false);
     const [categoryName, setCategoryName] = useState('')
     const [categoryImage, setCategoryImage] = useState('')
+    const [isInvalid, setIsInvalid] = useState <boolean>(true)
 
     useEffect(() =>{
         // if(props.category != null){
@@ -22,20 +23,28 @@ export const CategoriesForm = (props: any) => {
         //         setCategoryName(props.category.name)
         //         setCategoryImage(props.category.image)
         //     }
-        if(props.isNew == false){
-                setCategoryName(props.category.name)
-                setCategoryImage(props.category.image)
+        if(props.isNew){
+            setCategoryName('')
+            setCategoryImage('')
+            setIsInvalid(true)
             }
-        else
-            {
-                setCategoryName('')
-                setCategoryImage('')
+        else{
+            setCategoryName(props.category.name)
+            setCategoryImage(props.category.image)
+            setIsInvalid(false)
             }
         },[props.category])
 
-    
+    function validateImput(imput){
+        if(imput == '' || imput.length > 30)
+            {setIsInvalid(true)}
+        else
+            {setIsInvalid(false)}
+        //console.log(imput)
+    }
     const handleName=(event)=>{
         setCategoryName(event.target.value)
+        validateImput(event.target.value)
     }
     const deleteCategory=()=>{
         //console.log('debug delete category')
@@ -88,9 +97,10 @@ export const CategoriesForm = (props: any) => {
             submitText={props.isNew ? "Crear" : "Actualizar"}
             onSubmit={updateCategory}
             maxWidth='sm'
-            action1Visible
+            action1Visible= {props.isNew ? false : true}
             action1Text= 'Eliminar'
-            onAction1={deleteCategory}>
+            onAction1={deleteCategory}
+            isInvalid={isInvalid}>
             <Grid 
                 sx={{
                     display: 'grid',
@@ -102,7 +112,9 @@ export const CategoriesForm = (props: any) => {
                     justify: 'center'
                     //overflowY: 'scroll','&::-webkit-scrollbar':{width:0,}
                 }}>
-                <TextField 
+                <TextField
+                    error={isInvalid}
+                    helperText={isInvalid ? 'Ingrese un nombre valido (1-30 caracteres).' : ''}
                     sx={{marginTop:1}}
                     id="CategoryName"
                     label="Nombre"
