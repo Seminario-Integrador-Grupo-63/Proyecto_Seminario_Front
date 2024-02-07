@@ -1,34 +1,126 @@
-import styles from './Orders.module.scss';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-// import Orders
-// import {Container} from '@mui/material'
-// import {Layout} from '@/Restaurant/Layout/Layout'
+import { DataTable } from '@/Common/DataTable';
+import { OrderForm } from '@/Restaurant/Tables/OrderForm/OrderForm';
+import { DoubleDateInput } from './DoubleDateInput';
+import { 
+    Container,
+    Grid
+} from '@mui/material';
 
 export const Orders = (props: any) => {
-    return (<>
-        {/* <Layout
-            title={'Ordenes'}
-            onOrders={props.onOrders}
-            onFoodMenu={props.onFoodMenu}
-            onTables={props.onTables}
-            onUsers={props.onUsers}>
-            <Container>
+    const [orderRows, setOrderRows] = useState([])
+    const [orders, setOrders] = useState([])
+    const [openOrderForm, setOpenOrderForm] = useState(false)
+    const [selectedOrder, setSelectedOrder] = useState(null)
 
-            </Container>
-        </Layout> */}
-        <h1>Ordenes</h1>
-    </>);
+    const orderHeaders = [
+        {label: 'Fecha', key: 'date'},
+        {label: 'Hora', key: 'time'},
+        {label: 'Estado', key: 'state'},
+        {label: 'Comensales', key: 'totalCustomers'},
+        {label: 'Total', key: 'total'}
+    ]
+
+    useEffect(() => {
+        setupOrders()
+    }, [props.orders])
+
+    const setupOrders = () => {
+        let rows = props.orders.map(order => {
+            let state = 'Armando'
+            switch (order.state) {
+                case 'processing':
+                    state = 'Armando';
+                    break;
+                case 'waiting':
+                    state = 'En espera';
+                    break;
+                case 'preparation':
+                    state = 'En Preparación';
+                    break;
+                case 'cancelled':
+                    state = 'Cancelada';
+                    break;
+                case 'delivered':
+                    state = 'Entregada';
+                    break;
+                case 'closed':
+                    state = 'Cerrada';
+                    break;
+                default:
+                    state = 'Unknown';
+            }
+
+            return {
+                id: order.id,
+                date: order.createdAtDate,
+                time: order.createdAtTime,
+                totalCustomers: order.totalCustomers,
+                state: state,
+                total: "$" + order.total
+            }
+        })
+
+        setOrders(props.orders)
+        setOrderRows(rows)
+    }
+
+    const showOrder = (order) => {
+        const index = orders.findIndex(o => o.id === order.id)
+
+        if(index !== -1){
+            setSelectedOrder(orders[index])
+            setOpenOrderForm(true)
+        }
+    }
+
+    const onOrderFormClose = () => {
+        setOpenOrderForm(false)
+    }
+
+    return (<>
+        <Container>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <DoubleDateInput 
+                        buttonText={'Filtrar'}
+                        date1Text={'Desde'}
+                        date2Text={'Hasta'}
+                        onSubmit={props.onFilter}/>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <DataTable 
+                        maxHeight={'75vh'}
+                        headers={orderHeaders}
+                        rows={orderRows}
+                        onShow={showOrder}
+                        actionsType={'show'}/>
+                </Grid>
+            </Grid>
+
+            <OrderForm 
+                open={openOrderForm}
+                order={selectedOrder}
+                stateActions={false}
+                actions={false}
+                isNew={false}
+                onClose={onOrderFormClose}/>
+        </Container>
+    </>)
 }
 
 Orders.defaultProps =
 {
-
+    orders: [],
+    onFilter: function(){}
 }
 
 Orders.propTypes = 
 {
-
+    orders: PropTypes.array,
+    onFilter: PropTypes.func
 }
 
 

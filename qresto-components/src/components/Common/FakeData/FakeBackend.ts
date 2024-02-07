@@ -41,7 +41,7 @@ class FakeBackend{
         return lastId
     }
 
-    public getOrders(tableCode){
+    public getTableOrders(tableCode){
         this.delay(this.delayTime)
         return ordersDTO
     }

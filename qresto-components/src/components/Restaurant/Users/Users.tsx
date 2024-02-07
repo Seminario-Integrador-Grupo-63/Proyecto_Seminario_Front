@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from "prop-types";
 import {DataTable} from "@/Common/DataTable";
 import {UserForm} from "@/Restaurant/Users/UserForm";
+import {Button, IconButton} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 export const Users = (props: any) => {
 
@@ -12,6 +14,9 @@ export const Users = (props: any) => {
     const [onSubmit, setOnSubmit] = useState()
     const [formAction, setFormAction] = useState(0)
 
+    useEffect(() => {
+        setOpen(props.userFormOpen)
+    }, [props.userFormOpen]);
 
     const handleClose = () => {
         setTitle(" ")
@@ -50,7 +55,7 @@ export const Users = (props: any) => {
         setOpen(true)
         setReadonly(false)
         setTitle("Crear Usuario")
-        // No selected User
+        setSelectedUser(null)
         setFormAction(1)
 
         /*
@@ -80,6 +85,13 @@ export const Users = (props: any) => {
 
 
     return <>
+        <Button
+            startIcon={<AddIcon/>}
+            onClick={createForm}
+        >
+            Nuevo usuario
+        </Button>
+
         <DataTable headers={createHeaders()}
                    rows={createRows(users)}
                    onEdit={editForm}
@@ -108,6 +120,7 @@ Users.defaultProps =
     onDelete: function (){},
     onEdit: function () {},
     onCreate: function () {},
+    userFormOpen: false,
 }
 
 Users.propTypes = 
@@ -116,4 +129,5 @@ Users.propTypes =
     onDelete: PropTypes.func,
     onEdit: PropTypes.func,
     onCreate: PropTypes.func,
+    userFormOpen: PropTypes.bool,
 }

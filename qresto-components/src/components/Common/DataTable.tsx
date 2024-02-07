@@ -41,7 +41,7 @@ export const DataTable = (props: any) => {
 
     const setActions = () => {
         if(props.actions){
-            setHeaders([...props.headers, {label: 'Actions', key: 'actions'}])
+            setHeaders([...props.headers, {label: 'Acciones', key: 'actions'}])
         } else {
             setHeaders([...props.headers])
         }
@@ -114,7 +114,7 @@ export const DataTable = (props: any) => {
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer sx={{ maxHeight: props.maxHeight }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -150,6 +150,7 @@ export const DataTable = (props: any) => {
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
+                labelRowsPerPage={"Filas por página"}
                 count={props.rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
@@ -165,6 +166,7 @@ DataTable.defaultProps =
     rows: [],
     actions: true,
     actionsType: 'edit-delete',
+    maxHeight: 440,
     onEdit: function(){},
     onDelete: function(){},
     onShow: function(){},
@@ -196,7 +198,8 @@ DataTable.propTypes =
     onEdit: PropTypes.func,
     onDelete: PropTypes.func,
     onShow: PropTypes.func,
-    onCancel: PropTypes.func
+    onCancel: PropTypes.func,
+    maxHeight: PropTypes.any
 }
 
 

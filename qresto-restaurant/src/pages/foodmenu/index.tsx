@@ -1,8 +1,26 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
-import { getDishes, deleteDish, getDish, deleteSideDish, getSideDish, updateSideDishInfo, getSideDishes, getCategories, deleteCategory, updateCategory, createCategory } from '@/requests';
+import {
+    getDishes,
+    deleteDish,
+    getDish,
+    deleteSideDish,
+    getSideDish,
+    updateSideDishInfo,
+    getSideDishes,
+    getCategories,
+    deleteCategory, updateCategory, createCategory
+} from '@/requests';
+import {
+    getUpdatedPrices, confirmUpdatePrices
+} from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
+import {Dialog} from "@mui/material";
+import UpdateList from "@/Restaurant/UpdatePrices/Updatelist";
+import Confirmation from "@/Restaurant/UpdatePrices/Confirmation";
+import {useField} from "@mui/x-date-pickers/internals";
+import {DataTable} from "@/Common/DataTable";
 
 export default function FoodMenuPage() {
     const [categories, setCategories] = useState([]);
@@ -13,6 +31,40 @@ export default function FoodMenuPage() {
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
     const [actionFeedback, setActionFeedback] = useState('')
+
+    // Necesarios para el updatePrices
+    const [dishList, setDishList] = useState([])
+    const [updateConfirmId, setUpdateConfirmId] = useState('')
+    const [updateListOpen, setUpdateListOpen] = useState(false)
+    const [confirmationOpen, setConfirmationOpen] = useState(false)
+
+    // Handle list of dishes to update
+    const handleListOpen = async (req: any) => {
+
+        // Request
+        const updatePreview = await getUpdatedPrices(req)
+        // Setting UseState
+        setUpdateConfirmId(updatePreview.prices_code)
+        setDishList(updatePreview.dishPrices)
+        // Opening List
+        setUpdateListOpen(true)
+    }
+    const handleListClose = () => {
+        setUpdateListOpen(false)
+    }
+
+    //Handle Confirmation Dialog
+    const handleConfirmationOpen = () => {
+        setConfirmationOpen(true)
+    }
+    const handleConfirmationClose = () => {
+        setConfirmationOpen(false)
+    }
+
+    // Confirm Update Prices and close dialog
+    const confirmUpdate = async () => {
+        confirmUpdatePrices(updateConfirmId).then(handleConfirmationClose)
+    }
 
     useEffect(() => {
         fetchCategories();
@@ -46,7 +98,7 @@ export default function FoodMenuPage() {
             if (result) {
                 await fetchCategories(); // Recargar la lista de categorias después de eliminar una
                 triggerFeedback(true, 'delete-category')
-                
+
             }
             else{
                 triggerFeedback(false, 'delete-category')
@@ -117,7 +169,7 @@ export default function FoodMenuPage() {
                 setTextFeedback('No se ha podido eliminar la guarnicion')
             }
             setOpenFeedbackDialog(true)
-   }
+    }
        
         const closeFeedback = () => {
         setOpenFeedbackDialog(false)
@@ -193,7 +245,6 @@ export default function FoodMenuPage() {
             console.error("Error al obtener información de la guarnición:", error);
         }
     }
-
     const handleUpdateSideDishInfo = async (sideDishId, updatedInfo) => {
         try {
             await updateSideDishInfo(sideDishId, updatedInfo);
@@ -202,6 +253,9 @@ export default function FoodMenuPage() {
             console.error("Error al actualizar información de la guarnición:", error);
         }
     }
+
+
+
 
     return (<>
         <FoodMenu
@@ -214,12 +268,35 @@ export default function FoodMenuPage() {
             deleteCategory={handleDeleteCategory}
             createCategory={handleCreateCategory}
             updateCategory={handleUpdateCategory}
+/*            updateDish={handleEditDish}*/
+            handleUpdatePrices={handleListOpen}
              />
+
 
         <FeedbackDialog
             open={openFeedbackDialog}
             positive={positiveFeedback}
             text={"Se ha eliminado con éxito"}
-            onClose={closeFeedback}/>
+            onClose={closeFeedback}
+        />
+
+
+        <Dialog open={updateListOpen} onClose={handleListClose}>
+
+            <UpdateList
+                open={updateListOpen}
+                onClose={handleListClose}
+                productList={dishList}
+                onSubmit={handleConfirmationOpen}
+                dishList={dishList}
+            />
+        </Dialog>
+        <Dialog open={confirmationOpen} onClose={handleConfirmationClose}>
+            <Confirmation
+                open={confirmationOpen}
+                onClose={handleConfirmationClose}
+                onSubmit={confirmUpdate}
+            />
+        </Dialog>
      </>)
 } 

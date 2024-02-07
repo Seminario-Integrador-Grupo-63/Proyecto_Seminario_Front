@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import {useEffect, useState} from 'react'
 import { useSearchParams} from 'next/navigation'
 import { 
-    getOrders,
+    getTableOrders,
     getBill
 } from '@/requests'
 

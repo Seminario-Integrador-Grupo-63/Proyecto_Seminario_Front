@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { Container } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -40,6 +40,11 @@ export const Layout = (props: any) => {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     }
+
+    useEffect(() => {
+        setTitle(props.title)
+    }, [props.title])
+
 
     const onTables = () => {
         setTitle('Mesas')
@@ -216,10 +221,12 @@ export const Layout = (props: any) => {
 
 Layout.defaultProps =
 {
-    children: null
+    children: null,
+    title: 'Mesas'
 }
 
 Layout.propTypes = 
 {
     children: PropTypes.any,
+    title: PropTypes.string
 }

@@ -40,8 +40,8 @@ export default function Home() {
             setUserRole(result[0].role)
             console.log(getCookie("restaurantId"))
             console.log(getCookie("userRole"))
-            await router.replace({pathname: "/tables/",})
-
+            router.replace({pathname: "/tables/",})
+            // await router.replace({pathname: "/tables/",})
         } else {
             console.log("User not authenticated")
         }

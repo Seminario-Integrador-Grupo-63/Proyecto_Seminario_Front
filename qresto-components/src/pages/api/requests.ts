@@ -14,8 +14,13 @@ const url = "http://localhost:8000"
 const restaurantId = 1
 
 export async function getQR(tableId){
-    const response = await axios.get(url + `/table/${tableId}/qrcode`)
-    return response.data
+    try{
+        const response = await axios.get(url + `/table/${tableId}/qrcode`)
+        return response.data
+    } catch(error){
+        return false
+    }
+
 }
 
 export async function postQR(tableId, uuidCode){
@@ -59,9 +64,34 @@ export async function getDishesByCategoryId(categoryId){
     return response.data
 }
 
-export async function getOrders(tableCode){
+export async function getTableOrders(tableCode){
     const response = await axios.get(url + `/table/${tableCode}/orders/`)
     return response.data
+}
+
+export async function getOrders(restaurantId, startDate = null, endDate = null){
+    let params = ''
+    if(startDate !== null){
+        params = '?date_from=' + startDate
+        if (endDate !== null){
+            params += '&date_to=' + endDate
+        }
+    } else {
+        if (endDate !== null){
+            params += '?date_to=' + endDate
+        }
+    }
+
+    const headers = {
+        'restaurant-id': restaurantId
+    }
+
+    try {
+        const response = await axios.get(url + '/order/' + params, {headers})
+        return response.data
+    } catch (error){
+        return []
+    }
 }
 
 export async function postOrderDetail(orderDetail, tableCode){
@@ -222,7 +252,6 @@ export async function deleteTable(tableId){
     }
 }
 
-
 export async function getBill(tableCode){
     try{
         const response = await axios.get(url + `/table/${tableCode}/bill`)
@@ -230,7 +259,15 @@ export async function getBill(tableCode){
     } catch(error) {
         return false
     }
+}
 
+export async function cancelTable(tableCode){
+    try{
+        const response = await axios.post(url + `/table/${tableCode}/cancell`)
+        return true
+    } catch(error) {
+        return false
+    }
 }
 
 export async function updateDishPrice(restaurantId, dishId, percentage) {
@@ -262,7 +299,7 @@ export async function loginRestaurant(user):Promise<Array<any>> {
 
 export async function getUsers(restaurantId) {
     const headers = {
-        'restaurant-id': restaurantId
+        'restaurant-id': getCookieRId()
     }
     try {
         const response = await axios.get(url + '/security/employees', {headers})
@@ -271,7 +308,7 @@ export async function getUsers(restaurantId) {
         return []
     }
 }
-export async function updateUser(user) {
+export async function putUser(user) {
     try {
         const response = await axios.put(url + '/security/employees', user)
         return response.data
@@ -287,9 +324,9 @@ export async function deleteUser(userId):Promise<boolean> {
         return false
     }
 }
-export async function createUser(user, restaurantId) {
+export async function postUser(user) {
     const headers = {
-        'restaurant-id': restaurantId
+        'restaurant-id': getCookieRId()
     }
     try {
         const response = await axios.post(url + '/security/signup', user, {headers})
@@ -301,31 +338,20 @@ export async function createUser(user, restaurantId) {
 
 export async function getUpdatedPrices(body:any) {
     const headers = {'restaurant-id': getCookieRId()}
-
-/*    if (t == true) {
-        const body = {
-            "percentage": data[0],
-            "categoryId": data[1],
-            "action": data[2]
-        }
-    } else {
-        const body = {
-            "percentage": data[0],
-            "action": data[1]
-        }
-
-    }*/
-
     try {
+        // Esto está andando bien
         const response = await axios.post(url + '/dish/update_prices', body, {headers})
         return response.data
     } catch (error) {
-        return []
+        return {
+            prices_code: '',
+            dishPrices: []
+        }
     }
 }
 export async function confirmUpdatePrices(uuid:string) {
     try {
-        const response = await axios.get(url + `/dish/update_prices/${uuid}`)
+        const response = await axios.post(url + `/dish/update_prices/${uuid}`)
         return response.data
     } catch (error) {
         return []

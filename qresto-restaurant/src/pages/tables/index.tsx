@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import {useEffect, useState} from 'react'
-import { getTablesGrid } from '@/requests';
 import { TableSchema } from '@/Restaurant/Tables/TableSchema'
 import { PanLoader as Loader} from '@/Common/PanLoader/PanLoader'
 import {
@@ -8,7 +7,8 @@ import {
     getSectors,
     postSector,
     putSector,
-    deleteSector as deleteSectorRequest
+    deleteSector as deleteSectorRequest,
+    getTablesGrid
 } from '@/requests'
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
 

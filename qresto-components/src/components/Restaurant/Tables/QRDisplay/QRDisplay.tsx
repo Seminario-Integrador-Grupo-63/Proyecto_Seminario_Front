@@ -11,7 +11,6 @@ export const QRDisplay = (props: any) => {
 
     const download = () => {
         helper.generatePDF(props.qrcode)
-        props.onDownload()
     }
 
     return (<>
@@ -38,7 +37,6 @@ QRDisplay.defaultProps =
     qrcode: '',
     open: false,
     onClose: function(){},
-    onDownload: function(){}
 }
 
 QRDisplay.propTypes = 
@@ -46,5 +44,4 @@ QRDisplay.propTypes =
     qrcode: PropTypes.string,
     open: PropTypes.bool,
     onClose: PropTypes.func,
-    onDownload: PropTypes.func
 }

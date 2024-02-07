@@ -106,7 +106,10 @@ export const Sector = (props: any) => {
                             onClick={props.onTableClick}/>
                     ))}
                 </Grid>
-                <Grid 
+                {/** Puede servir si queremos implementar 
+                 * el borrado físico de sectores a futuro 
+                 */}
+                {/* <Grid 
                     item 
                     xs={1} 
                     sx={{
@@ -125,7 +128,7 @@ export const Sector = (props: any) => {
                                 color: theme.palette.primary.main,
                             }}/>
                     </IconButton>
-                </Grid>
+                </Grid> */}
             </Grid>
 
             <MessageDialog 

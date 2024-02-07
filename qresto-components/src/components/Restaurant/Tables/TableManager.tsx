@@ -48,15 +48,16 @@ export const TableManager = (props: any) => {
     ]
 
     useEffect(() => {
-        if(props.orders.length > 0){
-            setAllowDeleteTable(false)
-        } else {
-            setAllowDeleteTable(true)
+        if(props.table !== null){
+            if(props.orders.length > 0 || props.table.state !== 'free'){
+                setAllowDeleteTable(false)
+            } else {
+                setAllowDeleteTable(true)
+            }
         }
 
         setupOrders()
-    
-    }, [props.orders])
+    }, [props.orders, props.table])
 
     useEffect(() => {
         if(props.table !== null){
@@ -138,12 +139,15 @@ export const TableManager = (props: any) => {
     const updateTable = async (editedTable) => {
         const result = await props.updateTable({
             ...editedTable,
+            tableCode: table.tableCode,
             restaurant: table.restaurant,
+            state: table.state,
             id: table.id
         })
 
         if(result){
             setOpenTableForm(false)
+            
         }
     }
 
@@ -179,7 +183,7 @@ export const TableManager = (props: any) => {
     const onCancelOrder = (order) => {
         const orderIndex = props.orders.findIndex(o => o.id === order.id)
         const selectedOrder = props.orders[orderIndex]
-        if(selectedOrder.state === 'processing' || selectedOrder.state === 'waiting'){
+        if(selectedOrder.state === 'processing' || selectedOrder.state === 'waiting' || selectedOrder.state === 'preparation'){
             let orderEntity = searchOrder(order.id)
             showCancelOrder(orderEntity)
         } else {
@@ -230,10 +234,6 @@ export const TableManager = (props: any) => {
         }
     }
 
-    const onQRDownload = () => {
-        props.onQRDownload(table.id, uuidCode)
-    }
-
     const onQRDisplayClose = () => {
         setOpenQRDisplay(false)
     }
@@ -263,13 +263,36 @@ export const TableManager = (props: any) => {
         }
     }
 
+    const setTableFree = () => {
+        if(verifyFreeTable()){
+            props.setTableFree(table)
+        } else {
+            setTitleMessageDialog('No se puede liberar la mesa')
+            setTextMessageDialog('No puede liberar mesas que tienen ordenes en estado "Entregado"')
+            setActionMessageDialog('accept')
+            setCancelButtonVisibleMessageDialog(false)
+            setOpenMessageDialog(true)
+        }
+    }
+
+    const verifyFreeTable = () => {
+        let isReady = true
+        for(let i = 0; i < orders.length; i++){
+            if(orders[i].state === 'delivered'){
+                isReady = false
+                break
+            }
+        }   
+        return isReady
+    }
+
     return (
         <Container maxWidth={false}>
             <Grid 
                 container 
                 justifyContent="space-between" 
                 spacing={2}>
-                <Grid item xs={3}>
+                <Grid item xs={1}>
                     <IconButton
                         sx={{
                             marginRight: '20px'
@@ -281,20 +304,13 @@ export const TableManager = (props: any) => {
                                 color: theme.palette.primary.main,
                             }}/>
                     </IconButton>
-                    <ThemeProvider theme={themeButtonWine}>
-                        <Button 
-                            variant="contained"
-                            disabled={!hasTableCode}
-                            onClick={onGenerateOrder}>
-                            Generar Orden
-                        </Button>
-                    </ThemeProvider>
                 </Grid>
  
                 {table !== null ? 
-                    <Grid item xs={3}>
+                    <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                         <Typography 
-                            textAlign={'center'}
+                            textAlign={'left'}
+                            lineHeight={1.5}
                             variant='h4'>
                             Mesa {table.number}
                         </Typography>
@@ -303,8 +319,21 @@ export const TableManager = (props: any) => {
                     null
                 }
 
-                <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Grid item xs={9} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <ThemeProvider theme={themeButtonWine}>
+                        <Button 
+                            variant="contained"
+                            disabled={!hasTableCode}
+                            sx={{marginRight: '5px'}}
+                            onClick={onGenerateOrder}>
+                            Generar Orden
+                        </Button>
+                        <Button 
+                            variant="contained"
+                            sx = {{marginLeft: '5px'}}
+                            onClick={setTableFree}>
+                            Liberar Mesa
+                        </Button>
                         <Button
                             sx={{ marginRight: '5px', marginLeft: '5px' }}
                             variant='contained'
@@ -346,7 +375,7 @@ export const TableManager = (props: any) => {
                         onCancel={onCancelOrder}/>
                 </Grid>
             </Grid>
-
+git stat
             <OrderForm 
                 open={openOrderForm}
                 menu={menu}
@@ -372,7 +401,6 @@ export const TableManager = (props: any) => {
             <QRDisplay
                 open={openQRDisplay}
                 qrcode={qrCode}
-                onDownload={onQRDownload}
                 onClose={onQRDisplayClose}/>
 
             <MessageDialog
@@ -406,7 +434,8 @@ TableManager.defaultProps =
     onOrderPreration: function(){},
     onOrderDelivered: function(){},
     onBillRequest: function(){},
-    onOrderClosed: function(){}
+    onOrderClosed: function(){},
+    setTableFree: function(){}
 }
 
 TableManager.propTypes =
@@ -426,5 +455,6 @@ TableManager.propTypes =
     onOrderPreparation: PropTypes.func,
     onOrderDelivered: PropTypes.func,
     onBillRequest: PropTypes.func,
-    onOrderClosed: PropTypes.func
+    onOrderClosed: PropTypes.func,
+    setTableFree: PropTypes.func
 }

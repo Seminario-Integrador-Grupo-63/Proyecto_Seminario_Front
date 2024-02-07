@@ -5,7 +5,7 @@ import { useEffect, useState} from 'react'
 import { 
     getDish,
     postOrderDetail,
-    getOrders
+    getTableOrders
 } from '@/requests'
 import { tableCode} from '@/Common/FakeData/Tables'
 
@@ -44,7 +44,7 @@ export default function DishOrderingPage() {
 
     const addOrderDetails = async (orderDetail) => {
         await postOrderDetail(orderDetail, tableCode)
-        const orders = await getOrders(tableCode)
+        const orders = await getTableOrders(tableCode)
         const totalOrders = calculateOrdersTotal(orders)
         router.replace({
             pathname: '/menucategories',

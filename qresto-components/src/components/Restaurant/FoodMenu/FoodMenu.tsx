@@ -10,6 +10,7 @@ import { CustomTabPanel } from '@/Common/CustomTabPanel';
 import { Dishes } from './Dishes/Dishes';
 import { SideDishes } from './SideDishes/SideDishes';
 import { Categories } from '../Categories/Categories';
+import UpdatePrices from "@/Restaurant/UpdatePrices/UpdatePrices";
 
 export const FoodMenu = (props: any) => {
     const [value, setValue] = useState(0);
@@ -44,7 +45,7 @@ export const FoodMenu = (props: any) => {
                 value={value}
                 onChange={handleChange}
                 aria-label="basic tabs example">
-                <Tab label="Categorias" />
+                <Tab label="Categorías" />
                 <Tab label="Platos" />
                 <Tab label="Guarniciones" />
                 <Tab label="Actualizar Precios" />
@@ -65,7 +66,10 @@ export const FoodMenu = (props: any) => {
                 deleteSideDish={props.deleteSideDish}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
-                Actualizar Precios
+                <UpdatePrices
+                    onSubmit={props.handleUpdatePrices}
+                    categories={props.categories}
+                />
             </CustomTabPanel>
         </Container>
     </>)
@@ -79,7 +83,8 @@ FoodMenu.defaultProps = {
     deleteSideDish: function(){},
     deleteCategory: function(){},
     crateCategory: function(){},
-    updatecategory: function(){}
+    updatecategory: function(){},
+    handleUpdatePrices: function () {},
 }
 
 FoodMenu.propTypes = {
@@ -90,5 +95,6 @@ FoodMenu.propTypes = {
     deleteSideDish: PropTypes.func,
     deleteCategory: PropTypes.func,
     createCategory: PropTypes.func,
-    updateCategory: PropTypes.func
+    updateCategory: PropTypes.func,
+    handleUpdatePrices: PropTypes.func,
 }

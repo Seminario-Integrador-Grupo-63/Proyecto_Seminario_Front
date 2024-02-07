@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Orders } from "@/Restaurant/Orders/Orders";
 import {widths100} from "@/Stories/viewports";
+import { ordersDTO2 } from "@/Common/FakeData/OrdersData";
 
 export default {
     title: "components/Restaurant/Orders",
@@ -10,8 +11,6 @@ export default {
         viewport: {viewports: widths100},
         layout: 'fullscreen'
     }
-
-
 } as Meta<typeof Orders >;
 
 type Story = StoryObj<typeof Orders>;
@@ -19,38 +18,8 @@ type Story = StoryObj<typeof Orders>;
 export const OrdersMain: Story = {
     render: () =>{
 
-        const myFunction = () => {
-            
-        }
-
         return(<>
-            <Orders/>
+            <Orders orders={ordersDTO2}/>
         </>);
     } 
-};
-
-// export const Aspect1: Story = {
-//     render: () =>{
-//         return(<>
-//             <OrdersMobile mode={"portrait"}/>
-//         </>);
-//     } 
-// };
-
-// export const aspect2: Story = {
-//     render: () =>{
-//         return(<>
-//             
-//         </>);
-//     } 
-// };
-
-/**
-const onAction = () => {
-
 }
-
-console.log(": ", )
-
-*/
-

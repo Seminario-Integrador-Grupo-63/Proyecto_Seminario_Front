@@ -10,6 +10,7 @@ import { Typography, Button, Dialog } from '@mui/material';
 import Confirmation from './Confirmation';
 import { theme } from '@/Common/Theme/themes';
 import PropTypes from "prop-types";
+import {DataTable} from "@/Common/DataTable";
 
 export default function UpdateList(props: any) {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
@@ -21,6 +22,20 @@ export default function UpdateList(props: any) {
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
   };
+    const createHeaders = () => {
+        return [
+            {label: "Plato", key: "dishName"},
+            {label: "Precio", key: "dishPrice"},
+        ]
+    }
+    const createRows = (dishes) => {
+        return dishes.map(d => {
+            return {
+                dishName: d.dishName,
+                dishPrice: d.dishPrice,
+            }
+        })
+    }
 
   return (
     <div
@@ -30,27 +45,33 @@ export default function UpdateList(props: any) {
         maxHeight: 400, // Ajusta esta altura máxima según tus necesidades
         
       }}>
-
-      <TableContainer
-        component={Paper}
-
-      >
         <Typography
-          color="white"
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            textAlign: "center",
-            fontSize:25,
-            marginTop:5
-          }}
+            color="white"
+            sx={{
+                backgroundColor: theme.palette.primary.main,
+                textAlign: "center",
+                fontSize:25,
+                marginTop:5
+            }}
         >
-          Vista previa
+            Vista previa
         </Typography>
 
         <Typography variant="h6" gutterBottom align="center" marginTop={1}>
-          Estos serán los precios actualizados
+            Estos serán los precios actualizados
         </Typography>
         <hr />
+        <DataTable
+            headers={createHeaders()}
+            rows={createRows(props.dishList)}
+            actions={false}
+        />
+
+      {/*<TableContainer
+        component={Paper}
+
+      >
+
         <Table
           aria-label="simple table"
           sx={{
@@ -78,12 +99,12 @@ export default function UpdateList(props: any) {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer>*/}
       <div style={{ display: 'flex', marginTop: '10px', justifyContent: 'space-between' }}>
         <Button
           type="submit"
           variant="contained"
-          onClick={handleClickOpen}
+          onClick={props.onSubmit}
           sx={{
             backgroundColor: theme.palette.primary.main,
             margin: 1
@@ -114,10 +135,13 @@ UpdateList.defaultProps = {
     open: false,
     onClose: function () {},
     productList: [],
+    dishList: [],
 }
 UpdateList.propTypes = {
     onSubmit: PropTypes.func,
     open: PropTypes.bool,
     onClose: PropTypes.func,
     productList: PropTypes.array,
+    dishList: PropTypes.array,
+
 }
