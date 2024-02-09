@@ -55,7 +55,7 @@ export const Layout = (props: any) => {
     }
 
     const onOrders = () => {
-        setTitle('Ordenes')
+        setTitle('Órdenes')
     }
 
     const onUsers = () => {

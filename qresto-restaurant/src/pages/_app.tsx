@@ -76,7 +76,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
     } else {
         let title = 'Mesas'
         if (isOrdersPage){
-            title = 'Ordenes'
+            title = 'Órdenes'
         } else if (isFoodmenuPage){
             title = 'Carta'
         } else if (isUsersPage){
