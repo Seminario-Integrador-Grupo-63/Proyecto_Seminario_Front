@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { DataTable } from '@/Common/DataTable';
+import { DataTable } from '@/Common/DataTable/DataTable';
 import { OrderForm } from '@/Restaurant/Tables/OrderForm/OrderForm';
 import { DoubleDateInput } from './DoubleDateInput';
 import { 
@@ -15,11 +15,10 @@ export const Orders = (props: any) => {
     const [selectedOrder, setSelectedOrder] = useState(null)
 
     const orderHeaders = [
-        {label: 'Fecha', key: 'date'},
-        {label: 'Hora', key: 'time'},
-        {label: 'Estado', key: 'state'},
-        {label: 'Comensales', key: 'totalCustomers'},
-        {label: 'Total', key: 'total'}
+        {label: 'Fecha', id: 'date'},
+        {label: 'Estado', id: 'state'},
+        {label: 'Comensales', id: 'totalCustomers'},
+        {label: 'Total', id: 'total', price: true}
     ]
 
     useEffect(() => {
@@ -54,11 +53,10 @@ export const Orders = (props: any) => {
 
             return {
                 id: order.id,
-                date: order.createdAtDate,
-                time: order.createdAtTime,
+                date: order.createdAtDate + ' ' + order.createdAtTime,
                 totalCustomers: order.totalCustomers,
                 state: state,
-                total: "$" + order.total
+                total: order.total
             }
         })
 

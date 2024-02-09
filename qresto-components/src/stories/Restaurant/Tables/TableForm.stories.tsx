@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { TableForm } from "@/components/Restaurant/Tables/TableForm";
+import { TableForm } from "@/Restaurant/Tables/TableForm";
 import {widths100} from "@/Stories/viewports";
 import { Button } from  '@mui/material'
 import {useState} from 'react'

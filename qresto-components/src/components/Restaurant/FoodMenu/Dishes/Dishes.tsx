@@ -36,6 +36,8 @@ export const Dishes = (props: any) => {
 
     const onCloseDishForm = () => {
         setOpenDishForm(false)
+        setSelectedDish(null)
+        setIsNewDishForm(true)
     }
 
     const onCreate = async (object) => {
@@ -51,7 +53,6 @@ export const Dishes = (props: any) => {
             setOpenDishForm(false)
         }
     }
-
 
     return (<>
         <Container 
@@ -100,7 +101,6 @@ export const Dishes = (props: any) => {
 
 Dishes.defaultProps =
 {
-    // dishes: [],
     sideDishes: [],
     deleteDish:function(){},
     updateDish: function(){},
@@ -111,7 +111,6 @@ Dishes.defaultProps =
 
 Dishes.propTypes = 
 {
-    // dishes: PropTypes.array,
     deleteDish: PropTypes.func,
     createDish: PropTypes.func,
     updateDish: PropTypes.func,

@@ -10,7 +10,7 @@ import { Typography, Button, Dialog } from '@mui/material';
 import Confirmation from './Confirmation';
 import { theme } from '@/Common/Theme/themes';
 import PropTypes from "prop-types";
-import {DataTable} from "@/Common/DataTable";
+import {DataTable} from "@/Common/DataTable/DataTable";
 
 export default function UpdateList(props: any) {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
@@ -24,8 +24,8 @@ export default function UpdateList(props: any) {
   };
     const createHeaders = () => {
         return [
-            {label: "Plato", key: "dishName"},
-            {label: "Precio", key: "dishPrice"},
+            {label: "Plato", id: "dishName"},
+            {label: "Precio", id: "dishPrice"},
         ]
     }
     const createRows = (dishes) => {

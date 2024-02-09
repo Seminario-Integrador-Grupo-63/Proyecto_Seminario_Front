@@ -42,9 +42,6 @@ export default function TableManagerPage() {
     }, [searchParams])
 
     useEffect(() => {
-        console.log(' ')
-        console.log('TableManagerPage useEffect table')
-        console.log('table: ', table)
         if(table !== null){
             fetchOrders()
         }
@@ -243,7 +240,10 @@ export default function TableManagerPage() {
         const result = await cancelTable(table.tableCode)
         setLoading(false)
         if(result){
-            await fetchTable(table.id)
+            await Promise.all([
+                fetchTable(table.id),
+                fetchOrders()
+            ])
         }
         triggerFeedback(result, 'free-table')
     }

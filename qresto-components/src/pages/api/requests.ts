@@ -273,9 +273,6 @@ export async function putDish(object) {
 }
 
 export async function postDish(object) {
-    console.log(' ')
-    console.log('requests postDish(object)')
-    console.log('object: ', object)
     try{
         const response = await axios.post(url + '/dish/', object)
         return true
@@ -399,17 +396,12 @@ export async function getSideDishes() {
     /**
     Guarniciones
     */
-    console.log(' ')
-    console.log('requests getSideDishes()')
-    
     try {
         const headers = {
             'restaurant-id': restaurantId
         }
         const response = await axios.get(url + '/side-dish/', {headers});
-        console.log('response: ', response)
         const data = buildSideDish(response.data)
-        console.log('data: ', data)
         return data
     } catch (error) {
         return []
@@ -454,9 +446,6 @@ export async function updateSideDish(updatedInfo) {
 }
 
 export async function postSector(sector){
-    console.log(' ')
-    console.log('requests postSector(sector)')
-    console.log('sector: ', sector)
     try{
         const response = await axios.post(url + '/table/sector', sector)
         return true

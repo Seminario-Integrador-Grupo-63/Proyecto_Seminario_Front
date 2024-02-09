@@ -95,7 +95,11 @@ export default function FoodMenuPage() {
     };
 
     const fetchMenu = async() => {
+        console.log(' ')
+        console.log('FoodMenuPage fetchMenu')
+        
         const menuResult = await getMenu()
+        console.log('menuResult: ', menuResult)
         setMenu(menuResult)
     }
 
@@ -163,10 +167,6 @@ export default function FoodMenuPage() {
         } else {
             if(action === 'delete-dish'){
                 setTextFeedback('No se ha podido eliminar el plato')
-            } else if(action === 'delete-sidedish'){
-                setTextFeedback('No se ha podido eliminar la guarnicion')
-            } else if(action === 'delete-sidedish') {
-                setTextFeedback('No se ha podido eliminar la guarnicion')
             } else if(action === 'create-dish'){
                 setTextFeedback('No se ha podido crear el plato. Por favor, intente más tarde')
             } else if (action === 'update-dish'){
@@ -187,7 +187,6 @@ export default function FoodMenuPage() {
         setOpenFeedbackDialog(false)
     }
 
-    //platos
     const handleDeleteDish = async (dish) => {
         const result = await deleteDish(dish.id);
         if (result) {
@@ -208,10 +207,19 @@ export default function FoodMenuPage() {
     }
 
     const handleUpdateDish = async (object) => {
+        console.log(' ')
+        console.log('FoodMenuPage handleUpdateDish(object)')
+        console.log('object: ', object)
+        setLoading(true)
+        const result = await putDish(object)
+        if(result){
+            await fetchMenu()
+        }
+        setLoading(false)
+        triggerFeedback(result, 'update-dish')
+    }
 
-    } 
-
-    // const handleEditDish = async (dishId) => {
+    // const handleUpdateDish = async (dishId) => {
     //     try {
     //         const dishToUpdateIndex = dishes.findIndex((dish) => dish.id === dishId);
     //         if (dishToUpdateIndex !== -1) {
@@ -225,13 +233,14 @@ export default function FoodMenuPage() {
     //     }
     // }
 
-    //guarnicion?
-
     const handleDeleteSideDish = async (sideDish) => {
         setLoading(true)
         const result = await deleteSideDish(sideDish.id);
         if (result) {
-            await fetchSideDishes(); // Recargar la lista de guarniciones después de eliminar una
+            await Promise.all([
+                fetchSideDishes(),
+                fetchMenu()
+            ])
         } 
         setLoading(false)
         triggerFeedback(result, 'delete-sidedish'); 
@@ -241,7 +250,10 @@ export default function FoodMenuPage() {
         setLoading(true)
         const result = await createSideDish(sideDish)
         if (result) {
-            await fetchSideDishes(); // Recargar la lista de guarniciones después de eliminar una
+            await Promise.all([
+                fetchSideDishes(),
+                fetchMenu()
+            ])
         }
         setLoading(false)
         triggerFeedback(result, 'create-sidedish');
@@ -251,7 +263,10 @@ export default function FoodMenuPage() {
         setLoading(true)
         const result = await updateSideDish(updatedInfo);
         if(result){
-            await fetchSideDishes();
+            await Promise.all([
+                fetchSideDishes(),
+                fetchMenu()
+            ])
         }
         setLoading(false)
         triggerFeedback(result, 'update-sidedish')
@@ -297,4 +312,4 @@ export default function FoodMenuPage() {
                 onSubmit={confirmUpdate}/>
         </Dialog>
      </>)
-} 
+}

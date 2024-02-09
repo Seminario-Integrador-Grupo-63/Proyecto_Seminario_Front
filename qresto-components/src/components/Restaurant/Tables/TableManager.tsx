@@ -8,7 +8,7 @@ import {
     IconButton,
     ThemeProvider
 } from '@mui/material'
-import { DataTable } from '@/Common/DataTable'
+import { DataTable } from '@/Common/DataTable/DataTable'
 import { OrderForm } from './OrderForm/OrderForm'
 import { TableForm } from './TableForm'
 import { MessageDialog } from '@/Common/MessageDialog'
@@ -42,9 +42,9 @@ export const TableManager = (props: any) => {
     const [qrCode, setQRcode] = useState('')
 
     const orderHeaders = [
-        {label: 'Total comensales', key: 'totalCustomers'},
-        {label: 'Estado', key: 'state'},
-        {label: 'Total', key: 'total'}
+        {label: 'Total comensales', id: 'totalCustomers'},
+        {label: 'Estado', id: 'state'},
+        {label: 'Total', id: 'total'}
     ]
 
     useEffect(() => {
