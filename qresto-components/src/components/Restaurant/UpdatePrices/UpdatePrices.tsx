@@ -52,7 +52,7 @@ function UpdatePrices(props: any) {
     return (
         <Container>
             <Typography variant="h4" gutterBottom>
-                  Actualizar Platos
+                  Actualizar precios
             </Typography>
 
 {/*
