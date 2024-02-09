@@ -69,7 +69,9 @@ export const FoodMenu = (props: any) => {
             <CustomTabPanel value={value} index={2}>
                 <SideDishes 
                     sideDishes={props.sideDishes}
-                    deleteSideDish={props.deleteSideDish}/>
+                    deleteSideDish={props.deleteSideDish}
+                    createSideDish={props.createSideDish}
+                    updateSideDish={props.updateSideDish}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
                 <UpdatePrices
@@ -87,6 +89,8 @@ FoodMenu.defaultProps = {
     createDish: function(){},
     updateDish: function(){},
     deleteDish: function(){},
+    createSideDish: function(){},
+    updateSideDish: function(){},
     deleteSideDish: function(){},
     deleteCategory: function(){},
     crateCategory: function(){},
@@ -100,6 +104,8 @@ FoodMenu.propTypes = {
     createDish: PropTypes.func,
     updateDish: PropTypes.func,
     deleteDish: PropTypes.func,
+    createSideDish: PropTypes.func,
+    updateSideDish: PropTypes.func,
     deleteSideDish: PropTypes.func,
     deleteCategory: PropTypes.func,
     createCategory: PropTypes.func,
