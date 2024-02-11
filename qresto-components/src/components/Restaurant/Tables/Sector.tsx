@@ -64,7 +64,7 @@ export const Sector = (props: any) => {
             setTitleMessageDialog("No se puede eliminar el sector")
             setCancelButtonVisibleMessageDialog(false)
             setSubmitTextMessageDialog('Aceptar')
-            setDescriptionMessageDialog('No se puede eliminar el sector mientras tenga ordenes')
+            setDescriptionMessageDialog('No se puede eliminar el sector mientras tenga órdenes')
             setOpenMessageDialog(true)
         }
     }

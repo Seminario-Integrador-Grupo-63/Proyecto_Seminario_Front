@@ -22,7 +22,7 @@ function UserEdit({ permisosOpciones }) {
     inputValueUsuario: '',
     selectedActualizacion: '',
     inputValueContraseña: '',
-    inputValueDescripcion: '',
+    inputValueDescription: '',
   });
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -178,15 +178,15 @@ function UserEdit({ permisosOpciones }) {
 
     <div style={{ marginBottom: '1rem' }}>
       <Typography>
-        Descripcion
+        Descripción
       </Typography>
       <TextField
-          label="Descripcion"
-          name="inputValueDescripcion"
+          label="Descripción"
+          name="inputValueDescription"
           variant="outlined"
           fullWidth
-          value={formData.inputValueDescripcion}
-          onChange={(e) => setFormData({ ...formData, inputValueDescripcion: e.target.value })}
+          value={formData.inputValueDescription}
+          onChange={(e) => setFormData({ ...formData, inputValueDescription: e.target.value })}
       />
     </div>
 

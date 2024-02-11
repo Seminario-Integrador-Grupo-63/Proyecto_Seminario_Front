@@ -13,7 +13,7 @@
     
 //     const headers = [
 //         {label: 'Nombre', id: 'name'},
-//         {label: 'Descripcion', id: 'description'}
+//         {label: 'Descripción', id: 'description'}
 //     ]
 //     const onCloseDishForm = () => {
 //         setOpenSideDishForm(false)
@@ -86,7 +86,7 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid } from '@mui/material'
 import { DataTable } from '@/Common/DataTable/DataTable';
-import { DishForm } from '../Dishes/DishForm/DishForm';
+import { DishForm } from '../Dishes/DishForm';
 import { SideDishForm } from './SideDishForm';
 
 export const SideDishes = (props: any) => {
@@ -97,7 +97,7 @@ export const SideDishes = (props: any) => {
     
     const headers = [
         {label: 'Nombre', id: 'name'},
-        {label: 'Descripcion', id: 'description'}
+        {label: 'Descripción', id: 'description'}
     ]
     const onCloseSideDishForm = () => {
         setOpenSideDishForm(false)

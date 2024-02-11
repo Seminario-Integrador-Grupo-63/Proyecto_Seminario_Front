@@ -39,6 +39,10 @@ export const DishCard = (props: any) => {
                 <Typography variant="body2" color="text.secondary">
                     {props.dish.description}
                 </Typography>
+                <Typography 
+                    variant="h6" >
+                    ${props.dish.price}
+                </Typography>
             </CardContent>
             <CardActions>
                 <Grid container justifyContent="flex-end">

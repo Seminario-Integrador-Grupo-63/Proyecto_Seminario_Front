@@ -68,7 +68,7 @@ export const SideDishForm = (props: any) => {
                     <TextField
                         InputProps={{readOnly: props.readOnly,}}
                         margin={"dense"}
-                        label="Descripcion"
+                        label="Descripción"
                         name="inputValueDescription"
                         variant="outlined"
                         fullWidth

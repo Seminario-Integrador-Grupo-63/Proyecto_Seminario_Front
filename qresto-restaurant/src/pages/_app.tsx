@@ -10,6 +10,8 @@ import { getCookie, setCookie, deleteCookie } from 'qresto-components/src/pages/
 
 
 export default function App({ Component, pageProps, router }: AppProps) {
+    // console.log(' ')
+    // console.log('_app')
     // UseState con el id de Restaurant y rol de usuario
     const [rid, setRid] = useState(null);
     const [role, setRole] = useState(null);

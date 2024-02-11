@@ -43,6 +43,7 @@ export const CustomerForm = (props: any) => {
             <Grid container alignItems="center" justifyContent="center">
                 <Grid item>
                     <TextField 
+                        sx={{marginTop: '5px'}}
                         label="Comensal"
                         value={input}
                         onChange={handleComensalChange}/>

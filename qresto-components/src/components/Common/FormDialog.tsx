@@ -58,8 +58,10 @@ export const FormDialog = (props: any) => {
                             null
                         }
                     </ThemeProvider>
-                    <Button onClick={props.onClose} autoFocus
-                            sx={{color: 'black'}}>
+                    <Button 
+                        onClick={props.onClose} 
+                        autoFocus
+                        sx={{color: 'black'}}>
                         {props.closeText}
                     </Button>
                 </DialogActions>

@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import { DishCard } from '../Dishes/DishCard/DishCard'
+import { DishCard } from './DishCard'
 import {
     Container,
     Grid,
     Button
 } from '@mui/material'
-import { DishForm } from './DishForm/DishForm'
+import { DishForm } from './DishForm'
 
 export const Dishes = (props: any) => {
     const [openDishForm, setOpenDishForm] = useState(false)

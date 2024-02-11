@@ -41,7 +41,7 @@ export default function FoodMenuPage() {
     const [updateListOpen, setUpdateListOpen] = useState(false)
     const [confirmationOpen, setConfirmationOpen] = useState(false)
 
-    const router = useRouter();
+    // const router = useRouter();
 
     // Handle list of dishes to update
     const handleListOpen = async (req: any) => {
@@ -218,20 +218,6 @@ export default function FoodMenuPage() {
         setLoading(false)
         triggerFeedback(result, 'update-dish')
     }
-
-    // const handleUpdateDish = async (dishId) => {
-    //     try {
-    //         const dishToUpdateIndex = dishes.findIndex((dish) => dish.id === dishId);
-    //         if (dishToUpdateIndex !== -1) {
-    //             const updatedDish = await getDish(dishId);
-    //             const updatedDishes = [...dishes];
-    //             updatedDishes[dishToUpdateIndex] = updatedDish;
-    //             setDishes(updatedDishes);
-    //          }
-    //         } catch (error) {
-    //         console.error("Error al obtener información del plato:", error);
-    //     }
-    // }
 
     const handleDeleteSideDish = async (sideDish) => {
         setLoading(true)

@@ -202,7 +202,7 @@ export const DishForm = (props: any) => {
             closeText={'Cerrar'}
             onClose={onClose}
             title={props.isNew?'Agregar Plato':'Editar Plato'}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={{marginTop: '5px'}}>
                 {/* -----------------------------------------------------Lado izquierdo */}
                 <Grid item xs={6} 
                     sx={{
@@ -261,7 +261,7 @@ export const DishForm = (props: any) => {
                     <Grid sx={{marginBottom: marginBottom}}>
                         <NumberField
                             fullWidth
-                            label={'Tiempo de preparación'}
+                            label={'Tiempo de preparación (en minutos)'}
                             value={preparationTime}
                             onChange={handlePreparationTimeChange}/>
                     </Grid>

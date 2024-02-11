@@ -44,7 +44,7 @@ export const MenuCategories = (props: any) => {
             {props.ordersButtonVisible?
                 <Footer 
                     onClick={props.onClickFooter}
-                    buttonText={'Ver ordenes'}
+                    buttonText={'Ver órdenes'}
                     text={"$" + props.ordersTotal}/>
             :
                 null

@@ -392,7 +392,14 @@ export const OrderForm = (props: any) => {
             </Grid>
             {props.actions ? 
                 <Grid>
-                    <Button onClick={onAddCustomer}>Agregar Comensal</Button>
+                    <ThemeProvider theme={themeButtonWine}>
+                        <Button 
+                            color="primary"
+                            onClick={onAddCustomer}>
+                            Agregar Comensal
+                        </Button>
+                    </ThemeProvider>
+
                 </Grid>
             :
                 null

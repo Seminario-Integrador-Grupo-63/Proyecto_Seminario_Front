@@ -26,8 +26,7 @@ export const FoodMenuMain: Story = {
                 style={{
                     width:'90vw',
                     height: '90vh'}}>
-                <FoodMenu
-                    dishes={dishes}/>
+                <FoodMenu/>
             </div>
         </>)
     } 
@@ -39,8 +38,7 @@ export const FoodMenuLayout: Story = {
             <Layout>
                 <FoodMenu
                     menu={menuData}
-                    sideDishes={sideDishes}
-                    dishes={dishes}/>
+                    sideDishes={sideDishes}/>
             </Layout>
         </>)
     } 

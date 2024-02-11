@@ -309,7 +309,7 @@ En los archivos .module.scss se puede usar tanto código css como scss, el que m
 
 - Para iniciar el desarrollo de una nueva funcion crear una rama desde `develop`
 
-- Para seguimiento el nombre de la rama debe ser `SI-XX-(una breve descripcion de la tarea)`
+- Para seguimiento el nombre de la rama debe ser `SI-XX-(una breve descripción de la tarea)`
 
 - SI-XX es la Key que se encuentra en cada card de trelo
 
