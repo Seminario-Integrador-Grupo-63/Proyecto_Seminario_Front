@@ -8,20 +8,35 @@ import {
 
 import { tableCode} from '@/Common/FakeData/Tables'
 import {BillCheckout} from '@/Customer/BillCheckout/BillCheckout';
+import {getCookie, hasCookie} from "cookies-next";
 
 export default function BillCheckoutPage() {
+    const router = useRouter()
     const searchParams = useSearchParams()
     const [billData, setBillData] = useState(null)
+
+    const [customerName, setCustomerName] = useState('')
+    const [tableCodeDef, setTableCodeDef] = useState('')
+
     useEffect(() => {
 
     }, [searchParams])
 
     useEffect(() => {
         fetchBill()
+
+        if (!hasCookie("tableCode")) {
+            router.push({pathname: '/'})
+        } else if (!hasCookie("customerName")) {
+            router.push({pathname: '/start'})
+        } else {
+            setCustomerName(getCookie("customerName"))
+            setTableCodeDef(getCookie("tableCode"))
+        }
     }, [])
 
     const fetchBill = async() => {
-        const bill = await getBill(tableCode)
+        const bill = await getBill(tableCodeDef)
         setBillData(bill)
     }
 

@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react'
 import {MenuDishes} from '@/Customer/MenuDishes/MenuDishes'
 import { getDishesByCategoryId } from '@/requests'
 import { FlowState } from '@/Common/FlowState'
+import {getCookie, hasCookie} from "cookies-next";
 
 export default function MenuDishesPage() {
     const router = useRouter()
@@ -11,6 +12,10 @@ export default function MenuDishesPage() {
     const searchParams = useSearchParams()
     const [category, setCategory] = useState(null)
     const [customer, setCustomer] = useState('')
+
+    const [customerName, setCustomerName] = useState('')
+    const [tableCodeDef, setTableCodeDef] = useState('')
+
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
         confirmed: false,
@@ -19,6 +24,19 @@ export default function MenuDishesPage() {
             total: 0
         }
     })
+
+    useEffect(() => {
+        if (!hasCookie("tableCode")) {
+            router.push({pathname: '/'})
+        } else if (!hasCookie("customerName")) {
+            router.push({pathname: '/start'})
+        } else {
+            setCustomerName(getCookie("customerName"))
+            setTableCodeDef(getCookie("tableCode"))
+        }
+
+    }, []);
+
 
     useEffect(() => {
         setCategory(JSON.parse(searchParams.get('category')))
@@ -70,3 +88,4 @@ export default function MenuDishesPage() {
         :null}
     </>)
 }
+

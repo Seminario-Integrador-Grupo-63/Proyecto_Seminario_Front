@@ -8,6 +8,7 @@ import {
     getTableOrders
 } from '@/requests'
 import { tableCode} from '@/Common/FakeData/Tables'
+import {getCookie, hasCookie} from "cookies-next";
 
 export default function DishOrderingPage() {
     const router = useRouter()
@@ -15,6 +16,20 @@ export default function DishOrderingPage() {
     const [dish, setDish] = useState(null)
     const [category, setCategory] = useState(null)
     const [customer, setCustomer] = useState('')
+
+    const [customerName, setCustomerName] = useState('')
+    const [tableCodeDef, setTableCodeDef] = useState('')
+
+    useEffect(() => {
+        if (!hasCookie("tableCode")) {
+            router.push({pathname: '/'})
+        } else if (!hasCookie("customerName")) {
+            router.push({pathname: '/start'})
+        } else {
+            setCustomerName(getCookie("customerName"))
+            setTableCodeDef(getCookie("tableCode"))
+        }
+    }, []);
 
     useEffect(() => {
         const dishId = searchParams.get('dishId')
@@ -25,6 +40,8 @@ export default function DishOrderingPage() {
         let customer = searchParams.get('customer')
 
         setCustomer(customer)
+        setCustomerName(getCookie("customerName"))
+        setTableCodeDef(getCookie("tableCode"))
     }, [searchParams])
 
     const fecthDish = async (id) => {
@@ -43,8 +60,8 @@ export default function DishOrderingPage() {
     }
 
     const addOrderDetails = async (orderDetail) => {
-        await postOrderDetail(orderDetail, tableCode)
-        const orders = await getTableOrders(tableCode)
+        await postOrderDetail(orderDetail, getCookie("tableCode"))
+        const orders = await getTableOrders(getCookie("tableCode"))
         const totalOrders = calculateOrdersTotal(orders)
         router.replace({
             pathname: '/menucategories',
@@ -64,7 +81,7 @@ export default function DishOrderingPage() {
 
     return (<>
         <DishOrdering
-            customer={customer}
+            customer={customerName}
             dish={dish}
             onAdd={addOrderDetails}
             goBack={goBack}/>

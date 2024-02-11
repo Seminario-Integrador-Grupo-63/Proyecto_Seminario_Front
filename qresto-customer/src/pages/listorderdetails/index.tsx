@@ -8,12 +8,28 @@ import {
     getTableOrders
 } from '@/requests';
 import { tableCode } from '@/Common/FakeData/Tables';
+import {getCookie, hasCookie} from "cookies-next";
 
 export default function ListOrderDetailsPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [order, setOrder] = useState(null)
     const [customer, setCustomer] = useState('')
+
+    const [customerName, setCustomerName] = useState('')
+    const [tableCodeDef, setTableCodeDef] = useState('')
+
+    useEffect(() => {
+        if (!hasCookie("tableCode")) {
+            router.push({pathname: '/'})
+        } else if (!hasCookie("customerName")) {
+            router.push({pathname: '/start'})
+        } else {
+            setCustomerName(getCookie("customerName"))
+            setTableCodeDef(getCookie("tableCode"))
+        }
+    }, []);
+
 
     useEffect(() => {
         setOrder(JSON.parse(searchParams.get('order')))
@@ -24,38 +40,30 @@ export default function ListOrderDetailsPage() {
     const goBack = () => {
         router.replace({
             pathname: '/listorders',
-            query: {
-                customer: customer
-            }
+
         })
     }
 
     const confirmOrder = async () => {
-        await confirmOrderRequest(customer, tableCode)
+        await confirmOrderRequest(getCookie("customerName"), getCookie("tableCode"))
         router.replace({
             pathname: '/listorders',
-            query: {
-                customer: customer
-            }
+
         })
     }
 
     const requestBill = () => {
         router.replace({
             pathname: '/billcheckout',
-            query: {
-                customer: customer
-            }
+
         })
     }
 
     const deleteOrderDetail = async (orderDetail) => {
-        await deleteOrderDetailRequest(tableCode, orderDetail)
+        await deleteOrderDetailRequest(getCookie("tableCode"), orderDetail)
         router.replace({
             pathname: '/listorders',
-            query: {
-                customer: customer
-            }
+
         })
     }
 
@@ -63,7 +71,7 @@ export default function ListOrderDetailsPage() {
         if(order != null){
             if(order.customerList.length > 0){
                 return order.customerList.some(c => {
-                    if(c.customer === customer){
+                    if(c.customer === getCookie("customerName")){
                         return c.confirmed
                     }
                 })
@@ -77,7 +85,7 @@ export default function ListOrderDetailsPage() {
 
     return (<>
         <ListOrderDetails
-            customer={customer}
+            customer={getCookie("customerName")}
             confirmed={setConfirmedCustomer()}
             onConfirmOrder={confirmOrder}
             onDeleteOrderDetail={deleteOrderDetail}

@@ -7,16 +7,30 @@ import {
     getTableOrders
 } from '@/requests'
 import { tableCode } from '@/Common/FakeData/Tables'
+import {getCookie, hasCookie} from "cookies-next";
 
 export default function MenuCategoriesPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [categories, setCategories] = useState([])
     const [customer, setCustomer] = useState('')
+
+    const [customerName, setCustomerName] = useState('')
+    const [tableCodeDef, setTableCodeDef] = useState('')
+
     const [orders, setOrders] = useState([])
 
     useEffect(() => {
-        fetchData()
+        fetchCategories()
+        if (!hasCookie("tableCode")) {
+            router.push({pathname: '/'})
+        } else if (!hasCookie("customerName")) {
+            router.push({pathname: '/start'})
+        } else {
+            setCustomerName(getCookie("customerName"))
+            setTableCodeDef(getCookie("tableCode"))
+            console.log("Cookie TableCodeDef: ", getCookie("tableCode"))
+        }
     }, [])
 
     useEffect(() => {
@@ -43,19 +57,16 @@ export default function MenuCategoriesPage() {
     }
 
     const fetchOrders = async () => {
-        const fetchedOrders = await getTableOrders(tableCode)
+        console.log("UseState tableCode: ", tableCodeDef)
+        const fetchedOrders = await getTableOrders(getCookie("tableCode"))
         setOrders(fetchedOrders)
     }
 
     const setFooterButtonVisible = (orders) => {
-        if(orders.length > 0){
-            return true
-        } else {
-            return false
-        }
+        return orders.length > 0;
     }
 
-    const fetchData = async () => {
+    const fetchCategories = async () => {
         const response = await getCategories()
         setCategories(response)
     }
@@ -65,7 +76,6 @@ export default function MenuCategoriesPage() {
             pathname: '/menudishes', 
             query: {
                 category: JSON.stringify(category),
-                customer: customer
             }
         })
     }
@@ -73,9 +83,7 @@ export default function MenuCategoriesPage() {
     const onClickShowOrders = () => {
         router.replace({
             pathname: '/listorders', 
-            query: {
-                customer: customer
-            }
+            query: { }
         })
     }
 
