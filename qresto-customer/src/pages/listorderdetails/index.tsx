@@ -14,10 +14,10 @@ export default function ListOrderDetailsPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [order, setOrder] = useState(null)
+    const [orderId, setOrderId] = useState(null)
     const [customer, setCustomer] = useState('')
-
     const [customerName, setCustomerName] = useState('')
-    const [tableCodeDef, setTableCodeDef] = useState('')
+    const [tableCode, setTableCode] = useState('')
 
     useEffect(() => {
         if (!hasCookie("tableCode")) {
@@ -26,13 +26,19 @@ export default function ListOrderDetailsPage() {
             router.push({pathname: '/start'})
         } else {
             setCustomerName(getCookie("customerName"))
-            setTableCodeDef(getCookie("tableCode"))
+            setTableCode(getCookie("tableCode"))
         }
     }, []);
 
+    useEffect(() => {
+        if(tableCode !== null && tableCode !== undefined && tableCode !== ''){
+            fetchOrders()
+        }
+    }, [tableCode, orderId])
 
     useEffect(() => {
-        setOrder(JSON.parse(searchParams.get('order')))
+        let orderId = JSON.parse(searchParams.get('orderId'))
+        setOrderId(orderId)
         let customer = searchParams.get('customer')
         setCustomer(customer)
     }, [searchParams])
@@ -44,11 +50,18 @@ export default function ListOrderDetailsPage() {
         })
     }
 
+    const fetchOrders = async () => {
+        const fetchedOrders = await getTableOrders(tableCode)
+        const index = fetchedOrders.findIndex(o => o.id === orderId)
+        if(index !== -1){
+            setOrder(fetchedOrders[index])
+        }
+    }
+
     const confirmOrder = async () => {
         await confirmOrderRequest(getCookie("customerName"), getCookie("tableCode"))
         router.replace({
             pathname: '/listorders',
-
         })
     }
 

@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import { useRouter } from 'next/router'
 import { useSearchParams} from 'next/navigation'
 import {deleteCookie, getCookie, hasCookie, setCookie} from "cookies-next";
@@ -7,7 +7,7 @@ import {Typography} from "@mui/material";
 export default function Home() {
     const router = useRouter()
     const searchParams = useSearchParams()
-
+    const [pushedStart, setPushedStart] = useState(false)
 
     useEffect(() => {
         // Recupera el tableCode del parámetro
@@ -21,7 +21,10 @@ export default function Home() {
 
         // Si se guardó correctamente, redirige a la página de inicio
         if (hasCookie("tableCode")) {
-            router.replace({pathname: '/start'})
+            if(!pushedStart){
+                router.push({pathname: '/start'})
+                setPushedStart(true)
+            }
         }
     }, [searchParams])
 

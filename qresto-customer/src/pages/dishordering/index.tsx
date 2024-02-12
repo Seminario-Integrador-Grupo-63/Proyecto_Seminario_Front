@@ -15,8 +15,8 @@ export default function DishOrderingPage() {
     const searchParams = useSearchParams()
     const [dish, setDish] = useState(null)
     const [category, setCategory] = useState(null)
+    const [categoryId, setCategoryId] = useState(null)
     const [customer, setCustomer] = useState('')
-
     const [customerName, setCustomerName] = useState('')
     const [tableCodeDef, setTableCodeDef] = useState('')
 
@@ -36,7 +36,7 @@ export default function DishOrderingPage() {
         if(dishId != undefined){
             fecthDish(dishId)
         }
-        setCategory(JSON.parse(searchParams.get('category')))
+        setCategoryId(searchParams.get('categoryId'))
         let customer = searchParams.get('customer')
 
         setCustomer(customer)
@@ -53,7 +53,7 @@ export default function DishOrderingPage() {
         router.replace({
             pathname: '/menudishes',
             query: {
-                category: JSON.stringify(category),
+                categoryId: categoryId,
                 customer: customer
             }
         })

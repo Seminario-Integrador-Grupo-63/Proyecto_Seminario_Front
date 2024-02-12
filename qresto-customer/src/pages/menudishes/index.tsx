@@ -2,7 +2,10 @@ import { useRouter } from 'next/router'
 import { useSearchParams } from 'next/navigation';
 import {useEffect, useState} from 'react'
 import {MenuDishes} from '@/Customer/MenuDishes/MenuDishes'
-import { getDishesByCategoryId } from '@/requests'
+import { 
+    getCategory,
+    getDishesByCategoryId 
+} from '@/requests'
 import { FlowState } from '@/Common/FlowState'
 import {getCookie, hasCookie} from "cookies-next";
 
@@ -11,19 +14,10 @@ export default function MenuDishesPage() {
     const [dishes, setDishes] = useState([])
     const searchParams = useSearchParams()
     const [category, setCategory] = useState(null)
+    const [categoryId, setCategoryId] = useState(null)
     const [customer, setCustomer] = useState('')
-
     const [customerName, setCustomerName] = useState('')
     const [tableCodeDef, setTableCodeDef] = useState('')
-
-    const [flowState, setFlowState] = useState<FlowState>({
-        customer: '',
-        confirmed: false,
-        orders: {
-            buttonVisible: false,
-            total: 0
-        }
-    })
 
     useEffect(() => {
         if (!hasCookie("tableCode")) {
@@ -37,25 +31,28 @@ export default function MenuDishesPage() {
 
     }, []);
 
-
     useEffect(() => {
-        setCategory(JSON.parse(searchParams.get('category')))
-        setFlowState(JSON.parse(searchParams.get('flowState')))
+        setCategoryId(searchParams.get('categoryId'))
         let customer = searchParams.get('customer')
         setCustomer(searchParams.get('customer'))
     }, [searchParams])
 
     useEffect(() => {
-        if(category != null){
-            fetchDishes(category.id)
+        if(categoryId != null){
+            fetchDishes()
+            fetchCategory()
         }
-    }, [category])
+    }, [categoryId])
+
+    const fetchCategory = async () => {
+        const fetchedCategory = await getCategory(categoryId)
+        setCategory(fetchedCategory)
+    }
 
     const goBack = () => {
         router.replace({
             pathname: '/menucategories',
             query: {
-                flowState: JSON.stringify(flowState),
                 customer: customer
             }
         })
@@ -65,15 +62,14 @@ export default function MenuDishesPage() {
         router.replace({
             pathname: '/dishordering', 
             query: {
-                flowState: JSON.stringify(flowState),
                 dishId: dish.id,
-                category: JSON.stringify(category),
+                categoryId: categoryId,
                 customer: customer
             }
         })
     }
 
-    const fetchDishes = async (categoryId) => {
+    const fetchDishes = async () => {
         const data = await getDishesByCategoryId(categoryId)
         setDishes(data)
     }
@@ -87,5 +83,6 @@ export default function MenuDishesPage() {
                 dishes={dishes}/>
         :null}
     </>)
+
 }
 

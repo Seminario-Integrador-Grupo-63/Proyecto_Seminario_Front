@@ -17,7 +17,6 @@ export default function ListOrdersPage() {
 
     useEffect(() => {
         setCustomer(searchParams.get('customer'))
-
     }, [searchParams])
 
     useEffect(() => {
@@ -52,10 +51,13 @@ export default function ListOrdersPage() {
     }
 
     const orderClick = (order) => {
+        console.log(' ')
+        console.log('ListOrderPage orderClick')
+        console.log('order: ', order)
         router.replace({
             pathname: '/listorderdetails',
             query: {
-                order: JSON.stringify(order),
+                orderId: JSON.stringify(order.id)
             }
         })
     }

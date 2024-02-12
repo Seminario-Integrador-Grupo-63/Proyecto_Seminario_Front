@@ -75,7 +75,7 @@ export default function MenuCategoriesPage() {
         router.replace({
             pathname: '/menudishes', 
             query: {
-                category: JSON.stringify(category),
+                categoryId: category.id
             }
         })
     }
