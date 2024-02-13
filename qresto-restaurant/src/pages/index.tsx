@@ -33,9 +33,13 @@ export default function Home() {
     // }, []);
 
     const singIn = async (user) => {
+        console.log(' ')
+        console.log('Home singIn(user)')
+        console.log('user: ', user)
         // Request login
         const result = await loginRestaurant(user)
         // If authenticated, save rid, userRole and redirect
+        console.log('result: ', result)
         if(result.length == 1){
             // Guardar en el use state el usuario
             setCookie("restaurantId", result[0].restaurant)
