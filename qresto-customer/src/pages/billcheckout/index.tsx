@@ -19,21 +19,23 @@ export default function BillCheckoutPage() {
     const [tableCodeDef, setTableCodeDef] = useState('')
 
     useEffect(() => {
-
-    }, [searchParams])
-
-    useEffect(() => {
-        fetchBill()
-
-        if (!hasCookie("tableCode")) {
-            router.push({pathname: '/'})
-        } else if (!hasCookie("customerName")) {
-            router.push({pathname: '/start'})
+        // Redirection conditionals
+        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+            router.push({
+                pathname:"/start"
+            })
+        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
         } else {
             setCustomerName(getCookie("customerName"))
             setTableCodeDef(getCookie("tableCode"))
         }
+
+        fetchBill
     }, [])
+
 
     const fetchBill = async() => {
         const bill = await getBill(tableCodeDef)

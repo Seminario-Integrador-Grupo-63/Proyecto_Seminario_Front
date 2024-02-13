@@ -20,23 +20,30 @@ export default function ListOrdersPage() {
     }, [searchParams])
 
     useEffect(() => {
-        if (!hasCookie("tableCode")) {
-            router.push({pathname: '/'})
-        } else if (!hasCookie("customerName")) {
-            router.push({pathname: '/start'})
+        // Redirection conditionals
+        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+            router.push({
+                pathname:"/start"
+            })
+        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
         } else {
             setCustomerName(getCookie("customerName"))
             setTableCodeDef(getCookie("tableCode"))
         }
+
         // Initial fetch
-        fetchOrders();
-    
+        fetchOrders()
+
         // Fetch orders every 2 seconds
         const intervalId = setInterval(fetchOrders, 2000);
-    
+
         // Clean up the interval when the component is unmounted
         return () => clearInterval(intervalId);
     }, []);
+
 
     const fetchOrders = async () => {
         const fetchedOrders = await getTableOrders(getCookie("tableCode"))

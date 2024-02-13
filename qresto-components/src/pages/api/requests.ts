@@ -43,7 +43,7 @@ export async function postCustomer(customer, tableCode){
 
 export async function getCategories(){
     // Create header
-    const headers = {'restaurant-id': getCookieRId()}
+    const headers = {'restaurant-id': 1}
     // Hit the endpoint
     const response = await axios.get<any>(url + '/category/', {headers})
     // Return the data

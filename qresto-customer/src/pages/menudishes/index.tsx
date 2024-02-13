@@ -2,12 +2,13 @@ import { useRouter } from 'next/router'
 import { useSearchParams } from 'next/navigation';
 import {useEffect, useState} from 'react'
 import {MenuDishes} from '@/Customer/MenuDishes/MenuDishes'
-import { 
+import {
     getCategory,
-    getDishesByCategoryId 
+    getDishesByCategoryId
 } from '@/requests'
 import { FlowState } from '@/Common/FlowState'
 import {getCookie, hasCookie} from "cookies-next";
+
 
 export default function MenuDishesPage() {
     const router = useRouter()
@@ -20,16 +21,22 @@ export default function MenuDishesPage() {
     const [tableCodeDef, setTableCodeDef] = useState('')
 
     useEffect(() => {
-        if (!hasCookie("tableCode")) {
-            router.push({pathname: '/'})
-        } else if (!hasCookie("customerName")) {
-            router.push({pathname: '/start'})
+        // Redirection conditionals
+        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+            router.push({
+                pathname:"/start"
+            })
+        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
         } else {
             setCustomerName(getCookie("customerName"))
             setTableCodeDef(getCookie("tableCode"))
         }
 
     }, []);
+
 
     useEffect(() => {
         setCategoryId(searchParams.get('categoryId'))
@@ -53,7 +60,7 @@ export default function MenuDishesPage() {
         router.replace({
             pathname: '/menucategories',
             query: {
-                customer: customer
+                customer: customer,
             }
         })
     }
@@ -64,7 +71,7 @@ export default function MenuDishesPage() {
             query: {
                 dishId: dish.id,
                 categoryId: categoryId,
-                customer: customer
+                customer: customer,
             }
         })
     }

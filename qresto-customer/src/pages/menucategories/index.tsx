@@ -21,16 +21,24 @@ export default function MenuCategoriesPage() {
     const [orders, setOrders] = useState([])
 
     useEffect(() => {
-        fetchCategories()
-        if (!hasCookie("tableCode")) {
-            router.push({pathname: '/'})
-        } else if (!hasCookie("customerName")) {
-            router.push({pathname: '/start'})
+        // Redirection conditionals
+        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+            router.push({
+                pathname:"/start"
+            })
+        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
         } else {
             setCustomerName(getCookie("customerName"))
             setTableCodeDef(getCookie("tableCode"))
-            console.log("Cookie TableCodeDef: ", getCookie("tableCode"))
         }
+
+        // Initial Fetch
+        fetchCategories()
+
+
     }, [])
 
     useEffect(() => {

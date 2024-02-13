@@ -20,16 +20,6 @@ export default function DishOrderingPage() {
     const [customerName, setCustomerName] = useState('')
     const [tableCodeDef, setTableCodeDef] = useState('')
 
-    useEffect(() => {
-        if (!hasCookie("tableCode")) {
-            router.push({pathname: '/'})
-        } else if (!hasCookie("customerName")) {
-            router.push({pathname: '/start'})
-        } else {
-            setCustomerName(getCookie("customerName"))
-            setTableCodeDef(getCookie("tableCode"))
-        }
-    }, []);
 
     useEffect(() => {
         const dishId = searchParams.get('dishId')
@@ -39,6 +29,18 @@ export default function DishOrderingPage() {
         setCategoryId(searchParams.get('categoryId'))
         let customer = searchParams.get('customer')
 
+        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+            router.push({
+                pathname:"/start"
+            })
+        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
+        } else {
+            setCustomerName(getCookie("customerName"))
+            setTableCodeDef(getCookie("tableCode"))
+        }
         setCustomer(customer)
         setCustomerName(getCookie("customerName"))
         setTableCodeDef(getCookie("tableCode"))

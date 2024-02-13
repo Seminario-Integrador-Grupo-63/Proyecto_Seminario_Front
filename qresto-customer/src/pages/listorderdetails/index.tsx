@@ -20,10 +20,15 @@ export default function ListOrderDetailsPage() {
     const [tableCode, setTableCode] = useState('')
 
     useEffect(() => {
-        if (!hasCookie("tableCode")) {
-            router.push({pathname: '/'})
-        } else if (!hasCookie("customerName")) {
-            router.push({pathname: '/start'})
+        // Redirection conditionals
+        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+            router.push({
+                pathname:"/start"
+            })
+        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
         } else {
             setCustomerName(getCookie("customerName"))
             setTableCode(getCookie("tableCode"))

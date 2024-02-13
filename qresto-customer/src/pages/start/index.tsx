@@ -16,8 +16,11 @@ export default function startPage() {
 
 
     useEffect(() => {
-        if (!hasCookie("tableCode")) {
-            router.replace({pathname: "/"})
+        // Redirection conditionals
+        if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
         } else {
             const tcCookie = getCookie("tableCode")
             setTableCode(tcCookie)
@@ -44,9 +47,6 @@ export default function startPage() {
 
                 router.replace({
                     pathname: "/menucategories",
-                    query: {
-                        customer: name
-                    }
                 })
             }
         }
