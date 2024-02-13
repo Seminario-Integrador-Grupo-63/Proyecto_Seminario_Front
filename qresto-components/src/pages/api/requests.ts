@@ -351,9 +351,11 @@ export async function getUpdatedPrices(body:any) {
 export async function confirmUpdatePrices(uuid:string) {
     try {
         const response = await axios.post(url + `/dish/update_prices/${uuid}`)
-        return response.data
+        // return response.data
+        return true
     } catch (error) {
-        return []
+        // return []
+        return false
     }
 }
 
@@ -477,8 +479,7 @@ export async function deleteCategory(categoryId: number) {
         const response = await axios.delete(url + `/category/${categoryId}`);
         return true;
     } catch (error) {
-        console.error("Error al eliminar categoria:", error.response?.data || error.message);
-        throw error;
+        return false
     }
 }
 
@@ -491,10 +492,10 @@ export async function updateCategory(updatedCategory: any) {
             "restaurant": restaurantId
           }
         const response = await axios.put(url + '/category/', body);
-        return response.data;
+        // return response.data;
+        return true
     } catch (error) {
-        console.error(`Error al actualizar categoria con ID ${updatedCategory.id}:`, error.response?.data || error.message);
-        throw error;
+        return false
     }
 }
 
@@ -506,9 +507,9 @@ export async function createCategory(newCategory: any) {
             "restaurant": restaurantId
             }
         const response = await axios.post(url + '/category/', body);
-        return response.data;
+        // return response.data;
+        return true
     } catch (error) {
-        console.error(`Error al crear la nueva categoria:`, error.response?.data || error.message);
-        throw error;
+        return false
     }
 }

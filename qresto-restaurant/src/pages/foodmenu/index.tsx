@@ -21,9 +21,6 @@ import {
     confirmUpdatePrices
 } from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
-import {Dialog} from "@mui/material";
-import UpdateList from "@/Restaurant/UpdatePrices/Updatelist";
-import Confirmation from "@/Restaurant/UpdatePrices/Confirmation";
 import { PanLoader as Loader } from '@/Common/PanLoader/PanLoader';
 
 export default function FoodMenuPage() {
@@ -35,40 +32,27 @@ export default function FoodMenuPage() {
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
 
-    // Necesarios para el updatePrices
-    const [dishList, setDishList] = useState([])
-    const [updateConfirmId, setUpdateConfirmId] = useState('')
-    const [updateListOpen, setUpdateListOpen] = useState(false)
-    const [confirmationOpen, setConfirmationOpen] = useState(false)
-
-    // const router = useRouter();
-
-    // Handle list of dishes to update
     const handleListOpen = async (req: any) => {
-
         // Request
+        setLoading(true)
         const updatePreview = await getUpdatedPrices(req)
-        // Setting UseState
-        setUpdateConfirmId(updatePreview.prices_code)
-        setDishList(updatePreview.dishPrices)
-        // Opening List
-        setUpdateListOpen(true)
-    }
-    const handleListClose = () => {
-        setUpdateListOpen(false)
-    }
-
-    //Handle Confirmation Dialog
-    const handleConfirmationOpen = () => {
-        setConfirmationOpen(true)
-    }
-    const handleConfirmationClose = () => {
-        setConfirmationOpen(false)
+        setLoading(false)
+        return updatePreview
     }
 
     // Confirm Update Prices and close dialog
-    const confirmUpdate = async () => {
-        confirmUpdatePrices(updateConfirmId).then(handleConfirmationClose)
+    const confirmUpdate = async (uuid) => {
+        setLoading(true)
+        const result = await confirmUpdatePrices(uuid)
+        if(result){
+            await Promise.all([
+                fetchMenu(),
+                fetchSideDishes()
+            ])
+        }
+        setLoading(false)
+        triggerFeedback(result, 'update-prices')
+        return result
     }
 
     useEffect(() => {
@@ -92,55 +76,54 @@ export default function FoodMenuPage() {
         } catch (error) {
             console.error("Error al obtener categorias:", error);
         }
-    };
+    }
 
     const fetchMenu = async() => {
-        console.log(' ')
-        console.log('FoodMenuPage fetchMenu')
-        
         const menuResult = await getMenu()
-        console.log('menuResult: ', menuResult)
         setMenu(menuResult)
     }
 
-
     const handleDeleteCategory = async (category) => {
-        console.log(' ')
-        console.log('FoodMenuPage handleDeleteCategory(categoryId)')
-        console.log('category: ',category)
-
-        try {
-            const result = await deleteCategory(category.id);
-            if (result) {
-                await fetchCategories(); // Recargar la lista de categorias después de eliminar una
-                triggerFeedback(true, 'delete-category')
-
-            }
-            else{
-                triggerFeedback(false, 'delete-category')
-            }
-        } catch (error) {
-            console.error("Error al eliminar categoria:", error);
-
+        setLoading(true)
+        const result = await deleteCategory(category.id);
+        if (result) {
+            await Promise.all([
+                fetchMenu(),
+                fetchCategories()
+            ])
         }
-    };
+        setLoading(false)
+        triggerFeedback(true, 'delete-category')
+        return result
+    }
 
     const handleUpdateCategory = async (category) => {
-        try {
-            await updateCategory(category);
-            await fetchCategories();
-        } catch (error) {
-            console.error("Error al actualizar información de la categoria:", error);
+        setLoading(true)
+        const result = await updateCategory(category);
+        if(result){
+            await Promise.all([
+                fetchMenu(),
+                fetchCategories()
+            ])
         }
+        setLoading(false)
+        triggerFeedback(result, 'update-category')
+        await fetchCategories();
+        return result
     }
 
     const handleCreateCategory = async (category) => {
-        try {
-            await createCategory(category);
-            await fetchCategories();
-        } catch (error) {
-            console.error("Error al crear la nueva categoria:", error);
+        setLoading(true)    
+        const result = await createCategory(category);
+        if(result){
+            await Promise.all([
+                fetchMenu(),
+                fetchCategories()
+            ])
         }
+        setLoading(false)
+        triggerFeedback(result, 'create-category')
+        return result
     }
 
     const fetchSideDishes = async () => {
@@ -150,6 +133,7 @@ export default function FoodMenuPage() {
 
     const triggerFeedback = (state, action) => {
         setPositiveFeedback(state)
+        setTextFeedback('')
         if(state){
             if(action === 'delete-dish'){
                 setTextFeedback('El plato ha sido eliminado exitosamente')
@@ -163,6 +147,14 @@ export default function FoodMenuPage() {
                 setTextFeedback('La guarnición ha sido actualizada exitosamente')
             } else if (action === 'delete-sidedish'){
                 setTextFeedback('La guarnición ha sido eliminada exitosamente')
+            } else if (action === 'update-category'){
+                setTextFeedback('La categoría ha sido actualizada exitosamente')
+            } else if (action === 'create-category'){
+                setTextFeedback('La categoría ha sido creada exitosamente')
+            } else if (action === 'delete-category'){
+                setTextFeedback('La categoría ha sido eliminada exitosamente')
+            } else if (action === 'update-prices'){
+                setTextFeedback('Los precios se han actualizado exitosamente exitosamente')
             }
         } else {
             if(action === 'delete-dish'){
@@ -177,9 +169,16 @@ export default function FoodMenuPage() {
                 setTextFeedback('No se ha podido actualizar la guarnición. Por favor, intente más tarde')
             } else if (action === 'delete-sidedish'){
                 setTextFeedback('No se ha podido eliminar la guarnición. Por favor, intente más tarde')
+            } else if (action === 'update-category'){
+                setTextFeedback('No se ha podido actualizar la categoría. Por favor, intente más tarde')
+            } else if (action === 'create-category'){
+                setTextFeedback('No se ha podido crear la categoría. Por favor, intente más tarde')
+            } else if (action === 'delete-category'){
+                setTextFeedback('No se ha podido eliminar la categoría. Por favor, intente más tarde')
+            } else if (action === 'update-prices'){
+                setTextFeedback('No se han podido actualizar los precios. Por favor, intente más tarde')
             }
         }
-
         setOpenFeedbackDialog(true)
     }
 
@@ -207,9 +206,6 @@ export default function FoodMenuPage() {
     }
 
     const handleUpdateDish = async (object) => {
-        console.log(' ')
-        console.log('FoodMenuPage handleUpdateDish(object)')
-        console.log('object: ', object)
         setLoading(true)
         const result = await putDish(object)
         if(result){
@@ -217,6 +213,7 @@ export default function FoodMenuPage() {
         }
         setLoading(false)
         triggerFeedback(result, 'update-dish')
+        return result
     }
 
     const handleDeleteSideDish = async (sideDish) => {
@@ -230,6 +227,7 @@ export default function FoodMenuPage() {
         } 
         setLoading(false)
         triggerFeedback(result, 'delete-sidedish'); 
+        return result
     }
 
     const handleCreateSideDish = async (sideDish) => {
@@ -272,7 +270,8 @@ export default function FoodMenuPage() {
             deleteCategory={handleDeleteCategory}
             createCategory={handleCreateCategory}
             updateCategory={handleUpdateCategory}
-            handleUpdatePrices={handleListOpen}/>
+            handleUpdatePrices={handleListOpen}
+            confirmUpdatePrices={confirmUpdate}/>
 
         <FeedbackDialog
             open={openFeedbackDialog}
@@ -281,21 +280,5 @@ export default function FoodMenuPage() {
             onClose={closeFeedback}/>
 
         <Loader open={loading}/>
-
-        <Dialog open={updateListOpen} onClose={handleListClose}>
-            <UpdateList
-                open={updateListOpen}
-                onClose={handleListClose}
-                productList={dishList}
-                onSubmit={handleConfirmationOpen}
-                dishList={dishList}/>
-        </Dialog>
-
-        <Dialog open={confirmationOpen} onClose={handleConfirmationClose}>
-            <Confirmation
-                open={confirmationOpen}
-                onClose={handleConfirmationClose}
-                onSubmit={confirmUpdate}/>
-        </Dialog>
-     </>)
+    </>)
 }

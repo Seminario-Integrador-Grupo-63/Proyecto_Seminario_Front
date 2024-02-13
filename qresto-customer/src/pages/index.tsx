@@ -36,7 +36,7 @@ export default function Home() {
         console.log(' ')
         console.log('Home useEffect searchParams')
         
-        const tc = searchParams.get('table_code')
+        const tc = searchParams.get('table-code')
         console.log('tc: ', tc)
         setTableCode(tc)
     }, [searchParams])

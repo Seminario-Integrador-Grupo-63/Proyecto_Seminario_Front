@@ -48,9 +48,10 @@ export const Dishes = (props: any) => {
     }
 
     const onUpdate = async (object) => {
-        const result = props.updateDish(object)
+        const result = await props.updateDish(object)
         if(result){
             setOpenDishForm(false)
+            setSelectedDish(null)
         }
     }
 
@@ -73,7 +74,7 @@ export const Dishes = (props: any) => {
                         width: '100%'
                     }}
                     spacing={2}>
-                    {props.menu.map(category =>{
+                    {menu.map(category =>{
                         return category.dishes.map((dish, index) => (
                             <Grid item key={index} xs={12} sm={12} md={6} lg={4}>
                                 <DishCard 
@@ -92,7 +93,7 @@ export const Dishes = (props: any) => {
                 onCreate={onCreate}
                 onUpdate={onUpdate}
                 sideDishes={sideDishes}
-                categories={props.menu}
+                categories={menu}
                 dish={selectedDish}
                 isNew={isNewDishForm}/>
         </Container> 
