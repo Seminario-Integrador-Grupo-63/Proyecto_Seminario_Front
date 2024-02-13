@@ -9,8 +9,8 @@ import {
 } from "./utils";
 import {getCookie} from "cookies-next";
 
-const url = "http://localhost:8000"
-//const url = "http://192.168.120.36:8000"
+//const url = "http://localhost:8000"
+const url = "http://192.168.120.36:8000"
 const restaurantId = 1
 
 export async function getQR(tableId){
