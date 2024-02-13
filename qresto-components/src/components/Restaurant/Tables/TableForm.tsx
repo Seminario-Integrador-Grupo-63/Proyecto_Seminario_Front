@@ -35,6 +35,12 @@ export const TableForm = (props: any) => {
         }
     },[props.table, props.isNew, sectors])
 
+    const clear = () => {
+        setNumberInput('')
+        setNumber(null)
+        setSelectedSector(null)
+    }
+
     useEffect(() => {
         if (props.sectors !== null){
             setSectors(props.sectors)
@@ -89,10 +95,6 @@ export const TableForm = (props: any) => {
     }
 
     const submit = () => {
-        console.log(' ')
-        console.log('TableForm submit()')
-        console.log('selectedSector: ', selectedSector)
-        console.log('number: ', number)
         if(verifySubmit()){
             const table = {
                 restaurant: props.restaurantId,
@@ -103,12 +105,17 @@ export const TableForm = (props: any) => {
         }
     }
 
+    const onClose = () => {
+        clear()
+        props.onClose()
+    }
+
     return (
         <FormDialog
             title={props.isNew ? "Nueva Mesa" : "Editar Mesa"}
             open={props.open}
             closeText='Cerrar'
-            onClose={props.onClose}
+            onClose={onClose}
             submitText={props.isNew ? "Crear" : "Actualizar"}
             onSubmit={submit}
             maxWidth='sm'>
