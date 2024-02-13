@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from "prop-types";
-import {DataTable} from "@/Common/DataTable";
+import {DataTable} from "@/Common/DataTable/DataTable";
 import {UserForm} from "@/Restaurant/Users/UserForm";
 import {Button, IconButton} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -34,8 +34,8 @@ export const Users = (props: any) => {
 
     const createHeaders = () => {
         return [
-            {label: "Usuario", key: "user"},
-            {label: "Email", key: "email"},
+            {label: "Usuario", id: "user"},
+            {label: "Email", id: "email"},
         ]
     }
     const createRows = (users) => {

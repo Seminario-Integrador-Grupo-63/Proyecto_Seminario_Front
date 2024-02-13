@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import {widths100} from "@/Stories/viewports";
 import { dishes } from "@/Common/FakeData/DishesData";
-import { DishCard } from "@/Restaurant/FoodMenu/Dishes/DishCard/DishCard";
+import { DishCard } from "@/Restaurant/FoodMenu/Dishes/DishCard";
 
 export default {
     title: "components/Restaurant/FoodMenu/DishCard",

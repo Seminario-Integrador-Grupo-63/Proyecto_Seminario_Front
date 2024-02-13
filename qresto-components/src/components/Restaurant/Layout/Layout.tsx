@@ -55,7 +55,7 @@ export const Layout = (props: any) => {
     }
 
     const onOrders = () => {
-        setTitle('Ordenes')
+        setTitle('Órdenes')
     }
 
     const onUsers = () => {
@@ -79,7 +79,7 @@ export const Layout = (props: any) => {
                                     <Typography
                                         variant="inherit"
                                         color="textPrimary">
-                                        Ordenes
+                                        Órdenes
                                     </Typography>}/>
                         </ListItemButton>
                     </Link>

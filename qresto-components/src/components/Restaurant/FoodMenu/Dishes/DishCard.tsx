@@ -21,7 +21,6 @@ export const DishCard = (props: any) => {
 
     const onDelete = () => {
         props.onDelete(props.dish)
-        
     }
 
     return (
@@ -39,6 +38,10 @@ export const DishCard = (props: any) => {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {props.dish.description}
+                </Typography>
+                <Typography 
+                    variant="h6" >
+                    ${props.dish.price}
                 </Typography>
             </CardContent>
             <CardActions>

@@ -1,9 +1,9 @@
 export const dataHeaders = [
-    { label: 'Name', key: 'name' },
-    { label: 'Code', key: 'code' },
-    { label: 'Population', key: 'population' },
-    { label: 'Size', key: 'size' },
-    { label: 'Density', key: 'density' },
+    { label: 'Name', id: 'name' },
+    { label: 'Code', id: 'code' },
+    { label: 'Population', id: 'population' },
+    { label: 'Size', id: 'size' },
+    { label: 'Density', id: 'density' },
 ]
 
 export const dataRows = [

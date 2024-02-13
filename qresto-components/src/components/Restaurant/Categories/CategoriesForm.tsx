@@ -1,4 +1,3 @@
-// import styles from './CategoriesForm.module.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {TextField,
@@ -11,34 +10,35 @@ import { ImageSelector } from '@/Restaurant/ImageSelector/ImageSelector';
 import { useState, useEffect } from 'react';
 
 export const CategoriesForm = (props: any) => {
-
     const [openImgSelector, setOpenImgSelector] = useState <boolean>(false);
     const [categoryName, setCategoryName] = useState('')
     const [categoryImage, setCategoryImage] = useState('')
+    const [isInvalid, setIsInvalid] = useState <boolean>(false)
 
     useEffect(() =>{
-        // if(props.category != null){
-        //     if(props.isNew == false){
-        //         setCategoryName(props.category.name)
-        //         setCategoryImage(props.category.image)
-        //     }
-        if(props.isNew == false){
+        if(props.isNew){
+            setCategoryName('')
+            setCategoryImage('')
+        } else{
+            if(props.category !== null){
                 setCategoryName(props.category.name)
                 setCategoryImage(props.category.image)
+                setIsInvalid(false)
             }
-        else
-            {
-                setCategoryName('')
-                setCategoryImage('')
-            }
-        },[props.category])
+        }
+    },[props.category, props.isNew])
 
-    
+    function validateInput(input){
+        if(input == '' || input.length > 30)
+            {setIsInvalid(true)}
+        else
+            {setIsInvalid(false)}
+    }
     const handleName=(event)=>{
         setCategoryName(event.target.value)
+        validateInput(event.target.value)
     }
     const deleteCategory=()=>{
-        //console.log('debug delete category')
         props.onDelete(props.category)
         props.onClose()
     }
@@ -50,7 +50,6 @@ export const CategoriesForm = (props: any) => {
                 image: categoryImage
             }
             props.onCreate(category)
-            //console.log('debug create category')
         }
         else{
             category = {
@@ -59,7 +58,6 @@ export const CategoriesForm = (props: any) => {
                 image: categoryImage
             }
             props.onUpdate(category)
-            //console.log('debug update category')
         }
         setCategoryName(null)
         setCategoryImage(null)
@@ -74,7 +72,6 @@ export const CategoriesForm = (props: any) => {
     const handleSelecImage = (image) => {
         if (image != ''){
             setCategoryImage(image)
-            //console.log('debug imagen actualizada: ' + image)
         }
         setOpenImgSelector(false)
     };
@@ -88,9 +85,10 @@ export const CategoriesForm = (props: any) => {
             submitText={props.isNew ? "Crear" : "Actualizar"}
             onSubmit={updateCategory}
             maxWidth='sm'
-            action1Visible
+            action1Visible= {props.isNew ? false : true}
             action1Text= 'Eliminar'
-            onAction1={deleteCategory}>
+            onAction1={deleteCategory}
+            submitDisabled={isInvalid}>
             <Grid 
                 sx={{
                     display: 'grid',
@@ -100,9 +98,10 @@ export const CategoriesForm = (props: any) => {
                     height:'auto',
                     alignItems: 'center',
                     justify: 'center'
-                    //overflowY: 'scroll','&::-webkit-scrollbar':{width:0,}
                 }}>
-                <TextField 
+                <TextField
+                    error={isInvalid}
+                    helperText={isInvalid ? 'Ingrese un nombre valido (1-30 caracteres).' : ''}
                     sx={{marginTop:1}}
                     id="CategoryName"
                     label="Nombre"
@@ -124,14 +123,12 @@ export const CategoriesForm = (props: any) => {
                         height:'auto',
                         alignItems: 'center',
                         justify: 'center'
-                        //overflowY: 'scroll','&::-webkit-scrollbar':{width:0,}
                         }}>
                         <ImageButton
                             // image='https://img.freepik.com/foto-gratis/pizza-salami-champinones_140725-1070.jpg?w=740&t=st=1698324798~exp=1698325398~hmac=6fc9c714ea627800fcbfc90c22a99085d3551074c6f5e674ba92fbd2f076a427'
                             image={categoryImage}
                             buttonText={props.isNew ? "Agregar imagen" : "Cambiar"}
-                            onChange={onClickButtonCategory}                            
-                            />
+                            onChange={onClickButtonCategory}/>
                     </Grid>
                 </Card>
             </Grid>

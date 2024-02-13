@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Theme, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -20,71 +20,172 @@ const MenuProps = {
     },
 };
 
-function getStyles(name: string, selectedItem: readonly string[], theme: Theme) {
-  return {
-    fontWeight:
-      selectedItem.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 export const SelectorChips = (props: any) => {
     const theme = useTheme();
-    const [selectedItem, setSelectedItem] = useState<string[]>([]);
+    const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleChange = (event: SelectChangeEvent<typeof selectedItem>) => {
-        const {
-        target: { value },
-        } = event;
-        setSelectedItem(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
+    useEffect(() => {
+        setSelectedItems(props.values)
+    }, [props.values])
+
+    const getStylesString = (name, selectedItems, theme: Theme) => {
+        return {
+            fontWeight:
+            selectedItems.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+        }
+    }
+
+
+    const getStylesObject = (item, selectedItems, theme: Theme) => {
+        let selected = selectedItems.some(selectedItem => {
+            if(selectedItem[props.itemText] === item[props.itemText]){
+                return true
+            }
+        })
+
+        if(selected){
+            return {
+                fontWeight: 'bold',
+                backgroundColor: '#EDF4FB'
+            };
+        } else {
+            return {
+                fontWeight: 'normal',
+                backgroundColor: '#FFFFFF'
+            };
+        }
+    }
+
+    const handleChangeString = (event) => {
+        selectedItems.findIndex(item => {
+
+        })
+        let values = event.target.value
+        setSelectedItems(values);
+    }
+
+    const handleChangeObject = (event) => {
+        let values = event.target.value
+        const repeatedObjects = values.filter((value, index) =>
+            values.findIndex((item) => item[props.itemText] === value[props.itemText]) !== index
         );
-    };
 
-    return (
-        <div>
-        <FormControl sx={{ width: '100%' }}>
-            <InputLabel id="selector-chips-label">{props.label}</InputLabel>
+        let selectedItemsAux = []
+        if (repeatedObjects.length > 0){1
+            values.forEach(value => {
+                if(value[props.itemText] !== repeatedObjects[0][props.itemText]){
+                    selectedItemsAux.push(value)
+                }
+            })
+
+        } else {
+            selectedItemsAux = values
+        }
+
+        props.onChange(selectedItemsAux)
+        setSelectedItems(selectedItemsAux)
+    }
+
+    const renderStringItems = () => {
+        return(
             <Select
                 labelId="selector-chips-label"
                 id="selector-chips-chip"
                 multiple
-                value={selectedItem}
-                onChange={handleChange}
+                value={selectedItems}
+                onChange={handleChangeString}
                 input={<OutlinedInput id="select-multiple-chip" label={props.label} />}
                 renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                    ))}
+                        {selected.map((value) => (
+                            <Chip key={value} label={value} />
+                        ))}
                     </Box>
                 )}
                 MenuProps={MenuProps}>
-                {props.items.map((item) => (
-                    <MenuItem
-                    key={item}
-                    value={item}
-                    style={getStyles(item, selectedItem, theme)}>
-                    {item}
+                <MenuItem value="">
+                    <em>{props.emptyOptionText}</em>
                 </MenuItem>
-            ))}
+                {props.items.map((item, index) => (
+                    <MenuItem
+                        key={'item' + index}
+                        value={item}
+                        style={getStylesString(item, selectedItems, theme)}>
+                        {item}
+                    </MenuItem>
+                ))}
             </Select>
-        </FormControl>
+        )
+    }
+
+    const renderObjectItems = () => {
+        return(
+            <Select
+                labelId="selector-chips-label"
+                id="selector-chips-chip"
+                multiple
+                value={selectedItems}
+                onChange={handleChangeObject}
+                input={<OutlinedInput id="select-multiple-chip" label={props.label} />}
+                renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {selected.map((value, index) => (
+                            <Chip key={'chip' + index} label={value[props.itemText]} />
+                        ))}
+                    </Box>
+                )}
+                MenuProps={MenuProps}>
+                <MenuItem value="">
+                    <em>{props.emptyOptionText}</em>
+                </MenuItem>
+                {props.items.map((item, index) => (
+                    <MenuItem
+                        key={'item' + index}
+                        value={item}
+                        style={getStylesObject(item, selectedItems, theme)}>
+                        {item[props.itemText]}
+                    </MenuItem>
+                ))}
+            </Select>
+        )
+    }
+
+    const renderItems = () => {
+        if(props.itemText !== ''){
+            return(renderObjectItems())
+        } else {
+            return(renderStringItems())
+        }
+    }
+
+    return (
+        <div>
+            <FormControl sx={{ width: '100%' }}>
+                <InputLabel id="selector-chips-label">{props.label}</InputLabel>
+                {renderItems()}
+            </FormControl>
         </div>
-    );
+    )
 }
 
 SelectorChips.defaultProps =
 {
     label: 'Label',
-    items: []
+    emptyOptionText: 'Seleccionar opción',
+    items: [],
+    itemText: '',
+    values: [],
+    onChange: function(){}
 }
 
 SelectorChips.propTypes = 
 {
+    emptyOptionText: PropTypes.string,
     label: PropTypes.string,
     items: PropTypes.array,
-
+    itemText: PropTypes.string,
+    values: PropTypes.array,
+    onChange: PropTypes.func
 }   

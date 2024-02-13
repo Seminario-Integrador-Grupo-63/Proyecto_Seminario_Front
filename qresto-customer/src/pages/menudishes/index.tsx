@@ -11,6 +11,7 @@ export default function MenuDishesPage() {
     const searchParams = useSearchParams()
     const [category, setCategory] = useState(null)
     const [customer, setCustomer] = useState('')
+    const [tableCode, setTableCode] = useState('')
     const [flowState, setFlowState] = useState<FlowState>({
         customer: '',
         confirmed: false,
@@ -25,6 +26,7 @@ export default function MenuDishesPage() {
         setFlowState(JSON.parse(searchParams.get('flowState')))
         let customer = searchParams.get('customer')
         setCustomer(searchParams.get('customer'))
+        setTableCode(searchParams.get('tableCode'))
     }, [searchParams])
 
     useEffect(() => {
@@ -38,7 +40,8 @@ export default function MenuDishesPage() {
             pathname: '/menucategories',
             query: {
                 flowState: JSON.stringify(flowState),
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }
@@ -50,7 +53,8 @@ export default function MenuDishesPage() {
                 flowState: JSON.stringify(flowState),
                 dishId: dish.id,
                 category: JSON.stringify(category),
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }
