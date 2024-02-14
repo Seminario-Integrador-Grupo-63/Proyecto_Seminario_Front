@@ -2,46 +2,66 @@ import { useRouter } from 'next/router'
 import { useSearchParams } from 'next/navigation';
 import {useEffect, useState} from 'react'
 import {MenuDishes} from '@/Customer/MenuDishes/MenuDishes'
-import { getDishesByCategoryId } from '@/requests'
+import {
+    getCategory,
+    getDishesByCategoryId
+} from '@/requests'
 import { FlowState } from '@/Common/FlowState'
+import {getCookie, hasCookie} from "cookies-next";
+
 
 export default function MenuDishesPage() {
     const router = useRouter()
     const [dishes, setDishes] = useState([])
     const searchParams = useSearchParams()
     const [category, setCategory] = useState(null)
+    const [categoryId, setCategoryId] = useState(null)
     const [customer, setCustomer] = useState('')
-    const [tableCode, setTableCode] = useState('')
-    const [flowState, setFlowState] = useState<FlowState>({
-        customer: '',
-        confirmed: false,
-        orders: {
-            buttonVisible: false,
-            total: 0
-        }
-    })
+    const [customerName, setCustomerName] = useState('')
+    const [tableCodeDef, setTableCodeDef] = useState('')
 
     useEffect(() => {
-        setCategory(JSON.parse(searchParams.get('category')))
-        setFlowState(JSON.parse(searchParams.get('flowState')))
+        // Redirection conditionals
+        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+            router.push({
+                pathname:"/start"
+            })
+        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
+        } else {
+            setCustomerName(getCookie("customerName"))
+            setTableCodeDef(getCookie("tableCode"))
+        }
+
+    }, []);
+
+
+    useEffect(() => {
+        setCategoryId(searchParams.get('categoryId'))
         let customer = searchParams.get('customer')
         setCustomer(searchParams.get('customer'))
-        setTableCode(searchParams.get('tableCode'))
+        setTableCodeDef(searchParams.get('tableCode'))
     }, [searchParams])
 
     useEffect(() => {
-        if(category != null){
-            fetchDishes(category.id)
+        if(categoryId != null){
+            fetchDishes()
+            fetchCategory()
         }
-    }, [category])
+    }, [categoryId])
+
+    const fetchCategory = async () => {
+        const fetchedCategory = await getCategory(categoryId)
+        setCategory(fetchedCategory)
+    }
 
     const goBack = () => {
         router.replace({
             pathname: '/menucategories',
             query: {
-                flowState: JSON.stringify(flowState),
                 customer: customer,
-                tableCode: tableCode
             }
         })
     }
@@ -50,16 +70,14 @@ export default function MenuDishesPage() {
         router.replace({
             pathname: '/dishordering', 
             query: {
-                flowState: JSON.stringify(flowState),
                 dishId: dish.id,
-                category: JSON.stringify(category),
+                categoryId: categoryId,
                 customer: customer,
-                tableCode: tableCode
             }
         })
     }
 
-    const fetchDishes = async (categoryId) => {
+    const fetchDishes = async () => {
         const data = await getDishesByCategoryId(categoryId)
         setDishes(data)
     }
@@ -74,3 +92,4 @@ export default function MenuDishesPage() {
         :null}
     </>)
 }
+

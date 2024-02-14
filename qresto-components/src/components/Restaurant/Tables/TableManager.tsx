@@ -64,6 +64,9 @@ export const TableManager = (props: any) => {
 
     useEffect(() => {
         if(props.table !== null){
+            console.log(' ')
+            console.log('TableManager ')
+            console.log('props.table: ', props.table)
             setTable(props.table)
 
             if(props.table.state === 'payment_ready'){

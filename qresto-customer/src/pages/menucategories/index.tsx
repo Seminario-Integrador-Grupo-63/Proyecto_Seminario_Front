@@ -6,18 +6,40 @@ import {
     getCategories,
     getTableOrders
 } from '@/requests'
-// import { tableCode } from '@/Common/FakeData/Tables'
+import { tableCode } from '@/Common/FakeData/Tables'
+import {getCookie, hasCookie} from "cookies-next";
 
 export default function MenuCategoriesPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [categories, setCategories] = useState([])
     const [customer, setCustomer] = useState('')
+
+    const [customerName, setCustomerName] = useState('')
+    const [tableCodeDef, setTableCodeDef] = useState('')
+
     const [orders, setOrders] = useState([])
     const [tableCode, setTableCode] = useState('')
 
     useEffect(() => {
-        fetchData()
+        // Redirection conditionals
+        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+            router.push({
+                pathname:"/start"
+            })
+        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
+        } else {
+            setCustomerName(getCookie("customerName"))
+            setTableCodeDef(getCookie("tableCode"))
+        }
+
+        // Initial Fetch
+        fetchCategories()
+
+
     }, [])
 
     useEffect(() => {
@@ -46,21 +68,16 @@ export default function MenuCategoriesPage() {
     }
 
     const fetchOrders = async () => {
-        if(tableCode !== ''){
-            const fetchedOrders = await getTableOrders(tableCode)
-            setOrders(fetchedOrders)
-        }
+        console.log("UseState tableCode: ", tableCodeDef)
+        const fetchedOrders = await getTableOrders(getCookie("tableCode"))
+        setOrders(fetchedOrders)
     }
 
     const setFooterButtonVisible = (orders) => {
-        if(orders.length > 0){
-            return true
-        } else {
-            return false
-        }
+        return orders.length > 0;
     }
 
-    const fetchData = async () => {
+    const fetchCategories = async () => {
         const response = await getCategories()
         setCategories(response)
     }
@@ -69,9 +86,7 @@ export default function MenuCategoriesPage() {
         router.replace({
             pathname: '/menudishes', 
             query: {
-                category: JSON.stringify(category),
-                customer: customer,
-                tableCode: tableCode
+                categoryId: category.id
             }
         })
     }
@@ -79,10 +94,7 @@ export default function MenuCategoriesPage() {
     const onClickShowOrders = () => {
         router.replace({
             pathname: '/listorders', 
-            query: {
-                customer: customer,
-                tableCode: tableCode
-            }
+            query: { }
         })
     }
 

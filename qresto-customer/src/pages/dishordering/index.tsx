@@ -7,24 +7,43 @@ import {
     postOrderDetail,
     getTableOrders
 } from '@/requests'
+import { tableCode} from '@/Common/FakeData/Tables'
+import {getCookie, hasCookie} from "cookies-next";
 
 export default function DishOrderingPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [dish, setDish] = useState(null)
     const [category, setCategory] = useState(null)
+    const [categoryId, setCategoryId] = useState(null)
     const [customer, setCustomer] = useState('')
-    const [tableCode, setTableCode] = useState('')
+    const [customerName, setCustomerName] = useState('')
+    const [tableCodeDef, setTableCodeDef] = useState('')
+
 
     useEffect(() => {
         const dishId = searchParams.get('dishId')
         if(dishId != undefined){
             fecthDish(dishId)
         }
-        setCategory(JSON.parse(searchParams.get('category')))
+        setCategoryId(searchParams.get('categoryId'))
         let customer = searchParams.get('customer')
+
+        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+            router.push({
+                pathname:"/start"
+            })
+        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+            router.push({
+                pathname:"/"
+            })
+        } else {
+            setCustomerName(getCookie("customerName"))
+            setTableCodeDef(getCookie("tableCode"))
+        }
         setCustomer(customer)
-        setTableCode(searchParams.get('tableCode'))
+        setCustomerName(getCookie("customerName"))
+        setTableCodeDef(getCookie("tableCode"))
     }, [searchParams])
 
     const fecthDish = async (id) => {
@@ -36,16 +55,15 @@ export default function DishOrderingPage() {
         router.replace({
             pathname: '/menudishes',
             query: {
-                category: JSON.stringify(category),
-                customer: customer,
-                tableCode: tableCode
+                categoryId: categoryId,
+                customer: customer
             }
         })
     }
 
     const addOrderDetails = async (orderDetail) => {
-        await postOrderDetail(orderDetail, tableCode)
-        const orders = await getTableOrders(tableCode)
+        await postOrderDetail(orderDetail, getCookie("tableCode"))
+        const orders = await getTableOrders(getCookie("tableCode"))
         const totalOrders = calculateOrdersTotal(orders)
         router.replace({
             pathname: '/menucategories',
@@ -66,7 +84,7 @@ export default function DishOrderingPage() {
 
     return (<>
         <DishOrdering
-            customer={customer}
+            customer={customerName}
             dish={dish}
             onAdd={addOrderDetails}
             goBack={goBack}/>
