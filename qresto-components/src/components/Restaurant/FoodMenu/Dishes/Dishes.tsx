@@ -80,5 +80,3 @@ Dishes.propTypes =
     deleteDish: PropTypes.func,
     updateDish: PropTypes.func
 }
-
-
