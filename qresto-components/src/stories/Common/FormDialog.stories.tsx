@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { FormDialog } from "@/components/Common/FormDialog";
+import { FormDialog } from "@/Common/FormDialog";
 import {widths100} from "@/Stories/viewports";
 import { Button } from  '@mui/material'
 import {useState} from 'react'

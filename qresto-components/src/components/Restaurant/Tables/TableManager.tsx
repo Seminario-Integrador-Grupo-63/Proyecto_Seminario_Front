@@ -8,7 +8,7 @@ import {
     IconButton,
     ThemeProvider
 } from '@mui/material'
-import { DataTable } from '@/Common/DataTable'
+import { DataTable } from '@/Common/DataTable/DataTable'
 import { OrderForm } from './OrderForm/OrderForm'
 import { TableForm } from './TableForm'
 import { MessageDialog } from '@/Common/MessageDialog'
@@ -42,13 +42,16 @@ export const TableManager = (props: any) => {
     const [qrCode, setQRcode] = useState('')
 
     const orderHeaders = [
-        {label: 'Total comensales', key: 'totalCustomers'},
-        {label: 'Estado', key: 'state'},
-        {label: 'Total', key: 'total'}
+        {label: 'Total comensales', id: 'totalCustomers'},
+        {label: 'Estado', id: 'state'},
+        {label: 'Total', id: 'total', price: true}
     ]
 
     useEffect(() => {
         if(props.table !== null){
+            console.log(' ')
+            console.log('TableManager')
+            console.log('props.table: ', props.table)
             if(props.orders.length > 0 || props.table.state !== 'free'){
                 setAllowDeleteTable(false)
             } else {
@@ -268,7 +271,7 @@ export const TableManager = (props: any) => {
             props.setTableFree(table)
         } else {
             setTitleMessageDialog('No se puede liberar la mesa')
-            setTextMessageDialog('No puede liberar mesas que tienen ordenes en estado "Entregado"')
+            setTextMessageDialog('No puede liberar mesas que tienen órdenes en estado "Entregado"')
             setActionMessageDialog('accept')
             setCancelButtonVisibleMessageDialog(false)
             setOpenMessageDialog(true)
@@ -358,7 +361,7 @@ export const TableManager = (props: any) => {
                 {!hasTableCode ? 
                     <Grid item xs={12}>
                         <Typography sx={{color: 'red'}}>
-                            No se ha generado un código QR para esta mesa, por tanto, no puede generar ordenes
+                            No se ha generado un código QR para esta mesa, por tanto, no puede generar órdenes
                         </Typography>
                     </Grid>
                 :
@@ -366,7 +369,7 @@ export const TableManager = (props: any) => {
                 }
 
                 <Grid item xs={12}>
-                    <Typography variant="h6">Ordenes</Typography>
+                    <Typography variant="h6">Órdenes</Typography>
                     <DataTable 
                         headers={orderHeaders}
                         rows={orderRows}
@@ -375,7 +378,7 @@ export const TableManager = (props: any) => {
                         onCancel={onCancelOrder}/>
                 </Grid>
             </Grid>
-git stat
+
             <OrderForm 
                 open={openOrderForm}
                 menu={menu}

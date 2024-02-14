@@ -4,299 +4,281 @@ import { FoodMenu } from '@/Restaurant/FoodMenu/FoodMenu';
 import {
     getDishes,
     deleteDish,
-    getDish,
+    // getDish,
+    postDish,
+    putDish,
+    // getSideDish,
+    updateSideDish,
+    createSideDish,
     deleteSideDish,
-    getSideDish,
-    updateSideDishInfo,
     getSideDishes,
+    getMenu,
     getCategories,
-    deleteCategory, updateCategory, createCategory
-} from '@/requests';
-import {
-    getUpdatedPrices, confirmUpdatePrices
+    deleteCategory, 
+    updateCategory, 
+    createCategory,
+    getUpdatedPrices, 
+    confirmUpdatePrices
 } from '@/requests';
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
-import {Dialog} from "@mui/material";
-import UpdateList from "@/Restaurant/UpdatePrices/Updatelist";
-import Confirmation from "@/Restaurant/UpdatePrices/Confirmation";
-import {useField} from "@mui/x-date-pickers/internals";
-import {DataTable} from "@/Common/DataTable";
+import { PanLoader as Loader } from '@/Common/PanLoader/PanLoader';
 
 export default function FoodMenuPage() {
+    const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([]);
-    const [dishes, setDishes] = useState([]);
     const [sidedishes, setSideDishes] = useState([]);
-    const router = useRouter();
+    const [menu, setMenu] = useState([])
     const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false)
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
-    const [actionFeedback, setActionFeedback] = useState('')
 
-    // Necesarios para el updatePrices
-    const [dishList, setDishList] = useState([])
-    const [updateConfirmId, setUpdateConfirmId] = useState('')
-    const [updateListOpen, setUpdateListOpen] = useState(false)
-    const [confirmationOpen, setConfirmationOpen] = useState(false)
-
-    // Handle list of dishes to update
     const handleListOpen = async (req: any) => {
-
         // Request
+        setLoading(true)
         const updatePreview = await getUpdatedPrices(req)
-        // Setting UseState
-        setUpdateConfirmId(updatePreview.prices_code)
-        setDishList(updatePreview.dishPrices)
-        // Opening List
-        setUpdateListOpen(true)
-    }
-    const handleListClose = () => {
-        setUpdateListOpen(false)
-    }
-
-    //Handle Confirmation Dialog
-    const handleConfirmationOpen = () => {
-        setConfirmationOpen(true)
-    }
-    const handleConfirmationClose = () => {
-        setConfirmationOpen(false)
+        setLoading(false)
+        return updatePreview
     }
 
     // Confirm Update Prices and close dialog
-    const confirmUpdate = async () => {
-        confirmUpdatePrices(updateConfirmId).then(handleConfirmationClose)
+    const confirmUpdate = async (uuid) => {
+        setLoading(true)
+        const result = await confirmUpdatePrices(uuid)
+        if(result){
+            await Promise.all([
+                fetchMenu(),
+                fetchSideDishes()
+            ])
+        }
+        setLoading(false)
+        triggerFeedback(result, 'update-prices')
+        return result
     }
 
     useEffect(() => {
-        fetchCategories();
-        fetchDishes();
-        fetchSideDishes();
+        fetchData()
     }, []);
 
-    //categorias
+    const fetchData = async () => {
+        setLoading(true)
+        await Promise.all([
+            fetchCategories(),
+            fetchSideDishes(),
+            fetchMenu(),
+        ])
+        setLoading(false)
+    }
 
     const fetchCategories = async () => {
-        console.log(' ')
-        console.log('index fetchCategories()')
-        console.log(': ', )
         try {
             const result = await getCategories();
-            console.log('result: ', result)
             setCategories(result);
         } catch (error) {
             console.error("Error al obtener categorias:", error);
         }
-    };
+    }
+
+    const fetchMenu = async() => {
+        const menuResult = await getMenu()
+        setMenu(menuResult)
+    }
 
     const handleDeleteCategory = async (category) => {
-        console.log(' ')
-        console.log('FoodMenuPage handleDeleteCategory(categoryId)')
-        console.log('category: ',category)
-
-        try {
-            const result = await deleteCategory(category.id);
-            //console.log('resp handldeDeCategory' + result)
-            if (result) {
-                await fetchCategories(); // Recargar la lista de categorias después de eliminar una
-                triggerFeedback(true, 'delete-category')
-
-            }
-            else{
-                triggerFeedback(false, 'delete-category')
-            }
-        } catch (error) {
-            console.error("Error al eliminar categoria:", error);
-
+        setLoading(true)
+        const result = await deleteCategory(category.id);
+        if (result) {
+            await Promise.all([
+                fetchMenu(),
+                fetchCategories()
+            ])
         }
-    };
+        setLoading(false)
+        triggerFeedback(true, 'delete-category')
+        return result
+    }
 
     const handleUpdateCategory = async (category) => {
-        try {
-            await updateCategory(category);
-            await fetchCategories();
-        } catch (error) {
-            console.error("Error al actualizar información de la categoria:", error);
+        setLoading(true)
+        const result = await updateCategory(category);
+        if(result){
+            await Promise.all([
+                fetchMenu(),
+                fetchCategories()
+            ])
         }
+        setLoading(false)
+        triggerFeedback(result, 'update-category')
+        await fetchCategories();
+        return result
     }
 
     const handleCreateCategory = async (category) => {
-        //console.log('debug create category')
-        try {
-            await createCategory(category);
-            await fetchCategories();
-        } catch (error) {
-            console.error("Error al crear la nueva categoria:", error);
+        setLoading(true)    
+        const result = await createCategory(category);
+        if(result){
+            await Promise.all([
+                fetchMenu(),
+                fetchCategories()
+            ])
         }
+        setLoading(false)
+        triggerFeedback(result, 'create-category')
+        return result
     }
-
-    const fetchDishes = async () => {
-        console.log(' ')
-        console.log('index fetchDishes()')
-        console.log(': ', )
-        try {
-            const result = await getDishes();
-            console.log('result: ', result)
-            setDishes(result);
-        } catch (error) {
-            console.error("Error al obtener platos:", error);
-        }
-    };
 
     const fetchSideDishes = async () => {
-        try {
-            const result = await getSideDishes();
-            console.log('result: ', result)
-            setSideDishes(result);
-        } catch (error) {
-            console.error("Error al obtener platos:", error);
-        }
-    };
-
-    const triggerFeedback = (state,action) => {
-        setPositiveFeedback(state)
-        if(state){
-             if(actionFeedback === 'delete-dish'){
-                setTextFeedback('El plato ha sido eliminado exitosamente')
-            }
-        } else if(actionFeedback === 'delete-dish ')
-            {
-                setTextFeedback('No se ha podido eliminar el plato')
-            }
-            else if(actionFeedback === 'delete-sidedish ')
-            {
-                setTextFeedback('No se ha podido eliminar la guarnicion')
-            }else if(actionFeedback === 'delete-sidedish ')
-            {
-                setTextFeedback('No se ha podido eliminar la guarnicion')
-            }
-            setOpenFeedbackDialog(true)
+        const result = await getSideDishes();
+        setSideDishes(result);
     }
-       
-        const closeFeedback = () => {
+
+    const triggerFeedback = (state, action) => {
+        setPositiveFeedback(state)
+        setTextFeedback('')
+        if(state){
+            if(action === 'delete-dish'){
+                setTextFeedback('El plato ha sido eliminado exitosamente')
+            } else if(action === 'create-dish'){
+                setTextFeedback('El plato ha sido creado exitosamente')
+            } else if (action === 'update-dish'){
+                setTextFeedback('El plato ha sido actualizado exitosamente')
+            } else if (action === 'create-sidedish'){
+                setTextFeedback('La guarnición ha sido creada exitosamente')
+            } else if (action === 'update-sidedish'){
+                setTextFeedback('La guarnición ha sido actualizada exitosamente')
+            } else if (action === 'delete-sidedish'){
+                setTextFeedback('La guarnición ha sido eliminada exitosamente')
+            } else if (action === 'update-category'){
+                setTextFeedback('La categoría ha sido actualizada exitosamente')
+            } else if (action === 'create-category'){
+                setTextFeedback('La categoría ha sido creada exitosamente')
+            } else if (action === 'delete-category'){
+                setTextFeedback('La categoría ha sido eliminada exitosamente')
+            } else if (action === 'update-prices'){
+                setTextFeedback('Los precios se han actualizado exitosamente exitosamente')
+            }
+        } else {
+            if(action === 'delete-dish'){
+                setTextFeedback('No se ha podido eliminar el plato')
+            } else if(action === 'create-dish'){
+                setTextFeedback('No se ha podido crear el plato. Por favor, intente más tarde')
+            } else if (action === 'update-dish'){
+                setTextFeedback('No se ha podido actualizar el plato. Por favor, intente más tarde')
+            } else if (action === 'create-sidedish'){
+                setTextFeedback('No se ha podido crear la guarnición. Por favor, intente más tarde')
+            } else if (action === 'update-sidedish'){
+                setTextFeedback('No se ha podido actualizar la guarnición. Por favor, intente más tarde')
+            } else if (action === 'delete-sidedish'){
+                setTextFeedback('No se ha podido eliminar la guarnición. Por favor, intente más tarde')
+            } else if (action === 'update-category'){
+                setTextFeedback('No se ha podido actualizar la categoría. Por favor, intente más tarde')
+            } else if (action === 'create-category'){
+                setTextFeedback('No se ha podido crear la categoría. Por favor, intente más tarde')
+            } else if (action === 'delete-category'){
+                setTextFeedback('No se ha podido eliminar la categoría. Por favor, intente más tarde')
+            } else if (action === 'update-prices'){
+                setTextFeedback('No se han podido actualizar los precios. Por favor, intente más tarde')
+            }
+        }
+        setOpenFeedbackDialog(true)
+    }
+
+    const closeFeedback = () => {
         setOpenFeedbackDialog(false)
     }
 
-    //platos
     const handleDeleteDish = async (dish) => {
-        console.log(' ')
-        console.log('FoodMenuPage handleDeleteDish(dishId)')
-        console.log('dish: ',dish)
-        try {
-            const result = await deleteDish(dish.id);
-            //console.log('resp handldeDeDish' + result)
-            if (result) {
-                await fetchDishes(); // Recargar la lista de platos después de eliminar uno
-                triggerFeedback(true, 'delete-dish')
-                
-            }
-            else{
-                triggerFeedback(false, 'delete-dish')
-            }
-        } catch (error) {
-            console.error("Error al eliminar plato:", error);
-
+        const result = await deleteDish(dish.id);
+        if (result) {
+            await fetchMenu(); // Recargar la lista de platos después de eliminar uno
         }
-    };
-
-    const handleEditDish = async (dishId) => {
-        try {
-            const dishToUpdateIndex = dishes.findIndex((dish) => dish.id === dishId);
-            if (dishToUpdateIndex !== -1) {
-                const updatedDish = await getDish(dishId);
-                const updatedDishes = [...dishes];
-                updatedDishes[dishToUpdateIndex] = updatedDish;
-                setDishes(updatedDishes);
-             }
-            } catch (error) {
-            console.error("Error al obtener información del plato:", error);
+        triggerFeedback(result, 'delete-dish')
+    }
+    
+    const handleCreateDish = async (object) => {
+        setLoading(true)
+        const result = await postDish(object)
+        if(result){
+            await fetchMenu()
         }
+        setLoading(false) 
+        triggerFeedback(result, 'create-dish')
+        return result
     }
 
-    //guarnicion?
+    const handleUpdateDish = async (object) => {
+        setLoading(true)
+        const result = await putDish(object)
+        if(result){
+            await fetchMenu()
+        }
+        setLoading(false)
+        triggerFeedback(result, 'update-dish')
+        return result
+    }
 
     const handleDeleteSideDish = async (sideDish) => {
-        console.log(' ')
-        console.log('FoodMenuPage handleDeleteSideDish(sideDishId)')
-        console.log('sideDish: ', sideDish)
-        try {
-            const result = await deleteSideDish(sideDish.id);
-            console.log('resp handldeDSideD' + result)
-            if (result) {
-               await fetchSideDishes(); // Recargar la lista de guarniciones después de eliminar una
-                triggerFeedback(true, 'delete-sidedish'); 
-            } else {
-                triggerFeedback(false, 'delete-sidedish');
-            }
-        } catch (error) {
-            console.error("Error al eliminar guarnición:", error);
-        }
+        setLoading(true)
+        const result = await deleteSideDish(sideDish.id);
+        if (result) {
+            await Promise.all([
+                fetchSideDishes(),
+                fetchMenu()
+            ])
+        } 
+        setLoading(false)
+        triggerFeedback(result, 'delete-sidedish'); 
+        return result
     }
 
-    const handleEditSideDish = async (sideDishId) => {
-        try {
-            const sideDishToUpdateIndex = sideDishId.findIndex((sideDish) => sideDish.id === sideDishId);
-            if (sideDishToUpdateIndex !== -1) {
-                const updatedSideDish = await getSideDish(sideDishId);
-                const updatedSideDishes = [...sideDishId];
-                updatedSideDishes[sideDishToUpdateIndex] = updatedSideDish;
-                setSideDishes(updatedSideDishes);
-            }
-           
-        } catch (error) {
-            console.error("Error al obtener información de la guarnición:", error);
+    const handleCreateSideDish = async (sideDish) => {
+        setLoading(true)
+        const result = await createSideDish(sideDish)
+        if (result) {
+            await Promise.all([
+                fetchSideDishes(),
+                fetchMenu()
+            ])
         }
-    }
-    const handleUpdateSideDishInfo = async (sideDishId, updatedInfo) => {
-        try {
-            await updateSideDishInfo(sideDishId, updatedInfo);
-            await fetchSideDishes();
-        } catch (error) {
-            console.error("Error al actualizar información de la guarnición:", error);
-        }
+        setLoading(false)
+        triggerFeedback(result, 'create-sidedish');
     }
 
-
-
+    const handleUpdateSideDishInfo = async (updatedInfo) => {
+        setLoading(true)
+        const result = await updateSideDish(updatedInfo);
+        if(result){
+            await Promise.all([
+                fetchSideDishes(),
+                fetchMenu()
+            ])
+        }
+        setLoading(false)
+        triggerFeedback(result, 'update-sidedish')
+    }
 
     return (<>
         <FoodMenu
-            dishes={dishes}
             categories={categories}
-            deleteDish={handleDeleteDish}
             sideDishes={sidedishes}
+            menu={menu}
+            createDish={handleCreateDish}
+            updateDish={handleUpdateDish}
+            deleteDish={handleDeleteDish}
+            createSideDish={handleCreateSideDish}
+            updateSideDish={handleUpdateSideDishInfo}
             deleteSideDish={handleDeleteSideDish}
-           // updateDish={handleEditDish} 
             deleteCategory={handleDeleteCategory}
             createCategory={handleCreateCategory}
             updateCategory={handleUpdateCategory}
-/*            updateDish={handleEditDish}*/
             handleUpdatePrices={handleListOpen}
-             />
-
+            confirmUpdatePrices={confirmUpdate}/>
 
         <FeedbackDialog
             open={openFeedbackDialog}
             positive={positiveFeedback}
-            text={"Se ha eliminado con éxito"}
-            onClose={closeFeedback}
-        />
+            text={textFeedback}
+            onClose={closeFeedback}/>
 
-
-        <Dialog open={updateListOpen} onClose={handleListClose}>
-
-            <UpdateList
-                open={updateListOpen}
-                onClose={handleListClose}
-                productList={dishList}
-                onSubmit={handleConfirmationOpen}
-                dishList={dishList}
-            />
-        </Dialog>
-        <Dialog open={confirmationOpen} onClose={handleConfirmationClose}>
-            <Confirmation
-                open={confirmationOpen}
-                onClose={handleConfirmationClose}
-                onSubmit={confirmUpdate}
-            />
-        </Dialog>
-     </>)
-} 
+        <Loader open={loading}/>
+    </>)
+}

@@ -33,8 +33,10 @@ export default function TableManagerPage() {
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
     const [closeFeedbackAction, setCloseFeedbackAction] = useState('')
+    const [loopActive, setLoopActive] = useState(false)
     const router = useRouter()
     const searchParams = useSearchParams()
+
 
     useEffect(() => {
         const tableId = searchParams.get('tableId')
@@ -44,6 +46,14 @@ export default function TableManagerPage() {
     useEffect(() => {
         if(table !== null){
             fetchOrders()
+            if(!loopActive) {
+                const interval = setInterval(() => {
+                    fetchOrders(); // Fetch orders periodically
+                }, 5000); // Adjust the interval time as needed (e.g., every 5 seconds)
+        
+                return () => clearInterval(interval); // Clear interval on component unmount
+                setLoopActive(true)
+            }
         }
     }, [table])
 
@@ -240,7 +250,10 @@ export default function TableManagerPage() {
         const result = await cancelTable(table.tableCode)
         setLoading(false)
         if(result){
-            await fetchTable(table.id)
+            await Promise.all([
+                fetchTable(table.id),
+                fetchOrders()
+            ])
         }
         triggerFeedback(result, 'free-table')
     }

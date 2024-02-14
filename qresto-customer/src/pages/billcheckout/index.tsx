@@ -6,19 +6,22 @@ import {
     getBill
 } from '@/requests'
 
-import { tableCode} from '@/Common/FakeData/Tables'
+// import { tableCode} from '@/Common/FakeData/Tables'
 import {BillCheckout} from '@/Customer/BillCheckout/BillCheckout';
 
 export default function BillCheckoutPage() {
     const searchParams = useSearchParams()
     const [billData, setBillData] = useState(null)
+    const [tableCode, setTableCode] = useState('')
     useEffect(() => {
-
+        setTableCode(searchParams.get('tableCode'))
     }, [searchParams])
 
     useEffect(() => {
-        fetchBill()
-    }, [])
+        if(tableCode !== ''){
+            fetchBill()
+        }
+    }, [tableCode])
 
     const fetchBill = async() => {
         const bill = await getBill(tableCode)

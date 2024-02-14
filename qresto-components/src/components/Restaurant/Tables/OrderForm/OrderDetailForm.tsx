@@ -105,19 +105,6 @@ export const OrderDetailForm = (props: any) => {
         }
     }
 
-    // const setupCreateDetail = () => {
-    //     setTitle("Crear Detalle de Orden")
-    //     setSubmitText("Crear")
-    //     setSelectedCategory(null)
-    //     setCategoryDishes([])
-    //     setSideDishes([])
-    //     setSelectedDish(null)
-    //     setSelectedSideDish(null)
-    //     setQuantity(1)
-    //     setQuantityInput('1')
-    //     setObservation('')
-    // }
-
     const handleCategoryChange = (category) => {
         setSideDishes([])
         if(category === ''){
@@ -250,7 +237,7 @@ export const OrderDetailForm = (props: any) => {
             onSubmit={submit}
             closeText='Cancelar'
             onClose={onClose}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={{marginTop: '5px'}}>
                 <Grid item xs={3}>
                     <Selector 
                         label="Categoría"

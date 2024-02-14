@@ -5,6 +5,14 @@ import {Typography } from '@mui/material';
 import {theme} from '@/Common/Theme/themes'
 
 export const ButtonCategory = (props: any) => {
+    /**
+    Este componente tiene unas warnings cuando lo ejecutamos en Storybook
+    El problema está en los atributos typography: {lg: 'h3', xs: 'h5', md: 'h4'},
+    de los componentes Typography.
+
+    Discusión en Stackoverflow
+    https://stackoverflow.com/questions/77296305/mui-the-value-found-in-theme-for-prop-error-is-an-object-instead-of-string
+    */
 
     const onClick = () => {
         props.onClick(props.category)

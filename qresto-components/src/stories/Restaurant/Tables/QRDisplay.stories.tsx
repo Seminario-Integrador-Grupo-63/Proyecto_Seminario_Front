@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react"
-import { QRDisplay } from "@/components/Restaurant/Tables/QRDisplay/QRDisplay"
+import { QRDisplay } from "@/Restaurant/Tables/QRDisplay/QRDisplay"
 import {Container, Button} from "@mui/material"
 import {useState} from 'react'
 import { qr1 } from "@/Common/FakeData/QRCodes"

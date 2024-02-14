@@ -6,7 +6,7 @@ import {
     getCategories,
     getTableOrders
 } from '@/requests'
-import { tableCode } from '@/Common/FakeData/Tables'
+// import { tableCode } from '@/Common/FakeData/Tables'
 
 export default function MenuCategoriesPage() {
     const router = useRouter()
@@ -14,6 +14,7 @@ export default function MenuCategoriesPage() {
     const [categories, setCategories] = useState([])
     const [customer, setCustomer] = useState('')
     const [orders, setOrders] = useState([])
+    const [tableCode, setTableCode] = useState('')
 
     useEffect(() => {
         fetchData()
@@ -31,6 +32,8 @@ export default function MenuCategoriesPage() {
 
     useEffect(() => {
         let customer = searchParams.get('customer')
+        let tableCode = searchParams.get('tableCode')
+        setTableCode(tableCode)
         setCustomer(customer)
     }, [searchParams])
 
@@ -43,8 +46,10 @@ export default function MenuCategoriesPage() {
     }
 
     const fetchOrders = async () => {
-        const fetchedOrders = await getTableOrders(tableCode)
-        setOrders(fetchedOrders)
+        if(tableCode !== ''){
+            const fetchedOrders = await getTableOrders(tableCode)
+            setOrders(fetchedOrders)
+        }
     }
 
     const setFooterButtonVisible = (orders) => {
@@ -65,7 +70,8 @@ export default function MenuCategoriesPage() {
             pathname: '/menudishes', 
             query: {
                 category: JSON.stringify(category),
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }
@@ -74,7 +80,8 @@ export default function MenuCategoriesPage() {
         router.replace({
             pathname: '/listorders', 
             query: {
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }

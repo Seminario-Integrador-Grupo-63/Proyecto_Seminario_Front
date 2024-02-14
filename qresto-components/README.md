@@ -45,7 +45,7 @@ Se ejecuta en el navegador con la URL http://localhost:6006/
 
 - Para iniciar el desarrollo de una nueva funcion crear una rama desde `develop`
 
-- Para seguimiento el nombre de la rama debe ser `SI-XX-(una breve descripcion de la tarea)`
+- Para seguimiento el nombre de la rama debe ser `SI-XX-(una breve descripción de la tarea)`
 
 - SI-XX es la Key que se encuentra en cada card de trelo
 

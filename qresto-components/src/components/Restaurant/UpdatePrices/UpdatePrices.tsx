@@ -3,17 +3,14 @@ import {
   Container,
   Typography,
   Button,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   TextField,
-  Select,
-  MenuItem,
   Dialog,
+  MenuItem,
 } from '@mui/material';
-import Updatelist from './Updatelist';
 import PropTypes from 'prop-types';
 import { theme } from '@/Common/Theme/themes';
+import Confirmation from './Confirmation'
+import UpdateList from './Updatelist';
 
 function UpdatePrices(props: any) {
     const [formData, setFormData] = useState({
@@ -22,10 +19,10 @@ function UpdatePrices(props: any) {
         inputValue: '',
         selectedActualizacion: '',
     });
-
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [productList, setProductList] = useState([])
-
+    const [updateListOpen, setUpdateListOpen] = useState(false)
+    const [confirmationOpen, setConfirmationOpen] = useState(false)
+    const [previewDishesPrices, setPreviewDishesPrices] = useState([])
+    const [uuid, setUuid] = useState('')
 
     const [reqData, setReqData] = useState({
         percentage: 0,
@@ -40,36 +37,41 @@ function UpdatePrices(props: any) {
         })
     }, [formData]);
 
-    const handleCloseDialog = () => {
-        setIsDialogOpen(false);
-    };
-    const handleUpdateClick = () => {
-        props.onSubmit(reqData)
-        setProductList(props.productList)
-        setIsDialogOpen(true);
-    };
+    const handleListClose = () => {
+        setUpdateListOpen(false)
+    }
+
+    const handleConfirmationOpen = () => {
+        setConfirmationOpen(true)
+    }
+
+    const handleConfirmationClose = () => {
+        setConfirmationOpen(false)
+    }
+
+    const handleUpdateClick = async () => {
+        const result = await props.onSubmit(reqData)
+        setPreviewDishesPrices(result.dishPrices)
+        setUuid(result.prices_code)
+        setUpdateListOpen(true)
+    }
+
+    const confirmUpdate = async () => {
+        const result = await props.confirmUpdatePrices(uuid)
+        if(result){
+            setConfirmationOpen(false)
+            setUpdateListOpen(false)
+        }
+    }
 
     return (
         <Container>
             <Typography variant="h4" gutterBottom>
-                  Actualizar Platos
+                  Actualizar precios
             </Typography>
-
-{/*
-            <RadioGroup
-                aria-label="Opciones"
-                name="selectedOption"
-                value={formData.selectedOption}
-                onChange={(e) => setFormData({ ...formData, selectedOption: e.target.value })}
-            >
-                <FormControlLabel value="ActualizarTodos" control={<Radio />} label="Actualizar Todos los Productos" />
-                <FormControlLabel value="ActualizarPorCategoria" control={<Radio />} label="Actualizar por Categoría" />
-            </RadioGroup>
-*/}
 
             {formData.selectedOption === 'ActualizarPorCategoria' && (
                 <div>
-
                     <TextField
                         select
                         label="Aplicar a "
@@ -78,8 +80,7 @@ function UpdatePrices(props: any) {
                         fullWidth
                         value={formData.selectedCategory}
                         onChange={(e) => setFormData({ ...formData, selectedCategory: e.target.value })}
-                        style={{ marginBottom: '1rem' }}
-                    >
+                        style={{ marginBottom: '1rem' }}>
                         <MenuItem value={"0"}>Todos los Productos</MenuItem>
                         {props.categories.map((category:any, index:number) => (
                             <MenuItem key={index} value={category.id}>
@@ -87,7 +88,6 @@ function UpdatePrices(props: any) {
                             </MenuItem>
                         ))}
                     </TextField>
-
                 </div>
             )}
 
@@ -99,8 +99,7 @@ function UpdatePrices(props: any) {
                 type={"percentage"}
                 value={formData.inputValue}
                 onChange={(e) => setFormData({ ...formData, inputValue: e.target.value })}
-                style={{ marginBottom: '1rem' }}
-            />
+                style={{ marginBottom: '1rem' }}/>
 
             <TextField
                 select
@@ -109,9 +108,7 @@ function UpdatePrices(props: any) {
                 margin={"dense"}
                 fullWidth
                 value={formData.selectedActualizacion}
-                onChange={(e) =>
-                    setFormData({ ...formData, selectedActualizacion: e.target.value })}
-            >
+                onChange={(e) => setFormData({ ...formData, selectedActualizacion: e.target.value })}>
                 <MenuItem value={"increase"}>Aumentar</MenuItem>
                 <MenuItem value={"decrease"}>Disminuir</MenuItem>
             </TextField>
@@ -128,11 +125,23 @@ function UpdatePrices(props: any) {
                 </Button>
             </div>
 
+            <Dialog open={updateListOpen} onClose={handleListClose}>
+                <UpdateList
+                    open={updateListOpen}
+                    onClose={handleListClose}
+                    onSubmit={handleConfirmationOpen}
+                    dishList={previewDishesPrices}/>
+            </Dialog>
 
+            <Dialog open={confirmationOpen} onClose={handleConfirmationClose}>
+                <Confirmation
+                    open={confirmationOpen}
+                    onClose={handleConfirmationClose}
+                    onSubmit={confirmUpdate}/>
+            </Dialog>
         </Container>
   );
 }
-
 
 UpdatePrices.defaultProps = {
     title: 'Actualizar Precios',
@@ -141,6 +150,7 @@ UpdatePrices.defaultProps = {
     categories: [],
     updateOptions:["increase", "decrease"],
     productList:[],
+    confirmUpdatePrices: function(){}
 }
 UpdatePrices.propTypes = {
     title: PropTypes.string,
@@ -149,7 +159,7 @@ UpdatePrices.propTypes = {
     categories: PropTypes.array,
     updateOptions:PropTypes.array,
     productList:PropTypes.array,
-
+    confirmUpdatePrices: PropTypes.func
 };
 
 export default UpdatePrices;
