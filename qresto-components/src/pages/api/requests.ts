@@ -33,10 +33,14 @@ export async function postQR(tableId, uuidCode){
 
 export async function postCustomer(customer, tableCode){
     try{
-        await axios.post(url + `/table/${tableCode}/init?customer_name=${customer}`)
-        return true
+        const result = await axios.post(url + `/table/${tableCode}/init?customer_name=${customer}`)
+        return ''
     } catch (error){
-        return false
+        if(error.response.status === 404){
+            return 'table-not-exists'
+        } else if (error.response.status === 226){
+            return 'customer-exists'
+        }
     }
 }
 
@@ -64,8 +68,12 @@ export async function getDishesByCategoryId(categoryId){
 }
 
 export async function getTableOrders(tableCode){
-    const response = await axios.get(url + `/table/${tableCode}/orders/`)
-    return response.data
+    try{
+        const response = await axios.get(url + `/table/${tableCode}/orders/`)
+        return response.data
+    } catch {
+        return []
+    }
 }
 
 export async function getOrders(restaurantId, startDate = null, endDate = null){
@@ -126,6 +134,10 @@ export async function confirmOrder(customer, tableCode){
     }catch (error){
         return false
     }
+}
+
+export async function tableExistsByTableCode(tableCode){
+
 }
 
 export async function postOrderPreparation(orderId){

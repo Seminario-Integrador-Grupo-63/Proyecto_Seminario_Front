@@ -5,7 +5,8 @@ import { NameInputMain } from '@/Customer/NameInput/NameInputMain'
 import { postCustomer } from '@/requests'
 import {MessageDialog} from '@/Common/MessageDialog'
 import { useSearchParams} from 'next/navigation'
-import {getCookie, hasCookie, setCookie} from "cookies-next";
+import {deleteCookie, getCookie, hasCookie, setCookie} from "cookies-next";
+import { getTableOrders, tableExistsByTableCode } from '@/requests';
 
 export default function startPage() {
     const router = useRouter()
@@ -13,45 +14,79 @@ export default function startPage() {
     const [openEmptyNameDialog, setOpenEmptyNameDialog] = useState(false)
     const searchParams = useSearchParams()
     const [tableCode, setTableCode] = useState('')
-
+    const [customerName, setCustomerName] = useState('')
 
     useEffect(() => {
-        // Redirection conditionals
-        if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
-            router.push({
-                pathname:"/"
-            })
-        } else {
-            const tcCookie = getCookie("tableCode")
-            setTableCode(tcCookie)
+        console.log(' ')
+        console.log('Start useEffect')
+        initialize()
+    }, [])
+
+    const goToBase = () => {
+        router.replace({pathname:"/"})
+    }
+
+    const initialize = async () => {
+        console.log(' ')
+        console.log('Home initialize')
+        let hasTableCodeCookie = hasCookie("tableCode")
+        console.log('hasTableCodeCookie: ', hasTableCodeCookie)
+
+        if(hasTableCodeCookie){
+            let tableCode = getCookie("tableCode")
+            console.log('tableCode: ', tableCode)
+            if(tableCode !== ''){
+                setTableCode(tableCode)
+                return true
+            } 
         }
+        goToBase()
+    }
 
-
-/*        const tc = searchParams.get('table-code')
-        setTableCode(tc)
-*/
-
-    }, [searchParams])
+    const goToCategories = () => {
+        router.replace({
+            pathname: "/menucategories",
+        })
+    }
 
     const onEnterName = async (name) => {
+        console.log(' ')
+        console.log('Start onEnterName(name)')
+        console.log('name: ', name)
         if(name === ''){
             setOpenEmptyNameDialog(true)
         } else {
             const result = await postCustomer(name, tableCode)
-            setOpenRepeatedNameDialog(!result)
-            if(result){
-
-                // Set cookies for name and tableCode
+            console.log('result: ', result)
+            if(result === 'table-not-exists'){
+                setCookie('tableCode', '', {maxAge:60*60*5})
+                goToBase()
+            } else if(result === 'customer-exists'){
+                let hasCustomerNameCookie = hasCookie('customerName')
+                console.log('hasCustomerNameCookie: ', hasCustomerNameCookie)
+                if(hasCustomerNameCookie){
+                    let customerName = getCookie('customerName')
+                    if(customerName === name){
+                        goToCategories()
+                    } else {
+                        setOpenRepeatedNameDialog(true)
+                    }
+                } else {
+                    console.log('Comensal existente')
+                    console.log('tableCode: ', tableCode)
+                    setCookie("customerName", name, {maxAge:60*60*5})
+                    setCookie("tableCode", tableCode, {maxAge:60*60*5})
+                    goToCategories()
+                }
+            } else { // Nuevo comensal
+                console.log('Nuevo comensal')
+                console.log('tableCode: ', tableCode)
                 setCookie("customerName", name, {maxAge:60*60*5})
                 setCookie("tableCode", tableCode, {maxAge:60*60*5})
-
-                router.replace({
-                    pathname: "/menucategories",
-                })
+                goToCategories()
             }
         }
     }
-
 
     return (<>
         <Head>

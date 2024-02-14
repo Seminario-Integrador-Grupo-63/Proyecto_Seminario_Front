@@ -3,40 +3,46 @@ import { useRouter } from 'next/router'
 import { useSearchParams} from 'next/navigation'
 import {deleteCookie, getCookie, hasCookie, setCookie} from "cookies-next";
 import {Typography} from "@mui/material";
+import { getTableOrders, postCustomer } from '@/requests';
 
 export default function Home() {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const [pushedStart, setPushedStart] = useState(false)
 
     useEffect(() => {
         console.log(' ')
-        console.log('Home useEffect')
-        let hasCookieResult = hasCookie("tableCode")
-        let cookie = getCookie("tableCode")
-        console.log('hasCookieResult: ', hasCookieResult)
-        console.log('cookie: ', cookie)
-        // Redirection conditionals
-        if (searchParams.has("table-code")) {
-            if (hasCookie("tableCode")) {
-                deleteCookie("tableCode")
+        console.log('/ useEffect searchParams')
+        initialize()
+    }, [searchParams])
+
+    const goToStart = () => {
+        router.replace({pathname:"/start"})
+    }
+
+    const initialize = async () => {
+        console.log(' ')
+        console.log('/ initialize()')
+        
+        let hasTableCodeCookie = hasCookie("tableCode")
+        console.log('hasTableCodeCookie: ', hasTableCodeCookie)
+        if(hasTableCodeCookie){
+            let tableCode = getCookie("tableCode")
+            console.log('tableCode: ', tableCode)
+            if(tableCode !== ''){
+                goToStart()
+                return true
             }
+        }
+
+        let urlHasTableCode = searchParams.has("table-code")
+        console.log('urlHasTableCode: ', urlHasTableCode)
+        if (urlHasTableCode) {
             const tc = searchParams.get("table-code")
             console.log('tc: ', tc)
             setCookie("tableCode", tc, {maxAge: 60*60*3})
-        } else if (hasCookie("tableCode") && getCookie("tableCode") != "") {
-            router.replace({pathname:"/start"})
+            goToStart()
         }
-
-
-    /*        // Si se guardó correctamente, redirige a la página de inicio
-        if (hasCookie("tableCode")) {
-            if(!pushedStart){
-                router.push({pathname: '/start'})
-                setPushedStart(true)
-            }
-        }*/
-    }, [searchParams])
+    }
 
     return <>
         <Typography>
