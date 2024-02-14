@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Categories } from "../../components/Restaurant/Categories/Categories"; // Importamos nuestro componente
-import { categories } from "@/components/Common/FakeData/CategoriesData";
+import { categories } from "@/Common/FakeData/CategoriesData";
 
 export default {
     title: "components/Restaurant/Categories", // Acá podemos separar por carpetas

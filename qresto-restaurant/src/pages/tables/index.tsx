@@ -25,6 +25,12 @@ export default function TablesPage() {
 
     useEffect(() => {
         fetchData()
+
+        const interval = setInterval(() => {
+            fetchData(); // Fetch data periodically
+        }, 5000); // Adjust the interval time as needed (e.g., every 5 seconds)
+
+        return () => clearInterval(interval); // Clear interval on component unmount
     }, [])
 
     const fetchGrid = async () => {

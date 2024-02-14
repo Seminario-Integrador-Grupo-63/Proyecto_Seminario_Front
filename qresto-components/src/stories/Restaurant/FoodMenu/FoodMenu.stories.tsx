@@ -4,6 +4,7 @@ import {widths100} from "@/Stories/viewports";
 import { Layout } from "@/Restaurant/Layout/Layout";
 import { dishes } from "@/Common/FakeData/DishesData";
 import { sideDishes } from "@/Common/FakeData/SideDishesData";
+import { menuData } from "@/Common/FakeData/Menu";
 
 export default {
     title: "components/Restaurant/FoodMenu/FoodMenu",
@@ -25,8 +26,7 @@ export const FoodMenuMain: Story = {
                 style={{
                     width:'90vw',
                     height: '90vh'}}>
-                <FoodMenu
-                    dishes={dishes}/>
+                <FoodMenu/>
             </div>
         </>)
     } 
@@ -36,7 +36,9 @@ export const FoodMenuLayout: Story = {
     render: () =>{
         return(<>
             <Layout>
-                <FoodMenu dishes={dishes}/>
+                <FoodMenu
+                    menu={menuData}
+                    sideDishes={sideDishes}/>
             </Layout>
         </>)
     } 

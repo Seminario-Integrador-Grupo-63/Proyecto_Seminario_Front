@@ -28,7 +28,7 @@ export const ListOrders = (props: any) => {
             <CustomerHeader
                 goBackEnabled={true}
                 onGoBack={props.onGoBack}
-                title={'Ordenes'}/>
+                title={'Órdenes'}/>
                 {props.orders.map(order => createOrder(order))}
             <Footer
                 text={''}

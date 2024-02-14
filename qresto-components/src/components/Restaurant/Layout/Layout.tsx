@@ -79,7 +79,7 @@ export const Layout = (props: any) => {
                                     <Typography
                                         variant="inherit"
                                         color="textPrimary">
-                                        Ordenes
+                                        Órdenes
                                     </Typography>}/>
                         </ListItemButton>
                     </Link>

@@ -1,12 +1,13 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Dishes } from "@/Restaurant/FoodMenu/Dishes/Dishes";
-import {DishForm} from '@/Restaurant/FoodMenu/Dishes/DishForm/DishForm'
+import {DishForm} from '@/Restaurant/FoodMenu/Dishes/DishForm'
 import {widths100} from "@/Stories/viewports";
 import { dishes } from "@/Common/FakeData/DishesData";
 import { categories } from '@/Common/FakeData/CategoriesData'
 import { sideDishes } from "@/Common/FakeData/SideDishesData";
 import {useState} from 'react'
 import {Button} from '@mui/material'
+import { menuData } from "@/Common/FakeData/Menu";
 
 export default {
     title: "components/Restaurant/FoodMenu/Dishes",
@@ -24,7 +25,7 @@ export const DishesMain: Story = {
     render: () =>{
         const myFunction = () => {}
         return(<>
-            <Dishes/>
+            <Dishes menu={menuData}/>
         </>);
     }
 };
@@ -46,7 +47,6 @@ export const DishFormEdit: Story = {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Abrir DishForm
             </Button>
-
 
             <DishForm
                 open={open}

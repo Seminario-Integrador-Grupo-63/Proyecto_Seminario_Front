@@ -63,6 +63,7 @@ export function buildMenu(data){
                     id: dishObj.dish.id,
                     name: dishObj.dish.name,
                     image: dishObj.dish.image,
+                    description: dishObj.dish.description,
                     isActive: dishObj.dish.is_active,
                     preparationTime: dishObj.dish.preparationTime,
                     price: dishObj.dish.price,

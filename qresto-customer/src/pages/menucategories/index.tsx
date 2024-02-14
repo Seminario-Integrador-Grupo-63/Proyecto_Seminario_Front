@@ -19,6 +19,7 @@ export default function MenuCategoriesPage() {
     const [tableCodeDef, setTableCodeDef] = useState('')
 
     const [orders, setOrders] = useState([])
+    const [tableCode, setTableCode] = useState('')
 
     useEffect(() => {
         // Redirection conditionals
@@ -53,6 +54,8 @@ export default function MenuCategoriesPage() {
 
     useEffect(() => {
         let customer = searchParams.get('customer')
+        let tableCode = searchParams.get('tableCode')
+        setTableCode(tableCode)
         setCustomer(customer)
     }, [searchParams])
 

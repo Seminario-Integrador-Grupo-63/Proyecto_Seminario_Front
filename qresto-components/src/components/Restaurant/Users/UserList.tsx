@@ -14,7 +14,7 @@ import { theme } from '@/Common/Theme/themes';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {UserForm} from "@/Restaurant/Users/UserForm";
-import {DataTable} from "@/Common/DataTable";
+import {DataTable} from "@/Common/DataTable/DataTable";
 
 export const UserList = (props:any) => {
 

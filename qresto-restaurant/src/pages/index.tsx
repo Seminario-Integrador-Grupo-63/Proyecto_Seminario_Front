@@ -14,9 +14,15 @@ export default function Home() {
 
     // UseEffect que setean cookies al cambiar los UseState correspondientes
     useEffect(() => {
+        console.log(' ')
+        console.log('Home useEffect rid')
+        console.log('rid: ', rid)
         setCookie("restaurantId", rid)
     }, [rid]);
     useEffect(() => {
+        console.log(' ')
+        console.log('Home udseEffect userRole')
+        console.log('userRole: ', userRole)
         setCookie("userRole", userRole)
     }, [userRole]);
 
@@ -27,9 +33,13 @@ export default function Home() {
     // }, []);
 
     const singIn = async (user) => {
+        console.log(' ')
+        console.log('Home singIn(user)')
+        console.log('user: ', user)
         // Request login
         const result = await loginRestaurant(user)
         // If authenticated, save rid, userRole and redirect
+        console.log('result: ', result)
         if(result.length == 1){
             // Guardar en el use state el usuario
             setCookie("restaurantId", result[0].restaurant)
@@ -38,10 +48,10 @@ export default function Home() {
             setUserLogin(result[0])
             setRid(result[0].restaurant)
             setUserRole(result[0].role)
+
             console.log(getCookie("restaurantId"))
             console.log(getCookie("userRole"))
             router.replace({pathname: "/tables/",})
-            // await router.replace({pathname: "/tables/",})
         } else {
             console.log("User not authenticated")
         }

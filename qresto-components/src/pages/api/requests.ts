@@ -10,7 +10,7 @@ import {
 import {getCookie} from "cookies-next";
 
 const url = "http://localhost:8000"
-//const url = "http://192.168.120.36:8000"
+// const url = "http://192.168.120.36:8000"
 const restaurantId = 1
 
 export async function getQR(tableId){
@@ -20,7 +20,6 @@ export async function getQR(tableId){
     } catch(error){
         return false
     }
-
 }
 
 export async function postQR(tableId, uuidCode){
@@ -162,34 +161,25 @@ export async function getDish(id){
 }
 
 export async function getDishes(){
-    console.log(' ')
-    console.log('requests getDishes()')
     const headers = {
         'restaurant-id': restaurantId
     }
     const response = await axios.get<any>(url + '/dish/', {headers})
 
     const data = buildSimpleDish(response.data)
-    console.log("data: ", data)
     return data
 }
 
 export async function getMenu(){
-    console.log(' ')
-    console.log('requests getMenu()')
-    
     const headers = {
         'restaurant-id': restaurantId
     }
     const response = await axios.get<any>(url + '/category/menu', {headers})
     const data = buildMenu(response.data)
-    console.log('data: ', data)
     return data
 }
 
 export async function getTablesGrid(){
-    console.log(' ')
-    console.log('requests getTablesGrid()')
 
     try{
         const headers = {
@@ -197,7 +187,6 @@ export async function getTablesGrid(){
         }
         const response = await axios.get<any>(url + '/table/grid', {headers})
         const data = buildTableGrid(response.data)
-        console.log('data: ', data)
         return data
     } catch(error) {
         return []
@@ -274,12 +263,22 @@ export async function updateDishPrice(restaurantId, dishId, percentage) {
     const response = await axios.put(url + '/dish/update_prices', )
 }
 
-export async function putDishes(restaurantId) {
-    const response = await axios.put(url + '/dish/', )
+export async function putDish(object) {
+    try{
+        const response = await axios.put(url + '/dish/', object)
+        return true
+    } catch(error){
+        return false
+    }
 }
 
-export async function postDishes(restaurantId) {
-    const response = await axios.post(url + '/dish/', )
+export async function postDish(object) {
+    try{
+        const response = await axios.post(url + '/dish/', object)
+        return true
+    } catch(error){
+        return false
+    }
 }
 
 export async function deleteDishes(restaurantId) {
@@ -352,9 +351,11 @@ export async function getUpdatedPrices(body:any) {
 export async function confirmUpdatePrices(uuid:string) {
     try {
         const response = await axios.post(url + `/dish/update_prices/${uuid}`)
-        return response.data
+        // return response.data
+        return true
     } catch (error) {
-        return []
+        // return []
+        return false
     }
 }
 
@@ -397,20 +398,15 @@ export async function getSideDishes() {
     /**
     Guarniciones
     */
-    console.log(' ')
-    console.log('requests getSideDishes()')
-    
     try {
         const headers = {
             'restaurant-id': restaurantId
         }
         const response = await axios.get(url + '/side-dish/', {headers});
-        console.log('response: ', response)
         const data = buildSideDish(response.data)
-        console.log('data: ', data)
         return data
     } catch (error) {
-        throw error;
+        return []
     }
 }
 
@@ -424,30 +420,34 @@ export async function getSideDish(sideDishId) {
     }
 }
 
+export async function createSideDish(sideDishData) {
+    try {
+        const response = await axios.post(url + `/side-dish/`, sideDishData);
+        return true;
+    } catch (error) {
+        return false
+    }
+}
+
 export async function deleteSideDish(sideDishId) {
     try {
         const response = await axios.delete(url + `/side-dish/${sideDishId}`);
         return true;
     } catch (error) {
-        console.error("Error al eliminar guarnición:", error.response?.data || error.message);
-        throw error;
+        return false
     }
 }
 
-export async function updateSideDishInfo(sideDishId, updatedInfo) {
+export async function updateSideDish(updatedInfo) {
     try {
-        const response = await axios.put(url + `/side-dish/${sideDishId}`, updatedInfo);
-        return response.data;
+        const response = await axios.put(url + `/side-dish/`, updatedInfo);
+        return true;
     } catch (error) {
-        console.error("Error al actualizar información de guarnición:", error.response?.data || error.message);
-        throw error;
+        return false
     }
 }
 
 export async function postSector(sector){
-    console.log(' ')
-    console.log('requests postSector(sector)')
-    console.log('sector: ', sector)
     try{
         const response = await axios.post(url + '/table/sector', sector)
         return true
@@ -479,8 +479,7 @@ export async function deleteCategory(categoryId: number) {
         const response = await axios.delete(url + `/category/${categoryId}`);
         return true;
     } catch (error) {
-        console.error("Error al eliminar categoria:", error.response?.data || error.message);
-        throw error;
+        return false
     }
 }
 
@@ -493,10 +492,10 @@ export async function updateCategory(updatedCategory: any) {
             "restaurant": restaurantId
           }
         const response = await axios.put(url + '/category/', body);
-        return response.data;
+        // return response.data;
+        return true
     } catch (error) {
-        console.error(`Error al actualizar categoria con ID ${updatedCategory.id}:`, error.response?.data || error.message);
-        throw error;
+        return false
     }
 }
 
@@ -508,9 +507,9 @@ export async function createCategory(newCategory: any) {
             "restaurant": restaurantId
             }
         const response = await axios.post(url + '/category/', body);
-        return response.data;
+        // return response.data;
+        return true
     } catch (error) {
-        console.error(`Error al crear la nueva categoria:`, error.response?.data || error.message);
-        throw error;
+        return false
     }
 }

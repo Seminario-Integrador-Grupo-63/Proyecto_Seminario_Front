@@ -15,18 +15,25 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LaunchIcon from '@mui/icons-material/Launch';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { EnhancedTableHead } from './EnhancedTableHead'
 
 export const DataTable = (props: any) => {
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [headers, setHeaders] = useState([])
     const [rows, setRows] = useState([])
-  
-    const handleChangePage = (event: unknown, newPage: number) => {
+    const [parsedRows, setParsedRows] = useState([])
+
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('time');
+    const [selected, setSelected] = useState([]);
+    const [dense, setDense] = useState(false);
+
+    const handleChangePage = (event, newPage) => {
         setPage(newPage)
     }
   
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0)
     }
@@ -36,15 +43,48 @@ export const DataTable = (props: any) => {
     }, [props.headers, props.actions]);
 
     useEffect(() => {
+        let parsedRows = []
+        if(props.headers.length > 0){
+            parsedRows = parseRows(props.rows, props.headers)
+        
+        }
+        setParsedRows(parsedRows)
         setRows(props.rows)
     }, [props.rows])
 
     const setActions = () => {
+
         if(props.actions){
-            setHeaders([...props.headers, {label: 'Acciones', key: 'actions'}])
+            setHeaders([...props.headers, {label: 'Acciones', id: 'actions'}])
         } else {
             setHeaders([...props.headers])
         }
+    }    
+
+    const parseRows = (rows, headers) => {
+        let priceHeaders = getPriceHeaders(headers)
+        let parsedRows = rows.map(row => {
+            let parsedRow = {...row}
+            priceHeaders.forEach(priceHeader => {
+                parsedRow[priceHeader.id] = '$' + row[priceHeader.id]
+            })
+
+            return parsedRow
+        })
+        return parsedRows
+    }
+
+    const getPriceHeaders = (headers) => {
+        let priceHeaders = []
+        headers.forEach((header, index) => {
+            if(header.price !== undefined){
+                if(header.price){
+                    priceHeaders.push(header)
+                }
+            }
+        })
+
+        return priceHeaders
     }
 
     const onEdit = (row) => {
@@ -52,7 +92,6 @@ export const DataTable = (props: any) => {
     }
 
     const onDelete = (row) => {
-        //props.onDelete(props.sideDish(row))
         props.onDelete(row)
     }
 
@@ -62,6 +101,27 @@ export const DataTable = (props: any) => {
 
     const onCancel = (row) => {
         props.onCancel(row)
+    }
+
+    const handleRequestSort = (event, property) => {
+        const isAsc = orderBy === property && order === 'asc'
+        setOrder(isAsc ? 'desc' : 'asc')
+        setOrderBy(property)
+        sortTable(property, isAsc)
+    }
+
+    const sortTable = (property, isAsc) => {
+        props.rows.sort((a, b) => {
+            let comparison = 0;
+            if (a[property] < b[property]) {
+                comparison = -1;
+            } else if (a[property] > b[property]) {
+                comparison = 1;
+            }
+            return isAsc ? comparison : -comparison;
+        })
+
+        setParsedRows(parseRows(props.rows, props.headers))
     }
 
     const renderActions = (row) => {
@@ -112,33 +172,41 @@ export const DataTable = (props: any) => {
         }
     }
 
+    const handleSelectAllClick = (event) => {
+        if (event.target.checked) {
+          const newSelected = rows.map((n) => n.id);
+          setSelected(newSelected);
+          return;
+        }
+        setSelected([]);
+    }
+    
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: props.maxHeight }}>
                 <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            {headers.map((header, index) => (
-                                <TableCell
-                                    key={index}>
-                                    {header.label}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
+                    <EnhancedTableHead
+                        headers={headers}
+                        numSelected={selected.length}
+                        orderBy={orderBy}
+                        order={order}
+                        onSelectAllClick={handleSelectAllClick}
+                        onRequestSort={handleRequestSort}
+                        rowCount={parsedRows.length}/>
+
                     <TableBody>
-                        {rows
+                        {parsedRows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, rowIndex) => (
 
                             <TableRow hover role="checkbox" tabIndex={-1} key={"row" + rowIndex}>
                                 {headers.map((header, cellIndex) => (
                                 <TableCell key={"cell" + cellIndex}>
-                                    {header.key === 'actions' ? (
+                                    {header.id === 'actions' ? (
                                         renderActions(row)
                                     ) : (
                                         /* Render regular cell content */
-                                        row[header.key]
+                                        row[header.id]
                                     )}
                                 </TableCell>
                                 ))}
@@ -151,7 +219,7 @@ export const DataTable = (props: any) => {
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
                 labelRowsPerPage={"Filas por página"}
-                count={props.rows.length}
+                count={parsedRows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -178,8 +246,26 @@ DataTable.propTypes =
     headers: PropTypes.array,
     /**
     headers = [
-        {label: "Header 1", key: "header1"},
-        {label: "Another Header", key: "anotherHeader"},
+        {label: "Header 1", id: "header1"},
+        {label: "Another Header", id: "anotherHeader"},
+        ...
+    ]
+
+    headersWithOptionalFields = [
+        {
+            label: "Header 1", 
+            id: "header1", 
+            price: false,
+            numeric: true, 
+            disablePadding: false
+        },
+        {
+            label: "Another Header", 
+            id: "anotherHeader",
+            price: true, 
+            numeric: false, 
+            disablePadding: true
+        },
         ...
     ]
     */
@@ -201,5 +287,4 @@ DataTable.propTypes =
     onCancel: PropTypes.func,
     maxHeight: PropTypes.any
 }
-
 

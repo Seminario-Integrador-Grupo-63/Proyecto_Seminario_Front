@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { LoadingDialog } from "@/components/Common/LoadingDialog";
+import { LoadingDialog } from "@/Common/LoadingDialog";
 import {widths100} from "@/Stories/viewports";
 import {useState, useEffect} from 'react'
 import { Button } from  '@mui/material'

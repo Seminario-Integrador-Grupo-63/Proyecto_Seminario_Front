@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import {useEffect, useState} from 'react'
 import { useSearchParams} from 'next/navigation'
 import {getTableOrders} from '@/requests'
-import { tableCode} from '@/Common/FakeData/Tables'
+// import { tableCode} from '@/Common/FakeData/Tables'
 import {ListOrders} from '@/Customer/ListOrders/ListOrders'
 import {getCookie, hasCookie} from "cookies-next";
 
@@ -11,12 +11,14 @@ export default function ListOrdersPage() {
     const searchParams = useSearchParams()
     const [orders, setOrders] = useState([])
     const [customer, setCustomer] = useState('')
+    const [tableCode, setTableCode] = useState('')
 
     const [customerName, setCustomerName] = useState('')
     const [tableCodeDef, setTableCodeDef] = useState('')
 
     useEffect(() => {
         setCustomer(searchParams.get('customer'))
+        setTableCode(searchParams.get('tableCode'))
     }, [searchParams])
 
     useEffect(() => {
@@ -53,7 +55,6 @@ export default function ListOrdersPage() {
     const goBack = () => {
         router.replace({
             pathname: '/menucategories',
-
         })
     }
 

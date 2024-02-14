@@ -6,7 +6,7 @@ import {
     getBill
 } from '@/requests'
 
-import { tableCode} from '@/Common/FakeData/Tables'
+// import { tableCode} from '@/Common/FakeData/Tables'
 import {BillCheckout} from '@/Customer/BillCheckout/BillCheckout';
 import {getCookie, hasCookie} from "cookies-next";
 
@@ -14,7 +14,6 @@ export default function BillCheckoutPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [billData, setBillData] = useState(null)
-
     const [customerName, setCustomerName] = useState('')
     const [tableCodeDef, setTableCodeDef] = useState('')
 

@@ -42,6 +42,7 @@ export default function MenuDishesPage() {
         setCategoryId(searchParams.get('categoryId'))
         let customer = searchParams.get('customer')
         setCustomer(searchParams.get('customer'))
+        setTableCodeDef(searchParams.get('tableCode'))
     }, [searchParams])
 
     useEffect(() => {
@@ -90,6 +91,5 @@ export default function MenuDishesPage() {
                 dishes={dishes}/>
         :null}
     </>)
-
 }
 

@@ -46,12 +46,12 @@ export default function ListOrderDetailsPage() {
         setOrderId(orderId)
         let customer = searchParams.get('customer')
         setCustomer(customer)
+        setTableCode(searchParams.get('tableCode'))
     }, [searchParams])
 
     const goBack = () => {
         router.replace({
             pathname: '/listorders',
-
         })
     }
 
@@ -73,7 +73,6 @@ export default function ListOrderDetailsPage() {
     const requestBill = () => {
         router.replace({
             pathname: '/billcheckout',
-
         })
     }
 
@@ -81,7 +80,6 @@ export default function ListOrderDetailsPage() {
         await deleteOrderDetailRequest(getCookie("tableCode"), orderDetail)
         router.replace({
             pathname: '/listorders',
-
         })
     }
 

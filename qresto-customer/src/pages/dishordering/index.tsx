@@ -68,7 +68,8 @@ export default function DishOrderingPage() {
         router.replace({
             pathname: '/menucategories',
             query: {
-                customer: customer
+                customer: customer,
+                tableCode: tableCode
             }
         })
     }

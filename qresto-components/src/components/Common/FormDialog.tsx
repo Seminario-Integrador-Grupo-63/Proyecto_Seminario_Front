@@ -49,7 +49,7 @@ export const FormDialog = (props: any) => {
                         }
                         {props.submitVisible?
                             <Button
-                                disabled={props.isInvalid}
+                                disabled={props.submitDisabled}
                                 onClick={props.onSubmit}
                                 color='primary'>
                                 {props.submitText}
@@ -58,8 +58,10 @@ export const FormDialog = (props: any) => {
                             null
                         }
                     </ThemeProvider>
-                    <Button onClick={props.onClose} autoFocus
-                            sx={{color: 'black'}}>
+                    <Button 
+                        onClick={props.onClose} 
+                        autoFocus
+                        sx={{color: 'black'}}>
                         {props.closeText}
                     </Button>
                 </DialogActions>
@@ -82,7 +84,7 @@ FormDialog.defaultProps =
     action1Text: 'Action 1',
     onAction1: function(){},
     submitVisible: true,
-    isInvalid: false
+    submitDisabled: false
 }
 
 FormDialog.propTypes = 
@@ -99,5 +101,5 @@ FormDialog.propTypes =
     action1Text: PropTypes.string,
     onAction1: PropTypes.func,
     submitVisible: PropTypes.bool,
-    isInvalid: PropTypes.bool
+    submitDisabled: PropTypes.bool
 }
