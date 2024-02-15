@@ -22,12 +22,20 @@ export default function MenuCategoriesPage() {
     const [tableCode, setTableCode] = useState('')
 
     useEffect(() => {
+        console.log(' ')
+        console.log('menucategories useEffect []')
+        console.log(': ', )
+        let hasCustomerName = hasCookie("customerName")
+        let hasTableCode = hasCookie("tableCode")
+        console.log('hasCustomerName: ', hasCustomerName)
+        console.log('hasTableCode: ', hasTableCode)
+
         // Redirection conditionals
-        if (!hasCookie("customerName") || getCookie("customerName") == "") {
+        if (!hasCustomerName || getCookie("customerName") == "") {
             router.push({
                 pathname:"/start"
             })
-        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
+        } else if (!hasTableCode|| getCookie("tableCode") == "") {
             router.push({
                 pathname:"/"
             })
@@ -38,8 +46,6 @@ export default function MenuCategoriesPage() {
 
         // Initial Fetch
         fetchCategories()
-
-
     }, [])
 
     useEffect(() => {
@@ -68,8 +74,10 @@ export default function MenuCategoriesPage() {
     }
 
     const fetchOrders = async () => {
-        console.log("UseState tableCode: ", tableCodeDef)
+        console.log(' ')
+        console.log('menucategories fetchOrders()')
         const fetchedOrders = await getTableOrders(getCookie("tableCode"))
+        console.log('fetchedOrders: ', fetchedOrders)
         setOrders(fetchedOrders)
     }
 

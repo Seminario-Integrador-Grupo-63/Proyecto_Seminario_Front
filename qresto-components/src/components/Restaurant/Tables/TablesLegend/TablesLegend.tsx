@@ -12,11 +12,11 @@ export const TablesLegend = (props: any) => {
                 width: 'fit-content'
             }}>
             <div className={`${styles.circle} ${styles.free}`}></div>
-            <span className={styles.text}>Libre</span>
+            <span className={styles.text}>Mesa Libre</span>
             <div className={`${styles.circle} ${styles.occupied}`}></div>
-            <span className={styles.text}>Ocupada</span>
+            <span className={styles.text}>Mesa Ocupada</span>
             <div className={`${styles.circle} ${styles.waiting}`}></div>
-            <span className={styles.text}>En espera</span>
+            <span className={styles.text}>Orden en Espera</span>
             <div className={`${styles.circle} ${styles.paymentReady}`}></div>
             <span className={styles.text}>Cuenta pedida</span>
         </Box>
@@ -26,12 +26,9 @@ export const TablesLegend = (props: any) => {
 TablesLegend.defaultProps =
 {
 
-
 }
 
 TablesLegend.propTypes =
 {
 
 }
-
-

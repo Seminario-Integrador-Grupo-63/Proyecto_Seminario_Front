@@ -11,15 +11,29 @@ import {LogoWitch} from "@/Common/Logos/LogoWitch/LogoWitch";
 import {LogoQResto} from "@/Common/Logos/LogoQResto/LogoQResto";
 
 export const Login = (props: any) => {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        console.log(' ')
+        console.log('Login handleSubmit')
+        console.log('event: ', event)
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-
-        props.onSignInSubmit({
+        console.log('data: ', data)
+        await props.onSignInSubmit({
             user: data.get('username'),
             password: data.get('password'),
-          })
+        })
     }
+
+    // const onSignInSubmit = () => {
+    //     event.preventDefault();
+    //     const data = new FormData(event.currentTarget);
+
+    //     console.log(': ',)
+    //     let user = data.get('username')
+    //     let password = data.get('password')
+    //     props.onSignInSubmit({user, password})
+    // }
+
 
     return (
         <ThemeProvider theme={theme}>

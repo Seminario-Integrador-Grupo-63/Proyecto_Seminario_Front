@@ -11,26 +11,36 @@ export default function Home() {
     const [userLogin, setUserLogin] = useState()
     const [userRole, setUserRole] = useState()
 
-
     // UseEffect que setean cookies al cambiar los UseState correspondientes
-    useEffect(() => {
-        console.log(' ')
-        console.log('Home useEffect rid')
-        console.log('rid: ', rid)
-        setCookie("restaurantId", rid)
-    }, [rid]);
-    useEffect(() => {
-        console.log(' ')
-        console.log('Home udseEffect userRole')
-        console.log('userRole: ', userRole)
-        setCookie("userRole", userRole)
-    }, [userRole]);
+    // useEffect(() => {
+    //     console.log(' ')
+    //     console.log('Home useEffect rid')
+    //     console.log('rid: ', rid)
+    //     setCookie("restaurantId", rid)
+    // }, [rid]);
 
     // useEffect(() => {
-    //     if (router.asPath === '/') {
-    //         router.replace('/orders');
-    //     }
-    // }, []);
+    //     console.log(' ')
+    //     console.log('Home udseEffect userRole')
+    //     console.log('userRole: ', userRole)
+    //     setCookie("userRole", userRole)
+    // }, [userRole]);
+
+    useEffect(() => {
+        console.log(' ')
+        console.log('Home useEffect userRole rid')
+        console.log('userRole: ', userRole)
+        console.log('rid: ', rid)
+
+        if(userRole !== undefined && rid !== undefined){
+            setCookie("userRole", userRole)
+            setCookie("restaurantId", rid)
+            router.replace({
+                pathname: "/tables/",
+                query: userRole
+            })
+        }
+    }, [userRole, rid]);
 
     const singIn = async (user) => {
         console.log(' ')
@@ -51,7 +61,7 @@ export default function Home() {
 
             console.log(getCookie("restaurantId"))
             console.log(getCookie("userRole"))
-            router.replace({pathname: "/tables/",})
+            // router.replace({pathname: "/tables/",})
         } else {
             console.log("User not authenticated")
         }

@@ -34,7 +34,7 @@ export const MenuDishes = (props: any) => {
                 title={props.title}
                 onGoBack={props.onGoBack}
                 goBackEnabled={true}
-                searchEnabled={true}/>
+                searchEnabled={false}/>
             <Grid 
                 sx={{
                     width: '97%',

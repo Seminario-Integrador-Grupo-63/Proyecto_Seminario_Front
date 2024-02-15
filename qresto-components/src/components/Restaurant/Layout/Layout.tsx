@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { Container } from '@mui/material';
+import { 
+    Container, 
+    Grid,
+    Button
+} from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +16,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -20,6 +25,7 @@ import FastfoodIcon from '@mui/icons-material/Fastfood';
 import TableBarIcon from '@mui/icons-material/TableBar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {theme} from '@/Common/Theme//themes'
+
 import Link from 'next/link';
 
 const drawerWidth = 240;
@@ -65,97 +71,125 @@ export const Layout = (props: any) => {
     const onUsers = () => {
         setTitle('Usuarios')
     }
-  
+
     const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
-                <>
-                {props.role === 'admin' ? (<> {/**Admin: Todos los módulos visibles */}
-                    <ListItem key={"orders"}>
-                        <Link href="/orders" style={{ textDecoration: 'none' }}>
-                            <ListItemButton onClick={onOrders}>
-                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                    {<StyleIcon />}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={
-                                        <Typography
-                                            variant="inherit"
-                                            color="textPrimary">
-                                            Órdenes
-                                        </Typography>}/>
-                            </ListItemButton>
-                        </Link>
-                    </ListItem>
-                    <ListItem key={"tables"}>
-                        <Link href="/tables" style={{ textDecoration: 'none' }}>
-                            <ListItemButton onClick={onTables}>
-                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                    {<TableBarIcon />}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={
-                                        <Typography
-                                            variant="inherit"
-                                            color="textPrimary">
-                                            Mesas
-                                        </Typography>}/>
-                            </ListItemButton>
-                        </Link>
-                    </ListItem>
-                    <ListItem key={"food-menu"}>
-                        <Link href="/foodmenu" style={{ textDecoration: 'none' }}>
-                            <ListItemButton onClick={onFoodMenu}>
-                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                    {<FastfoodIcon />}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={
-                                        <Typography
-                                            variant="inherit"
-                                            color="textPrimary">
-                                            Carta
-                                        </Typography>}/>
-                            </ListItemButton>
-                        </Link>
-                    </ListItem>
-                    <ListItem key={"users"}>
-                        <Link href="/users" style={{ textDecoration: 'none' }}>
-                            <ListItemButton onClick={onUsers}>
-                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                    {<AccountCircleIcon />}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={
-                                        <Typography
-                                            variant="inherit"
-                                            color="textPrimary">
-                                            Usuarios
-                                        </Typography>}/>
-                            </ListItemButton>
-                        </Link>
-                    </ListItem>
-                </>)
-                : 
-                    <ListItem key={"tables"}> {/**Mozo: solo mesas visibles */}
-                        <Link href="/tables" style={{ textDecoration: 'none' }}>
-                            <ListItemButton onClick={onTables}>
-                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                    {<TableBarIcon />}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={
-                                        <Typography
-                                            variant="inherit"
-                                            color="textPrimary">
-                                            Mesas
-                                        </Typography>}/>
-                            </ListItemButton>
-                        </Link>
-                    </ListItem>
-                }</>
+                <Grid 
+                    container 
+                    xs={12} 
+                    lg={12} >
+
+                    <Grid 
+                        item 
+                        xs={12} 
+                        lg={12}>
+                        {props.role === 'admin' ? (<> {/**Admin: Todos los módulos visibles */}
+                            <ListItem key={"orders"}>
+                                <Link href="/orders" style={{ textDecoration: 'none' }}>
+                                    <ListItemButton onClick={onOrders}>
+                                        <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                            {<StyleIcon />}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={
+                                                <Typography
+                                                    variant="inherit"
+                                                    color="textPrimary">
+                                                    Órdenes
+                                                </Typography>}/>
+                                    </ListItemButton>
+                                </Link>
+                            </ListItem>
+                            <ListItem key={"tables"}>
+                                <Link href="/tables" style={{ textDecoration: 'none' }}>
+                                    <ListItemButton onClick={onTables}>
+                                        <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                            {<TableBarIcon />}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={
+                                                <Typography
+                                                    variant="inherit"
+                                                    color="textPrimary">
+                                                    Mesas
+                                                </Typography>}/>
+                                    </ListItemButton>
+                                </Link>
+                            </ListItem>
+                            <ListItem key={"food-menu"}>
+                                <Link href="/foodmenu" style={{ textDecoration: 'none' }}>
+                                    <ListItemButton onClick={onFoodMenu}>
+                                        <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                            {<FastfoodIcon />}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={
+                                                <Typography
+                                                    variant="inherit"
+                                                    color="textPrimary">
+                                                    Carta
+                                                </Typography>}/>
+                                    </ListItemButton>
+                                </Link>
+                            </ListItem>
+                            <ListItem key={"users"}>
+                                <Link href="/users" style={{ textDecoration: 'none' }}>
+                                    <ListItemButton onClick={onUsers}>
+                                        <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                            {<AccountCircleIcon />}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={
+                                                <Typography
+                                                    variant="inherit"
+                                                    color="textPrimary">
+                                                    Usuarios
+                                                </Typography>}/>
+                                    </ListItemButton>
+                                </Link>
+                            </ListItem>
+                        </>)
+                        : 
+                            <ListItem key={"tables"}> {/**Mozo: solo mesas visibles */}
+                                <Link href="/tables" style={{ textDecoration: 'none' }}>
+                                    <ListItemButton onClick={onTables}>
+                                        <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                            {<TableBarIcon />}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={
+                                                <Typography
+                                                    variant="inherit"
+                                                    color="textPrimary">
+                                                    Mesas
+                                                </Typography>}/>
+                                    </ListItemButton>
+                                </Link>
+                            </ListItem>
+                        }
+                    </Grid>
+                    <Grid item xs={12} lg={12} sx={{position: 'relative', height: '100%'}}>
+                        <ListItem key={"/"}> 
+                            <Link href="/" style={{ textDecoration: 'none' }}>
+                                <ListItemButton>
+                                    <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                        {<LogoutIcon />}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={
+                                            <Typography
+                                                variant="inherit"
+                                                color="textPrimary">
+                                                Salir
+                                            </Typography>}/>
+                                </ListItemButton>
+                            </Link>
+                        </ListItem>
+                    </Grid>
+                </Grid>
             </List>
         </div>
     )

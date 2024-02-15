@@ -24,10 +24,19 @@ export const TableSchema = ( props: any ) => {
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
     const [openSectorForm, setOpenSectorForm] = useState(false)
+    const [editButtonsVisible, setEditButtonsVisible] = useState(true)
 
     useEffect(() => {
         setSectors(props.sectors)
     }, [props.sectors])
+
+    useEffect(() => {
+        if(props.userRole === 'admin'){
+            setEditButtonsVisible(true)
+        } else {
+            setEditButtonsVisible(false)
+        }
+    }, [props.userRole])
 
     const onNewTable = () => {
         setOpenTableForm(true)
@@ -65,36 +74,55 @@ export const TableSchema = ( props: any ) => {
 
     return (<>
         <Container maxWidth={false}>
-            <Grid 
-                container 
-                spacing={2} 
-                sx={{ 
-                    alignItems: 'center',
-                }}>
-                <ThemeProvider theme={themeButtonWine}>
-                    <Grid item xs={6}>
-                        <Button 
-                            sx={{margin: '5px'}}
-                            variant={'contained'}
-                            onClick={onNewSector}>
-                            + Sector
-                        </Button>
-
-                        <Button
-                            sx={{margin: '5px'}}
-                            variant={'contained'}
-                            onClick={onNewTable}>
-                            + Mesa
-                        </Button>
-                    </Grid>
-                </ThemeProvider>
+            {editButtonsVisible ?(
                 <Grid 
-                    item 
-                    xs={6} 
-                    sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
-                    <TablesLegend/>
-                </Grid>
-            </Grid>
+                    container 
+                    spacing={2} 
+                    sx={{ 
+                        alignItems: 'center',
+                    }}>
+                    <ThemeProvider theme={themeButtonWine}>
+                        <Grid item xs={4}>
+                            <Button 
+                                sx={{margin: '5px'}}
+                                variant={'contained'}
+                                onClick={onNewSector}>
+                                + Sector
+                            </Button>
+    
+                            <Button
+                                sx={{margin: '5px'}}
+                                variant={'contained'}
+                                onClick={onNewTable}>
+                                + Mesa
+                            </Button>
+                        </Grid>
+                    </ThemeProvider>
+                    <Grid 
+                        item 
+                        xs={8} 
+                        sx={{ display: 'flex', flexDirection: 'row-reverse', marginTop: '5px', marginBottom: '5px'}}>
+                        <TablesLegend/>
+                    </Grid>
+                </Grid>)
+            :
+                (<Grid 
+                    container 
+                    item
+                    spacing={2} 
+                    xs={12}
+                    lg={12}
+                    sx={{ 
+                        justifyContent: 'end',
+                    }}>
+                    <Grid 
+                        item 
+                        xs={12} 
+                        sx={{ display: 'flex', flexDirection: 'row-reverse', marginTop: '5px', marginBottom: '5px'}}>
+                        <TablesLegend/>
+                    </Grid>
+                </Grid>)
+            }
             <Grid 
                 container
                 sx={{
@@ -104,6 +132,7 @@ export const TableSchema = ( props: any ) => {
                 {props.grid.map((sector, index) => (
                     <Grid item key={index} xs={12}>
                         <Sector 
+                            userRole={props.userRole}
                             sector={sector}
                             onUpdate={props.updateSector}
                             onDelete={props.deleteSector}
@@ -133,7 +162,6 @@ export const TableSchema = ( props: any ) => {
                 positive={positiveFeedback}
                 text={textFeedback}
                 onClose={closeFeedback}/>
-
         </Container>
     </>)
 }
@@ -142,6 +170,7 @@ TableSchema.defaultProps =
 {
     sectors: [],
     grid: [],
+    userRole: 'admin',
     onTableClick: function(){},
     createTable: function(){},
     restaurantId: 0,
@@ -154,6 +183,7 @@ TableSchema.propTypes =
 {
     sectors: PropTypes.array,
     grid: PropTypes.array,
+    userRole: PropTypes.string,
     onTableClick: PropTypes.func,
     createTable: PropTypes.func,
     restaurantId: PropTypes.number,

@@ -138,7 +138,7 @@ export const SideDishes = (props: any) => {
 
     return (<>
         <Grid item sx={{marginBottom: '20px'}}>
-            <Button onClick={onNewSideDish}>Agregar Guarnicion</Button>
+            <Button onClick={onNewSideDish}>Agregar Guarnición</Button>
         </Grid>
         <DataTable
             headers={headers}

@@ -11,6 +11,7 @@ import {
     getTablesGrid
 } from '@/requests'
 import { FeedbackDialog } from '@/Common/FeedbackDialog/FeedbackDialog';
+import { getCookie } from 'cookies-next'
 
 const restaurantId = 1
 
@@ -22,10 +23,14 @@ export default function TablesPage() {
     const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false)
     const [positiveFeedback, setPositiveFeedback] = useState(false)
     const [textFeedback, setTextFeedback] = useState('')
+    const [userRole, setUserRole] = useState('waiter')
+
+    // const searchParams = useSearchParams()
 
     useEffect(() => {
+        setLoading(true)
         fetchData()
-
+        setLoading(false)
         const interval = setInterval(() => {
             fetchData(); // Fetch data periodically
         }, 5000); // Adjust the interval time as needed (e.g., every 5 seconds)
@@ -44,12 +49,14 @@ export default function TablesPage() {
     }
 
     const fetchData = async () =>{
-        setLoading(true)
+        // setLoading(true)
+        let role = getCookie('userRole')
+        setUserRole(role)
         await Promise.all([
             fetchSectors(),
             fetchGrid()
         ])
-        setLoading(false)
+        // setLoading(false)
     }
 
     const onTableClick = (table) => {
@@ -124,6 +131,7 @@ export default function TablesPage() {
 
     return (<>
         <TableSchema 
+            userRole={userRole}
             grid={grid}
             sectors={sectors}
             restaurantId={restaurantId}

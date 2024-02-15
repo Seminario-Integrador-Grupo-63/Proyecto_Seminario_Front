@@ -24,7 +24,7 @@ export const LayoutMain: Story = {
         }
 
         return(<>
-            <Layout/>
+            <Layout role={'admin'}/>
         </>);
     } 
 };

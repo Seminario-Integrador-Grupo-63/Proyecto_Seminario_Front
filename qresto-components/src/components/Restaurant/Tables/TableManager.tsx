@@ -37,6 +37,7 @@ export const TableManager = (props: any) => {
     const [cancelButtonVisibleMessageDialog, setCancelButtonVisibleMessageDialog] = useState(true)
     const [textSubmitButtonMessageDialog, setTextSubmitButtonMessageDialog] = useState('Confirmar')
     const [allowDeleteTable, setAllowDeleteTable] = useState(true)
+    const [adminButtonsDisabled, setAdminButtonsDisabled] = useState(true)
     const [selectedOrder, setSelectedOrder] = useState(null)
     const [openQRDisplay, setOpenQRDisplay] = useState(false)
     const [qrCode, setQRcode] = useState('')
@@ -58,9 +59,14 @@ export const TableManager = (props: any) => {
                 setAllowDeleteTable(true)
             }
         }
-
         setupOrders()
     }, [props.orders, props.table])
+
+    useEffect(() => {
+        if(adminButtonsDisabled){
+            setAllowDeleteTable(false)
+        }
+    }, [allowDeleteTable])
 
     useEffect(() => {
         if(props.table !== null){
@@ -82,6 +88,14 @@ export const TableManager = (props: any) => {
             }
         }
     }, [props.table])
+
+    useEffect(() => {
+        if(props.userRole === 'admin'){
+            setAdminButtonsDisabled(false)
+        } else {
+            setAdminButtonsDisabled(true)
+        }
+    }, [props.userRole])
 
     const setupOrders = () => {
         let rows = props.orders.map(order => {
@@ -343,6 +357,7 @@ export const TableManager = (props: any) => {
                         <Button
                             sx={{ marginRight: '5px', marginLeft: '5px' }}
                             variant='contained'
+                            disabled={adminButtonsDisabled}
                             onClick={onEditTable}>
                             Editar
                         </Button>
@@ -428,6 +443,7 @@ TableManager.defaultProps =
     orders: [],
     sectors: [],
     table: null,
+    userRole: 'admin',
     menu: [],
     deleteTable: function(){},
     generateQR: function(){},
@@ -450,6 +466,7 @@ TableManager.propTypes =
     table: PropTypes.object,
     sectors: PropTypes.array,
     menu: PropTypes.array,
+    userRole: PropTypes.string,
     onOpenOrderForm: PropTypes.func,
     deleteTable: PropTypes.func,
     cancelOrder: PropTypes.func,

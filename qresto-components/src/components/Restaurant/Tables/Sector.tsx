@@ -29,10 +29,12 @@ export const Sector = (props: any) => {
     }, [editSector])
 
     const onNameClick = () => {
-        setEditSector(true)
-        setSectorName(props.sector.name)
-        if (textFieldRef.current) {
-            textFieldRef.current.focus();
+        if(props.userRole === 'admin'){
+            setEditSector(true)
+            setSectorName(props.sector.name)
+            if (textFieldRef.current) {
+                textFieldRef.current.focus();
+            }
         }
     }
 
@@ -149,7 +151,7 @@ export const Sector = (props: any) => {
 Sector.defaultProps =
 {
     sector: null,
-
+    userRole: 'admin',
     onTableClick: function(){},
     onUpdate: function(){},
     onDelete: function(){}
@@ -158,6 +160,7 @@ Sector.defaultProps =
 Sector.propTypes =
 {
     sector: PropTypes.object,
+    userRole: PropTypes.string,
     onTableClick: PropTypes.func,
     onUpdate: PropTypes.func,
     onDelete: PropTypes.func

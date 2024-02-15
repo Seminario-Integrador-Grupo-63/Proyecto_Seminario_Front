@@ -21,6 +21,7 @@ import {
 } from '@/requests'
 import {FeedbackDialog} from '@/Common/FeedbackDialog/FeedbackDialog'
 import {PanLoader} from '@/Common/PanLoader/PanLoader'
+import { getCookie } from 'cookies-next'
 
 const restaurantId = 1
 
@@ -34,6 +35,7 @@ export default function TableManagerPage() {
     const [textFeedback, setTextFeedback] = useState('')
     const [closeFeedbackAction, setCloseFeedbackAction] = useState('')
     const [loopActive, setLoopActive] = useState(false)
+    const [userRole, setUserRole] = useState('')
     const router = useRouter()
     const searchParams = useSearchParams()
 
@@ -57,6 +59,12 @@ export default function TableManagerPage() {
     }, [table])
 
     useEffect(() => {
+        console.log(' ')
+        console.log('TableManagerPage useEffect []')
+        
+        let userRole = getCookie('userRole')
+        console.log('userRole: ', userRole)
+        setUserRole(userRole)
         fetchSectors()
     }, [])
 
@@ -260,6 +268,7 @@ export default function TableManagerPage() {
     return (<>
         <TableManager
             table={table}
+            userRole={userRole}
             sectors={sectors}
             orders={orders}
             createOrder={createOrder}

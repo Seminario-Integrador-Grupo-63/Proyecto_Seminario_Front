@@ -45,7 +45,7 @@ export const SideDishForm = (props: any) => {
     return (<>
         <FormDialog
             open={props.open}
-            title={props.isNew ? 'Agregar Guarnicion' : 'Editar Guarnicion'}
+            title={props.isNew ? 'Agregar Guarnición' : 'Editar Guarnición'}
             submitText={props.isNew ? 'Crear' : 'Actualizar'}
             closeText={'Cerrar'}
             onSubmit={onSubmit}
@@ -55,7 +55,7 @@ export const SideDishForm = (props: any) => {
                     <TextField
                         InputProps={{readOnly: props.readOnly,}}
                         margin={"dense"}
-                        label="Nombre de la guarnicion"
+                        label="Nombre de la guarnición"
                         name="inputValueSideDish"
                         variant="outlined"
                         fullWidth

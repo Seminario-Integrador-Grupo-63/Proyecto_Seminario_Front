@@ -24,3 +24,13 @@ export const TablesMain: Story = {
     } 
 }
 
+export const TablesMainEmployee: Story = {
+    render: () =>{
+        return(<>
+            <TableSchema 
+                userRole="employee"
+                grid={grid}/>
+        </>)
+    } 
+}
+
