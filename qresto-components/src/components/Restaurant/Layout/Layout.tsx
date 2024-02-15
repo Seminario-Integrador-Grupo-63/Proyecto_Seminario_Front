@@ -42,6 +42,10 @@ export const Layout = (props: any) => {
     }
 
     useEffect(() => {
+
+    }, [props.access])
+
+    useEffect(() => {
         setTitle(props.title)
     }, [props.title])
 
@@ -68,70 +72,90 @@ export const Layout = (props: any) => {
             <Divider />
             <List>
                 <>
-                <ListItem key={"orders"}>
-                    <Link href="/orders" style={{ textDecoration: 'none' }}>
-                        <ListItemButton onClick={onOrders}>
-                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                {<StyleIcon />}
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <Typography
-                                        variant="inherit"
-                                        color="textPrimary">
-                                        Órdenes
-                                    </Typography>}/>
-                        </ListItemButton>
-                    </Link>
-                </ListItem>
-                <ListItem key={"tables"}>
-                    <Link href="/tables" style={{ textDecoration: 'none' }}>
-                        <ListItemButton onClick={onTables}>
-                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                {<TableBarIcon />}
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <Typography
-                                        variant="inherit"
-                                        color="textPrimary">
-                                        Mesas
-                                    </Typography>}/>
-                        </ListItemButton>
-                    </Link>
-                </ListItem>
-                <ListItem key={"food-menu"}>
-                    <Link href="/foodmenu" style={{ textDecoration: 'none' }}>
-                        <ListItemButton onClick={onFoodMenu}>
-                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                {<FastfoodIcon />}
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <Typography
-                                        variant="inherit"
-                                        color="textPrimary">
-                                        Carta
-                                    </Typography>}/>
-                        </ListItemButton>
-                    </Link>
-                </ListItem>
-                <ListItem key={"users"}>
-                    <Link href="/users" style={{ textDecoration: 'none' }}>
-                        <ListItemButton onClick={onUsers}>
-                            <ListItemIcon style={{ color: theme.palette.primary.main }}>
-                                {<AccountCircleIcon />}
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <Typography
-                                        variant="inherit"
-                                        color="textPrimary">
-                                        Usuarios
-                                    </Typography>}/>
-                        </ListItemButton>
-                    </Link>
-                </ListItem></>:<></>
+                {props.role === 'admin' ? (<> {/**Admin: Todos los módulos visibles */}
+                    <ListItem key={"orders"}>
+                        <Link href="/orders" style={{ textDecoration: 'none' }}>
+                            <ListItemButton onClick={onOrders}>
+                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                    {<StyleIcon />}
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={
+                                        <Typography
+                                            variant="inherit"
+                                            color="textPrimary">
+                                            Órdenes
+                                        </Typography>}/>
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                    <ListItem key={"tables"}>
+                        <Link href="/tables" style={{ textDecoration: 'none' }}>
+                            <ListItemButton onClick={onTables}>
+                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                    {<TableBarIcon />}
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={
+                                        <Typography
+                                            variant="inherit"
+                                            color="textPrimary">
+                                            Mesas
+                                        </Typography>}/>
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                    <ListItem key={"food-menu"}>
+                        <Link href="/foodmenu" style={{ textDecoration: 'none' }}>
+                            <ListItemButton onClick={onFoodMenu}>
+                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                    {<FastfoodIcon />}
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={
+                                        <Typography
+                                            variant="inherit"
+                                            color="textPrimary">
+                                            Carta
+                                        </Typography>}/>
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                    <ListItem key={"users"}>
+                        <Link href="/users" style={{ textDecoration: 'none' }}>
+                            <ListItemButton onClick={onUsers}>
+                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                    {<AccountCircleIcon />}
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={
+                                        <Typography
+                                            variant="inherit"
+                                            color="textPrimary">
+                                            Usuarios
+                                        </Typography>}/>
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                </>)
+                : 
+                    <ListItem key={"tables"}> {/**Mozo: solo mesas visibles */}
+                        <Link href="/tables" style={{ textDecoration: 'none' }}>
+                            <ListItemButton onClick={onTables}>
+                                <ListItemIcon style={{ color: theme.palette.primary.main }}>
+                                    {<TableBarIcon />}
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={
+                                        <Typography
+                                            variant="inherit"
+                                            color="textPrimary">
+                                            Mesas
+                                        </Typography>}/>
+                            </ListItemButton>
+                        </Link>
+                    </ListItem>
+                }</>
             </List>
         </div>
     )
@@ -222,11 +246,13 @@ export const Layout = (props: any) => {
 Layout.defaultProps =
 {
     children: null,
-    title: 'Mesas'
+    title: 'Mesas',
+    role: 'waiter'
 }
 
 Layout.propTypes = 
 {
     children: PropTypes.any,
-    title: PropTypes.string
+    title: PropTypes.string,
+    role: PropTypes.oneOf(['admin', 'waiter'])
 }

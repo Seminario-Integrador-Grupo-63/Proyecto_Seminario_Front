@@ -37,7 +37,6 @@ export default function TableManagerPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
 
-
     useEffect(() => {
         const tableId = searchParams.get('tableId')
         fetchTable(parseInt(tableId))

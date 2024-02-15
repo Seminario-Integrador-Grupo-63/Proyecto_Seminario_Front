@@ -20,8 +20,15 @@ export default function App({ Component, pageProps, router }: AppProps) {
 
     // Función que lee los RId y Role desde el localStorage
      function readUser() {
+
+        console.log(' ')
+        console.log('_app readUser')
+        
          const restaurantId = getCookie("restaurantId")
-         const userRol = getCookie("UserRole")
+         const userRol = getCookie("userRole")
+        
+         console.log('restaurantId: ', console.log(': ', ))
+         console.log('userRol: ', userRol)
          if (restaurantId) { setRid(restaurantId); }
          if (userRol) { setRole(userRol); }
     }
@@ -76,6 +83,13 @@ export default function App({ Component, pageProps, router }: AppProps) {
     if (isHomePage) {
         return <Component {...pageProps} />
     } else {
+        console.log('App')
+        console.log('role: ', role)
+        let r = 'waiter'
+        if(role === 'admin'){
+            r = 'admin'
+        }
+
         let title = 'Mesas'
         if (isOrdersPage){
             title = 'Órdenes'
@@ -86,7 +100,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
         }
 
         return (
-        <Layout title={title}>
+        <Layout title={title} role={r}>
             <Component {...pageProps} />
         </Layout>
         );
