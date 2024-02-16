@@ -21,26 +21,38 @@ export default function ListOrderDetailsPage() {
 
     useEffect(() => {
         // Redirection conditionals
+        console.log(' ')
+        console.log('listorderdetails useEffect []')
+        // console.log(': ', )
 
         let hasCustomerName = hasCookie("customerName")
         let customerName = getCookie('customerName')
         let hasTableCode = hasCookie('tableCode')
+        let tableCode = getCookie('tableCode')
 
         console.log('hasCustomerName: ', hasCustomerName)
         console.log('customerName: ', customerName)
         console.log('hasTableCode: ', hasTableCode)
+        console.log('tableCode: ', tableCode)
 
-        if (!hasCookie("customerName") || getCookie("customerName") == "") {
-            router.push({
-                pathname:"/start"
-            })
-        } else if (!hasCookie("tableCode") || getCookie("tableCode") == "") {
-            router.push({
-                pathname:"/"
-            })
+        if(hasTableCode){
+            if(tableCode !== ''){
+                if(hasCustomerName){
+                    if(customerName !== ''){
+                        console.log("if(customerName !== '')")
+                        setCustomerName(customerName)
+                        setTableCode(tableCode)
+                    } else {
+                        goToStart()
+                    }
+                } else {
+                    goToStart()
+                }
+            } else {
+                goToBase()
+            }
         } else {
-            setCustomerName(getCookie("customerName"))
-            setTableCode(getCookie("tableCode"))
+            goToBase()
         }
     }, []);
 
@@ -56,19 +68,34 @@ export default function ListOrderDetailsPage() {
 
     useEffect(() => {
         console.log(' ')
+        console.log('listorderdetails useEffect [tableCode]')
+        console.log('tableCode: ', tableCode)
+    }, [tableCode])
+
+    useEffect(() => {
+        console.log(' ')
         console.log('listorderdetails useEffect[searchParams]')
         
         let orderId = JSON.parse(searchParams.get('orderId'))
         console.log('orderId: ', orderId)
         setOrderId(orderId)
-        let customer = searchParams.get('customer')
-        setCustomer(customer)
-        setTableCode(searchParams.get('tableCode'))
     }, [searchParams])
 
     const goBack = () => {
         router.replace({
             pathname: '/listorders',
+        })
+    }
+
+    const goToStart = () => {
+        router.push({
+            pathname:"/start"
+        })
+    }
+
+    const goToBase = () => {
+        router.push({
+            pathname:"/"
         })
     }
 
@@ -87,7 +114,8 @@ export default function ListOrderDetailsPage() {
     }
 
     const confirmOrder = async () => {
-        await confirmOrderRequest(getCookie("customerName"), getCookie("tableCode"))
+        // await confirmOrderRequest(getCookie("customerName"), getCookie("tableCode"))
+        await confirmOrderRequest(customerName, tableCode)
         router.replace({
             pathname: '/listorders',
         })
@@ -100,7 +128,8 @@ export default function ListOrderDetailsPage() {
     }
 
     const deleteOrderDetail = async (orderDetail) => {
-        await deleteOrderDetailRequest(getCookie("tableCode"), orderDetail)
+        // await deleteOrderDetailRequest(getCookie("tableCode"), orderDetail)
+        await deleteOrderDetailRequest(tableCode, orderDetail)
         router.replace({
             pathname: '/listorders',
         })
@@ -110,7 +139,8 @@ export default function ListOrderDetailsPage() {
         if(order != null){
             if(order.customerList.length > 0){
                 return order.customerList.some(c => {
-                    if(c.customer === getCookie("customerName")){
+                    // if(c.customer === getCookie("customerName")){
+                    if(c.customer === customerName){
                         return c.confirmed
                     }
                 })

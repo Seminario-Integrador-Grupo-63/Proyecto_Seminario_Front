@@ -15,9 +15,13 @@ export default function BillCheckoutPage() {
     const searchParams = useSearchParams()
     const [billData, setBillData] = useState(null)
     const [customerName, setCustomerName] = useState('')
-    const [tableCodeDef, setTableCodeDef] = useState('')
+    const [tableCode, setTableCode] = useState('')
 
     useEffect(() => {
+        console.log(' ')
+        console.log('billcheckout useEffect []')
+
+        console.log(': ', )
         // Redirection conditionals
         if (!hasCookie("customerName") || getCookie("customerName") == "") {
             router.push({
@@ -29,19 +33,23 @@ export default function BillCheckoutPage() {
             })
         } else {
             setCustomerName(getCookie("customerName"))
-            setTableCodeDef(getCookie("tableCode"))
+            setTableCode(getCookie("tableCode"))
         }
-
-        fetchBill
     }, [])
 
+    useEffect(() => {
+        if(tableCode !== ''){
+            fetchBill()    
+        }
+    }, [tableCode])
 
     const fetchBill = async() => {
-        const bill = await getBill(tableCodeDef)
+        const bill = await getBill(tableCode)
+        console.log('bill: ', bill)
         setBillData(bill)
     }
 
-    if(billData != null){
+    if(billData !== null){
         return(<>
             <BillCheckout billData={billData}/>
         </>)

@@ -19,28 +19,30 @@ export default function Home() {
         router.replace({pathname:"/start"})
     }
 
-    const initialize = async () => {
+    const initialize = () => {
         console.log(' ')
         console.log('/ initialize()')
         
         let hasTableCodeCookie = hasCookie("tableCode")
-        console.log('hasTableCodeCookie: ', hasTableCodeCookie)
-        if(hasTableCodeCookie){
-            let tableCode = getCookie("tableCode")
-            console.log('tableCode: ', tableCode)
-            if(tableCode !== ''){
-                goToStart()
-                return true
-            }
-        }
-
         let urlHasTableCode = searchParams.has("table-code")
+
         console.log('urlHasTableCode: ', urlHasTableCode)
-        if (urlHasTableCode) {
-            const tc = searchParams.get("table-code")
-            console.log('tc: ', tc)
-            setCookie("tableCode", tc, {maxAge: 60*60*3})
-            goToStart()
+        console.log('hasTableCodeCookie: ', hasTableCodeCookie)
+
+        if(hasTableCodeCookie){
+            if(!urlHasTableCode){
+                let tableCode = getCookie("tableCode")
+                console.log('tableCode: ', tableCode)
+                if(tableCode !== ''){
+                    goToStart()
+                    return true
+                }
+            } else {
+                const tc = searchParams.get("table-code")
+                console.log('tc: ', tc)
+                setCookie("tableCode", tc, {maxAge: 60*60*3})
+                goToStart()
+            }
         }
     }
 

@@ -41,6 +41,7 @@ export const TableManager = (props: any) => {
     const [selectedOrder, setSelectedOrder] = useState(null)
     const [openQRDisplay, setOpenQRDisplay] = useState(false)
     const [qrCode, setQRcode] = useState('')
+    const [notNullIdOrders, setNotNullIdOrders] = useState([])
 
     const orderHeaders = [
         {label: 'Total comensales', id: 'totalCustomers'},
@@ -50,9 +51,6 @@ export const TableManager = (props: any) => {
 
     useEffect(() => {
         if(props.table !== null){
-            console.log(' ')
-            console.log('TableManager')
-            console.log('props.table: ', props.table)
             if(props.orders.length > 0 || props.table.state !== 'free'){
                 setAllowDeleteTable(false)
             } else {
@@ -70,9 +68,6 @@ export const TableManager = (props: any) => {
 
     useEffect(() => {
         if(props.table !== null){
-            console.log(' ')
-            console.log('TableManager ')
-            console.log('props.table: ', props.table)
             setTable(props.table)
 
             if(props.table.state === 'payment_ready'){
@@ -98,6 +93,9 @@ export const TableManager = (props: any) => {
     }, [props.userRole])
 
     const setupOrders = () => {
+        console.log(' ')
+        console.log('TableManager setupOrders')
+        console.log('props.orders: ', props.orders)
         let rows = props.orders.map(order => {
             let state = 'Armando'
             switch (order.state) {
@@ -133,13 +131,43 @@ export const TableManager = (props: any) => {
 
         setOrders(props.orders)
         setOrderRows(rows)
-
         if(selectedOrder !== null){
-            const index = props.orders.findIndex(o => o.id === selectedOrder.id)
-            if(index !== -1){
-                setSelectedOrder(props.orders[index])
-            }
+            setupSelectedOrder()
         }
+    }
+
+    const setupSelectedOrder = () => {
+        /**
+        Debido a que al momento de armar una orden desde la parte mobile, en el back 
+        no es creada hasta que se confirma, el id es null.
+        Cuando se confirma en el front queda la orden con el id = null pero desde el back, llegan 
+        las ordenes confirmadas y con id lo cual hace díficil trackear las ordenes con id null.
+        Para solventar esto en los casos en que se confirma desde el restaurant se llena un array
+        con los id de las ordenes que ya están creadas en la base de datos. De esta manera, 
+        dado que no puede haber más de una orden con id = null en la mesa, la única excludia de este array
+        es la orden con id = null y cuando llegan todas las ordenes confirmadas asociamos la orden cuyo id
+        no está en el array
+        */
+        let index = -1
+        if(selectedOrder.id === null){
+            index = props.orders.findIndex(o => !notNullIdOrders.includes(o.id));
+        } else {
+            index = props.orders.findIndex(o => o.id === selectedOrder.id)
+        }
+
+        if(index !== -1){
+            setSelectedOrder(props.orders[index])
+        }
+    }
+
+    const fillNotNullIdOrders = () => {
+        let notNullIdOrders = []
+        orders.forEach(o => {
+            if(o.id !== null){
+                notNullIdOrders.push(o.id)
+            }
+        })
+        setNotNullIdOrders(notNullIdOrders)
     }
 
     const onGenerateOrder = async () => {
@@ -306,6 +334,11 @@ export const TableManager = (props: any) => {
         return isReady
     }
 
+    const onOrderConfirm = (order) => {
+        fillNotNullIdOrders()
+        props.onOrderConfirm(order)
+    }
+
     return (
         <Container maxWidth={false}>
             <Grid 
@@ -406,6 +439,7 @@ export const TableManager = (props: any) => {
                 isNew={orderFormIsNew}
                 onClose={onOrderFormClose}
                 onSubmit={createOrder}
+                onOrderConfirm={onOrderConfirm}
                 onOrderPreparation={props.onOrderPreparation}
                 onOrderDelivered={props.onOrderDelivered}
                 onBillRequest={props.onBillRequest}
@@ -453,6 +487,7 @@ TableManager.defaultProps =
     goBack: function(){},
     createOrder: function(){},
     updateTable: function(){},
+    onOrderConfirm: function(){},
     onOrderPreration: function(){},
     onOrderDelivered: function(){},
     onBillRequest: function(){},
@@ -475,6 +510,7 @@ TableManager.propTypes =
     goBack: PropTypes.func,
     createOrder: PropTypes.func,
     updateTable: PropTypes.func,
+    onOrderConfirm: PropTypes.func,
     onOrderPreparation: PropTypes.func,
     onOrderDelivered: PropTypes.func,
     onBillRequest: PropTypes.func,

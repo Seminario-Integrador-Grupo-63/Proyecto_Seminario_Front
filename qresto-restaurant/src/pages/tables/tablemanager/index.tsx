@@ -59,17 +59,17 @@ export default function TableManagerPage() {
     }, [table])
 
     useEffect(() => {
-        console.log(' ')
-        console.log('TableManagerPage useEffect []')
-        
         let userRole = getCookie('userRole')
-        console.log('userRole: ', userRole)
         setUserRole(userRole)
         fetchSectors()
     }, [])
 
     const fetchTable = async (tableId) => {
+        console.log(' ')
+        console.log('tablemanager fetchTable(tableId)')
+        console.log('tableId: ', tableId)
         const table = await getTable(tableId)
+        console.log('table: ', table)
         setTable(table)
     }
 
@@ -122,7 +122,7 @@ export default function TableManagerPage() {
                 setTextFeedback('No se ha podido eliminar la mesa. Por favor, intente más tarde')
             } else if(action === 'create-order'){
                 setTextFeedback('No se pudo generar la orden. Por favor, intente más tarde')
-            } else if(action === 'table-free'){
+            } else if(action === 'free-table'){
                 setTextFeedback('No se pudo liberar la mesa. Por favor, intente más tarde')
             } else if (action === 'generate-qr'){
                 setTextFeedback('No se pudo generar el QR. Por favor, intente más tarde')
@@ -152,7 +152,7 @@ export default function TableManagerPage() {
                     qrCode: resultGet.qrCode,
                     uuidCode: resultGet.uuidCode
                 }
-            } 
+            }
         }
         triggerFeedback(false, 'generate-qr')
         return null
@@ -179,7 +179,6 @@ export default function TableManagerPage() {
     const createOrder = async (order) => {
         setLoading(true)
         const result = await postOrder(order, table.tableCode)
-        
         setLoading(false)
         if(result){
             await fetchOrders()
@@ -265,6 +264,17 @@ export default function TableManagerPage() {
         triggerFeedback(result, 'free-table')
     }
 
+    const onOrderConfirm = async (order) => {
+        setLoading(true)
+        const result = await postOrder(order, table.tableCode)
+        setLoading(false)
+        if(result){
+            await fetchOrders()
+        } 
+        triggerFeedback(result, 'order-state')
+        return result
+    }
+
     return (<>
         <TableManager
             table={table}
@@ -280,6 +290,7 @@ export default function TableManagerPage() {
             setTableFree={setTableFree}
             generateQR={generateQR}
             updateTable={updateTable}
+            onOrderConfirm={onOrderConfirm}
             onOrderDelivered={onOrderDelivered}
             onOrderPreparation={onOrderPreparation}
             onOrderClosed={onOrderClosed}/>

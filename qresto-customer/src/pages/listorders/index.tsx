@@ -12,14 +12,13 @@ export default function ListOrdersPage() {
     const [orders, setOrders] = useState([])
     const [customer, setCustomer] = useState('')
     const [tableCode, setTableCode] = useState('')
-
     const [customerName, setCustomerName] = useState('')
     const [tableCodeDef, setTableCodeDef] = useState('')
 
-    useEffect(() => {
-        setCustomer(searchParams.get('customer'))
-        setTableCode(searchParams.get('tableCode'))
-    }, [searchParams])
+    // useEffect(() => {
+    //     setCustomer(searchParams.get('customer'))
+    //     setTableCode(searchParams.get('tableCode'))
+    // }, [searchParams])
 
     useEffect(() => {
         // Redirection conditionals

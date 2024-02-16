@@ -4,18 +4,17 @@ import { useRouter } from 'next/router'
 import { NameInputMain } from '@/Customer/NameInput/NameInputMain'
 import { postCustomer } from '@/requests'
 import {MessageDialog} from '@/Common/MessageDialog'
-import { useSearchParams} from 'next/navigation'
 import {deleteCookie, getCookie, hasCookie, setCookie} from "cookies-next";
 import { getTableOrders, tableExistsByTableCode } from '@/requests';
 
-export default function startPage() {
+export default function StartPage() {
     const router = useRouter()
-    const [openRepeatedNameDialog, setOpenRepeatedNameDialog] = useState(false)
-    const [openEmptyNameDialog, setOpenEmptyNameDialog] = useState(false)
-    const searchParams = useSearchParams()
     const [tableCode, setTableCode] = useState('')
-    const [customerName, setCustomerName] = useState('')
-
+    const [openMessageDialog, setOpenMessageDialog] = useState(false)
+    const [titleMessageDialog, setTitleMessageDialog] = useState('')
+    const [descriptionMessageDialog, setDescriptionMessageDialog] = useState('')
+    const [actionMessageDialog, setActionMessageDialog] = useState('')
+    
     useEffect(() => {
         console.log(' ')
         console.log('Start useEffect')
@@ -26,7 +25,16 @@ export default function startPage() {
         router.replace({pathname:"/"})
     }
 
-    const initialize = async () => {
+    const submitMessageDialog = () => {
+        if(actionMessageDialog === 'repeated-name' || actionMessageDialog === 'empty-name'){
+            setOpenMessageDialog(false)
+        } else if(actionMessageDialog === 'table-not-exists'){
+            setOpenMessageDialog(false)
+            goToBase()
+        }
+    }
+    
+    const initialize = () => {
         console.log(' ')
         console.log('Home initialize')
         let hasTableCodeCookie = hasCookie("tableCode")
@@ -38,7 +46,7 @@ export default function startPage() {
             if(tableCode !== ''){
                 setTableCode(tableCode)
                 return true
-            } 
+            }
         }
         goToBase()
     }
@@ -54,13 +62,19 @@ export default function startPage() {
         console.log('Start onEnterName(name)')
         console.log('name: ', name)
         if(name === ''){
-            setOpenEmptyNameDialog(true)
+            setOpenMessageDialog(true)
+            setTitleMessageDialog('Nombre vacío')
+            setDescriptionMessageDialog('Debe ingresar un nombre antes de entrar')
+            setActionMessageDialog('emtpy-name')
         } else {
             const result = await postCustomer(name, tableCode)
             console.log('result: ', result)
             if(result === 'table-not-exists'){
                 setCookie('tableCode', '', {maxAge:60*60*5})
-                goToBase()
+                setOpenMessageDialog(true)
+                setTitleMessageDialog('Mesa no reconocida')
+                setDescriptionMessageDialog('El sistema no pudo reconocer la mesa. Por favor, vuelva a escanear el código QR')
+                setActionMessageDialog('table-not-exists')
             } else if(result === 'customer-exists'){
                 let hasCustomerNameCookie = hasCookie('customerName')
                 console.log('hasCustomerNameCookie: ', hasCustomerNameCookie)
@@ -69,7 +83,10 @@ export default function startPage() {
                     if(customerName === name){
                         goToCategories()
                     } else {
-                        setOpenRepeatedNameDialog(true)
+                        setOpenMessageDialog(true)
+                        setTitleMessageDialog('Nombre repetido')
+                        setDescriptionMessageDialog('El nombre ingresado ya está en uso en esta mesa. Por favor, cambialo agregando tu apellido, o colocando o agregando algún número o letra')
+                        setActionMessageDialog('repeated-name')
                     }
                 } else {
                     console.log('Comensal existente')
@@ -97,21 +114,14 @@ export default function startPage() {
         </Head>
         <main>
             <NameInputMain onClick={onEnterName}/>
-            <MessageDialog
-                open={openRepeatedNameDialog}
-                title='Nombre repetido'
-                onSubmit={() => setOpenRepeatedNameDialog(false)}
+            <MessageDialog 
+                open={openMessageDialog}
                 submitButtonText={"Aceptar"}
+                title={titleMessageDialog}
                 cancelButtonVisible={false}
-                description={'El nombre ingresado ya está en uso en esta mesa. Por favor, cambialo agregando tu apellido, o colocando o agregando algún número o letra'}/>
-
-            <MessageDialog
-                open={openEmptyNameDialog}
-                title='Ingrese un nombre'
-                onSubmit={() => setOpenEmptyNameDialog(false)}
-                cancelButtonVisible={false}
-                submitButtonText={"Aceptar"}
-                description={'Debe ingresar un nombre para poder realizar una orden'}/>
+                onSubmit={submitMessageDialog}
+                description={descriptionMessageDialog}
+                onClose={() => setOpenMessageDialog(false)}/>
         </main>
     </>)
 }

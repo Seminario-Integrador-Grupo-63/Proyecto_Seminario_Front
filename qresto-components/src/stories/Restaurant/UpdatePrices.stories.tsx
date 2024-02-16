@@ -2,6 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import UpdatePrices from "@/Restaurant/UpdatePrices/UpdatePrices";
 import { useState } from "react";
 import Button from "@mui/material/Button";
+import Confirmation from "@/Restaurant/UpdatePrices/Confirmation";
 
 export default {
     title: "components/Restaurant/UpdatePrices",
@@ -14,7 +15,7 @@ export default {
 
 type Story = StoryObj<typeof UpdatePrices>;
 
-export const Common: Story = {
+export const updatePricesMain: Story = {
     render: () =>{
         const categoryOptions = ['Categoría 1', 'Categoría 2', 'Categoría 3'];
         const actualizacionOpciones = ['Aumentar', 'Disminuir'];
@@ -49,13 +50,25 @@ export const Common: Story = {
           
                       
             <UpdatePrices
-            categoryOptions={categoryOptions}
+            // categoryOptions={categoryOptions}
             updateOptions={actualizacionOpciones}
             productList={rows}
             />
         </>);
     } 
 };
+
+export const UpdatePricesConfirmation: Story = {
+    render: () =>{
+
+        return(<>
+            <Confirmation open={true}/>
+        </>);
+    } 
+};
+
+
+
 
 /**
 

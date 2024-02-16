@@ -258,7 +258,7 @@ export async function getBill(tableCode){
         const response = await axios.get(url + `/table/${tableCode}/bill`)
         return response.data
     } catch(error) {
-        return false
+        return null
     }
 }
 

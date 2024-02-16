@@ -10,21 +10,7 @@ export default function Home() {
     const router = useRouter()
     const [userLogin, setUserLogin] = useState()
     const [userRole, setUserRole] = useState()
-
-    // UseEffect que setean cookies al cambiar los UseState correspondientes
-    // useEffect(() => {
-    //     console.log(' ')
-    //     console.log('Home useEffect rid')
-    //     console.log('rid: ', rid)
-    //     setCookie("restaurantId", rid)
-    // }, [rid]);
-
-    // useEffect(() => {
-    //     console.log(' ')
-    //     console.log('Home udseEffect userRole')
-    //     console.log('userRole: ', userRole)
-    //     setCookie("userRole", userRole)
-    // }, [userRole]);
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         console.log(' ')
@@ -61,13 +47,16 @@ export default function Home() {
 
             console.log(getCookie("restaurantId"))
             console.log(getCookie("userRole"))
-            // router.replace({pathname: "/tables/",})
+            setError(false)
         } else {
             console.log("User not authenticated")
+            setError(true)
         }
     }
 
     return (<>
-        <Login onSignInSubmit={singIn}/>
+        <Login 
+            error={error}
+            onSignInSubmit={singIn}/>
     </>)
 }

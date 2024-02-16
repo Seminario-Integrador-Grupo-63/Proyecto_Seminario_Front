@@ -49,14 +49,12 @@ export default function TablesPage() {
     }
 
     const fetchData = async () =>{
-        // setLoading(true)
         let role = getCookie('userRole')
         setUserRole(role)
         await Promise.all([
             fetchSectors(),
             fetchGrid()
         ])
-        // setLoading(false)
     }
 
     const onTableClick = (table) => {

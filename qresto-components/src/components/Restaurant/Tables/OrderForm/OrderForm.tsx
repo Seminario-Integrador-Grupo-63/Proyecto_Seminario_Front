@@ -330,9 +330,50 @@ export const OrderForm = (props: any) => {
     const clear = () => {
         setOrder(null)
     }
+    
+    const onConfirmOrder = async () => {
+        /**
+        El único momento en que se va a confirmar la orden
+        desde el restaurant es cuando se hace desde la parte mobile.
+        En este caso tiene una forma diferente (la que se usa en mobile)
+        y no es una lista de detalles de ordenes, asi que es necesario
+        armar el objecto orderToPost
+        */
+        let orderToPost = []
+
+        order.customerOrderDetails.forEach(customerOrderDetail => {
+            customerOrderDetail.orderDetails.forEach(orderDetail => {
+                if(orderDetail.sideDish !== null){
+                    orderToPost.push({
+                        customerName: customerOrderDetail.customer,
+                        amount: orderDetail.amount,
+                        dish: orderDetail.dish.id,
+                        observation: orderDetail.observation,
+                        sideDish: orderDetail.sideDish.id,
+                        subTotal: orderDetail.subTotal,
+                    })
+                } else {
+                    orderToPost.push({
+                        customerName: customerOrderDetail.customer,
+                        amount: orderDetail.amount,
+                        dish: orderDetail.dish.id,
+                        observation: orderDetail.observation,
+                        subTotal: orderDetail.subTotal,
+                    })
+                }
+            })
+        })
+
+        setOrderToPost(orderToPost)
+        if(orderToPost.length > 0){
+            await props.onOrderConfirm(orderToPost)
+        }
+    }
 
     const changeState = async () => {
-        if(order.state === 'waiting'){
+        if(order.state === 'processing'){
+            await onConfirmOrder()
+        } else if(order.state === 'waiting'){
             await props.onOrderPreparation(order.id)
         } else if (order.state === 'preparation'){
             await props.onOrderDelivered(order.id)
@@ -342,7 +383,7 @@ export const OrderForm = (props: any) => {
             } else {
                 await props.onBillRequest()
             }
-        } 
+        }
     }
 
     return (<>
@@ -445,6 +486,7 @@ OrderForm.defaultProps =
     actions: true,
     stateActions: true,
     order: null,
+    onOrderConfirm: function(){},
     onOrderPreparation: function(){},
     onOrderDelivered: function(){},
     onBillRequest: function(){},
@@ -462,6 +504,7 @@ OrderForm.propTypes =
     actions: PropTypes.bool,
     stateActions: PropTypes.bool,
     order: PropTypes.object,
+    onOrderConfirm: PropTypes.func,
     onOrderPreparation: PropTypes.func,
     onOrderDelivered: PropTypes.func,
     onBillRequest: PropTypes.func,

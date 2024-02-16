@@ -16,7 +16,7 @@ export default function MenuCategoriesPage() {
     const [customer, setCustomer] = useState('')
 
     const [customerName, setCustomerName] = useState('')
-    const [tableCodeDef, setTableCodeDef] = useState('')
+    // const [tableCodeDef, setTableCodeDef] = useState('')
 
     const [orders, setOrders] = useState([])
     const [tableCode, setTableCode] = useState('')
@@ -24,7 +24,8 @@ export default function MenuCategoriesPage() {
     useEffect(() => {
         console.log(' ')
         console.log('menucategories useEffect []')
-        console.log(': ', )
+        console.log('window: ', window)
+
         let hasCustomerName = hasCookie("customerName")
         let hasTableCode = hasCookie("tableCode")
         console.log('hasCustomerName: ', hasCustomerName)
@@ -41,7 +42,7 @@ export default function MenuCategoriesPage() {
             })
         } else {
             setCustomerName(getCookie("customerName"))
-            setTableCodeDef(getCookie("tableCode"))
+            setTableCode(getCookie("tableCode"))
         }
 
         // Initial Fetch
@@ -49,21 +50,14 @@ export default function MenuCategoriesPage() {
     }, [])
 
     useEffect(() => {
-        fetchOrders();
-    
+        fetchOrders()
+
         // Fetch orders every 2 seconds
-        const intervalId = setInterval(fetchOrders, 2000);
-    
+        const intervalId = setInterval(fetchOrders, 2000)
+        
         // Clean up the interval when the component is unmounted
         return () => clearInterval(intervalId);
-    }, [customer])
-
-    useEffect(() => {
-        let customer = searchParams.get('customer')
-        let tableCode = searchParams.get('tableCode')
-        setTableCode(tableCode)
-        setCustomer(customer)
-    }, [searchParams])
+    }, [tableCode])
 
     const calculateOrdersTotal = (orders) => {
         let total = 0
@@ -76,7 +70,8 @@ export default function MenuCategoriesPage() {
     const fetchOrders = async () => {
         console.log(' ')
         console.log('menucategories fetchOrders()')
-        const fetchedOrders = await getTableOrders(getCookie("tableCode"))
+        console.log('tableCode: ', tableCode)
+        const fetchedOrders = await getTableOrders(tableCode)
         console.log('fetchedOrders: ', fetchedOrders)
         setOrders(fetchedOrders)
     }
@@ -102,7 +97,6 @@ export default function MenuCategoriesPage() {
     const onClickShowOrders = () => {
         router.replace({
             pathname: '/listorders', 
-            query: { }
         })
     }
 

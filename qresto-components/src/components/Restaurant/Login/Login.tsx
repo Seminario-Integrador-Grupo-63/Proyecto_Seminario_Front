@@ -24,17 +24,6 @@ export const Login = (props: any) => {
         })
     }
 
-    // const onSignInSubmit = () => {
-    //     event.preventDefault();
-    //     const data = new FormData(event.currentTarget);
-
-    //     console.log(': ',)
-    //     let user = data.get('username')
-    //     let password = data.get('password')
-    //     props.onSignInSubmit({user, password})
-    // }
-
-
     return (
         <ThemeProvider theme={theme}>
             <Container 
