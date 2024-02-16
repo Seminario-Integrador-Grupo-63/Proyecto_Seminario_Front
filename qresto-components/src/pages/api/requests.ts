@@ -9,9 +9,11 @@ import {
 } from "./utils";
 import {getCookie} from "cookies-next";
 
-const url = "http://localhost:8000"
+// const url = "http://localhost:8000"
 // const url = "http://192.168.120.36:8000"
 const restaurantId = 1
+const url = process.env.BACKEND_URL
+
 
 export async function getQR(tableId){
     try{
@@ -298,6 +300,10 @@ export async function deleteDishes(restaurantId) {
 }
 
 export async function loginRestaurant(user):Promise<Array<any>> {
+    console.log(' ')
+    console.log('requests loginRestaurant(user)')
+    // console.log(': ', )
+    console.log('url: ', url)
     try{
         const response = await axios.post<any>(url + `/security/login`, user)
         // Guardar user data

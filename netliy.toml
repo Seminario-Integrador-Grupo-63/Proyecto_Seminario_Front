@@ -1,3 +1,5 @@
 [build]
     command = "yarn customer:build" # Build command
     publish = "qresto-customer/.next" # Path to the build output
+    command = "yarn restaurant:build" # Build command
+    publish = "qresto-restaurant/.next" # Path to the build output

@@ -10,8 +10,6 @@ export default function Home() {
     const searchParams = useSearchParams()
 
     useEffect(() => {
-        console.log(' ')
-        console.log('/ useEffect searchParams')
         initialize()
     }, [searchParams])
 
@@ -23,21 +21,12 @@ export default function Home() {
         console.log(' ')
         console.log('/ initialize()')
         
-        let hasTableCodeCookie = hasCookie("tableCode")
         let urlHasTableCode = searchParams.has("table-code")
-
         console.log('urlHasTableCode: ', urlHasTableCode)
-        console.log('hasTableCodeCookie: ', hasTableCodeCookie)
-
-        if(hasTableCodeCookie){
-            if(!urlHasTableCode){
-                let tableCode = getCookie("tableCode")
-                console.log('tableCode: ', tableCode)
-                if(tableCode !== ''){
-                    goToStart()
-                    return true
-                }
-            } else {
+        if(urlHasTableCode){
+            const tc = searchParams.get("table-code")
+            console.log('tc: ', tc)
+            if(tc !== ''){
                 const tc = searchParams.get("table-code")
                 console.log('tc: ', tc)
                 setCookie("tableCode", tc, {maxAge: 60*60*3})
@@ -45,6 +34,42 @@ export default function Home() {
             }
         }
     }
+
+    // const initialize = () => {
+    //     console.log(' ')
+    //     console.log('/ initialize()')
+        
+    //     let hasTableCodeCookie = hasCookie("tableCode")
+    //     let urlHasTableCode = searchParams.has("table-code")
+
+    //     console.log('urlHasTableCode: ', urlHasTableCode)
+    //     console.log('hasTableCodeCookie: ', hasTableCodeCookie)
+
+    //     if(hasTableCodeCookie){
+    //         if(!urlHasTableCode){
+    //             let tableCode = getCookie("tableCode")
+    //             console.log('tableCode: ', tableCode)
+    //             if(tableCode !== ''){
+    //                 goToStart()
+    //                 return true
+    //             }
+    //         } else {
+    //             const tc = searchParams.get("table-code")
+    //             console.log('tc: ', tc)
+    //             setCookie("tableCode", tc, {maxAge: 60*60*3})
+    //             goToStart()
+    //         }
+    //     } else {
+    //         if(urlHasTableCode){
+    //             let tableCode = getCookie("tableCode")
+    //             console.log('tableCode: ', tableCode)
+    //             if(tableCode !== ''){
+    //                 goToStart()
+    //                 return true
+    //             }
+    //         }
+    //     }
+    // }
 
     return <>
         <Typography>
