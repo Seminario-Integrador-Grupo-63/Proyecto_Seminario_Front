@@ -46,6 +46,13 @@ export const TableSchema = ( props: any ) => {
         setOpenSectorForm(true)
     }
 
+    const createSector = async (sector) => {
+        const result = await props.createSector(sector)
+        if(result){
+            setOpenSectorForm(false)
+        }
+    }
+
     const createTable = async (table) => {
         setLoading(true)
         const result = await props.createTable(table)
@@ -153,7 +160,7 @@ export const TableSchema = ( props: any ) => {
                 open={openSectorForm}
                 restaurantId={props.restaurantId}
                 onClose={() => setOpenSectorForm(false)}
-                onSubmit={props.createSector}/>
+                onSubmit={createSector}/>
 
             <Loader open={loading}/>
 
